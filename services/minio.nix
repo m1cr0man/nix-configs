@@ -8,6 +8,7 @@ in {
     secretKey = secrets.minio_secret_key;
     configDir = "/zstorage/minio/config";
     dataDir = "/zstorage/minio/data";
+    region = "EU";
   };
 
   services.traefik.configOptions.backends.minio_back.servers.gelandewagen.url = "http://localhost:9000";
