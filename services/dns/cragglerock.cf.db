@@ -1,0 +1,20 @@
+$ORIGIN cragglerock.cf.
+$TTL 14400
+@	IN	SOA	ns1.cragglerock.cf.	lucas.m1cr0man.com. (
+			2019061101	; Serial
+			1H		; Slave refresh interval
+			5M		; Query retry interval
+			1W		; Expiry
+			6H )		; Cache time
+	IN	NS	ns1.cragglerock.cf.
+	IN	NS	ns2.cragglerock.cf.
+
+				IN	A	144.76.44.123
+ns1				IN	A	144.76.44.123
+ns2				IN	A	144.76.44.123
+server1				IN	A	144.76.44.123
+
+mcvanilla			IN	A	144.76.44.123
+_minecraft._tcp.mcvanilla	IN	SRV	0 10 25585	mcvanilla.cragglerock.cf.
+
+www				IN	CNAME	server1

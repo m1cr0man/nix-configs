@@ -1,5 +1,5 @@
 let
-  secrets = import ./secrets.nix;
+  secrets = import ../common/secrets.nix;
 in {
 
   services.minio = {
