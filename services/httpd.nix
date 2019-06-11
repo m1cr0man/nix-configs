@@ -24,15 +24,6 @@ in {
     sslServerCert = "${certsDir}/m1cr0man.com/fullchain.pem";
 
     virtualHosts = [{
-      hostName = "s3.m1cr0man.com";
-      extraConfig = ''
-        RewriteCond ''${HTTPS} off
-        RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
-        
-        ProxyPass / http://127.0.0.1:9000/
-      '';
-    }
-    {
       hostName = "m1cr0man.com";
       servedDirs = [{
         urlPath = "/.well-known/acme-challenge";
