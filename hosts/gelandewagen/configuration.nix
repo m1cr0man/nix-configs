@@ -61,6 +61,7 @@
     nameservers = [ "213.133.98.98" "1.1.1.1" ];
   };
 
+  virtualisation.docker.enable = true;
   environment.systemPackages = with pkgs; [
     wget vim git screen steamcmd
   ];
@@ -76,8 +77,8 @@
     uid = 1000;
   };
 
-  networking.firewall.allowedTCPPorts = [ 25585 25595 80 ];
-  networking.firewall.allowedUDPPorts = [ 25585 25595 ];
+  networking.firewall.allowedTCPPorts = [ 25585 25595 80 27015 ];
+  networking.firewall.allowedUDPPorts = [ 25585 25595 26901 27005 27015 27020 ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
