@@ -17,6 +17,8 @@ in {
     sslServerKey = "${certsDir}/m1cr0man.com/key.pem";
     sslServerCert = "${certsDir}/m1cr0man.com/fullchain.pem";
 
+    # Only acme certs are accessible via port 80,
+    # everything else is explicitly upgraded to https
     virtualHosts = [{
       hostName = "m1cr0man.com";
       serverAliases = "*.m1cr0man.com";

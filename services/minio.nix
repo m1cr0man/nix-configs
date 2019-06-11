@@ -1,6 +1,5 @@
 let
   secrets = import ../common/secrets.nix;
-  httpdCommon = import ../common/httpd.nix;
 in {
 
   services.minio = {
