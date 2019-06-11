@@ -3,7 +3,7 @@ let
   certsDir = "/var/lib/acme";
   webrootDir = certsDir + "/.webroot";
 in {
-  services.acme.certs."m1cr0man.com" = {
+  security.acme.certs."m1cr0man.com" = {
     email = "lucas@m1cr0man.com";
     webroot = webrootDir;
     extraDomains = {
@@ -13,7 +13,7 @@ in {
     };
     postRun = "systemctl reload httpd.service";
   };
-  services.acme.directory = certsDir;
+  security.acme.directory = certsDir;
 
   services.httpd = {
     enable = true;
@@ -26,7 +26,7 @@ in {
     virtualHosts = [{
       hostName = "s3.m1cr0man.com";
       extraConfig = ''
-        RewriteCond ${HTTPS} off
+        RewriteCond ''${HTTPS} off
         RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
         
         ProxyPass / http://127.0.0.1:9000/
