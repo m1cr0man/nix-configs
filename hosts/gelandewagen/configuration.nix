@@ -10,6 +10,7 @@
     [
       ./hardware-configuration.nix
       ../../common/region.nix
+      ../../services/dns
       ../../services/ssh.nix
       ../../services/traefik.nix
       ../../services/minecraft.nix
