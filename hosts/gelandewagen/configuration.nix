@@ -54,6 +54,9 @@
     interfaces.eth0.ipv4.addresses = [{
       address = "144.76.44.123";
       prefixLength = 27;
+    } {
+      address = "144.76.44.62";
+      prefixLength = 27;
     }];
     defaultGateway = "144.76.44.97";
     nameservers = [ "213.133.98.98" "1.1.1.1" ];
