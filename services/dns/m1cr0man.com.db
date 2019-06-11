@@ -25,6 +25,7 @@ gelandewagen			IN	A	144.76.44.123
 localhost			IN	A	127.0.0.1
 
 www				IN	CNAME	m1cr0man.com.
+acme				IN	CNAME	m1cr0man.com.
 
 ; GSuite
 m1cr0man.com.			IN	TXT	google-site-verification=iaoKsqT2Eq_LIOa85YxtVKV5q4wdQ4oRYD_xg49juz0
