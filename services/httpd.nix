@@ -21,7 +21,7 @@ in {
     # everything else is explicitly upgraded to https
     virtualHosts = [{
       hostName = "m1cr0man.com";
-      serverAliases = "*.m1cr0man.com";
+      serverAliases = [ "*.m1cr0man.com" ];
       servedDirs = [{
         urlPath = "/.well-known/acme-challenge";
         dir = "${webrootDir}/.well-known/acme-challenge";

@@ -62,7 +62,7 @@
   };
 
   environment.systemPackages = with pkgs; [
-    wget vim git screen
+    wget vim git screen steamcmd
   ];
 
   networking.firewall.allowedTCPPorts = [ 25585 25595 80 ];
