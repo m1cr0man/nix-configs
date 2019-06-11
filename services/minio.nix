@@ -21,9 +21,6 @@ in {
   services.httpd.virtualHosts = [{
     hostName = "s3.m1cr0man.com";
     extraConfig = ''
-      RewriteEngine On
-      RewriteCond ''${HTTPS} off
-      RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
       ProxyPass / http://127.0.0.1:9000/
     '';
   }];

@@ -23,6 +23,12 @@ in {
     sslServerKey = "${certsDir}/m1cr0man.com/key.pem";
     sslServerCert = "${certsDir}/m1cr0man.com/fullchain.pem";
 
+    extraConfig = ''
+      RewriteEngine On
+      RewriteCond ''${HTTPS} off
+      RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+    '';
+
     virtualHosts = [{
       hostName = "m1cr0man.com";
       servedDirs = [{
