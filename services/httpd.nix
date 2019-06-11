@@ -3,10 +3,11 @@ let
   certsDir = "/var/lib/acme";
   webrootDir = certsDir + "/.webroot";
 in {
-  security.acme.certs."m1cr0man.com" = {
-    email = "lucas@m1cr0man.com";
+  security.acme.certs."acme.m1cr0man.com" = {
+    email = "lucas+acme@m1cr0man.com";
     webroot = webrootDir;
     extraDomains = {
+      "m1cr0man.com" = null;
       "u.m1cr0man.com" = null;
       "www.m1cr0man.com" = null;
       "s3.m1cr0man.com" = null;
@@ -23,21 +24,13 @@ in {
     sslServerKey = "${certsDir}/m1cr0man.com/key.pem";
     sslServerCert = "${certsDir}/m1cr0man.com/fullchain.pem";
 
-    extraConfig = ''
-      RewriteEngine On
-      RewriteCond %{HTTPS} off
-      RewriteCond %{REQUEST_URI} !^/\.well-known.* [NC]
-      RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
-    '';
-
     virtualHosts = [{
-      hostName = "m1cr0man.com";
+      hostName = "acme.m1cr0man.com";
       servedDirs = [{
         urlPath = "/.well-known/acme-challenge";
         dir = "${webrootDir}/.well-known/acme-challenge";
       }];
-    }
-    ];
+    }];
 
     adminAddr = "lucas+httpd@m1cr0man.com";
     hostName = "localhost";
