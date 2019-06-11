@@ -14,19 +14,29 @@ in {
     enable = true;
     multiProcessingModule = "event";
     maxClients = 50;
-    enableSSL = true;
     sslServerKey = "${certsDir}/m1cr0man.com/key.pem";
     sslServerCert = "${certsDir}/m1cr0man.com/fullchain.pem";
 
-    adminAddr = "lucas+httpd@m1cr0man.com";
-    hostName = "m1cr0man.com";
+    virtualHosts = [{
+      hostName = "m1cr0man.com";
+      serverAliases = "*.m1cr0man.com";
+      servedDirs = [{
+        urlPath = "/.well-known/acme-challenge";
+        dir = "${webrootDir}/.well-known/acme-challenge";
+      }];
 
-    servedDirs = [{
-      urlPath = "/.well-known/acme-challenge";
-      dir = "${webrootDir}/.well-known/acme-challenge";
+      extraConfig = ''
+        RewriteEngine On
+        RewriteCond %{HTTPS} off
+        RewriteCond %{REQUEST_URI} !^/\.well-known/.*$ [NC]
+        RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301]
+      '';
     }];
 
-    listen = [{ port = 80; } { port = 443; }];
+    adminAddr = "lucas+httpd@m1cr0man.com";
+    hostName = "localhost";
+
+    listen = [{ port = 80; }];
   };
 
   networking.firewall.allowedTCPPorts = [ 80 443 ];

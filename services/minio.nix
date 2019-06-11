@@ -23,6 +23,6 @@ in {
   services.httpd.virtualHosts = [{
     enableSSL = true;
     hostName = "s3.m1cr0man.com";
-    extraConfig = httpdCommon.httpUpgrade + "ProxyPass / http://127.0.0.1:9000/";
+    extraConfig = "ProxyPass / http://127.0.0.1:9000/";
   }];
 }
