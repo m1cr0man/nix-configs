@@ -9,7 +9,6 @@ in {
     postRun = "systemctl reload httpd.service";
   };
   security.acme.directory = certsDir;
-  security.acme.production = false;
 
   services.httpd = {
     enable = true;
