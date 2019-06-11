@@ -12,7 +12,8 @@
       ../../common/region.nix
       ../../services/dns
       ../../services/ssh.nix
-      ../../services/traefik.nix
+      ../../services/httpd.nix
+      ../../services/acme.nix
       ../../services/minecraft.nix
       ../../services/minio.nix
     ];
