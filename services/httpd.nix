@@ -3,7 +3,7 @@ let
   certsDir = "/var/lib/acme";
   webrootDir = certsDir + "/.webroot";
 in {
-  security.acme.certs."*.m1cr0man.com" = {
+  security.acme.certs."m1cr0man.com" = {
     email = "lucas+acme@m1cr0man.com";
     webroot = webrootDir;
     postRun = "systemctl reload httpd.service";
