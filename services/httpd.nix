@@ -46,4 +46,6 @@ in {
 
     listen = [{ port = 80; } { port = 443; }];
   };
+
+  networking.firewall.allowedTCPPorts = [ 80 443 ];
 }
