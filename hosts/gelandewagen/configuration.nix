@@ -13,7 +13,6 @@
       ../../services/dns
       ../../services/ssh.nix
       ../../services/httpd.nix
-      ../../services/acme.nix
       ../../services/minecraft.nix
       ../../services/minio.nix
     ];
