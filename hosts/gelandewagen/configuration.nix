@@ -69,6 +69,7 @@
     createHome = true;
     description = "Garrys mod";
     extraGroups = [ "wheel" ];
+    group = "users";
     home = "/home/gmod";
     isSystemUser = false;
     useDefaultShell = true;
