@@ -65,6 +65,16 @@
     wget vim git screen steamcmd
   ];
 
+  users.users.gmod = {
+    createHome = true;
+    description = "Garrys mod";
+    extraGroups = [ "wheel" ];
+    home = "/home/gmod";
+    isSystemUser = false;
+    useDefaultShell = true;
+    uid = 1000;
+  };
+
   networking.firewall.allowedTCPPorts = [ 25585 25595 80 ];
   networking.firewall.allowedUDPPorts = [ 25585 25595 ];
 
