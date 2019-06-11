@@ -6,15 +6,14 @@
 
 {
 
-  # Assume this file will be in the root of the repo
   imports =
     [
-      ./hosts/gelandewagen/hardware-configuration.nix
-      ./common/region.nix
-      ./services/ssh.nix
-      ./services/traefik.nix
-      ./services/minecraft.nix
-      ./services/minio.nix
+      ./hardware-configuration.nix
+      ../../common/region.nix
+      ../../services/ssh.nix
+      ../../services/traefik.nix
+      ../../services/minecraft.nix
+      ../../services/minio.nix
     ];
 
   system.stateVersion = "19.09";
