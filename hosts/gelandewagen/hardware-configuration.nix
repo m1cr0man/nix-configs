@@ -22,6 +22,11 @@
       fsType = "zfs";
     };
 
+  fileSystems."/var/lib/docker" =
+    { device = "zstorage/docker";
+      fsType = "zfs";
+    };
+
   fileSystems."/boot" =
     { device = "/dev/disk/by-uuid/ed9ae69a-9842-4039-9c26-7e8e1aa285f5";
       fsType = "ext4";
