@@ -26,10 +26,10 @@ in {
   };
 
   # Dynmap setup
-  security.acme.certs."cragglerock.cf".extraDomains."${serverURL}" = null;
+  security.acme.certs."cragglerock.cf".extraDomains."dynmap.${serverURL}" = null;
   services.httpd.virtualHosts = [{
     enableSSL = true;
-    hostName = serverURL;
-    extraConfig = "ProxyPass /dynmap http://127.0.0.1:8123/";
+    hostName = "dynmap.${serverURL}";
+    extraConfig = "ProxyPass / http://127.0.0.1:8123/";
   }];
 }
