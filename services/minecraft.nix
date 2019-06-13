@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, fetchurl, ... }:
 let
   serverURL = "mcvanilla.cragglerock.cf";
 in {
