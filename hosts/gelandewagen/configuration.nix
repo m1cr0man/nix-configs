@@ -62,6 +62,7 @@
   };
 
   virtualisation.docker.enable = true;
+  virtualisation.docker.listenOptions = [ "/var/run/docker.sock" "0.0.0.0:2375" ];
   environment.systemPackages = with pkgs; [
     wget vim git screen steamcmd
   ];

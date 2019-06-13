@@ -3,7 +3,13 @@
 # to /etc/nixos/configuration.nix instead.
 { config, lib, pkgs, ... }:
 
-{
+let
+  mountConfig = name: {
+    device = "zstorage/${name}";
+    fsType = "zfs";
+    options = [ "nofail" ];
+  };
+in {
   imports =
     [ <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
     ];
@@ -22,10 +28,17 @@
       fsType = "zfs";
     };
 
-  fileSystems."/var/lib/docker" =
-    { device = "zstorage/docker";
-      fsType = "zfs";
-    };
+  fileSystems."/zstorage/backup_restore" = mountConfig "backup_restore";
+
+  fileSystems."/zstorage/craig_mc" = mountConfig "craig_mc";
+
+  fileSystems."/var/lib/docker" = mountConfig "docker";
+
+  fileSystems."/zstorage/minio" = mountConfig "minio";
+
+  fileSystems."/zstorage/steamapps" = mountConfig "steamapps";
+
+  fileSystems."/zstorage/vms" = mountConfig "vms";
 
   fileSystems."/boot" =
     { device = "/dev/disk/by-uuid/ed9ae69a-9842-4039-9c26-7e8e1aa285f5";
