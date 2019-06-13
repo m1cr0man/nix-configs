@@ -44,8 +44,8 @@ in {
     '';
 
     virtualHosts = [
-      acmeVhost "m1cr0man.com"
-      acmeVhost "cragglerock.cf"
+      (acmeVhost "m1cr0man.com")
+      (acmeVhost "cragglerock.cf")
     ];
 
     adminAddr = "lucas+httpd@m1cr0man.com";
