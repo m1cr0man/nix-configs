@@ -26,7 +26,7 @@ in {
   };
 
   # Dynmap setup
-  security.acme.certs."cragglerock.cf".extraDomains."dynmap.${serverURL}" = null;
+  security.acme.certs."m1cr0man.com".extraDomains."dynmap.${serverURL}" = null;
   services.httpd.virtualHosts = [{
     enableSSL = true;
     hostName = "dynmap.${serverURL}";

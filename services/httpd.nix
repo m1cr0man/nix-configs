@@ -29,7 +29,6 @@ in {
   security.acme.directory = certsDir;
   security.acme.certs = {
     "m1cr0man.com" = acmeCert;
-    "cragglerock.cf" = acmeCert;
   };
 
   services.httpd = {
