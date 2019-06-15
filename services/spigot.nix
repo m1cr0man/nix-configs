@@ -1,6 +1,6 @@
 with import <nixpkgs> {};
 
-runCommandCC "spigot-jar-1.14.2" {
+runCommand "spigot-jar-1.14.2" {
     inherit jdk git;
     buildtools = fetchurl {
         url = "https://hub.spigotmc.org/jenkins/job/BuildTools/101/artifact/target/BuildTools.jar";
@@ -10,4 +10,4 @@ runCommandCC "spigot-jar-1.14.2" {
 export PATH="$git/bin:$jdk/bin:$PATH"
 java -jar BuildTools.jar --rev 1.14.2
 mv spigot-*.jar $out
-'';
+''
