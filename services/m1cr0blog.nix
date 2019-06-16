@@ -1,8 +1,14 @@
-{ pkgs, ... }:
 let
-    newpkg = import ../packages/m1cr0blog/override.nix;
+    newpkg = import ../packages/m1cr0blog/override.nix {};
     m1cr0blog = newpkg."m1cr0blog-1.2.1";
 in {
+  users.users.m1cr0blog = {
+    description = "Service user for m1cr0blog";
+    isSystemUser = true;
+    shell = "/dev/null";
+    home = "/dev/null";
+  };
+
   systemd.services.m1cr0blog = {
     description = "Personal blog";
     after = [ "network.target" "zfs-import.target" ];
@@ -11,18 +17,27 @@ in {
     environment = { NODE_ENV = "production"; };
 
     serviceConfig = {
-        ExecStart = "${pkgs.nodejs-11_x}/bin/node ${m1cr0blog}/dist/index.js";
+        ExecStart = "${m1cr0blog}/bin/m1cr0blog";
         User = "m1cr0blog";
         Restart = "always";
         WorkingDirectory = "/zstorage/m1cr0blog";
     };
   };
 
-  security.acme.certs."m1cr0man.com".extraDomains."www.m1cr0man.com" = null;
+  security.acme.certs."m1cr0man.com".extraDomains = {
+    "www.m1cr0man.com" = null;
+    "u.m1cr0man.com" = null;
+  }
   services.httpd.virtualHosts = [{
     enableSSL = true;
     hostName = "m1cr0man.com";
     serverAliases = [ "www.m1cr0man.com" ];
     extraConfig = "ProxyPass / http://127.0.0.1:3000/";
+  }];
+  services.httpd.virtualHosts = [{
+    enableSSL = true;
+    hostName = "u.m1cr0man.com";
+    serverAliases = [ "www.m1cr0man.com" ];
+    extraConfig = "ProxyPass / http://127.0.0.1:3000/upload";
   }];
 }

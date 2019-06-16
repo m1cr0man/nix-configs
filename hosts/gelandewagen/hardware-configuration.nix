@@ -40,6 +40,8 @@ in {
 
   fileSystems."/zstorage/vms" = mountConfig "vms";
 
+  fileSystems."/zstorage/m1cr0blog" = mountConfig "m1cr0blog";
+
   fileSystems."/boot" =
     { device = "/dev/disk/by-uuid/ed9ae69a-9842-4039-9c26-7e8e1aa285f5";
       fsType = "ext4";
