@@ -35,6 +35,7 @@ in {
     enableSSL = true;
     hostName = "u.m1cr0man.com";
     extraConfig = ''
+      RewriteEngine On
       RewriteRule ^/?$ https://m1cr0man.com/ [R=301]
       ProxyPassMatch ^/([a-zA-Z0-9]+)/([a-zA-Z0-9]+)/?$ http://127.0.0.1:3000/upload/$1/$2
       ProxyPass / http://127.0.0.1:3000/
