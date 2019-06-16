@@ -1,5 +1,6 @@
 let
-    m1cr0blog = import ../packages/m1cr0blog.nix;
+    newpkg = import ./pkgs-override.nix;
+    m1cr0blog = newpkg."m1cr0blog-1.2.1";
 in {
   systemd.services.m1cr0blog = {
     description = "Personal blog";
