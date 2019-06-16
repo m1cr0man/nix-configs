@@ -24,10 +24,8 @@ in {
     };
   };
 
-  security.acme.certs."m1cr0man.com".extraDomains = {
-    "www.m1cr0man.com" = null;
-    "u.m1cr0man.com" = null;
-  }
+  security.acme.certs."m1cr0man.com".extraDomains."www.m1cr0man.com" = null;
+  security.acme.certs."m1cr0man.com".extraDomains."u.m1cr0man.com" = null;
   services.httpd.virtualHosts = [{
     enableSSL = true;
     hostName = "m1cr0man.com";
