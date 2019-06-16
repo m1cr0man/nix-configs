@@ -31,11 +31,9 @@ in {
     hostName = "m1cr0man.com";
     serverAliases = [ "www.m1cr0man.com" ];
     extraConfig = "ProxyPass / http://127.0.0.1:3000/";
-  }];
-  services.httpd.virtualHosts = [{
+  } {
     enableSSL = true;
     hostName = "u.m1cr0man.com";
-    serverAliases = [ "www.m1cr0man.com" ];
-    extraConfig = "ProxyPass / http://127.0.0.1:3000/upload";
+    extraConfig = "ProxyPass / http://127.0.0.1:3000/upload/";
   }];
 }
