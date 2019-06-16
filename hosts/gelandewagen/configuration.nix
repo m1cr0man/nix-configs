@@ -14,7 +14,7 @@
       ../../services/ssh.nix
       ../../services/httpd.nix
       ../../services/minecraft.nix
-      ../../services/m1cr0blog
+      ../../services/m1cr0blog.nix
       ../../services/minio.nix
     ];
 

@@ -1,5 +1,6 @@
+{ pkgs, ... }:
 let
-    newpkg = import ./pkgs-override.nix;
+    newpkg = import ../packages/override.nix;
     m1cr0blog = newpkg."m1cr0blog-1.2.1";
 in {
   systemd.services.m1cr0blog = {
