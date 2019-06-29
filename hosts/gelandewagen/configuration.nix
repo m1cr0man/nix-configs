@@ -16,6 +16,7 @@
       ../../services/minecraft.nix
       ../../services/m1cr0blog.nix
       ../../services/minio.nix
+      ../../containers/mcadam.nix
     ];
 
   system.stateVersion = "19.09";

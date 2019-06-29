@@ -30,6 +30,8 @@ in {
 
   fileSystems."/zstorage/backup_restore" = mountConfig "backup_restore";
 
+  fileSystems."/zstorage/adam_mc" = mountConfig "adam_mc";
+
   fileSystems."/zstorage/craig_mc" = mountConfig "craig_mc";
 
   fileSystems."/var/lib/docker" = mountConfig "docker";

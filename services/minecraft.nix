@@ -3,6 +3,8 @@ let
   serverURL = "mcvanilla.cragglerock.cf";
 in {
   nixpkgs.config.allowUnfree = true;
+  systemd.services.minecraft-server.serviceConfig.CPUShares = 256;
+  systemd.services.minecraft-server.serviceConfig.MemoryLimit = "5G";
   services.minecraft-server = {
     enable = true;
     eula = true;
