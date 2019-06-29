@@ -8,11 +8,11 @@ in {
     eula = true;
 
     package = pkgs.minecraft-server.overrideAttrs (oldAttrs: {
-      name = "minecraft-server-1.14.2.spigot";
-      version = "1.14.2.spigot";
+      name = "minecraft-server-1.14.3.spigot";
+      version = "1.14.3.spigot";
       src = pkgs.fetchurl {
-        url = "https://cdn.getbukkit.org/spigot/spigot-1.14.2.jar";
-        sha256 = "924173542d6064ec72eb22ff717123892d555d8e9dfe72a10b2a83f58599480e";
+        url = "https://cdn.getbukkit.org/spigot/spigot-1.14.3.jar";
+        sha256 = "06xlkxswvcwjjai3zz0lbyla51zj98jfk8whixamglgr449y52ii";
       };
     });
 
@@ -20,7 +20,7 @@ in {
 
     declarative = false;
 
-    jvmOpts = "-server -Xmx8G -Xms8G -XX:+UseG1GC -Dsun.rmi.dgc.server.gcInterval=2147483646 -XX:+UnlockExperimentalVMOptions -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=32M";
+    jvmOpts = "-server -Xmx4G -Xms4G -XX:+UseG1GC -Dsun.rmi.dgc.server.gcInterval=2147483646 -XX:+UnlockExperimentalVMOptions -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=32M";
 
     openFirewall = false;
   };
