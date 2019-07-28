@@ -8,7 +8,7 @@ let
     sha256 = "1p0a67qvx7rhx79kds7l0r6svxs7aq570xzhmahaicmxsrqwxq16";
   };
 
-  chronoUi = import ./ui2.nix { inherit pkgs chronografSrc; };
+  chronoUi = import ./ui.nix { inherit pkgs chronografSrc; };
 in buildGoModule rec {
   inherit version;
 
