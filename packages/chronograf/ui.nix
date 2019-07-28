@@ -1,13 +1,5 @@
-{ pkgs ? import <nixpkgs> {} }:
-
+{ pkgs ? import <nixpkgs> {}, version ? null, chronografSrc ? null }:
 let
-  yarn2nix = import (pkgs.fetchFromGitHub {
-    owner = "moretea";
-    repo = "yarn2nix";
-    rev = "2b29eafedd3822095187ba20a472c2b01642b09d";
-    sha256 = "0cvjb3n988643i7kk2fq313cfd2dbnnm5948fbh7r56fn3l5ridv";
-  }) {inherit pkgs;};
-
   version = "1.7.12";
   chronografSrc = pkgs.fetchFromGitHub {
     owner = "influxdata";
@@ -16,20 +8,27 @@ let
     sha256 = "1p0a67qvx7rhx79kds7l0r6svxs7aq570xzhmahaicmxsrqwxq16";
   };
 
+  yarn2nix = import (pkgs.fetchFromGitHub {
+    owner = "moretea";
+    repo = "yarn2nix";
+    rev = "3f2dbb08724bf8841609f932bfe1d61a78277232";
+    sha256 = "142av7dwviapsnahgj8r6779gs2zr17achzhr8b97s0hsl08dcl2";
+  }) {inherit pkgs;};
+
   yarnPkg = yarn2nix.mkYarnPackage {
     name = "chronograf-ui-node-pkgs";
     src = chronografSrc + "/ui";
     packageJSON = chronografSrc + "/ui/package.json";
     yarnLock = chronografSrc + "/ui/yarn.lock";
-    unpackPhase = ":";
-    publishBinsFor = ["parcel-bundler"];
+    postInstall = "ln -s $out/libexec/chronograf-ui/node_modules $out/node_modules";
+    publishBinsFor = ["parcel"];
   };
 in pkgs.stdenv.mkDerivation {
   name = "chronograf-ui";
   src = chronografSrc + "/ui";
 
   buildInputs = [
-    yarnPkg
+    pkgs.nodejs-10_x
     pkgs.yarn
     pkgs.git
   ];
@@ -44,6 +43,9 @@ in pkgs.stdenv.mkDerivation {
 
   installPhase = ''
     mkdir -p $out
-    parcel build -d $out --no-source-maps --public-url "" src/index.html
+    # This needs to run twice due to some bug
+    # /etc/nixos/packages/chronograf/dev/ui/src/sources/components/ConnectionWizard.tsx: Cannot find module '@babel/plugin-proposal-class-properties' from '/etc/nixos/packages/chronograf/dev/ui'
+    # The problem package changes, seems to be some race condition. Only happens when dependencies need to be built.
+    ${yarnPkg}/bin/parcel build -d $out --no-source-maps --no-cache --public-url "" src/index.html || ${yarnPkg}/bin/parcel build -d $out --no-source-maps --no-cache --public-url "" src/index.html
   '';
 }
