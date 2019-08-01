@@ -1,13 +1,5 @@
 { pkgs ? import <nixpkgs> {}, version ? null, chronografSrc ? null }:
 let
-  version = "1.7.12";
-  chronografSrc = pkgs.fetchFromGitHub {
-    owner = "influxdata";
-    repo = "chronograf";
-    rev = version;
-    sha256 = "1p0a67qvx7rhx79kds7l0r6svxs7aq570xzhmahaicmxsrqwxq16";
-  };
-
   yarn2nix = import (pkgs.fetchFromGitHub {
     owner = "moretea";
     repo = "yarn2nix";
@@ -25,7 +17,7 @@ in yarn2nix.mkYarnPackage {
     export BUILDDIR=$(pwd)
     export NODE_PATH=$(pwd)/node_modules:$NODE_PATH
     cd $src
-    $BUILDDIR/node_modules/.bin/parcel build -d $out/dist --no-source-maps --no-cache --public-url "" src/index.html
+    $BUILDDIR/node_modules/.bin/parcel build -d $out/build --no-source-maps --no-cache --public-url "" src/index.html
     cd -
   '';
   distPhase = "true";
