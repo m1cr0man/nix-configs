@@ -16,6 +16,7 @@
       ../../services/minecraft.nix
       ../../services/m1cr0blog.nix
       ../../services/minio.nix
+      ../../services/desktopvm.nix
       ../../services/tick/influxdb.nix
       ../../services/tick/telegraf.nix
       ../../services/tick/kapacitor.nix
