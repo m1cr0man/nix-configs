@@ -34,4 +34,6 @@ in {
     hostName = "dynmap.${serverURL}";
     extraConfig = "ProxyPass / http://127.0.0.1:8123/";
   }];
+
+  networking.firewall.allowedTCPPorts = [ 25585 25595 ];
 }
