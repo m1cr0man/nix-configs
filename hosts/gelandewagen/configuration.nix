@@ -22,6 +22,7 @@
       ../../services/tick/kapacitor.nix
       ../../services/tick/chronograf.nix
       ../../containers/mcadam.nix
+      ../../containers/mcmodded.nix
     ];
 
   system.stateVersion = "19.09";
