@@ -40,6 +40,8 @@ in {
 
   fileSystems."/zstorage/steamapps" = mountConfig "steamapps";
 
+  fileSystems."/zstorage/tick" = mountConfig "tick";
+
   fileSystems."/zstorage/vms" = mountConfig "vms";
 
   fileSystems."/zstorage/m1cr0blog" = mountConfig "m1cr0blog";

@@ -16,6 +16,10 @@
       ../../services/minecraft.nix
       ../../services/m1cr0blog.nix
       ../../services/minio.nix
+      ../../services/tick/influxdb.nix
+      ../../services/tick/telegraf.nix
+      ../../services/tick/kapacitor.nix
+      ../../services/tick/chronograf.nix
       ../../containers/mcadam.nix
     ];
 
@@ -66,7 +70,7 @@
   virtualisation.docker.enable = true;
   virtualisation.docker.listenOptions = [ "/var/run/docker.sock" "0.0.0.0:2375" ];
   environment.systemPackages = with pkgs; [
-    wget vim git screen steamcmd
+    wget vim git screen steamcmd zstd
   ];
 
   users.users.gmod = {
@@ -80,8 +84,18 @@
     uid = 1000;
   };
 
-  networking.firewall.allowedTCPPorts = [ 25585 25595 80 27015 ];
-  networking.firewall.allowedUDPPorts = [ 25585 25595 26901 27005 27015 27020 ];
+  # Enable rsyslog
+  services.rsyslogd.enable = true;
+  services.rsyslogd.extraConfig = "*.* @127.0.0.1:6514;RSYSLOG_SyslogProtocol23Format";
+
+  # Enable accounting so systemd-cgtop can show IO load
+  systemd.enableCgroupAccounting = true;
+
+  # Enable KSM because the MC servers share a lot of data
+  hardware.enableKSM = true;
+
+  networking.firewall.allowedTCPPorts = [ 27015 ];
+  networking.firewall.allowedUDPPorts = [ 26901 27005 27015 27020 ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
