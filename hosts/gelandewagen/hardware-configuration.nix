@@ -34,6 +34,8 @@ in {
 
   fileSystems."/zstorage/craig_mc" = mountConfig "craig_mc";
 
+  fileSystems."/zstorage/rhiannon_mc" = mountConfig "rhiannon_mc";
+
   fileSystems."/zstorage/modded_mc" = mountConfig "modded_mc";
 
   fileSystems."/var/lib/docker" = mountConfig "docker";
