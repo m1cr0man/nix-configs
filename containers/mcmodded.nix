@@ -3,12 +3,18 @@ let
   secrets = import ../common/secrets.nix;
 in {
 
-  # Homepage setup
+  # Homepage and Dynmap setup
   security.acme.certs."m1cr0man.com".extraDomains."${serverURL}" = null;
+  security.acme.certs."m1cr0man.com".extraDomains."dynmap.${serverURL}" = null;
+
   services.httpd.virtualHosts = [{
     enableSSL = true;
     hostName = serverURL;
     documentRoot = "/zstorage/modded_mc/www";
+  } {
+    enableSSL = true;
+    hostName = "dynmap.${serverURL}";
+    extraConfig = "ProxyPass / http://127.0.0.1:8124/";
   }];
 
   containers.mcmodded = {
