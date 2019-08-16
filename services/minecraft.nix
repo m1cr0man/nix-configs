@@ -28,10 +28,12 @@ in {
   };
 
   # Dynmap setup
+  security.acme.certs."m1cr0man.com".extraDomains."${serverURL}" = null;
   security.acme.certs."m1cr0man.com".extraDomains."dynmap.${serverURL}" = null;
   services.httpd.virtualHosts = [{
     enableSSL = true;
-    hostName = "dynmap.${serverURL}";
+    hostName = serverURL;
+    serverAliases = [ "dynmap.${serverURL}" ];
     extraConfig = "ProxyPass / http://127.0.0.1:8123/";
   }];
 
