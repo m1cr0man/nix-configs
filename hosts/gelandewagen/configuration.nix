@@ -90,6 +90,12 @@
   services.rsyslogd.enable = true;
   services.rsyslogd.extraConfig = "*.* @127.0.0.1:6514;RSYSLOG_SyslogProtocol23Format";
 
+  # Rotate logs with cron
+  services.cron.enable = true;
+  services.cron.systemCronJobs = [
+    "0 4 * * * journalctl --vacuum-time=7d"
+  ];
+
   # Enable accounting so systemd-cgtop can show IO load
   systemd.enableCgroupAccounting = true;
 
