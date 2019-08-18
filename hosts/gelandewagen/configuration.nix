@@ -9,7 +9,7 @@
   imports =
     [
       ./hardware-configuration.nix
-      ../../common/region.nix
+      ../../common/sysconfig.nix
       ../../services/dns
       ../../services/ssh.nix
       ../../services/httpd.nix
@@ -31,31 +31,10 @@
     version = 2;
     device = "/dev/sdc";
   };
-  boot.kernelParams = [
-    "boot.shell_on_fail"
-    "panic=30" "boot.panic_on_fail" # reboot the machine upon fatal boot issues
-  ];
-
-  boot.supportedFilesystems = [ "zfs" ];
-  boot.zfs = {
-    enableUnstable = true;
-    forceImportRoot = false;
-    forceImportAll = false;
-  };
-  services.zfs.autoScrub.enable = true;
-  services.zfs.autoSnapshot = {
-    enable = true;
-    frequent = 8;
-    hourly = 0;
-    daily = 7;
-    weekly = 0;
-    monthly = 1;
-  };
 
   networking = {
     hostId = "4cdf6f98";
     hostName = "gelandewagen";
-    domain = "m1cr0man.com";
 
     usePredictableInterfaceNames = false;
     interfaces.eth0.ipv4.addresses = [{
@@ -71,9 +50,6 @@
 
   virtualisation.docker.enable = true;
   virtualisation.docker.listenOptions = [ "/var/run/docker.sock" "0.0.0.0:2375" ];
-  environment.systemPackages = with pkgs; [
-    wget vim git screen steamcmd zstd
-  ];
 
   users.users.gmod = {
     createHome = true;
@@ -85,19 +61,6 @@
     useDefaultShell = true;
     uid = 1000;
   };
-
-  # Enable rsyslog
-  services.rsyslogd.enable = true;
-  services.rsyslogd.extraConfig = "*.* @127.0.0.1:6514;RSYSLOG_SyslogProtocol23Format";
-
-  # Rotate logs with cron
-  services.cron.enable = true;
-  services.cron.systemCronJobs = [
-    "0 4 * * * journalctl --vacuum-time=7d"
-  ];
-
-  # Enable accounting so systemd-cgtop can show IO load
-  systemd.enableCgroupAccounting = true;
 
   # Enable KSM because the MC servers share a lot of data
   hardware.enableKSM = true;
