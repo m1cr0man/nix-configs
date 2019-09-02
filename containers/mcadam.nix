@@ -35,10 +35,10 @@ in {
         declarative = true;
 
         serverProperties = {
-          server-port = 25535;
-          motd = "Flubnuts mc";
+          server-port = 25545;
+          motd = "Flooby Tooty";
           enable-rcon = true;
-          "rcon.port" = 25536;
+          "rcon.port" = 25546;
           "rcon.password" = secrets.minecraft_rcon_password;
         };
 
@@ -47,5 +47,5 @@ in {
         openFirewall = true;
       };
     };
-  networking.firewall.allowedTCPPorts = [ 25535 25536 ];
+  networking.firewall.allowedTCPPorts = [ 25545 25546 ];
 }
