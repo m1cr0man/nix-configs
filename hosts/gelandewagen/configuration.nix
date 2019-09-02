@@ -1,10 +1,7 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, ... }:
-
-{
+let
+  secrets = import ../../common/secrets.nix;
+in {
 
   imports =
     [
@@ -60,6 +57,15 @@
     isSystemUser = false;
     useDefaultShell = true;
     uid = 1000;
+  };
+
+  users.users.portfwd-guest = {
+    home = "/var/empty";
+    shell = pkgs.bashInteractive;
+    group = "nogroup";
+    hashedPassword = secrets.portfwd_guest_password;
+    createHome = false;
+    useDefaultShell = false;
   };
 
   # Enable KSM because the MC servers share a lot of data
