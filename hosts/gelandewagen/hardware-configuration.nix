@@ -40,6 +40,8 @@ in {
 
   fileSystems."/var/lib/docker" = mountConfig "docker";
 
+  fileSystems."/var/lib/generic" = mountConfig "generic";
+
   fileSystems."/zstorage/minio" = mountConfig "minio";
 
   fileSystems."/zstorage/steamapps" = mountConfig "steamapps";
