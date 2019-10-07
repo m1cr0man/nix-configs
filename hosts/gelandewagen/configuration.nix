@@ -15,6 +15,7 @@ in {
       ../../services/minio.nix
       ../../services/weechat.nix
       ../../services/rb-tunnel.nix
+      ../../services/nextcloud.nix
       ../../services/tick/influxdb.nix
       ../../services/tick/telegraf.nix
       ../../services/tick/kapacitor.nix

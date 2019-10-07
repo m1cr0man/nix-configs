@@ -44,6 +44,8 @@ in {
 
   fileSystems."/zstorage/minio" = mountConfig "minio";
 
+  fileSystems."/zstorage/nextcloud" = mountConfig "nextcloud";
+
   fileSystems."/zstorage/steamapps" = mountConfig "steamapps";
 
   fileSystems."/zstorage/tick" = mountConfig "tick";
