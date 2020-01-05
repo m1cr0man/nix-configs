@@ -12,7 +12,7 @@ in {
     inherit host port;
     enable = true;
     package = import ../../packages/chronograf { inherit pkgs; };
-    dataDir = "/zstorage/tick/chronograf";
+    dataDir = "/zroot/tick/chronograf";
     user = "influxdb";
     group = "influxdb";
     logLevel = "error";
@@ -25,9 +25,9 @@ in {
   };
 
   security.acme.certs."m1cr0man.com".extraDomains."${vhost}" = null;
-  services.httpd.virtualHosts = [{
-    enableSSL = true;
-    hostName = vhost;
+  services.httpd.virtualHosts."${vhost}" = {
+    onlySSL = true;
+    useACMEHost = "m1cr0man.com";
     extraConfig = ''
       <Proxy *>
         AuthType Basic
@@ -38,6 +38,5 @@ in {
 
       ProxyPass / http://${host}:${toString port}/
     '';
-  }];
-
+  };
 }

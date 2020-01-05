@@ -6,8 +6,8 @@ in {
     enable = true;
     accessKey = secrets.minio_access_key;
     secretKey = secrets.minio_secret_key;
-    configDir = "/zstorage/minio/config";
-    dataDir = "/zstorage/minio/data";
+    configDir = "/zroot/minio/config";
+    dataDir = "/zroot/minio/data";
     region = "EU";
   };
 
@@ -19,9 +19,9 @@ in {
   };
 
   security.acme.certs."m1cr0man.com".extraDomains."s3.m1cr0man.com" = null;
-  services.httpd.virtualHosts = [{
-    enableSSL = true;
-    hostName = "s3.m1cr0man.com";
+  services.httpd.virtualHosts."s3.m1cr0man.com" = {
+    onlySSL = true;
+    useACMEHost = "m1cr0man.com";
     extraConfig = "ProxyPass / http://127.0.0.1:9000/";
-  }];
+  };
 }

@@ -10,7 +10,7 @@ in {
       ../../services/dns
       ../../services/ssh.nix
       ../../services/httpd.nix
-      ../../services/minecraft.nix
+      #../../services/minecraft.nix
       ../../services/m1cr0blog.nix
       ../../services/minio.nix
       ../../services/weechat.nix
@@ -18,16 +18,16 @@ in {
       ../../services/tick/influxdb.nix
       ../../services/tick/telegraf.nix
       ../../services/tick/kapacitor.nix
-      ../../services/tick/chronograf.nix
-      ../../containers/mcadam.nix
+      #../../services/tick/chronograf.nix
+      #../../containers/mcadam.nix
       ../../containers/mcmodded.nix
     ];
 
-  system.stateVersion = "19.09";
+  system.stateVersion = "20.03";
   boot.loader.grub = {
     enable = true;
     version = 2;
-    device = "/dev/sdc";
+    device = "/dev/sda";
   };
 
   networking = {
@@ -70,7 +70,7 @@ in {
   };
 
   # Enable KSM because the MC servers share a lot of data
-  hardware.enableKSM = true;
+  hardware.ksm.enable = true;
 
   networking.firewall.allowedTCPPorts = [ 27015 ];
   networking.firewall.allowedUDPPorts = [ 26901 27005 27015 27020 ];

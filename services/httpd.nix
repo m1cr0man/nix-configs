@@ -2,9 +2,7 @@
 let
   secrets = import ../common/secrets.nix;
 
-  certsDir = "/var/lib/acme";
-
-  webrootDir = certsDir + "/.webroot";
+  webrootDir = "/var/lib/acme/.webroot";
 
   acmeCert = {
     email = "lucas+acme@m1cr0man.com";
@@ -13,7 +11,6 @@ let
   };
 
   acmeVhost = domain: {
-      hostName = domain;
       serverAliases = [ "*.${domain}" ];
       servedDirs = [{
         urlPath = "/.well-known/acme-challenge";
@@ -30,7 +27,6 @@ let
       '';
     };
 in {
-  security.acme.directory = certsDir;
   security.acme.certs = {
     "m1cr0man.com" = acmeCert;
   };
@@ -50,8 +46,6 @@ in {
     enable = true;
     multiProcessingModule = "event";
     maxClients = 500;
-    sslServerKey = "${certsDir}/m1cr0man.com/key.pem";
-    sslServerCert = "${certsDir}/m1cr0man.com/fullchain.pem";
     logFormat = "combinedplus";
 
     extraConfig = ''
@@ -70,17 +64,13 @@ in {
       </Location>
     '';
 
-    virtualHosts = [
-      (acmeVhost "m1cr0man.com")
-      (acmeVhost "cragglerock.cf")
-    ];
+    virtualHosts."m1cr0man.com" = acmeVhost "m1cr0man.com";
+    virtualHosts."cragglerock.cf" = acmeVhost "cragglerock.cf";
 
     adminAddr = "lucas+httpd@m1cr0man.com";
-    hostName = "localhost";
 
     # Only acme certs and status are accessible via port 80,
     # everything else is explicitly upgraded to https
-    listen = [{ port = 80; }];
   };
 
   networking.firewall.allowedTCPPorts = [ 80 443 ];

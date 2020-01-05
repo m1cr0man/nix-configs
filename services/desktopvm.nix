@@ -20,7 +20,7 @@ in {
 		${oldQemu}/bin/qemu-system-x86_64 -enable-kvm \
 		  -machine q35 \
 		  -cpu host -smp 4,cores=2,threads=2,sockets=1,maxcpus=4 -m 8G \
-		  -drive file=/zstorage/vms/endgame.img,if=virtio,format=raw \
+		  -drive file=/zroot/vms/endgame.img,if=virtio,format=raw \
 		  -vga qxl \
 		  -spice port=5900,addr=127.0.0.1,disable-ticketing \
 		  -device virtio-serial-pci \
@@ -34,7 +34,7 @@ in {
 	ExecStop = "${pkgs.bash}/bin/bash -c '${pkgs.socat}/bin/socat - unix-connect:/var/run/desktopvm.sock < ${shutdownCommand} && ${pkgs.coreutils}/bin/tail --pid=$MAINPID -f /dev/null'";
 	RestartSec = 10;
         Restart = "always";
-        WorkingDirectory = "/zstorage/vms";
+        WorkingDirectory = "/zroot/vms";
     };
   };
 }

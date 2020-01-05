@@ -18,7 +18,7 @@ in {
       };
     });
 
-    dataDir = "/zstorage/rhiannon_mc";
+    dataDir = "/zroot/rhiannon_mc";
 
     declarative = false;
 
@@ -30,12 +30,12 @@ in {
   # Dynmap setup
   security.acme.certs."m1cr0man.com".extraDomains."${serverURL}" = null;
   security.acme.certs."m1cr0man.com".extraDomains."dynmap.${serverURL}" = null;
-  services.httpd.virtualHosts = [{
-    enableSSL = true;
-    hostName = serverURL;
+  services.httpd.virtualHosts."${serverURL}" = {
+    onlySSL = true;
+    useACMEHost = "m1cr0man.com";
     serverAliases = [ "dynmap.${serverURL}" ];
     extraConfig = "ProxyPass / http://127.0.0.1:8123/";
-  }];
+  };
 
   networking.firewall.allowedTCPPorts = [ 25585 25595 ];
 }

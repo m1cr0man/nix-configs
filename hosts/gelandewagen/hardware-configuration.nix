@@ -5,7 +5,7 @@
 
 let
   mountConfig = name: {
-    device = "zstorage/${name}";
+    device = "zroot/${name}";
     fsType = "zfs";
     options = [ "nofail" ];
   };
@@ -14,53 +14,47 @@ in {
     [ <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
     ];
 
-  boot.initrd.availableKernelModules = [ "ehci_pci" "ahci" "usb_storage" "sd_mod" ];
+  boot.initrd.availableKernelModules = [ "ehci_pci" "ahci" "usb_storage" "sd_mod" "r8169" ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/69cb4587-8ead-472b-aa2b-38bb9f3f53cb";
-      fsType = "ext4";
-    };
-
-  fileSystems."/nix" =
-    { device = "zstorage/nix";
+    { device = "zroot/nixos";
       fsType = "zfs";
     };
 
-  fileSystems."/zstorage/backup_restore" = mountConfig "backup_restore";
+  fileSystems."/nix" =
+    { device = "zroot/nixos/nix";
+      fsType = "zfs";
+    };
 
-  fileSystems."/zstorage/adam_mc" = mountConfig "adam_mc";
+  fileSystems."/zroot/backup_restore" = mountConfig "backup_restore";
 
-  fileSystems."/zstorage/craig_mc" = mountConfig "craig_mc";
+  fileSystems."/zroot/adam_mc" = mountConfig "adam_mc";
 
-  fileSystems."/zstorage/rhiannon_mc" = mountConfig "rhiannon_mc";
+  fileSystems."/zroot/craig_mc" = mountConfig "craig_mc";
 
-  fileSystems."/zstorage/modded_mc" = mountConfig "modded_mc";
+  fileSystems."/zroot/rhiannon_mc" = mountConfig "rhiannon_mc";
+
+  fileSystems."/zroot/modded_mc" = mountConfig "modded_mc";
 
   fileSystems."/var/lib/docker" = mountConfig "docker";
 
   fileSystems."/var/lib/generic" = mountConfig "generic";
 
-  fileSystems."/zstorage/minio" = mountConfig "minio";
+  fileSystems."/zroot/minio" = mountConfig "minio";
 
-  fileSystems."/zstorage/steamapps" = mountConfig "steamapps";
+  fileSystems."/zroot/steamapps" = mountConfig "steamapps";
 
-  fileSystems."/zstorage/tick" = mountConfig "tick";
+  fileSystems."/zroot/tick" = mountConfig "tick";
 
-  fileSystems."/zstorage/vms" = mountConfig "vms";
+  fileSystems."/zroot/vms" = mountConfig "vms";
 
-  fileSystems."/zstorage/m1cr0blog" = mountConfig "m1cr0blog";
+  fileSystems."/zroot/m1cr0blog" = mountConfig "m1cr0blog";
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/ed9ae69a-9842-4039-9c26-7e8e1aa285f5";
-      fsType = "ext4";
-    };
-
-  swapDevices =
-    [ { device = "/dev/disk/by-uuid/3a04a721-201b-4863-b218-2e4e931104d8"; }
-      { device = "/dev/disk/by-uuid/dcba8357-5b48-456d-b959-0e7bd27a33c4"; }
-    ];
+  swapDevices = [
+    { device = "/dev/disk/by-uuid/3fb7701e-18a8-4a64-b183-29431615525c"; }
+  ];
 
   nix.maxJobs = lib.mkDefault 8;
   powerManagement.cpuFreqGovernor = lib.mkDefault "ondemand";

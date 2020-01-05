@@ -1,1 +1,1 @@
-node2nix -8 -i packages.json
+node2nix --nodejs-12 -i packages.json

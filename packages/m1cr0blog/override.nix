@@ -11,7 +11,7 @@ let
   buildInputs = [ pkgs.nodePackages.node-gyp pkgs.vips  ];
 in
 nodePackages // {
-  "m1cr0blog-1.2.1" = nodePackages."m1cr0blog-1.2.1".override {
+  "m1cr0blog-1.2.2" = nodePackages."m1cr0blog-1.2.2".override {
     inherit buildInputs nativeBuildInputs;
   };
 }

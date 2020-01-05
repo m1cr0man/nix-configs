@@ -4,7 +4,7 @@ in {
   containers.mcadam = {
     autoStart = true;
     bindMounts."/adam_mc" = {
-      hostPath = "/zstorage/adam_mc";
+      hostPath = "/zroot/adam_mc";
       isReadOnly = false;
       mountPoint = "/adam_mc";
     };
