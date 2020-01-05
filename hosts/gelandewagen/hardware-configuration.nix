@@ -53,7 +53,8 @@ in {
   fileSystems."/zroot/m1cr0blog" = mountConfig "m1cr0blog";
 
   swapDevices = [
-    { device = "/dev/disk/by-uuid/3fb7701e-18a8-4a64-b183-29431615525c"; }
+    { device = "/dev/disk/by-uuid/3fb7701e-18a8-4a64-b183-29431615525c"; priority = 10; }
+    { device = "/dev/disk/by-uuid/ad08597b-d163-4508-9b60-8f51429d7c52"; priority = 10; }
   ];
 
   nix.maxJobs = lib.mkDefault 8;
