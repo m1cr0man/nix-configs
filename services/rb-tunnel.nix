@@ -1,6 +1,6 @@
 { pkgs, ... }:
 let
-  identityFile = "/var/lib/rb-tunnel/id_ed25519";
+  identityFile = "/var/secrets/rb_tunnel_id_ed25519";
 in {
   users.users.rb-tunnel = {
     description = "Service user for Redbrick tunnel";
