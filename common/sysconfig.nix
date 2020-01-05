@@ -44,7 +44,7 @@
   };
 
   environment.systemPackages = with pkgs; [
-    wget vim git screen steamcmd zstd
+    wget vim git screen zstd git-crypt htop
   ];
 
   # Enable rsyslog
