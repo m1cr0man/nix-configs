@@ -11,7 +11,7 @@ let
   };
 
   acmeVhost = domain: {
-      serverAliases = [ "*.${domain}" ];
+      serverAliases = [ domain "*.${domain}" ];
       servedDirs = [{
         urlPath = "/.well-known/acme-challenge";
         dir = "${webrootDir}/.well-known/acme-challenge";
@@ -64,8 +64,8 @@ in {
       </Location>
     '';
 
-    virtualHosts."m1cr0man.com" = acmeVhost "m1cr0man.com";
-    virtualHosts."cragglerock.cf" = acmeVhost "cragglerock.cf";
+    virtualHosts."certs.m1cr0man.com" = acmeVhost "m1cr0man.com";
+    virtualHosts."certs.cragglerock.cf" = acmeVhost "cragglerock.cf";
 
     adminAddr = "lucas+httpd@m1cr0man.com";
 
