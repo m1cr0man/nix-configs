@@ -21,7 +21,7 @@ in {
         ExecStart = "${m1cr0blog}/bin/m1cr0blog";
         User = "m1cr0blog";
         Restart = "always";
-        WorkingDirectory = "/zroot/m1cr0blog";
+        WorkingDirectory = "/var/www/m1cr0blog";
     };
   };
 

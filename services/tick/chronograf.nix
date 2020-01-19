@@ -12,7 +12,7 @@ in {
     inherit host port;
     enable = true;
     package = import ../../packages/chronograf { inherit pkgs; };
-    dataDir = "/zroot/tick/chronograf";
+    dataDir = "/var/lib/tick/chronograf";
     user = "influxdb";
     group = "influxdb";
     logLevel = "error";

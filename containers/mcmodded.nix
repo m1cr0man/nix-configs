@@ -10,7 +10,7 @@ in {
   services.httpd.virtualHosts."${serverURL}" = {
     onlySSL = true;
     useACMEHost = "m1cr0man.com";
-    documentRoot = "/zroot/modded_mc/www";
+    documentRoot = "/opt/gaming/mcmodded/www";
   };
   services.httpd.virtualHosts."dynmap.${serverURL}" = {
     onlySSL = true;
@@ -20,10 +20,10 @@ in {
 
   containers.mcmodded = {
     autoStart = true;
-    bindMounts."/modded_mc" = {
-      hostPath = "/zroot/modded_mc";
+    bindMounts."/mcmodded" = {
+      hostPath = "/opt/gaming/mcmodded";
       isReadOnly = false;
-      mountPoint = "/modded_mc";
+      mountPoint = "/mcmodded";
     };
   };
 
@@ -57,7 +57,7 @@ in {
           '';
         });
 
-        dataDir = "/modded_mc";
+        dataDir = "/mcmodded";
 
         declarative = false;
 

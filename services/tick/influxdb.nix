@@ -1,7 +1,7 @@
 {
   services.influxdb = {
     enable = true;
-    dataDir = "/zroot/tick/influxdb";
+    dataDir = "/var/lib/tick/influxdb";
     extraConfig = {
       admin.enabled = false;
       data.query-log-enabled = false;

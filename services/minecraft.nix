@@ -18,7 +18,7 @@ in {
       };
     });
 
-    dataDir = "/zroot/rhiannon_mc";
+    dataDir = "/opt/gaming/mcrhiannon";
 
     declarative = false;
 

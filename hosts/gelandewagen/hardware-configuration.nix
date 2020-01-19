@@ -5,7 +5,7 @@
 
 let
   mountConfig = name: {
-    device = "zroot/${name}";
+    device = "zstorage/${name}";
     fsType = "zfs";
     options = [ "nofail" ];
   };
@@ -19,42 +19,42 @@ in {
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "zroot/nixos";
+    { device = "zboot/nixos";
       fsType = "zfs";
     };
 
   fileSystems."/nix" =
-    { device = "zroot/nixos/nix";
+    { device = "zstorage/nix_store";
       fsType = "zfs";
     };
 
-  fileSystems."/zroot/backup_restore" = mountConfig "backup_restore";
+  fileSystems."/opt/gaming/mcadam" = mountConfig "gaming/mcadam";
 
-  fileSystems."/zroot/adam_mc" = mountConfig "adam_mc";
+  fileSystems."/opt/gaming/mccraig" = mountConfig "gaming/mccraig";
 
-  fileSystems."/zroot/craig_mc" = mountConfig "craig_mc";
+  fileSystems."/opt/gaming/mcrhiannon" = mountConfig "gaming/mcrhiannon";
 
-  fileSystems."/zroot/rhiannon_mc" = mountConfig "rhiannon_mc";
+  fileSystems."/opt/gaming/mcmodded" = mountConfig "gaming/mcmodded";
 
-  fileSystems."/zroot/modded_mc" = mountConfig "modded_mc";
+  fileSystems."/opt/gaming/steamapps" = mountConfig "gaming/steamapps";
+
+  fileSystems."/opt/backup_restore" = mountConfig "backup_restore";
 
   fileSystems."/var/lib/docker" = mountConfig "docker";
 
-  fileSystems."/var/lib/generic" = mountConfig "generic";
+  fileSystems."/opt/generic" = mountConfig "generic";
 
-  fileSystems."/zroot/minio" = mountConfig "minio";
+  fileSystems."/var/www/m1cr0blog" = mountConfig "m1cr0blog";
 
-  fileSystems."/zroot/steamapps" = mountConfig "steamapps";
+  fileSystems."/var/www/minio" = mountConfig "minio";
 
-  fileSystems."/zroot/tick" = mountConfig "tick";
+  fileSystems."/var/lib/tick" = mountConfig "tick";
 
-  fileSystems."/zroot/vms" = mountConfig "vms";
-
-  fileSystems."/zroot/m1cr0blog" = mountConfig "m1cr0blog";
+  fileSystems."/opt/vms" = mountConfig "vms";
 
   swapDevices = [
-    { device = "/dev/disk/by-uuid/3fb7701e-18a8-4a64-b183-29431615525c"; priority = 10; }
-    { device = "/dev/disk/by-uuid/ad08597b-d163-4508-9b60-8f51429d7c52"; priority = 10; }
+    { device = "/dev/disk/by-uuid/3fb7701e-18a8-4a64-b183-29431615525c"; priority = 100; }
+    { device = "/dev/disk/by-uuid/ad08597b-d163-4508-9b60-8f51429d7c52"; priority = 100; }
   ];
 
   nix.maxJobs = lib.mkDefault 8;

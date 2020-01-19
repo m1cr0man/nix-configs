@@ -3,7 +3,7 @@
   services.kapacitor = {
     enable = true;
     bind = "127.0.0.1";
-    dataDir = "/zroot/tick/kapacitor";
+    dataDir = "/var/lib/tick/kapacitor";
     extraConfig = ''
       [[influxdb]]
         name = "localhost"

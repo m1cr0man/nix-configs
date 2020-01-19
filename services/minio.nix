@@ -6,8 +6,8 @@ in {
     enable = true;
     accessKey = secrets.minio_access_key;
     secretKey = secrets.minio_secret_key;
-    configDir = "/zroot/minio/config";
-    dataDir = "/zroot/minio/data";
+    configDir = "/var/www/minio/config";
+    dataDir = "/var/www/minio/data";
     region = "EU";
   };
 

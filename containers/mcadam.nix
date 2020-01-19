@@ -3,10 +3,10 @@ let
 in {
   containers.mcadam = {
     autoStart = true;
-    bindMounts."/adam_mc" = {
-      hostPath = "/zroot/adam_mc";
+    bindMounts."/mcadam" = {
+      hostPath = "/opt/gaming/mcadam";
       isReadOnly = false;
-      mountPoint = "/adam_mc";
+      mountPoint = "/mcadam";
     };
   };
 
@@ -30,7 +30,7 @@ in {
           };
         });
 
-        dataDir = "/adam_mc";
+        dataDir = "/mcadam";
 
         declarative = true;
 
