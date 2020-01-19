@@ -2,7 +2,7 @@
 {
     services.weechat = {
         enable = true;
-        root = "/zstorage/generic/weechat";
+        root = "/opt/generic/weechat";
         sessionName = "irc";
     };
 }
