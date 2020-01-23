@@ -13,6 +13,7 @@ in {
       #../../services/minecraft.nix
       ../../services/m1cr0blog.nix
       ../../services/minio.nix
+      ../../services/plex.nix
       ../../services/weechat.nix
       ../../services/rb-tunnel.nix
       ../../services/tick/influxdb.nix

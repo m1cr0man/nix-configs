@@ -27,6 +27,7 @@ let
       '';
     };
 in {
+  security.acme.acceptTerms = true;
   security.acme.certs = {
     "m1cr0man.com" = acmeCert;
   };
