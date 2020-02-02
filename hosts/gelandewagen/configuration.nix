@@ -10,6 +10,7 @@ in {
       ../../services/dns
       ../../services/ssh.nix
       ../../services/httpd.nix
+      ../../services/greendayvm.nix
       #../../services/minecraft.nix
       ../../services/m1cr0blog.nix
       ../../services/minio.nix
@@ -34,13 +35,11 @@ in {
   networking = {
     hostId = "4cdf6f98";
     hostName = "gelandewagen";
+    useDHCP = false;
 
     usePredictableInterfaceNames = false;
     interfaces.eth0.ipv4.addresses = [{
       address = "144.76.44.123";
-      prefixLength = 27;
-    } {
-      address = "144.76.44.62";
       prefixLength = 27;
     }];
     defaultGateway = "144.76.44.97";
