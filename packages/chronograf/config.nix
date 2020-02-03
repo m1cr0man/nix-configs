@@ -393,14 +393,12 @@ in {
       };
     };
 
-    users.users = optional (cfg.user == "chronograf") {
-      name = "chronograf";
+    users.users.chronograf = mkIf (cfg.user == "chronograf") {
       uid = config.ids.uids.chronograf;
       description = "Influxdb daemon user";
     };
 
-    users.groups = optional (cfg.group == "chronograf") {
-      name = "chronograf";
+    users.groups.chronograf = mkIf (cfg.group == "chronograf") {
       gid = config.ids.gids.chronograf;
     };
   };
