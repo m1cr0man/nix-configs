@@ -14,13 +14,14 @@ in {
         "http://${config.services.influxdb.extraConfig.http.bind-address}"
       ];
       inputs = {
-        # minecraft = {
-        #   server = "127.0.0.1";
-        #   port = "25566";
-        #   password = secrets.minecraft_rcon_password;
-        # };
+        minecraft = {
+          server = "127.0.0.1";
+          port = "25566";
+          password = secrets.minecraft_rcon_password;
+        };
         system = {};
         kernel = {};
+        kernel_vmstat = {};
         cpu = {};
         mem = {};
         processes = {};
