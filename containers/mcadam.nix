@@ -4,7 +4,7 @@ in {
   containers.mcadam = {
     autoStart = true;
     bindMounts."/mcadam" = {
-      hostPath = "/opt/gaming/mcadam";
+      hostPath = "/var/gaming/mcadam";
       isReadOnly = false;
       mountPoint = "/mcadam";
     };

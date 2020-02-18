@@ -10,7 +10,7 @@ in {
   services.httpd.virtualHosts."${serverURL}" = {
     onlySSL = true;
     useACMEHost = "m1cr0man.com";
-    documentRoot = "/opt/gaming/mcmodded/www";
+    documentRoot = "/var/gaming/mcmodded/www";
   };
   services.httpd.virtualHosts."dynmap.${serverURL}" = {
     onlySSL = true;
@@ -21,7 +21,7 @@ in {
   containers.mcmodded = {
     autoStart = true;
     bindMounts."/mcmodded" = {
-      hostPath = "/opt/gaming/mcmodded";
+      hostPath = "/var/gaming/mcmodded";
       isReadOnly = false;
       mountPoint = "/mcmodded";
     };

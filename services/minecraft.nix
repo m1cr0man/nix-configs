@@ -18,7 +18,7 @@ in {
       };
     });
 
-    dataDir = "/opt/gaming/mcrhiannon";
+    dataDir = "/var/gaming/mcrhiannon";
 
     declarative = false;
 

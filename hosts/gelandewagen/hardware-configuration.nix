@@ -28,15 +28,15 @@ in {
       fsType = "zfs";
     };
 
-  fileSystems."/opt/gaming/mcadam" = mountConfig "gaming/mcadam";
+  fileSystems."/var/gaming/mcadam" = mountConfig "gaming/mcadam";
 
-  fileSystems."/opt/gaming/mccraig" = mountConfig "gaming/mccraig";
+  fileSystems."/var/gaming/mccraig" = mountConfig "gaming/mccraig";
 
-  fileSystems."/opt/gaming/mcrhiannon" = mountConfig "gaming/mcrhiannon";
+  fileSystems."/var/gaming/mcrhiannon" = mountConfig "gaming/mcrhiannon";
 
-  fileSystems."/opt/gaming/mcmodded" = mountConfig "gaming/mcmodded";
+  fileSystems."/var/gaming/mcmodded" = mountConfig "gaming/mcmodded";
 
-  fileSystems."/opt/gaming/steamapps" = mountConfig "gaming/steamapps";
+  fileSystems."/var/gaming/steamapps" = mountConfig "gaming/steamapps";
 
   fileSystems."/opt/backup_restore" = mountConfig "backup_restore";
 
