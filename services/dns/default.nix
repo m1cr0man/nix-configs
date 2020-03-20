@@ -4,6 +4,11 @@
   services.bind = {
     enable = true;
 
+    # Allow underscores in domain names. Needed for DKIM key
+    extraOptions = ''
+      check-names master ignore;
+    '';
+
     zones = [
       {
         name = "44.76.144.in-addr.arpa";

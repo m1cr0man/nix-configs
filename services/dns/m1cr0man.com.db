@@ -1,13 +1,14 @@
 $ORIGIN m1cr0man.com.
 $TTL 14400
 @	IN	SOA	ns1.m1cr0man.com.	lucas.m1cr0man.com.	(
-			2019081001	; Serial
+			2020030301	; Serial
 			1H		; Slave refresh interval
 			5M		; Query retry interval
 			1W		; Expiry
 			6H )		; Cache time
 	IN	NS		ns1.m1cr0man.com.
 	IN	NS		ns2.m1cr0man.com.
+	IN	A		144.76.44.123
 
 ; Gmail
 	IN	MX	10	aspmx.l.google.com.
@@ -17,8 +18,19 @@ $TTL 14400
 	IN	MX	30	aspmx3.googlemail.com.
 	IN	MX	30	aspmx4.googlemail.com.
 	IN	MX	30	aspmx5.googlemail.com.
+        IN	TXT		"v=spf1 include:_spf.google.com ~all"
+	IN	TXT		"google-site-verification=iaoKsqT2Eq_LIOa85YxtVKV5q4wdQ4oRYD_xg49juz0"
 
-				IN	A	144.76.44.123
+google._domainkey		IN	TXT	(
+						"v=DKIM1\; k=rsa\; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIB"
+						"CgKCAQEAxeOUcyPaqofW5eX3IgAR8OuNzQurxFClN2XSfldKiw6jC2qL"
+						"0OAyNQOc1MaCOe6EZMhPAdylSJMEbOXyZpdvnngvb4qekKMtGeE0vWDC"
+						"5Bam5vNEDMxEpLtyK8FGxKPOLrI51ihYFbBNoQRP+AQr71k6GBk+CJlB"
+						"xrQ2bYSQ0X9EI+S7eO5DiId8rkeUmgZD01/JCuRjxUsYZ0+xUSwsqXYx"
+						"ELgVs4cYFnZZZ2XpFxY+JTNR0mwPurc4dK5G/lJXmjqIQOuSBHe6cHiJ"
+						"TxtbeSvbacENZYHk+iCZYztGjd/XQNw3MOjC6EqZhdcOrO0JQQYKtYph"
+						"4znolpODs8UH0QIDAQAB")
+
 ns1				IN	A	144.76.44.123
 ns2				IN	A	144.76.44.123
 gelandewagen			IN	A	144.76.44.123
@@ -30,7 +42,6 @@ u							IN	CNAME	m1cr0man.com.
 chronograf		IN	CNAME m1cr0man.com.
 
 ; GSuite
-m1cr0man.com.			IN	TXT	google-site-verification=iaoKsqT2Eq_LIOa85YxtVKV5q4wdQ4oRYD_xg49juz0
 mail				IN	CNAME	ghs.google.com.
 sites				IN	CNAME	ghs.google.com.
 docs				IN	CNAME	ghs.google.com.

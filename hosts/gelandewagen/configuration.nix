@@ -21,7 +21,7 @@ in {
       ../../services/tick/telegraf.nix
       ../../services/tick/kapacitor.nix
       ../../services/tick/chronograf.nix
-      #../../containers/mcadam.nix
+      ../../containers/mcadam.nix
       ../../containers/mcmodded.nix
     ];
 
@@ -72,8 +72,8 @@ in {
   # Enable KSM because the MC servers share a lot of data
   hardware.ksm.enable = true;
 
-  networking.firewall.allowedTCPPorts = [ 27015 ];
-  networking.firewall.allowedUDPPorts = [ 26901 27005 27015 27020 ];
+  networking.firewall.allowedTCPPorts = [ 27015 26900 ];
+  networking.firewall.allowedUDPPorts = [ 26900 26901 26902 27005 27015 27020 ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

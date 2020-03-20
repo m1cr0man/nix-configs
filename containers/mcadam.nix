@@ -22,11 +22,11 @@ in {
         eula = true;
 
         package = pkgs.minecraft-server.overrideAttrs (oldAttrs: {
-          name = "minecraft-server-1.14.4.paper";
-          version = "1.14.4.paper";
+          name = "minecraft-server-1.15.2.paper";
+          version = "1.15.2.paper";
           src = pkgs.fetchurl {
-            url = "https://papermc.io/api/v1/paper/1.14.4/171/download";
-            sha256 = "12v1nwb2q2kq5856agngx48ry8f8vv4aym8bsapsvks0dzv8vs21";
+            url = "https://papermc.io/api/v1/paper/1.15.2/142/download";
+            sha256 = "18mb54fc0630fk9ndbsjs8w4hxdb9xp42nf01n2qb0yc5n3y1vyd";
           };
         });
 
