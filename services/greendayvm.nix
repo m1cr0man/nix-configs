@@ -1,9 +1,8 @@
 { config, pkgs, ... }:
 let
-  shutdownCommand = pkgs.writeText "greendayvm-shutdown" "system_powerdown\n";
   tap = "macvtap0";
   mac = "00:50:56:00:AD:D9";
-  ip = "${pkgs.iproute2}/bin/ip";
+  ip = "${pkgs.iproute}/bin/ip";
 in {
   systemd.services.greendayvm = {
     description = "Greenday's VM";
@@ -27,9 +26,10 @@ in {
 		  5<>/dev/tap$(< /sys/class/net/${tap}/ifindex)
 	'';
 
+    preStart = "test -e /sys/class/net/${tap} || ${ip} l add name ${tap} link eth0 type macvtap mode bridge addr ${mac} && ${ip} l set ${tap} up";
+    preStop = "${pkgs.socat}/bin/socat - unix-connect:/var/run/greendayvm.sock <(echo system_powerdown) && ${pkgs.coreutils}/bin/tail --pid=$MAINPID -f /dev/null";
+
     serviceConfig = {
-      ExecStartPre = "test -e /sys/class/net/${tap} || ${ip} l add name ${tap} link eth0 type macvtap mode bridge addr ${mac} && ${ip} l set ${tap} up";
-      ExecStop = "${pkgs.bash}/bin/bash -c '${pkgs.socat}/bin/socat - unix-connect:/var/run/greendayvm.sock < ${shutdownCommand} && ${pkgs.coreutils}/bin/tail --pid=$MAINPID -f /dev/null'";
       RestartSec = 10;
       Restart = "always";
       WorkingDirectory = "/opt/generic/vms";
