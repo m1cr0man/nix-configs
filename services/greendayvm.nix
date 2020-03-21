@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 let
   shutdownCommand = pkgs.writeText "greendayvm-shutdown" "system_powerdown\n";
+  tap = "macvtap0";
+  mac = "00:50:56:00:AD:D9";
 in {
   systemd.services.greendayvm = {
     description = "Greenday's VM";
@@ -20,15 +22,16 @@ in {
 		  -monitor unix:/var/run/greendayvm.sock,server,nowait \
                   -monitor stdio \
                   -boot menu=on,splash-time=5000 \
-                  -nic tap,fd=5,model=virtio,mac=00:50:56:00:AD:D9 \
-		  5<>/dev/tap$(< /sys/class/net/macvtap0/ifindex)
+                  -nic tap,fd=5,model=virtio,mac=${mac} \
+		  5<>/dev/tap$(< /sys/class/net/${tap}/ifindex)
 	'';
 
     serviceConfig = {
-	ExecStop = "${pkgs.bash}/bin/bash -c '${pkgs.socat}/bin/socat - unix-connect:/var/run/greendayvm.sock < ${shutdownCommand} && ${pkgs.coreutils}/bin/tail --pid=$MAINPID -f /dev/null'";
-	RestartSec = 10;
-        Restart = "always";
-        WorkingDirectory = "/opt/generic/vms";
+      ExecStartPre = "test -e /sys/class/net/${tap} || ip l add name ${tap} link eth0 type macvtap mode bridge addr ${mac} && ip l set ${tap} up";
+      ExecStop = "${pkgs.bash}/bin/bash -c '${pkgs.socat}/bin/socat - unix-connect:/var/run/greendayvm.sock < ${shutdownCommand} && ${pkgs.coreutils}/bin/tail --pid=$MAINPID -f /dev/null'";
+      RestartSec = 10;
+      Restart = "always";
+      WorkingDirectory = "/opt/generic/vms";
     };
   };
 }
