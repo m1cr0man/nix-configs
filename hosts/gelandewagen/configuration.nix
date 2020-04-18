@@ -14,6 +14,7 @@ in {
       #../../services/minecraft.nix
       ../../services/m1cr0blog.nix
       ../../services/minio.nix
+      ../../services/breogan.nix
       ../../services/plex.nix
       ../../services/weechat.nix
       ../../services/rb-tunnel.nix
@@ -68,6 +69,17 @@ in {
     createHome = false;
     useDefaultShell = false;
   };
+
+
+  users.users.breogan = {
+    home = "/home/breogan";
+    shell = pkgs.bashInteractive;
+    group = "breogan";
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJIeiNkZ53utCm/d9a/m46xe00OTlRnRlrgEoiRmpW1j ed25519-key-20200418"
+    ];
+  };
+  users.groups.breogan = {};
 
   # Enable KSM because the MC servers share a lot of data
   hardware.ksm.enable = true;
