@@ -43,15 +43,15 @@ in {
           name = "minecraft-server-1.12.2.forge";
           version = "1.12.2.forge";
           src = pkgs.fetchurl {
-            url = "https://files.minecraftforge.net/maven/net/minecraftforge/forge/1.12.2-14.23.5.2838/forge-1.12.2-14.23.5.2838-universal.jar";
-            sha256 = "02r4ikx4cca5wlcm386llfr05n20sg2z0fs8kyijh25ipqjsik37";
+            url = "https://files.minecraftforge.net/maven/net/minecraftforge/forge/1.12.2-14.23.5.2847/forge-1.12.2-14.23.5.2847-universal.jar";
+            sha256 = "0skapi02lp1ddy6i866d1dvis4vd4lwb5a7zmh0ymhh1b0mkg9r9";
           };
           installPhase = ''
             mkdir -p $out/bin $out/lib/minecraft
             cp -v $src $out/lib/minecraft/server.jar
             cat > $out/bin/minecraft-server << EOF
             #!/bin/sh
-            exec ${pkgs.openjdk}/bin/java \$@ -jar forge-1.12.2-14.23.5.2838-universal.jar nogui
+            exec ${pkgs.openjdk}/bin/java \$@ -jar forge-1.12.2-14.23.5.2847-universal.jar nogui
             EOF
             chmod +x $out/bin/minecraft-server
           '';

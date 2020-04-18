@@ -26,7 +26,13 @@ in {
 		  5<>/dev/tap$(< /sys/class/net/${tap}/ifindex)
 	'';
 
-    preStart = "test -e /sys/class/net/${tap} || ${ip} l add name ${tap} link eth0 type macvtap mode bridge addr ${mac} && ${ip} l set ${tap} up";
+    preStart = ''
+      if ! test -e /sys/class/net/${tap}; then
+        ${ip} l add name ${tap} link eth0 type macvtap mode bridge
+        ${ip} l set dev ${tap} addr ${mac}
+        ${ip} l set ${tap} up
+      fi
+    '';
     preStop = "${pkgs.socat}/bin/socat - unix-connect:/var/run/greendayvm.sock <(echo system_powerdown) && ${pkgs.coreutils}/bin/tail --pid=$MAINPID -f /dev/null";
 
     serviceConfig = {
