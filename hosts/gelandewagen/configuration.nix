@@ -14,6 +14,7 @@ in {
       #../../services/minecraft.nix
       ../../services/m1cr0blog.nix
       ../../services/minio.nix
+      ../../services/openttd.nix
       ../../services/breogan.nix
       ../../services/plex.nix
       ../../services/weechat.nix
@@ -84,7 +85,7 @@ in {
   # Enable KSM because the MC servers share a lot of data
   hardware.ksm.enable = true;
 
-  networking.firewall.allowedTCPPorts = [ 27015 26900 ];
+  networking.firewall.allowedTCPPorts = [ 27015 26900 1802 ];
   networking.firewall.allowedUDPPorts = [ 26900 26901 26902 27005 27015 27020 ];
 
   # Some programs need SUID wrappers, can be configured further or are
