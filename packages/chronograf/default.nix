@@ -17,7 +17,7 @@ in buildGoModule rec {
 
   vendorSha256 = "04pcq6g0mrxw3fww248axrs0jmj5m464dvfdwynrqj7h2yvyx24a";
 
-  buildInputs = [ pkgs.go-bindata ];
+  natvieBuildInputs = [ pkgs.go-bindata ];
   preBuild = ''
     ln -s ${chronoUi}/build ui/build
     make .bindata
