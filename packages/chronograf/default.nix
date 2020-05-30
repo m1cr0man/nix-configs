@@ -15,7 +15,7 @@ in buildGoModule rec {
   name = "chronograf-${version}";
   src = chronografSrc;
 
-  modSha256 = "04pcq6g0mrxw3fww248axrs0jmj5m464dvfdwynrqj7h2yvyx24a";
+  vendorSha256 = "04pcq6g0mrxw3fww248axrs0jmj5m464dvfdwynrqj7h2yvyx24a";
 
   buildInputs = [ pkgs.go-bindata ];
   preBuild = ''

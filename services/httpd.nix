@@ -45,7 +45,7 @@ in {
 
   services.httpd = {
     enable = true;
-    multiProcessingModule = "event";
+    mpm = "event";
     maxClients = 500;
     logFormat = "combinedplus";
 
