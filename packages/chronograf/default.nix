@@ -1,11 +1,11 @@
 { pkgs ? import <nixpkgs> {}, lib ? pkgs.lib, buildGoModule ? pkgs.buildGoModule, fetchFromGitHub ? pkgs.fetchFromGitHub }:
 let
-  version = "1.7.12";
+  version = "1.8.4";
   chronografSrc = fetchFromGitHub {
     owner = "influxdata";
     repo = "chronograf";
     rev = version;
-    sha256 = "1p0a67qvx7rhx79kds7l0r6svxs7aq570xzhmahaicmxsrqwxq16";
+    sha256 = "1fmzcvqsvy3ahpwbavsw2qa9v97apfwziyid622v3yi3bsj38jhb";
   };
 
   chronoUi = import ./ui.nix { inherit pkgs version chronografSrc; };
@@ -15,9 +15,9 @@ in buildGoModule rec {
   name = "chronograf-${version}";
   src = chronografSrc;
 
-  vendorSha256 = "04pcq6g0mrxw3fww248axrs0jmj5m464dvfdwynrqj7h2yvyx24a";
+  vendorSha256 = "0dzqsyqpagq75mlpppdg3skbnixaq12g7m2kx4nsgs1zbqh4kqlq";
 
-  natvieBuildInputs = [ pkgs.go-bindata ];
+  nativeBuildInputs = [ pkgs.go-bindata ];
   preBuild = ''
     ln -s ${chronoUi}/build ui/build
     make .bindata
