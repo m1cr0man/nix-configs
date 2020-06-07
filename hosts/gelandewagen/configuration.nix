@@ -11,7 +11,7 @@ in {
       ../../services/ssh.nix
       ../../services/httpd.nix
       ../../services/greendayvm.nix
-      ../../services/minecraft.nix
+      #../../services/minecraft.nix
       ../../services/m1cr0blog.nix
       ../../services/minio.nix
       ../../services/openttd.nix

@@ -27,6 +27,7 @@ in {
 
 	serverProperties = {
       max-players = 8;
+	  view-distance = 14;
 	  difficulty = "normal";
 	  motd = "Manhunter challenge";
 	  enable-rcon = true;
