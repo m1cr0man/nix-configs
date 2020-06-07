@@ -11,7 +11,7 @@ in {
       ../../services/ssh.nix
       ../../services/httpd.nix
       ../../services/greendayvm.nix
-      #../../services/minecraft.nix
+      ../../services/minecraft.nix
       ../../services/m1cr0blog.nix
       ../../services/minio.nix
       ../../services/openttd.nix
@@ -23,7 +23,7 @@ in {
       ../../services/tick/telegraf.nix
       ../../services/tick/kapacitor.nix
       ../../services/tick/chronograf.nix
-      ../../containers/mcadam.nix
+      #../../containers/mcadam.nix
       ../../containers/mcmodded.nix
     ];
 

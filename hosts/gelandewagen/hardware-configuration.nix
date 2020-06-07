@@ -28,6 +28,8 @@ in {
       fsType = "zfs";
     };
 
+  fileSystems."/var/gaming/minecraft" = mountConfig "gaming/minecraft";
+
   fileSystems."/var/gaming/mcadam" = mountConfig "gaming/mcadam";
 
   fileSystems."/var/gaming/mccraig" = mountConfig "gaming/mccraig";
