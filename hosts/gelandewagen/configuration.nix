@@ -23,7 +23,7 @@ in {
       ../../services/tick/telegraf.nix
       ../../services/tick/kapacitor.nix
       ../../services/tick/chronograf.nix
-      #../../containers/mcadam.nix
+      ../../containers/mcadam.nix
       ../../containers/mcmodded.nix
     ];
 
