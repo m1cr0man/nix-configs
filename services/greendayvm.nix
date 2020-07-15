@@ -29,11 +29,12 @@ in {
     preStart = ''
       if ! test -e /sys/class/net/${tap}; then
         ${ip} l add name ${tap} link eth0 type macvtap mode bridge
-        ${ip} l set dev ${tap} addr ${mac}
-        ${ip} l set ${tap} up
       fi
+      ${ip} l set dev ${tap} addr ${mac}
+      ${ip} l set ${tap} up
     '';
     preStop = "${pkgs.socat}/bin/socat - unix-connect:/var/run/greendayvm.sock <(echo system_powerdown) && ${pkgs.coreutils}/bin/tail --pid=$MAINPID -f /dev/null";
+    restartIfChanged = false;
 
     serviceConfig = {
       RestartSec = 10;
