@@ -11,9 +11,9 @@ in {
     region = "EU";
   };
 
-  security.acme.certs."m1cr0man.com".extraDomains."s3.m1cr0man.com" = null;
+  security.acme.certs."m1cr0man.com".extraDomainNames = [ "s3.m1cr0man.com" ];
   services.httpd.virtualHosts."s3.m1cr0man.com" = {
-    onlySSL = true;
+    forceSSL = true;
     useACMEHost = "m1cr0man.com";
     extraConfig = "ProxyPass / http://127.0.0.1:9000/";
   };

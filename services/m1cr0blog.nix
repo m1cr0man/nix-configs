@@ -25,16 +25,15 @@ in {
     };
   };
 
-  security.acme.certs."m1cr0man.com".extraDomains."www.m1cr0man.com" = null;
-  security.acme.certs."m1cr0man.com".extraDomains."u.m1cr0man.com" = null;
   services.httpd.virtualHosts."m1cr0man.com" = {
-    onlySSL = true;
-    useACMEHost = "m1cr0man.com";
+    forceSSL = true;
+    enableACME = true;
     serverAliases = [ "www.m1cr0man.com" ];
     extraConfig = "ProxyPass / http://127.0.0.1:3000/";
   };
+  security.acme.certs."m1cr0man.com".extraDomainNames = ["u.m1cr0man.com" ];
   services.httpd.virtualHosts."u.m1cr0man.com" = {
-    onlySSL = true;
+    forceSSL = true;
     useACMEHost = "m1cr0man.com";
     extraConfig = ''
       RewriteEngine On

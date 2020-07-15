@@ -1,36 +1,10 @@
 { config, pkgs, ... }:
 let
   secrets = import ../common/secrets.nix;
-
-  webrootDir = "/var/lib/acme/.webroot";
-
-  acmeCert = {
-    email = "lucas+acme@m1cr0man.com";
-    webroot = webrootDir;
-    postRun = "systemctl reload httpd.service";
-  };
-
-  acmeVhost = domain: {
-      serverAliases = [ domain "*.${domain}" ];
-      servedDirs = [{
-        urlPath = "/.well-known/acme-challenge";
-        dir = "${webrootDir}/.well-known/acme-challenge";
-      }];
-
-      extraConfig = ''
-        RewriteEngine On
-        RewriteCond %{HTTPS} off
-        RewriteCond %{REQUEST_URI} !^/\.well-known/.*$ [NC]
-        RewriteCond %{REQUEST_URI} !^/\.server-status/?$ [NC]
-        RewriteCond %{REQUEST_URI} !^/error/.*\.html\.var$ [NC]
-        RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301]
-      '';
-    };
 in {
   security.acme.acceptTerms = true;
-  security.acme.certs = {
-    "m1cr0man.com" = acmeCert;
-  };
+  security.acme.email = "lucas+acme@m1cr0man.com";
+  # security.acme.server = "https://acme-staging-v02.api.letsencrypt.org/directory";
 
   # Allow telegraf to read logs
   systemd.tmpfiles.rules = [
@@ -38,9 +12,11 @@ in {
   ];
 
   # Clear log file regularly since telegraf streams it
+  # Also reload httpd to pick up new certs
   services.cron.systemCronJobs = [
     "0 4 * * * echo Log cleared by cron script > ${config.services.httpd.logDir}/access.log"
     "0 4 * * * echo Log cleared by cron script > ${config.services.httpd.logDir}/error.log"
+    "0 6 * * 0 systemctl reload httpd.service"
   ];
 
   services.httpd = {
@@ -64,9 +40,6 @@ in {
         </RequireAny>
       </Location>
     '';
-
-    virtualHosts."certs.m1cr0man.com" = acmeVhost "m1cr0man.com";
-    virtualHosts."certs.cragglerock.cf" = acmeVhost "cragglerock.cf";
 
     adminAddr = "lucas+httpd@m1cr0man.com";
 

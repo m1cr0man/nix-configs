@@ -4,16 +4,15 @@ let
 in {
 
   # Homepage and Dynmap setup
-  security.acme.certs."m1cr0man.com".extraDomains."${serverURL}" = null;
-  security.acme.certs."m1cr0man.com".extraDomains."dynmap.${serverURL}" = null;
+  security.acme.certs."m1cr0man.com".extraDomainNames = [ "${serverURL}" "dynmap.${serverURL}" ];
 
   services.httpd.virtualHosts."${serverURL}" = {
-    onlySSL = true;
+    forceSSL = true;
     useACMEHost = "m1cr0man.com";
     documentRoot = "/var/gaming/mcmodded/www";
   };
   services.httpd.virtualHosts."dynmap.${serverURL}" = {
-    onlySSL = true;
+    forceSSL = true;
     useACMEHost = "m1cr0man.com";
     extraConfig = "ProxyPass / http://127.0.0.1:8124/";
   };

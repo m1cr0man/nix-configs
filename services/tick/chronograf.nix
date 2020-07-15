@@ -24,9 +24,9 @@ in {
     };
   };
 
-  security.acme.certs."m1cr0man.com".extraDomains."${vhost}" = null;
+  security.acme.certs."m1cr0man.com".extraDomainNames = [ vhost ];
   services.httpd.virtualHosts."${vhost}" = {
-    onlySSL = true;
+    forceSSL = true;
     useACMEHost = "m1cr0man.com";
     extraConfig = ''
       <Proxy *>
