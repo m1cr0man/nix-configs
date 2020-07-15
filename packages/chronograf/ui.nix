@@ -1,37 +1,37 @@
-{ pkgs ? import <nixpkgs> {}, version ? null, chronografSrc ? null }:
-let
-  yarn2nix = import (pkgs.fetchFromGitHub {
-    owner = "moretea";
-    repo = "yarn2nix";
-    rev = "3f2dbb08724bf8841609f932bfe1d61a78277232";
-    sha256 = "142av7dwviapsnahgj8r6779gs2zr17achzhr8b97s0hsl08dcl2";
-  }) {inherit pkgs;};
-
-in yarn2nix.mkYarnPackage rec {
+{ pkgs ? import <nixpkgs> {}, nodejs ? pkgs.nodejs, version ? "1.8.5", fetchFromGitHub ? pkgs.fetchFromGitHub, chronografSrc ? fetchFromGitHub {
+  owner = "m1cr0man";
+  repo = "chronograf";
+  rev = "d177306267d8c4e61800c15723a5ca755445a4bc";
+  sha256 = "0agsr249lx2m451897r586d3ypjz8md30pp545mnprqx535v697q";
+}
+}:
+(pkgs.yarn2nix-moretea.mkYarnPackage {
+  inherit nodejs;
   name = "chronograf-ui";
   src = chronografSrc + "/ui";
-  packageJSON = chronografSrc + "/ui/package.json";
-  yarnLock = chronografSrc + "/ui/yarn.lock";
-  extraBuildInputs = with pkgs; [ python pkgconfig ];
-  dontCopyDist = true;
-  configurePhase = ''
-    # Use this when pkgs.libsass is compatible with the version node-sass wants
-    # export LIBSASS_EXT=auto
 
-    # Link node-modules but make node-sass writable
-    mkdir node_modules
-    for f in $node_modules/* $node_modules/.[0-9a-z]*; do ln -s $f node_modules/; done
-    rm node_modules/node-sass
-    cp -ar $node_modules/node-sass node_modules/
-    chmod -R +w node_modules/node-sass
-
-    # Rebuild node-sass since it has native dependencies
-    npm rebuild node-sass --no-update-notifier --nodedir=${pkgs.nodejs} -j max --silent
-    PARCEL_WORKERS=4 npx parcel build -d build --no-source-maps --no-cache --public-url "" --log-level 2 src/index.html
+  postConfigure = ''
+    cd deps/chronograf-ui
+    PARCEL_WORKERS=4 npx parcel build -d build --no-source-maps --no-cache --public-url "" --log-level 3 src/index.html
   '';
+
   installPhase = ''
     mkdir -p $out
     mv build $out/build
   '';
+
   distPhase = "true";
-}
+  dontCopyDist = true;
+
+  pkgConfig = {
+    node-sass = {
+      buildInputs = [ pkgs.python ];
+      preInstall = ''
+        ${nodejs}/lib/node_modules/npm/bin/node-gyp-bin/node-gyp --nodedir ${nodejs} configure
+        ${nodejs}/lib/node_modules/npm/bin/node-gyp-bin/node-gyp --nodedir ${nodejs} build
+        mkdir -p vendor/linux-x64-72
+        mv build/Release/binding.node vendor/linux-x64-72/binding.node
+      '';
+    };
+  };
+})
