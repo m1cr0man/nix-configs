@@ -27,11 +27,7 @@ in {
       isReadOnly = false;
       mountPoint = "/minecraft";
     };
-  };
-
-  containers.${containerName}.config =
-    { config, pkgs, ... }:
-    {
+    config = { config, pkgs, ... }: {
       nixpkgs.config.allowUnfree = true;
       systemd.services.minecraft-server.serviceConfig.CPUShares = 768;
       systemd.services.minecraft-server.serviceConfig.MemoryLimit = "14G";
@@ -67,4 +63,5 @@ in {
         openFirewall = true;
       };
     };
+  };
 }
