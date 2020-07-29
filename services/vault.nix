@@ -1,13 +1,17 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 let
   certPath = config.security.acme.certs."m1cr0man.com".directory;
 in {
   services.vault = {
     enable = true;
+    package = pkgs.vault-bin;
     storageBackend = "file";
     storagePath = "/var/secure/vault";
     tlsCertFile = "${certPath}/fullchain.pem";
     tlsKeyFile = "${certPath}/key.pem";
+    extraConfig = ''
+      ui = true
+    '';
   };
 
   systemd.services.vault.requires = [ "var-secure-vault.mount" ];
