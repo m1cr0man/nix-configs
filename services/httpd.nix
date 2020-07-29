@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 let
   secrets = import ../common/secrets.nix;
 in {
@@ -46,6 +46,9 @@ in {
     # Only acme certs and status are accessible via port 80,
     # everything else is explicitly upgraded to https
   };
+
+  security.acme.certs."m1cr0man.com".group = lib.mkForce "acme";
+  users.users.wwwrun.extraGroups = [ "acme" ];
 
   networking.firewall.allowedTCPPorts = [ 80 443 ];
 }

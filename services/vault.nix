@@ -21,6 +21,9 @@ in {
   services.httpd.virtualHosts."vault.m1cr0man.com" = {
     forceSSL = true;
     useACMEHost = "m1cr0man.com";
-    extraConfig = "ProxyPass / https://vault.m1cr0man.com:8200/";
+    extraConfig = ''
+      SSLProxyEngine on
+      ProxyPass / https://vault.m1cr0man.com:8200/
+    '';
   };
 }
