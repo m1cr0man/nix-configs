@@ -1,5 +1,5 @@
 let
-  serverURL = "itswesty.m1cr0man.com";
+  serverURL = "mcwesty.m1cr0man.com";
   gameRoot = "/var/gaming/minecraft/westy";
   containerName = "mcwesty";
 in {
