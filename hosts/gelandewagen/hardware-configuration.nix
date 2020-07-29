@@ -60,6 +60,8 @@ in {
 
   fileSystems."/var/secure/git" = mountConfig "secure/git";
 
+  fileSystems."/var/secure/vault" = mountConfig "secure/vault";
+
   swapDevices = [
     { device = "/dev/disk/by-uuid/3fb7701e-18a8-4a64-b183-29431615525c"; priority = 100; }
     { device = "/dev/disk/by-uuid/ad08597b-d163-4508-9b60-8f51429d7c52"; priority = 100; }
