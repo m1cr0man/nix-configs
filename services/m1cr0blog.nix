@@ -48,6 +48,6 @@ in {
   services.httpd.virtualHosts."dev.m1cr0man.com" = {
     forceSSL = true;
     useACMEHost = "m1cr0man.com";
-    documentRoot = "/opt/generic/m1cr0blog_dev";
+    documentRoot = "/opt/generic/m1cr0blog_dev/dist";
   };
 }
