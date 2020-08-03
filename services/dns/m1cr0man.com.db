@@ -56,6 +56,7 @@ dynmap.mcmodded			IN	CNAME	mcmodded
 www				IN	CNAME	m1cr0man.com.
 s3				IN	CNAME	m1cr0man.com.
 u				IN	CNAME	m1cr0man.com.
+dev				IN	CNAME	m1cr0man.com.
 vault				IN	CNAME	m1cr0man.com.
 chronograf			IN	CNAME	m1cr0man.com.
 breogan				IN	CNAME	m1cr0man.com.

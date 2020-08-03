@@ -31,7 +31,9 @@ in {
     serverAliases = [ "www.m1cr0man.com" ];
     extraConfig = "ProxyPass / http://127.0.0.1:3000/";
   };
-  security.acme.certs."m1cr0man.com".extraDomainNames = ["u.m1cr0man.com" ];
+
+  security.acme.certs."m1cr0man.com".extraDomainNames = ["u.m1cr0man.com" "dev.m1cr0man.com" ];
+
   services.httpd.virtualHosts."u.m1cr0man.com" = {
     forceSSL = true;
     useACMEHost = "m1cr0man.com";
@@ -41,5 +43,11 @@ in {
       ProxyPassMatch ^/([a-zA-Z0-9]+)/([a-zA-Z0-9]+)/?$ http://127.0.0.1:3000/upload/$1/$2
       ProxyPass / http://127.0.0.1:3000/
     '';
+  };
+
+  services.httpd.virtualHosts."dev.m1cr0man.com" = {
+    forceSSL = true;
+    useACMEHost = "m1cr0man.com";
+    documentRoot = "/opt/generic/m1cr0blog_dev";
   };
 }
