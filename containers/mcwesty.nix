@@ -58,7 +58,7 @@ in {
 
         declarative = false;
 
-        jvmOpts = "-server -Xmx12G -Xms12G -XX:+UseConcMarkSweepGC -Dsun.rmi.dgc.server.gcInterval=2147483646 -XX:+UnlockExperimentalVMOptions -XX:MaxGCPauseMillis=50 -Dfml.queryResult=confirm";
+        jvmOpts = "-server -Xmx6G -Xms6G -XX:+UseConcMarkSweepGC -Dsun.rmi.dgc.server.gcInterval=2147483646 -XX:+UnlockExperimentalVMOptions -XX:MaxGCPauseMillis=50 -Dfml.queryResult=confirm";
 
         openFirewall = true;
       };

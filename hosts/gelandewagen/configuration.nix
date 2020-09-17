@@ -24,7 +24,7 @@ in {
       ../../services/tick/kapacitor.nix
       ../../services/tick/chronograf.nix
       ../../services/vault.nix
-      # ../../containers/mcadam.nix
+      ../../containers/mcaaron.nix
       ../../containers/mcwesty.nix
     ];
 
