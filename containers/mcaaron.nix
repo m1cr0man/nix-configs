@@ -46,8 +46,8 @@ in {
         eula = true;
 
         package = pkgs.minecraft-server.overrideAttrs (oldAttrs: {
-          name = "minecraft-server-1.16.2.paper";
-          version = "1.16.2.paper";
+          name = "minecraft-server-1.16.3.paper";
+          version = "1.16.3.paper";
           src = pkgs.fetchurl {
             url = "https://papermc.io/api/v1/paper/1.16.3/197/download";
             sha256 = "0j42wmy12p0fb1g2m1xmhmp9rk7pjw0xzxh55issw9439hwwilhr";
