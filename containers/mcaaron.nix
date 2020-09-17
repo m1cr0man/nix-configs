@@ -4,7 +4,7 @@ in {
   containers.mcaaron = {
     autoStart = true;
     bindMounts."/mcaaron" = {
-      hostPath = "/var/gaming/minecraft/adam";
+      hostPath = "/var/gaming/minecraft/aaron";
       isReadOnly = false;
       mountPoint = "/mcaaron";
     };

@@ -30,8 +30,6 @@ in {
 
   fileSystems."/var/gaming/minecraft" = mountConfig "gaming/minecraft";
 
-  fileSystems."/var/gaming/mcaaron" = mountConfig "gaming/mcaaron";
-
   fileSystems."/var/gaming/mcadam" = mountConfig "gaming/mcadam";
 
   fileSystems."/var/gaming/mccraig" = mountConfig "gaming/mccraig";
