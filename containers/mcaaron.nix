@@ -46,11 +46,11 @@ in {
         eula = true;
 
         package = pkgs.minecraft-server.overrideAttrs (oldAttrs: {
-          name = "minecraft-server-1.16.3.paper";
-          version = "1.16.3.paper";
+          name = "minecraft-server-1.16.3";
+          version = "1.16.3";
           src = pkgs.fetchurl {
-            url = "https://papermc.io/api/v1/paper/1.16.3/197/download";
-            sha256 = "0j42wmy12p0fb1g2m1xmhmp9rk7pjw0xzxh55issw9439hwwilhr";
+            url = "https://launcher.mojang.com/v1/objects/f02f4473dbf152c23d7d484952121db0b36698cb/server.jar";
+            sha256 = "0nxdyw23037cr9cfcsfq1cvpy75am5dzmbgvvh3fq6h89kkm1r1j";
           };
         });
 
