@@ -1,6 +1,7 @@
 let
-  serverURL = "mcmodded.cragglerock.cf";
+  serverURL = "mcmodded.m1cr0man.com";
   secrets = import ../common/secrets.nix;
+  hostPath = "/var/gaming/minecraft/modded";
 in {
 
   # Homepage and Dynmap setup
@@ -9,7 +10,7 @@ in {
   services.httpd.virtualHosts."${serverURL}" = {
     forceSSL = true;
     useACMEHost = "m1cr0man.com";
-    documentRoot = "/var/gaming/mcmodded/www";
+    documentRoot = "${hostPath}/www";
   };
   services.httpd.virtualHosts."dynmap.${serverURL}" = {
     forceSSL = true;
@@ -20,7 +21,7 @@ in {
   containers.mcmodded = {
     autoStart = true;
     bindMounts."/mcmodded" = {
-      hostPath = "/var/gaming/mcmodded";
+      inherit hostPath;
       isReadOnly = false;
       mountPoint = "/mcmodded";
     };

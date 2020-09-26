@@ -24,8 +24,7 @@ in {
       ../../services/tick/kapacitor.nix
       ../../services/tick/chronograf.nix
       ../../services/vault.nix
-      ../../containers/mcaaron.nix
-      ../../containers/mcwesty.nix
+      ../../containers/mcmodded.nix
     ];
 
   system.stateVersion = "20.03";
