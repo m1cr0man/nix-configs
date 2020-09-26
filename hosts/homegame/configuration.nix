@@ -13,7 +13,7 @@ in {
 
   system.stateVersion = "21.03";
 
-  boot.kernelParams = [ "intel_iommu=on" "iommu=pt" "video=efifb:off" "earlymodules=vfio-pci" ];
+  boot.kernelParams = [ "intel_iommu=on" "iommu=pt" "video=efifb:off" ];
   boot.loader.efi = {
     efiSysMountPoint = "/boot";
     canTouchEfiVariables = true;
@@ -33,7 +33,16 @@ in {
     }];
     defaultGateway = "192.168.14.254";
     nameservers = [ "192.168.14.254" "1.1.1.1" ];
+    wireless.enable = true;
   };
+
+  users.users.lucas = {
+    home = "/home/lucas";
+    shell = pkgs.bashInteractive;
+    group = "lucas";
+    extraGroups = [ "wheel" ];
+  };
+  users.groups.lucas = {};
 
   # Enable KSM because the MC servers share a lot of data
   hardware.ksm.enable = true;
