@@ -54,18 +54,16 @@ in {
       preferred master = yes
       os level = 4
       auto services = global
-      server role = standalone server
+      server role = standalone
       wins support = no
       dns proxy = no
       hostname lookups = no
-      name resolve order = lmhosts bcast host wins
+      name resolve order = lmhosts wins bcast host
 
       passdb backend = tdbsam
-      encrypt passwords = yes
       client use spnego = no
-      max protocol = default
+      max protocol = SMB3_11
       min protocol = NT1
-      server signing = no
 
       getwd cache = yes
       strict sync = no
