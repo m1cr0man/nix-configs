@@ -43,6 +43,13 @@
   fileSystems."/zgaming/steam/adam" =
     { device = "zgaming/steam/adam";
       fsType = "zfs";
+      options = [ "nofail" ];
+    };
+
+  fileSystems."/zgaming/steam/lucas" =
+    { device = "zgaming/steam/lucas";
+      fsType = "zfs";
+      options = [ "nofail" ];
     };
 
   fileSystems."/zgaming/steam/master" =
