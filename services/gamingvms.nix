@@ -82,8 +82,8 @@ in {
       "-device usb-host,bus=usb0.0,hostbus=4,hostport=1.2"
       "-blockdev node-name=data-disk-1,driver=host_device,filename=/dev/disk/by-id/ata-WDC_WD10EZEX-22RKKA0_WD-WCC1S3302032,aio=native,cache.direct=on"
       "-blockdev node-name=data-disk-2,driver=host_device,filename=/dev/disk/by-id/ata-WDC_WD10EZEX-00RKKA0_WD-WCC1S4247936,aio=native,cache.direct=on"
-      "-device virtio-blk-pci,drive=data-disk-1,bootindex=1,id=virtio-disk1,bus=rp0,addr=00.6"
-      "-device virtio-blk-pci,drive=data-disk-2,bootindex=1,id=virtio-disk2,bus=rp0,addr=00.7"
+      "-device virtio-blk-pci,drive=data-disk-1,bootindex=2,id=virtio-disk1,bus=rp0,addr=00.6"
+      "-device virtio-blk-pci,drive=data-disk-2,bootindex=3,id=virtio-disk2,bus=rp0,addr=00.7"
     ];
   };
   systemd.services.adamvm = mkVm {
