@@ -96,7 +96,7 @@ in {
       "-device vfio-pci,host=0000:04:00.1,id=hostdevgpuhda,bus=rp1,addr=00.1"
       "-device usb-host,bus=xhci0.0,vendorid=0x1532,productid=0x0109"
       "-device usb-host,bus=xhci0.0,vendorid=0x04f3,productid=0x02f0"
-      "-device usb-host,bus=xhci0.0,vendorid=0x10f5,productid=0x0292"
+      "-device usb-host,bus=usb0.0,vendorid=0x10f5,productid=0x0292"
       "-device usb-host,bus=usb0.0,hostbus=4,hostport=1.1"
     ];
   };
