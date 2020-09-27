@@ -12,13 +12,12 @@
 
   # Fixes buggy loading of the Renesas USB3 controller
   boot.initrd.preDeviceCommands = ''
-      rmmod xhci_pci
-      rmmod xhci_hcd
-      echo 1 > '/sys/bus/pci/devices/0000:02:00.0/reset'
-      modprobe xhci_hcd
-      modprobe xhci_pci
-    '';
-  };
+    rmmod xhci_pci
+    rmmod xhci_hcd
+    echo 1 > '/sys/bus/pci/devices/0000:02:00.0/reset'
+    modprobe xhci_hcd
+    modprobe xhci_pci
+  '';
 
   fileSystems."/" =
     { device = "zroot/nixos";
