@@ -6,9 +6,4 @@
     options vfio_iommu_type1 allow_unsafe_interrupts=1
   '';
   # options kvm ignore_msrs=1
-
-  virtualisation.libvirtd = {
-    enable = true;
-    qemuOvmf = true;
-  };
 }

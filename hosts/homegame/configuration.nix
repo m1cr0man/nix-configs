@@ -9,6 +9,7 @@ in {
       ./vfio.nix
       ../../common/sysconfig.nix
       ../../services/ssh.nix
+      ../../services/gamingvms.nix
     ];
 
   system.stateVersion = "21.03";
@@ -28,7 +29,7 @@ in {
 
     usePredictableInterfaceNames = false;
     interfaces.eth0.ipv4.addresses = [{
-      address = "192.168.14.12";
+      address = "192.168.14.3";
       prefixLength = 24;
     }];
     defaultGateway = "192.168.14.254";
