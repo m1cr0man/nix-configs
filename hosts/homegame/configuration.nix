@@ -6,7 +6,6 @@ in {
   imports =
     [
       ./hardware-configuration.nix
-      ./usbfix.nix
       ./vfio.nix
       ../../common/sysconfig.nix
       ../../services/ssh.nix
