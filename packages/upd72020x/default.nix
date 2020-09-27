@@ -3,7 +3,10 @@ let
   firmware = pkgs.requireFile {
     name = "K2026.mem";
     sha256 = "15sgcfr80ayf6rvjv8z8b77hwhrnh0s84w5i6q408gf74k160x8p";
-    message = "Need firmware for USB controller";
+    message = ''
+      Need firmware for USB controller (K2026.mem)
+      Add it to the store with nix-store --add-fixed sha256 K2026.mem
+    '';
   };
 
 in pkgs.stdenv.mkDerivation {
