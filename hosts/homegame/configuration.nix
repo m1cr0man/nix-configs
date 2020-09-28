@@ -34,7 +34,6 @@ in {
     }];
     defaultGateway = "192.168.14.254";
     nameservers = [ "192.168.14.254" "1.1.1.1" ];
-    wireless.enable = true;
   };
 
   users.users.lucas = {

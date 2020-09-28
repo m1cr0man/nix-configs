@@ -8,7 +8,9 @@ in {
     description = "Greenday's VM";
     after = [ "network.target" "zfs-import.target" ];
     wantedBy = [ "multi-user.target" ];
-        script = ''
+    restartIfChanged = false;
+
+    script = ''
 		${pkgs.qemu}/bin/qemu-system-x86_64 -enable-kvm \
 		  -machine q35 \
 		  -cpu host -smp 2,cores=1,threads=2,sockets=1,maxcpus=2 -m 4G \
@@ -33,8 +35,11 @@ in {
       ${ip} l set dev ${tap} addr ${mac}
       ${ip} l set ${tap} up
     '';
-    preStop = "${pkgs.socat}/bin/socat - unix-connect:/var/run/greendayvm.sock <(echo system_powerdown) && ${pkgs.coreutils}/bin/tail --pid=$MAINPID -f /dev/null";
-    restartIfChanged = false;
+
+    preStop = ''
+      echo system_powerdown | ${pkgs.socat}/bin/socat - unix-connect:/var/run/greendayvm.sock
+      ${pkgs.coreutils}/bin/tail --pid=$MAINPID -f /dev/null
+    '';
 
     serviceConfig = {
       RestartSec = 10;
