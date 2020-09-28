@@ -16,7 +16,7 @@ let
   in {
     description = "VM for ${name}";
     after = [ "network.target" "zfs-import.target" ];
-    # wantedBy = [ "multi-user.target" ];
+    wantedBy = [ "multi-user.target" ];
     restartIfChanged = false;
 
     serviceConfig = {
