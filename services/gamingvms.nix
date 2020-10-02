@@ -77,16 +77,18 @@ in {
     mac = "52:54:00:e2:d6:77";
     extraArgs = [
       "-device vfio-pci,host=0000:07:00.0,id=hostdevxfi,bus=rp0,addr=00.5"
-      "-device vfio-pci,host=0000:03:00.0,id=hostdevgpu,romfile=/root/GM204-new-patched.rom,multifunction=on,x-vga=on,bus=rp1,addr=00.0"
-      "-device vfio-pci,host=0000:03:00.1,id=hostdevgpuhda,bus=rp1,addr=00.1"
+      "-device vfio-pci,host=0000:04:00.0,id=hostdevgpu,romfile=/root/GM204-new-patched.rom,multifunction=on,x-vga=on,bus=rp1,addr=00.0"
+      "-device vfio-pci,host=0000:04:00.1,id=hostdevgpuhda,bus=rp1,addr=00.1"
       "-device usb-host,bus=xhci0.0,vendorid=0x10f5,productid=0x0292"
       "-device usb-host,bus=xhci0.0,vendorid=0x12cf,productid=0x0170"
       "-device usb-host,bus=xhci0.0,vendorid=0x13ba,productid=0x0018"
       "-device usb-host,bus=usb0.0,hostbus=4,hostport=1.2"
       "-blockdev node-name=data-disk-1,driver=host_device,filename=/dev/disk/by-id/ata-WDC_WD10EZEX-22RKKA0_WD-WCC1S3302032,aio=native,cache.direct=on"
       "-blockdev node-name=data-disk-2,driver=host_device,filename=/dev/disk/by-id/ata-WDC_WD10EZEX-00RKKA0_WD-WCC1S4247936,aio=native,cache.direct=on"
+      "-blockdev node-name=data-disk-3,driver=host_device,filename=/dev/disk/by-id/ata-Samsung_SSD_840_EVO_120GB_S1D5NSAF155528M,aio=native,cache.direct=on"
       "-device virtio-blk-pci,drive=data-disk-1,bootindex=2,id=virtio-disk1,bus=rp0,addr=00.6"
       "-device virtio-blk-pci,drive=data-disk-2,bootindex=3,id=virtio-disk2,bus=rp0,addr=00.7"
+      "-device virtio-blk-pci,drive=data-disk-3,bootindex=4,id=virtio-disk3,bus=rp1,addr=00.2"
     ];
   };
   systemd.services.adamvm = mkVm {
@@ -95,8 +97,8 @@ in {
     mac = "52:54:00:e2:d6:78";
     extraArgs = [
       "-device vfio-pci,host=0000:00:1b.0,id=hostdevhda,bus=rp0,addr=00.5"
-      "-device vfio-pci,host=0000:04:00.0,id=hostdevgpu,romfile=/root/GM204-new-patched.rom,multifunction=on,x-vga=on,bus=rp1,addr=00.0"
-      "-device vfio-pci,host=0000:04:00.1,id=hostdevgpuhda,bus=rp1,addr=00.1"
+      "-device vfio-pci,host=0000:03:00.0,id=hostdevgpu,romfile=/root/GM204-new-patched.rom,multifunction=on,x-vga=on,bus=rp1,addr=00.0"
+      "-device vfio-pci,host=0000:03:00.1,id=hostdevgpuhda,bus=rp1,addr=00.1"
       "-device usb-host,bus=xhci0.0,vendorid=0x1532,productid=0x0109"
       "-device usb-host,bus=xhci0.0,vendorid=0x04f3,productid=0x02f0"
       "-device usb-host,bus=xhci0.0,vendorid=0x0951,productid=0x16a4"
