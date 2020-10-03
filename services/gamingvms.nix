@@ -28,21 +28,24 @@ let
     script = ''${pkgs.qemu}/bin/qemu-system-x86_64 \
       -name guest=win10-${name} \
       -sandbox on,obsolete=deny,elevateprivileges=deny,spawn=deny,resourcecontrol=deny \
-      -machine pc-q35-5.1,mem-merge=on,pflash0=pflash0-blkdev,pflash1=pflash1-blkdev \
+      -machine pc-q35-5.1,mem-merge=on,usb=off,vmport=off,pflash0=pflash0-blkdev,pflash1=pflash1-blkdev \
       -accel kvm,kernel-irqchip=on \
-      -cpu host,hv_passthrough,hv_vendor_id=m1cr0man,-vmx,kvm=off \
+      -cpu host,invtsc=off,hypervisor=off,hv_passthrough,hv_vendor_id=m1cr0man,host-cache-info=on,l3-cache=off,kvm=off,vmx=off \
       -smp 6,sockets=1,cores=3,threads=2,maxcpus=6 \
+      -boot menu=on \
       -m 12288 \
       -overcommit mem-lock=off \
-      -rtc base=localtime,driftfix=slew \
+      -rtc base=localtime,clock=vm,driftfix=slew \
       -global kvm-pit.lost_tick_policy=delay \
-      -no-hpet \
       -monitor unix:${monitorSocket},server,nowait \
       -monitor stdio \
       -nodefaults \
       -display none \
       -vga none \
       -netdev tap,fd=7,id=hostnet0 \
+      -blockdev node-name=bootiso,driver=file,filename=/root/Win10.2004.all.iso,read-only=on \
+      -blockdev node-name=bootiso-format,driver=raw,file=bootiso,read-only=on \
+      -device ide-cd,bus=ide.0,drive=bootiso-format,id=sata0-0-0 \
       -blockdev node-name=os-storage,driver=host_device,filename=/dev/zvol/zroot/vms/windows-${name},discard=unmap,aio=native,cache.direct=on \
       -blockdev node-name=pflash0-blkdev,driver=file,filename=${ovmf}/OVMF_CODE.fd,read-only=on \
       -blockdev node-name=pflash1-blkdev,driver=file,filename=${ovmf}/OVMF_VARS.fd,read-only=on \
@@ -52,7 +55,8 @@ let
       -device virtio-net,netdev=hostnet0,id=net0,mac=${mac},bus=rp0,addr=00.1 \
       -device virtio-blk-pci,drive=os-storage,bootindex=1,id=virtio-disk0,bus=rp0,addr=00.2 \
       -device ich9-usb-ehci1,id=usb0,multifunction=on,bus=rp0,addr=00.3 \
-      -device virtio-balloon-pci,id=balloon0,bus=rp0,addr=00.4 \
+      -spice port=5900,addr=127.0.0.1,disable-ticketing,seamless-migration=on \
+      -device qxl-vga,id=video0,ram_size=67108864,vram_size=67108864,vram64_size_mb=0,vgamem_mb=16,max_outputs=1,bus=pcie.0,addr=0x3 \
       ${builtins.concatStringsSep " " extraArgs} \
       7<>/dev/tap$(< /sys/class/net/${tap}/ifindex)
     '';
@@ -66,7 +70,7 @@ let
     '';
 
     preStop = ''
-      echo system_powerdown | ${pkgs.socat}/bin/socat - unix-connect:${monitorSocket}
+      echo -e 'system_powerdown\nsystem_powerdown' | ${pkgs.socat}/bin/socat - unix-connect:${monitorSocket}
       ${pkgs.coreutils}/bin/tail --pid=$MAINPID -f /dev/null
     '';
   };
@@ -77,8 +81,6 @@ in {
     mac = "52:54:00:e2:d6:77";
     extraArgs = [
       "-device vfio-pci,host=0000:07:00.0,id=hostdevxfi,bus=rp0,addr=00.5"
-      "-device vfio-pci,host=0000:04:00.0,id=hostdevgpu,romfile=/root/GM204-new-patched.rom,multifunction=on,x-vga=on,bus=rp1,addr=00.0"
-      "-device vfio-pci,host=0000:04:00.1,id=hostdevgpuhda,bus=rp1,addr=00.1"
       "-device usb-host,bus=xhci0.0,vendorid=0x10f5,productid=0x0292"
       "-device usb-host,bus=xhci0.0,vendorid=0x12cf,productid=0x0170"
       "-device usb-host,bus=xhci0.0,vendorid=0x13ba,productid=0x0018"
