@@ -35,7 +35,10 @@
     forceImportRoot = true;
     forceImportAll = false;
   };
-  services.zfs.autoScrub.enable = true;
+  services.zfs.autoScrub = {
+    enable = true;
+    interval = "monthly";
+  };
   services.zfs.autoSnapshot = {
     enable = true;
     frequent = 8;
