@@ -8,6 +8,7 @@ in {
       ./hardware-configuration.nix
       ../../common/sysconfig.nix
       ../../services/ssh.nix
+      ../../services/nfsnetboot.nix
     ];
 
   system.stateVersion = "21.03";

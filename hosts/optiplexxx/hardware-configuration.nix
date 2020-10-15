@@ -25,6 +25,19 @@
       fsType = "zfs";
     };
 
+  # Make sure nix_store has acltype=off to make sure this works.
+  fileSystems."/exports/netboot/nix_store" =
+    { device = "zroot/nix_store@netboot";
+      fsType = "zfs";
+      options = [ "ro" "nofail" "noacl" ];
+    };
+
+  fileSystems."/exports/netboot/homes" =
+    { device = "zroot/netboot/homes";
+      fsType = "zfs";
+      options = [ "nofail" ];
+    };
+
   swapDevices =[
     { device = "/dev/disk/by-partuuid/adc0f5a6-ff72-4bae-8b7f-f20702e3846a"; }
   ];
