@@ -7,8 +7,10 @@ in {
     [
       ./hardware-configuration.nix
       ../../common/sysconfig.nix
+      ../../common/zfs.nix
       ../../services/dns
       ../../services/ssh.nix
+      ../../services/ssh-initrd.nix
       ../../services/httpd.nix
       ../../services/greendayvm.nix
       #../../services/minecraft.nix
@@ -32,6 +34,14 @@ in {
     devices = [ "/dev/sda" "/dev/sdb" ];
   };
 
+  # Unlock ZFS during boot
+  boot.initrd.network.postCommands = ''
+    echo 'zfs load-key -a && killall zfs' >> /root/.profile
+  '';
+
+  # Reset network after unlock
+  m1cr0man.resetNetworkAfterInitrd = true;
+
   networking = {
     hostId = "4cdf6f98";
     hostName = "gelandewagen";
@@ -46,6 +56,10 @@ in {
     nameservers = [ "213.133.98.98" "1.1.1.1" ];
     hosts."136.206.15.3" = [ "irc.redbrick.dcu.ie" ];
   };
+
+  # Enable rsyslog
+  services.rsyslogd.enable = true;
+  services.rsyslogd.extraConfig = "*.* @127.0.0.1:6514;RSYSLOG_SyslogProtocol23Format";
 
   virtualisation.docker.enable = true;
   virtualisation.docker.listenOptions = [ "/var/run/docker.sock" "0.0.0.0:2375" ];
@@ -86,9 +100,4 @@ in {
 
   networking.firewall.allowedTCPPorts = [ 27015 26900 1802 ];
   networking.firewall.allowedUDPPorts = [ 26900 26901 26902 27005 27015 27020 ];
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
 }

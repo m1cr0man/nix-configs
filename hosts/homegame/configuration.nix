@@ -11,6 +11,7 @@ in {
     [
       ./hardware-configuration.nix
       ../../common/sysconfig.nix
+      ../../common/zfs.nix
       ../../services/ssh.nix
     ];
 
