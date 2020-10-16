@@ -8,6 +8,7 @@ in {
       ./hardware-configuration.nix
       ../../common/sysconfig.nix
       ../../common/zfs.nix
+      ../../common/users.nix
       ../../services/ssh.nix
       ../../services/nfsnetboot.nix
     ];
@@ -31,12 +32,6 @@ in {
     }];
     defaultGateway = "192.168.14.254";
     nameservers = [ "192.168.14.254" "1.1.1.1" ];
-  };
-
-  users.users.lucasguest = {
-    isNormalUser = true;
-    home = "/home/lucasguest";
-    extraGroups = [ "wheel" ];
   };
 
   # Enable KSM because the MC servers share a lot of data
