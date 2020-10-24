@@ -24,7 +24,8 @@ in {
       ../../services/tick/kapacitor.nix
       ../../services/tick/chronograf.nix
       ../../services/vault.nix
-      ../../containers/mcmodded.nix
+      ../../containers/mcwesty.nix
+      ../../containers/mcaaron.nix
     ];
 
   system.stateVersion = "20.03";
@@ -46,6 +47,7 @@ in {
     }];
     defaultGateway = "144.76.44.97";
     nameservers = [ "213.133.98.98" "1.1.1.1" ];
+    hosts."136.206.15.3" = [ "irc.redbrick.dcu.ie" ];
   };
 
   virtualisation.docker.enable = true;

@@ -36,8 +36,6 @@ in {
 
   fileSystems."/var/gaming/mcrhiannon" = mountConfig "gaming/mcrhiannon";
 
-  fileSystems."/var/gaming/mcmodded" = mountConfig "gaming/mcmodded";
-
   fileSystems."/var/gaming/steamapps" = mountConfig "gaming/steamapps";
 
   fileSystems."/opt/backup_restore" = mountConfig "backup_restore";
