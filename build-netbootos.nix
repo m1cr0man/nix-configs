@@ -6,7 +6,10 @@ let
   };
 
   mainModule = { config, lib, pkgs, ... }: {
-    imports = [ ./nix-configs/configuration.nix ];
+    imports = [
+      ./hosts/netbootos/configuration.nix
+      <nixpkgs/nixos/modules/installer/cd-dvd/channel.nix>
+    ];
     config = {
       system.build.netbootIpxeScript = pkgs.writeTextDir "netboot.ipxe" ''
         #!ipxe

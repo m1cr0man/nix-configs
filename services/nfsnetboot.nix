@@ -10,8 +10,9 @@ in {
     lockdPort = 4001;
     mountdPort = 4002;
     exports = ''
-      /exports/netboot/nix_store *(ro,insecure,async,no_root_squash,no_subtree_check)
-      /exports/netboot/homes *(rw,insecure,mountpoint,async,no_root_squash,no_subtree_check)
+      /exports/netboot/nix_store *(ro,insecure,mountpoint,async,no_root_squash,no_subtree_check)
+      /exports/games *(rw,insecure,mountpoint,async,no_root_squash,no_subtree_check)
+      /home *(rw,insecure,mountpoint,async,no_root_squash,no_subtree_check)
     '';
   };
   services.rpcbind.enable = true;

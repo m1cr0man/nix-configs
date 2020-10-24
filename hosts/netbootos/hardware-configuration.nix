@@ -37,6 +37,9 @@ in {
         "vers=4.2"
         "addr=${server}"
         "ro"
+        "noatime"
+        "nodiratime"
+        "nolock"
       ];
     };
 
@@ -57,11 +60,34 @@ in {
     };
 
   fileSystems."/home" =
-    { device = "${server}:/exports/netboot/homes";
+    { device = "${server}:/home";
       fsType = "nfs";
       options = [
-        "vers=4.2"
+        "vers=3"
         "addr=${server}"
+        "nolock"
+        "local_lock=all"
+        "nofail"
+        "noatime"
+        "nodiratime"
+        "rsize=1048576"
+        "wsize=1048576"
+      ];
+    };
+
+  fileSystems."/games" =
+    { device = "${server}:/exports/games";
+      fsType = "nfs";
+      options = [
+        "vers=3"
+        "addr=${server}"
+        "nolock"
+        "local_lock=all"
+        "nofail"
+        "noatime"
+        "nodiratime"
+        "rsize=1048576"
+        "wsize=1048576"
       ];
     };
 

@@ -26,14 +26,21 @@
     };
 
   # Make sure nix_store has acltype=off to make sure this works.
+  # TODO in the event of a reload, set dedup=skein,checksum=skein,zstd_compress=zstd
   fileSystems."/exports/netboot/nix_store" =
     { device = "zroot/nix_store@netboot";
       fsType = "zfs";
       options = [ "ro" "nofail" "noacl" ];
     };
 
-  fileSystems."/exports/netboot/homes" =
-    { device = "zroot/netboot/homes";
+  fileSystems."/home" =
+    { device = "zroot/home";
+      fsType = "zfs";
+      options = [ "nofail" ];
+    };
+
+  fileSystems."/exports/games" =
+    { device = "zroot/games";
       fsType = "zfs";
       options = [ "nofail" ];
     };
