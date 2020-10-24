@@ -1,20 +1,21 @@
 { config, pkgs, ... }:
 let
   secrets = import ../../common/secrets.nix;
+
+  steamEx = with pkgs; steam.override {
+    extraPkgs = pkgs: [ gcc-unwrapped glib json-glib ];
+  };
 in {
 
   imports =
     [
       ./hardware-configuration.nix
-      ./vfio.nix
       ../../common/sysconfig.nix
       ../../services/ssh.nix
-      ../../services/gamingvms.nix
     ];
 
   system.stateVersion = "21.03";
 
-  boot.kernelParams = [ "intel_iommu=on" "iommu=pt" "video=efifb:off" ];
   boot.loader.efi = {
     efiSysMountPoint = "/boot";
     canTouchEfiVariables = true;
@@ -36,6 +37,28 @@ in {
     nameservers = [ "192.168.14.254" "1.1.1.1" ];
   };
 
+  environment.systemPackages = with pkgs; [
+    steamEx opera wine-staging lutris discord
+    xorg.xf86inputjoystick nfs-utils pciutils
+    vaapiIntel libva libglvnd
+  ];
+
+  # Steam support
+  hardware.opengl.driSupport32Bit = true;
+  hardware.opengl.extraPackages = with pkgs; [ vaapiIntel libva libglvnd intel-media-driver mesa.drivers ];
+  hardware.opengl.extraPackages32 = with pkgs.pkgsi686Linux; [ vaapiIntel libva libglvnd mesa.drivers ];
+  hardware.pulseaudio.support32Bit = true;
+
+  services.xserver = {
+    enable = true;
+    displayManager.gdm.enable = true;
+    displayManager.gdm.wayland = false;
+    desktopManager.gnome3.enable = true;
+    libinput.enable = true;
+    modules = [ pkgs.xlibs.xf86inputjoystick ];
+    videoDrivers = [ "intel" "nvidia" "nvidiaLegacy390" "vesa" "modesetting" ];
+  };
+
   users.users.lucas = {
     home = "/home/lucas";
     shell = pkgs.bashInteractive;
@@ -43,7 +66,4 @@ in {
     extraGroups = [ "wheel" ];
   };
   users.groups.lucas = {};
-
-  # Enable KSM because the MC servers share a lot of data
-  hardware.ksm.enable = true;
 }
