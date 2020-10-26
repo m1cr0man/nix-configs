@@ -15,7 +15,7 @@ in {
     {
       nixpkgs.config.allowUnfree = true;
       systemd.services.minecraft-server.serviceConfig.CPUShares = 256;
-      systemd.services.minecraft-server.serviceConfig.MemoryLimit = "5120M";
+      systemd.services.minecraft-server.serviceConfig.MemoryLimit = "9160M";
 
       systemd.services.minecraft-server-restart = {
         description = "Restart minecraft server";
@@ -68,7 +68,7 @@ in {
           "allow-flight" = true;
         };
 
-        jvmOpts = "-server -Xmx4G -Xms4G -XX:+UseG1GC -Dsun.rmi.dgc.server.gcInterval=2147483646 -XX:+UnlockExperimentalVMOptions -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=32M";
+        jvmOpts = "-server -Xmx8G -Xms8G -XX:+UseG1GC -Dsun.rmi.dgc.server.gcInterval=2147483646 -XX:+UnlockExperimentalVMOptions -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=32M";
 
         openFirewall = true;
       };
