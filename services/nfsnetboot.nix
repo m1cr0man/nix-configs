@@ -3,6 +3,9 @@ let
   nfsPorts = with config.services.nfs.server; [ 2049 111 lockdPort statdPort mountdPort ];
   tcpPorts = nfsPorts ++ [ 67 80 ];
   udpPorts = nfsPorts ++ [ 67 69 4011 ];
+
+  anonuid = config.users.users.games.uid;
+  anongid = config.users.groups.users.gid;
 in {
   services.nfs.server = {
     enable = true;
@@ -11,11 +14,15 @@ in {
     mountdPort = 4002;
     exports = ''
       /exports/netboot/nix_store *(ro,insecure,mountpoint,async,no_root_squash,no_subtree_check)
-      /exports/games *(rw,insecure,mountpoint,async,no_root_squash,no_subtree_check)
+      /exports/games *(rw,insecure,mountpoint,async,all_squash,anonuid=${toString anonuid},anongid=${toString anongid},no_subtree_check)
       /home *(rw,insecure,mountpoint,async,no_root_squash,no_subtree_check)
     '';
   };
   services.rpcbind.enable = true;
+
+  # NFS v4 delegation reaks havoc with the shared nix_store export
+  # Disable that shit
+  boot.kernel.sysctl."fs.leases-enable" = 0;
 
   networking.firewall.allowedTCPPorts = tcpPorts;
   networking.firewall.allowedUDPPorts = udpPorts;

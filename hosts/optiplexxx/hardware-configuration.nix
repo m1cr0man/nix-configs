@@ -20,6 +20,11 @@
       fsType = "zfs";
     };
 
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-partuuid/a327d6c3-c5da-4bfd-8696-fc021dfbc325";
+      fsType = "ext3";
+    };
+
   fileSystems."/nix" =
     { device = "zroot/nix_store";
       fsType = "zfs";
@@ -46,6 +51,6 @@
     };
 
   swapDevices =[
-    { device = "/dev/disk/by-partuuid/adc0f5a6-ff72-4bae-8b7f-f20702e3846a"; }
+    { device = "/dev/disk/by-partuuid/acbee226-0160-4e2d-8bcb-64faf83770a8"; }
   ];
 }

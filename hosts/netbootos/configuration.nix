@@ -6,6 +6,23 @@ let
   steamEx = with pkgs; steam.override {
     extraPkgs = pkgs: [ gcc-unwrapped glib json-glib ];
   };
+
+  userSetup = pkgs.writeShellScriptBin "setup-games-mounts" ''
+    if [ $USERUID -ge 1000 ]; then
+      mkdir -p /games/currentuser
+      if mountpoint /games/currentuser; then
+        umount /games/currentuser
+      fi
+      mount /games/nfs
+      ${pkgs.bindfs}/bin/bindfs --multithreaded --force-user=$USERUID /games/nfs /games/currentuser
+      if mountpoint /games/overlay; then
+        umount /games/overlay
+        rm -rf /games/.rw-games
+      fi
+      mkdir -p /games/overlay /games/.rw-games/upper /games/.rw-games/work
+      mount -t overlay -o upperdir=/games/.rw-games/upper,workdir=/games/.rw-games/work,lowerdir=/games/currentuser overlay /games/overlay
+    fi
+  '';
 in {
 
   imports =
@@ -42,12 +59,14 @@ in {
     # Keep DHCP IP during shutdown
     dhcpcd.persistent = true;
     usePredictableInterfaceNames = false;
+    firewall.enable = false;
   };
 
   environment.systemPackages = with pkgs; [
     steamEx opera wine-staging lutris discord
     xorg.xf86inputjoystick nfs-utils pciutils
-    vaapiIntel libva libglvnd
+    vaapiIntel libva libglvnd zfsUnstable cifs-utils
+    bindfs vscode userSetup
   ];
 
   # Steam support
@@ -65,4 +84,9 @@ in {
     modules = [ pkgs.xlibs.xf86inputjoystick ];
     videoDrivers = [ "intel" "nvidia" "nvidiaLegacy390" "vesa" "modesetting" ];
   };
+
+  # Set up bind mount depending on user
+  systemd.services."user@".path = config.environment.systemPackages ++ [ "/run/wrappers/bin" ];
+  systemd.services."user@".environment.USERUID = "%i";
+  systemd.services."user@".serviceConfig.ExecStartPost = "+${userSetup}/bin/setup-games-mounts";
 }

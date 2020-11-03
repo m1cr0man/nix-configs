@@ -8,9 +8,11 @@ in {
 
   boot.initrd = {
     availableKernelModules = [ "overlay" "xhci_pci" "xhci_hcd" "ehci_pci" "ahci" "usbhid" "uas" "sd_mod" "e1000e" "r8169" ];
-    kernelModules = [ "nfsv4" ];
+    kernelModules = [ "nfsv4" "nfsv3" ];
     supportedFilesystems = [ "nfs" "overlay" ];
   };
+
+  boot.supportedFilesystems = [ "nfs" "overlay" ];
 
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
@@ -40,13 +42,11 @@ in {
         "noatime"
         "nodiratime"
         "nolock"
+        "nocto"
+        "ac"
+        "actimeo=43200"
+        "lookupcache=all"
       ];
-    };
-
-  fileSystems."/nix/.rw-store" =
-    { fsType = "tmpfs";
-      options = [ "mode=0755" ];
-      neededForBoot = true;
     };
 
   fileSystems."/nix/store" =
@@ -54,7 +54,7 @@ in {
       device = "overlay";
       options = [
         "lowerdir=/nix/.ro-store"
-        "upperdir=/nix/.rw-store/store"
+        "upperdir=/nix/.rw-store/upper"
         "workdir=/nix/.rw-store/work"
       ];
     };
@@ -63,31 +63,30 @@ in {
     { device = "${server}:/home";
       fsType = "nfs";
       options = [
-        "vers=3"
+        "vers=4.2"
         "addr=${server}"
-        "nolock"
-        "local_lock=all"
-        "nofail"
         "noatime"
         "nodiratime"
-        "rsize=1048576"
-        "wsize=1048576"
+        "nolock"
+        "nocto"
+        "ac"
+        "actimeo=43200"
+        "lookupcache=all"
       ];
     };
 
-  fileSystems."/games" =
+  fileSystems."/games/nfs" =
     { device = "${server}:/exports/games";
       fsType = "nfs";
       options = [
-        "vers=3"
+        "vers=4.2"
         "addr=${server}"
-        "nolock"
-        "local_lock=all"
-        "nofail"
         "noatime"
         "nodiratime"
-        "rsize=1048576"
-        "wsize=1048576"
+        "nolock"
+        "nocto"
+        "ac"
+        "lookupcache=pos"
       ];
     };
 

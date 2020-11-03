@@ -1,4 +1,5 @@
 # Family users
+# Generate passwords with mkpasswd -m sha-512
 { pkgs, ... }:
 let
   userCommon = {
@@ -15,7 +16,7 @@ in {
     uid = 1000;
     home = "/home/lucas";
     group = "lucas";
-    hashedPassword = "$6$T.30dsULLs$bHXslyJmCjpnNgOvXFmhox8X7YDihXBiaK8pJOyLecpEl9eYu8MMVsFGAnNOvN4sX9HEtNOo5ti71h2lQB5EB.";
+    hashedPassword = "$6$grITU0sOwK5q6$I61l9jInNJ/9I7Rw7wwNGjnxh2jCSVXxI0xa9wBvmgtqu6eWP9QmoxEoYIgq8t0abEbQHXeeo.6dREqpZ3PS6/";
   };
   users.groups.zeus = {
     gid = 1001;
@@ -44,4 +45,20 @@ in {
     group = "sophie";
     hashedPassword = "$6$YPYsDjlzPIYk$TQtSXj1wCq42N2R48GJrNg8eClkkh7O2vVCuwu/n/y/.lJHqvefjfjV1WkovvGJJ4Stnu0VTu2hqwqi8xymtF1";
   };
+
+  # Games user owns games folders
+  users.users.games = {
+    uid = 123;
+    isSystemUser = true;
+    home = "/home/games";
+    group = "users";
+    extraGroups = [ "lucas" "sophie" "adam" "zeus" ];
+  };
+
+  # Allow all users to sudo to games
+  security.sudo.extraRules = [{
+    users = [ "lucas" "sophie" "adam" "zeus" ];
+    runAs = "games:users";
+    commands = [{ options = [ "NOPASSWD" "SETENV" ]; command = "ALL"; }];
+  }];
 }
