@@ -1,8 +1,8 @@
-{ pkgs, config, ... }:
+{ pkgs, config, lib, ... }:
 let
   secrets = import ../../common/secrets.nix;
 
-  host = "127.0.0.1";
+  host = if config.m1cr0man.chronograf.reverseProxy then "127.0.0.1" else "0.0.0.0";
   port = 8888;
   vhost = "chronograf.m1cr0man.com";
 in {
@@ -24,8 +24,13 @@ in {
     };
   };
 
-  security.acme.certs."m1cr0man.com".extraDomainNames = [ vhost ];
-  services.httpd.virtualHosts."${vhost}" = {
+  networking.firewall.allowedTCPPorts = lib.optionals (!config.m1cr0man.chronograf.reverseProxy) [ port ];
+
+  security.acme = lib.optionalAttrs (config.m1cr0man.chronograf.reverseProxy) {
+    certs."m1cr0man.com".extraDomainNames = [ vhost ];
+  };
+
+  services.httpd = lib.optionalAttrs (config.m1cr0man.chronograf.reverseProxy) { virtualHosts."${vhost}" = {
     forceSSL = true;
     useACMEHost = "m1cr0man.com";
     extraConfig = ''
@@ -38,5 +43,5 @@ in {
 
       ProxyPass / http://${host}:${toString port}/
     '';
-  };
+  }; };
 }

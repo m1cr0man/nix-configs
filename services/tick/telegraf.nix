@@ -14,6 +14,7 @@ in {
         "http://${config.services.influxdb.extraConfig.http.bind-address}"
       ];
       inputs = {
+        zfs = { poolMetrics = true; };
         minecraft = {
           server = "127.0.0.1";
           port = "25566";
@@ -28,13 +29,13 @@ in {
         swap = {};
         netstat = {};
         net.interfaces = lib.mapAttrsToList (k: v: k) config.networking.interfaces;
-        disk.mount_points = lib.mapAttrsToList (k: v: k) config.fileSystems;
+        disk.mount_points = [ "/root/zhuge1" "/root/zhuge2" ] ++ (lib.mapAttrsToList (k: v: k) config.fileSystems);
         diskio.devices = [ "sd[a-z]" ];
         syslog.server = "udp://127.0.0.1:6514";
 
         apache = if config.services.httpd.enable then [{
           urls = [ "http://127.0.0.1/.server-status?auto" ];
-        }] else [];
+        }] else {};
 
         tail = if config.services.httpd.enable then [{
           files = [ (config.services.httpd.logDir + "/access.log") ];
@@ -44,7 +45,7 @@ in {
           files = [ (config.services.httpd.logDir + "/error.log") ];
           data_format = "grok";
           grok_patterns = [ "%{HTTPD24_ERRORLOG}" ];
-        }] else [];
+        }] else {};
       };
     };
   };

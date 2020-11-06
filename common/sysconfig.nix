@@ -1,5 +1,9 @@
-{ pkgs, config, ... }:
+{ pkgs, config, lib, ... }:
 {
+  imports = [
+    ./options.nix
+  ];
+
   nixpkgs.config.allowUnfree = true;
 
   # Enable shell during boot

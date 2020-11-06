@@ -17,7 +17,10 @@ in {
       ../../common/sysconfig.nix
       ../../services/ssh.nix
       ../../services/samba.nix
+      ../../services/tick
     ];
+
+  m1cr0man.chronograf.reverseProxy = false;
 
   system.stateVersion = "21.03";
 

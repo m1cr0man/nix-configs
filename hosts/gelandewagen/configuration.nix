@@ -19,10 +19,7 @@ in {
       ../../services/plex.nix
       ../../services/weechat.nix
       ../../services/rb-tunnel.nix
-      ../../services/tick/influxdb.nix
-      ../../services/tick/telegraf.nix
-      ../../services/tick/kapacitor.nix
-      ../../services/tick/chronograf.nix
+      ../../services/tick
       ../../services/vault.nix
       ../../containers/mcwesty.nix
       ../../containers/mcaaron.nix
