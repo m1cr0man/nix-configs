@@ -32,6 +32,7 @@ in {
         disk.mount_points = [ "/root/zhuge1" "/root/zhuge2" ] ++ (lib.mapAttrsToList (k: v: k) config.fileSystems);
         diskio.devices = [ "sd[a-z]" ];
         syslog.server = "udp://127.0.0.1:6514";
+        http_listener_v2 = { service_address = ":9999"; };
 
         apache = if config.services.httpd.enable then [{
           urls = [ "http://127.0.0.1/.server-status?auto" ];
