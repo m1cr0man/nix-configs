@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 let
   secrets = import ../../common/secrets.nix;
 in {
@@ -11,9 +11,13 @@ in {
       ../../common/users.nix
       ../../services/ssh.nix
       ../../services/nfsnetboot.nix
+      ../../services/tick
     ];
 
+  m1cr0man.chronograf.reverseProxy = false;
+
   system.stateVersion = "21.03";
+
   boot.loader.grub = {
     enable = true;
     version = 2;
@@ -32,5 +36,8 @@ in {
     }];
     defaultGateway = "192.168.14.254";
     nameservers = [ "192.168.14.254" "1.1.1.1" ];
+
+    firewall.allowedTCPPorts = [ 9999 ];
+    firewall.allowedUDPPorts = [ 8089 ]; # influx udp
   };
 }

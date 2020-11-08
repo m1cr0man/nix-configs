@@ -55,6 +55,7 @@ in {
   networking = {
     # Blank to retrieve from DHCP
     hostName = "";
+    hostId = "e9728e01";
     useDHCP = lib.mkForce true;
     # Keep DHCP IP during shutdown
     dhcpcd.persistent = true;
@@ -66,7 +67,7 @@ in {
     steamEx opera wine-staging lutris discord
     xorg.xf86inputjoystick nfs-utils pciutils
     vaapiIntel libva libglvnd zfsUnstable cifs-utils
-    bindfs vscode userSetup
+    bindfs vscode userSetup python3 netcat-gnu
   ];
 
   # Steam support

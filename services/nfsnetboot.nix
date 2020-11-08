@@ -17,6 +17,15 @@ in {
       /exports/games *(rw,insecure,mountpoint,async,all_squash,anonuid=${toString anonuid},anongid=${toString anongid},no_subtree_check)
       /home *(rw,insecure,mountpoint,async,no_root_squash,no_subtree_check)
     '';
+    extraNfsdConfig = ''
+      rdma = off
+      UDP = off
+      vers2 = off
+      vers3 = on
+      vers4 = off
+      vers4.1 = off
+      vers4.2 = off
+    '';
   };
   services.rpcbind.enable = true;
 

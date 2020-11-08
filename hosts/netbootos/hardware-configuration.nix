@@ -8,11 +8,12 @@ in {
 
   boot.initrd = {
     availableKernelModules = [ "overlay" "xhci_pci" "xhci_hcd" "ehci_pci" "ahci" "usbhid" "uas" "sd_mod" "e1000e" "r8169" ];
-    kernelModules = [ "nfsv4" "nfsv3" ];
+    kernelModules = [ "nfsv3" "nfs" "sunrpc" "nfs_acl" "lockd" ];
     supportedFilesystems = [ "nfs" "overlay" ];
   };
 
-  boot.supportedFilesystems = [ "nfs" "overlay" ];
+  boot.supportedFilesystems = [ "nfs" "overlay" "zfs" ];
+  boot.zfs.enableUnstable = true;
 
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
@@ -36,15 +37,15 @@ in {
       fsType = "nfs";
       neededForBoot = true;
       options = [
-        "vers=4.2"
-        "addr=${server}"
+        "vers=3"
         "ro"
         "noatime"
         "nodiratime"
-        "nolock"
         "nocto"
         "ac"
         "actimeo=43200"
+        "nolock"
+        "local_lock=all"
         "lookupcache=all"
       ];
     };
@@ -63,14 +64,13 @@ in {
     { device = "${server}:/home";
       fsType = "nfs";
       options = [
-        "vers=4.2"
-        "addr=${server}"
+        "vers=3"
         "noatime"
         "nodiratime"
-        "nolock"
-        "nocto"
         "ac"
         "actimeo=43200"
+        "nolock"
+        "local_lock=all"
         "lookupcache=all"
       ];
     };
@@ -79,13 +79,13 @@ in {
     { device = "${server}:/exports/games";
       fsType = "nfs";
       options = [
-        "vers=4.2"
-        "addr=${server}"
+        "vers=3"
         "noatime"
         "nodiratime"
-        "nolock"
-        "nocto"
         "ac"
+        "actimeo=43200"
+        "nolock"
+        "local_lock=all"
         "lookupcache=pos"
       ];
     };
