@@ -8,5 +8,6 @@
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINnVLSh0OStxZTkXE6oGgwfFvsbvN6bFPlVfDYOwtnzn lucas@oatfield"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICZRqQtVCoRxkYXZS9kr3AVuxi6Zz87j/xeHWsJFDadd lucas@OnePlusOne"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMFvcG7o/SHHzXALASd6GN5DCPR1tpZz6st5X29iGoT9 lucas@ascension"
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBk0nZhDDU5ih0F5HqZ581ZXL7cbsdCEEJ2WFEiq6jJb lucas@netbootos"
   ];
 }
