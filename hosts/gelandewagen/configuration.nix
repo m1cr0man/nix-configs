@@ -10,7 +10,7 @@ in {
       ../../services/dns
       ../../services/ssh.nix
       ../../services/httpd.nix
-      ../../services/greendayvm.nix
+      ../../services/gamesvm.nix
       #../../services/minecraft.nix
       ../../services/m1cr0blog.nix
       ../../services/minio.nix
