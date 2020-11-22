@@ -21,7 +21,7 @@ in {
       ../../services/rb-tunnel.nix
       ../../services/tick
       ../../services/vault.nix
-      ../../containers/mcwesty.nix
+      ../../containers/mcmodded.nix
       ../../containers/mcaaron.nix
     ];
 

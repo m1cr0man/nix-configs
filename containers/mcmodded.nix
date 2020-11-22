@@ -51,7 +51,7 @@ in {
             cp -v $src $out/lib/minecraft/server.jar
             cat > $out/bin/minecraft-server << EOF
             #!/bin/sh
-            exec ${pkgs.openjdk}/bin/java \$@ -jar forge-1.12.2-14.23.5.2847-universal.jar nogui
+            exec ${pkgs.jre8}/bin/java \$@ -jar forge-1.12.2-14.23.5.2847-universal.jar nogui
             EOF
             chmod +x $out/bin/minecraft-server
           '';
