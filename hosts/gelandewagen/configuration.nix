@@ -21,7 +21,7 @@ in {
       ../../services/rb-tunnel.nix
       ../../services/tick
       ../../services/vault.nix
-      ../../containers/mcmodded.nix
+      ../../containers/mccreativity.nix
       ../../containers/mcaaron.nix
     ];
 
@@ -31,6 +31,7 @@ in {
     version = 2;
     devices = [ "/dev/sda" "/dev/sdb" ];
   };
+  boot.crashDump.enable = true;
 
   networking = {
     hostId = "4cdf6f98";
@@ -81,14 +82,18 @@ in {
   };
   users.groups.breogan = {};
 
-  # Enable KSM because the MC servers share a lot of data
-  hardware.ksm.enable = true;
+  systemd.services.stress = {
+    description = "CPU stress to stop crashes";
+    wantedBy = [ "multi-user.target" ];
+    script = ''
+      ${pkgs.stress}/bin/stress --cpu 2
+    '';
+    serviceConfig = {
+      Restart = "always";
+      CPUWeight = 5;
+    };
+  };
 
   networking.firewall.allowedTCPPorts = [ 27015 26900 1802 ];
   networking.firewall.allowedUDPPorts = [ 26900 26901 26902 27005 27015 27020 ];
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
 }

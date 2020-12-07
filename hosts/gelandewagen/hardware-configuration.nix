@@ -17,6 +17,7 @@ in {
   boot.initrd.availableKernelModules = [ "ehci_pci" "ahci" "usb_storage" "sd_mod" "r8169" ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
+  boot.kernelParams = [ "intel_idle.max_cstate=0" "processor.max_cstate=1" ];
 
   fileSystems."/" =
     { device = "zboot/nixos";
@@ -66,5 +67,5 @@ in {
   ];
 
   nix.maxJobs = lib.mkDefault 8;
-  powerManagement.cpuFreqGovernor = lib.mkDefault "ondemand";
+  powerManagement.cpuFreqGovernor = lib.mkDefault "performance";
 }
