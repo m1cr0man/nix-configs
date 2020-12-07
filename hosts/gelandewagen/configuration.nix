@@ -6,12 +6,12 @@ in {
   imports =
     [
       ./hardware-configuration.nix
+      ./mc-servers.nix
       ../../common/sysconfig.nix
       ../../services/dns
       ../../services/ssh.nix
       ../../services/httpd.nix
       ../../services/gamesvm.nix
-      #../../services/minecraft.nix
       ../../services/m1cr0blog.nix
       ../../services/minio.nix
       ../../services/openttd.nix
@@ -21,8 +21,6 @@ in {
       ../../services/rb-tunnel.nix
       ../../services/tick
       ../../services/vault.nix
-      ../../containers/mccreativity.nix
-      ../../containers/mcaaron.nix
     ];
 
   system.stateVersion = "20.03";

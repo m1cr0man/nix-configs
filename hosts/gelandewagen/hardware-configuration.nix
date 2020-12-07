@@ -68,4 +68,7 @@ in {
 
   nix.maxJobs = lib.mkDefault 8;
   powerManagement.cpuFreqGovernor = lib.mkDefault "performance";
+
+  # Enable KSM because the MC servers share a lot of data
+  hardware.ksm.enable = true;
 }
