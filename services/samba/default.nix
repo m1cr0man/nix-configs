@@ -1,54 +1,49 @@
+{ config, lib, ... }:
 let
-  share = path: comment: {
-    inherit path comment;
+  homeShares = lib.optionalAttrs (config.m1cr0man.samba-home-shares) {
+    homes = {
+      comment = "Your personal folder";
+      "valid users" = "%S, %D%w%S";
+      "force group" = "%G";
+      "browseable" = "no";
+      "inherit acls" = "yes";
+      "create mask" = "0700";
+      "directory mask" = "0700";
+      "force create mode" = "0700";
+      "force directory mode" = "0700";
+    };
+  };
+
+  customShares = lib.mapAttrs (name: conf: {
+    path = conf.path;
+    comment = conf.comment;
     "valid users" = "@users";
     "guest ok" = "yes";
     "browseable" = "yes";
     "writeable" = "yes";
-  };
+  } // conf.extraConfig) config.m1cr0man.samba-shares;
 in {
+  imports = [
+    ./options.nix
+  ];
+
   services.samba = {
     enable = true;
-    syncPasswordsByPam = true;
-    shares = {
-      homes = {
-        comment = "Your personal folder";
-        "valid users" = "%S, %D%w%S";
-        "force group" = "%G";
-        "browseable" = "no";
-        "inherit acls" = "yes";
-        "create mask" = "0700";
-        "directory mask" = "0700";
-        "force create mode" = "0700";
-        "force directory mode" = "0700";
-      };
-      steam_master = share "/zgaming/steam/master" "Master Steam archive";
-      origin_master = share "/zgaming/origin/master" "Master Origin archive";
-      apps_drivers = share "/zstorage/apps_drivers" "Apps and Drivers";
-      games_stuff = share "/zstorage/games_stuff" "Games Stuff";
-      movies = share "/zstorage/movies" "Movie backups";
-      music = share "/zstorage/music" "Music backups";
-      pc_backups = share "/zstorage/pc_backups" "Computer backups";
-      pictures_videos = share "/zstorage/pictures_videos" "Pictures and Videos";
-      sites = share "/zstorage/sites" "Websites";
-      quick_share = (share "/zstorage/quick_share" "Quick Share") // {
-        "guest ok" = "yes";
-      };
-    };
+    shares = homeShares // customShares;
 
     extraConfig = ''
       log file = /var/log/samba/log.%m
       log level = 2
       max log size = 50
 
-      hosts allow = 192.168.14. 127.0.0.1 ::1
+      hosts allow = 192.168.14. 192.168.137. 127.0.0.1 ::1
       hosts deny = all
       socket options = IPTOS_LOWDELAY SO_SNDBUF=131072 SO_RCVBUF=131072 TCP_NODELAY
       max connections = 0
 
-      netbios name = INTERSECT
+      netbios name = ${lib.toUpper config.networking.hostName}
       workgroup = WORKGROUP
-      server string = Intersect File Server
+      server string = NixOS File Server
 
       domain master = no
       preferred master = yes

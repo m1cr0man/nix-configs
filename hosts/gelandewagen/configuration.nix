@@ -23,13 +23,12 @@ in {
       ../../services/vault.nix
     ];
 
-  system.stateVersion = "20.03";
+  system.stateVersion = "21.03";
   boot.loader.grub = {
     enable = true;
     version = 2;
     devices = [ "/dev/sda" "/dev/sdb" ];
   };
-  boot.crashDump.enable = true;
 
   networking = {
     hostId = "4cdf6f98";

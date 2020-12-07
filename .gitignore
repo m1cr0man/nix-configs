@@ -1,3 +1,4 @@
 /configuration.nix
 result/
 *.key
+.vscode/
