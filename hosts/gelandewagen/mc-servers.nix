@@ -11,6 +11,7 @@ in {
     creativity = {
       memGb = 8;
       jar = "forge-1.15.2-31.2.45.jar";
+      port = 25555;
       serverProperties = {
         motd = "Creativity 1.15.2.2";
         level-seed = "-821503530";
@@ -24,6 +25,7 @@ in {
       port = 25535;
       serverProperties = {
         motd = "MC PSSD";
+        enable-command-block = true;
       };
     };
 
