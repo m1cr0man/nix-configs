@@ -39,10 +39,6 @@
     forceImportRoot = true;
     forceImportAll = false;
   };
-  services.zfs.autoScrub = {
-    enable = true;
-    interval = "monthly";
-  };
   services.zfs.autoSnapshot = {
     enable = true;
     frequent = 8;
@@ -50,6 +46,51 @@
     daily = 7;
     weekly = 0;
     monthly = 1;
+  };
+
+  # Incremental scrubbing to avoid drive murder
+  systemd.services.zfs-scrub = {
+    description = "Start ZFS incremental scrub";
+    path = [ pkgs.zfsUnstable ];
+    script = ''
+      zpool scrub $(zpool list -Ho name)
+      systemctl start zfs-scrub-pause.timer
+    '';
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      ExecStop = pkgs.writeShellScript "stop-scrub" ''
+        zpool scrub -p $(zpool list -Ho name)
+      '';
+    };
+  };
+
+  systemd.services.zfs-scrub-pause = {
+    description = "Pause ZFS incremental scrub";
+    script = ''
+      systemctl stop zfs-scrub
+    '';
+
+    serviceConfig = {
+      Type = "oneshot";
+    };
+  };
+
+  systemd.timers.zfs-scrub = {
+    description = "Start ZFS incremental scrub";
+    timerConfig = {
+      OnCalendar = "daily";
+      RandomizedDelaySec = 60;
+      Persistent = true;
+    };
+  };
+
+  systemd.timers.zfs-scrub-pause = {
+    description = "Pause ZFS incremental scrub";
+    timerConfig = {
+      DefaultDependencies = false;
+      OnUnitActiveSec = "30min";
+    };
   };
 
   networking.domain = "m1cr0man.com";
