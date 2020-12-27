@@ -34,7 +34,7 @@ in {
         syslog.server = "udp://127.0.0.1:6514";
 
         apache = if config.services.httpd.enable then [{
-          urls = [ "http://127.0.0.1/.server-status?auto" ];
+          urls = [ "https://m1cr0man.com/.server-status?auto" ];
         }] else {};
 
         tail = if config.services.httpd.enable then [{
