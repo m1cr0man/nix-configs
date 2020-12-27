@@ -5,7 +5,7 @@
 
 let
   mountConfig = name: {
-    device = "zstorage/${name}";
+    device = "zgelandewagen/${name}";
     fsType = "zfs";
     options = [ "nofail" ];
   };
@@ -19,51 +19,46 @@ in {
   boot.extraModulePackages = [ ];
   boot.kernelParams = [ "intel_idle.max_cstate=0" "processor.max_cstate=1" ];
 
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/64BB-47FC";
+      fsType = "vfat";
+    };
+
   fileSystems."/" =
-    { device = "zboot/nixos";
+    { device = "zgelandewagen/nixos";
       fsType = "zfs";
     };
 
   fileSystems."/nix" =
-    { device = "zstorage/nix_store";
+    { device = "zgelandewagen/nixos/store";
       fsType = "zfs";
     };
 
+  fileSystems."/home" =
+    { device = "zgelandewagen/home";
+      fsType = "zfs";
+    };
+
+  fileSystems."/var/gaming" = mountConfig "gaming";
+
   fileSystems."/var/gaming/minecraft" = mountConfig "gaming/minecraft";
 
-  fileSystems."/var/gaming/mcadam" = mountConfig "gaming/mcadam";
+  fileSystems."/var/lib/docker" = mountConfig "services/docker";
 
-  fileSystems."/var/gaming/mccraig" = mountConfig "gaming/mccraig";
+  fileSystems."/var/www/m1cr0blog" = mountConfig "services/m1cr0blog";
 
-  fileSystems."/var/gaming/mcrhiannon" = mountConfig "gaming/mcrhiannon";
+  fileSystems."/var/www/minio" = mountConfig "services/minio";
 
-  fileSystems."/var/gaming/steamapps" = mountConfig "gaming/steamapps";
+  fileSystems."/var/www/nextcloud" = mountConfig "services/nextcloud";
 
-  fileSystems."/opt/backup_restore" = mountConfig "backup_restore";
+  fileSystems."/var/lib/tick" = mountConfig "services/tick";
 
-  fileSystems."/var/lib/docker" = mountConfig "docker";
+  fileSystems."/var/lib/plex" = mountConfig "services/plex";
 
-  fileSystems."/opt/generic" = mountConfig "generic";
-
-  fileSystems."/var/www/m1cr0blog" = mountConfig "m1cr0blog";
-
-  fileSystems."/var/www/minio" = mountConfig "minio";
-
-  fileSystems."/var/lib/tick" = mountConfig "tick";
-
-  fileSystems."/opt/vms" = mountConfig "vms";
-
-  fileSystems."/var/secure/myhome" = mountConfig "secure/myhome";
-
-  fileSystems."/var/secure/plex" = mountConfig "secure/plex";
-
-  fileSystems."/var/secure/git" = mountConfig "secure/git";
-
-  fileSystems."/var/secure/vault" = mountConfig "secure/vault";
+  fileSystems."/var/lib/vault" = mountConfig "services/vault";
 
   swapDevices = [
-    { device = "/dev/disk/by-uuid/3fb7701e-18a8-4a64-b183-29431615525c"; priority = 100; }
-    { device = "/dev/disk/by-uuid/ad08597b-d163-4508-9b60-8f51429d7c52"; priority = 100; }
+    { device = "/dev/disk/by-partuuid/6120e0b2-ded9-4641-bb93-d0be45c72d57"; priority = 100; }
   ];
 
   nix.maxJobs = lib.mkDefault 8;

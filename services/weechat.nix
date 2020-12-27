@@ -2,8 +2,8 @@
 {
     services.weechat = {
         enable = true;
-        root = "/opt/generic/weechat";
+        root = "/home/weechat";
         sessionName = "irc";
     };
-    systemd.services.weechat.requires = [ "opt-generic.mount" ];
+    systemd.services.weechat.requires = [ "home.mount" ];
 }

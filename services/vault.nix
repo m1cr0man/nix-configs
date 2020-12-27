@@ -6,7 +6,7 @@ in {
     enable = true;
     package = pkgs.vault-bin;
     storageBackend = "file";
-    storagePath = "/var/secure/vault";
+    storagePath = "/var/lib/vault";
     tlsCertFile = "${certPath}/fullchain.pem";
     tlsKeyFile = "${certPath}/key.pem";
     extraConfig = ''
@@ -14,8 +14,8 @@ in {
     '';
   };
 
-  systemd.services.vault.requires = [ "var-secure-vault.mount" ];
-  systemd.services.vault.after = [ "var-secure-vault.mount" "acme-m1cr0man.com.service" ];
+  systemd.services.vault.requires = [ "var-lib-vault.mount" ];
+  systemd.services.vault.after = [ "var-lib-vault.mount" "acme-m1cr0man.com.service" ];
 
   networking.hosts."127.0.0.1" = [ "vault.m1cr0man.com" ];
 

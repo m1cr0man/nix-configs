@@ -9,7 +9,8 @@
 
   systemd.services.openttd = {
     description = "Transport tycoon game";
-    after = [ "network.target" "zfs-import.target" ];
+    requires = [ "var-gaming.mount" ];
+    after = [ "network.target" "var-gaming.mount" ];
     wantedBy = [ "multi-user.target" ];
 
     environment = { NODE_ENV = "production"; };
@@ -21,7 +22,7 @@
     serviceConfig = {
         User = "openttd";
         Restart = "always";
-        WorkingDirectory = "/opt/generic/openttd-ddafm";
+        WorkingDirectory = "/var/gaming/openttd-ddafm";
     };
   };
 

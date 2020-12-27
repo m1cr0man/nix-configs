@@ -2,3 +2,4 @@
 result/
 *.key
 .vscode/
+*.patch
