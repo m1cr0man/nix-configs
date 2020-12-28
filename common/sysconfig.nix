@@ -49,30 +49,23 @@
   };
 
   # Incremental scrubbing to avoid drive murder
-  systemd.services.zfs-scrub = {
+  systemd.services.zfs-scrub = let
+    stopCommand = ''
+      zpool scrub -p $(zpool list -Ho name)
+    '';
+    scrubTime = builtins.toString (60 * 30);
+  in {
     description = "Start ZFS incremental scrub";
+    restartIfChanged = false;
     path = [ pkgs.zfsUnstable ];
     script = ''
       zpool scrub $(zpool list -Ho name)
-      systemctl start zfs-scrub-pause.timer
+      sleep ${scrubTime}
+      ${stopCommand}
     '';
     serviceConfig = {
       Type = "oneshot";
-      RemainAfterExit = true;
-      ExecStop = pkgs.writeShellScript "stop-scrub" ''
-        zpool scrub -p $(zpool list -Ho name)
-      '';
-    };
-  };
-
-  systemd.services.zfs-scrub-pause = {
-    description = "Pause ZFS incremental scrub";
-    script = ''
-      systemctl stop zfs-scrub
-    '';
-
-    serviceConfig = {
-      Type = "oneshot";
+      ExecStop = pkgs.writeShellScript "stop-scrub" stopCommand;
     };
   };
 
@@ -82,14 +75,6 @@
       OnCalendar = "daily";
       RandomizedDelaySec = 60;
       Persistent = true;
-    };
-  };
-
-  systemd.timers.zfs-scrub-pause = {
-    description = "Pause ZFS incremental scrub";
-    timerConfig = {
-      DefaultDependencies = false;
-      OnUnitActiveSec = "30min";
     };
   };
 
