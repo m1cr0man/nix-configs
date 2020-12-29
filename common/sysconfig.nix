@@ -52,6 +52,7 @@
   systemd.services.zfs-scrub = let
     stopCommand = ''
       zpool scrub -p $(zpool list -Ho name)
+      true
     '';
     scrubTime = builtins.toString (60 * 30);
   in {
@@ -63,14 +64,13 @@
       sleep ${scrubTime}
       ${stopCommand}
     '';
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStop = pkgs.writeShellScript "stop-scrub" stopCommand;
-    };
+    postStart = stopCommand;
+    serviceConfig.Type = "oneshot";
   };
 
   systemd.timers.zfs-scrub = {
     description = "Start ZFS incremental scrub";
+    wantedBy = [ "timers.target" ];
     timerConfig = {
       OnCalendar = "daily";
       RandomizedDelaySec = 60;
