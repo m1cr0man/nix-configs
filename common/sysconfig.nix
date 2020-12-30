@@ -64,7 +64,7 @@
       sleep ${scrubTime}
       ${stopCommand}
     '';
-    postStart = stopCommand;
+    preStop = stopCommand;
     serviceConfig.Type = "oneshot";
   };
 
