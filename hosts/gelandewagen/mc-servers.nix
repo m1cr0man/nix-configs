@@ -13,7 +13,7 @@ in {
       jar = "forge-1.15.2-31.2.45.jar";
       port = 25555;
       serverProperties = {
-        motd = "Creativity 1.15.2.2";
+        motd = "Creativity 1.15.2.4";
         level-seed = "-821503530";
         difficulty = "hard";
       };

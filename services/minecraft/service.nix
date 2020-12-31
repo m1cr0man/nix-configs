@@ -7,7 +7,7 @@ let
   mcRoot = /var/gaming/minecraft;
   commonArgs = "-server -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalPacing"
     + " -XX:+CMSClassUnloadingEnabled -XX:ParallelGCThreads=2"
-    + " -XX:MaxGCPauseMillis=50 -DfmlqueryResult=confirm"
+    + " -XX:MaxGCPauseMillis=50 -Dfml.queryResult=confirm"
     + " -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10"
     + " -XX:CMSInitiatingOccupancyFraction=80 -XX:+UseCMSInitiatingOccupancyOnly"
     + " -XX:+UseParNewGC -XX:+CMSParallelRemarkEnabled -XX:+DisableExplicitGC"
