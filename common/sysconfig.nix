@@ -51,8 +51,7 @@
   # Incremental scrubbing to avoid drive murder
   systemd.services.zfs-scrub = let
     stopCommand = ''
-      zpool scrub -p $(zpool list -Ho name)
-      true
+      zpool scrub -p $(zpool list -Ho name) || true
     '';
     scrubTime = builtins.toString (60 * 30);
   in {
