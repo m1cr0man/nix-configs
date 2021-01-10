@@ -1,8 +1,8 @@
 { pkgs, ... }:
 let
   latestJar = pkgs.fetchurl {
-    url = "https://launcher.mojang.com/v1/objects/f02f4473dbf152c23d7d484952121db0b36698cb/server.jar";
-    sha256 = "0nxdyw23037cr9cfcsfq1cvpy75am5dzmbgvvh3fq6h89kkm1r1j";
+    url = "https://launcher.mojang.com/v1/objects/35139deedbd5182953cf1caa23835da59ca3d7cd/server.jar";
+    sha256 = "01i5nd03sbnffbyni1fa6hsg5yll2h19vfrpcydlivx10gck0ka4";
   };
 in {
   imports = [ ../../services/minecraft ];
@@ -29,12 +29,21 @@ in {
       };
     };
 
-    patrick = {
-      memGb = 2;
+    # patrick = {
+    #   memGb = 2;
+    #   jar = latestJar;
+    #   port = 25545;
+    #   serverProperties = {
+    #     motd = "Idk Patrick's brother";
+    #   };
+    # };
+
+    adam = {
+      memGb = 4;
       jar = latestJar;
-      port = 25545;
+      port = 25525;
       serverProperties = {
-        motd = "Idk Patrick's brother";
+        motd = "The big Savva House";
       };
     };
   };
