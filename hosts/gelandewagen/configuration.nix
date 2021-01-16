@@ -69,7 +69,6 @@ in {
     useDefaultShell = false;
   };
 
-
   users.users.breogan = {
     home = "/home/breogan";
     shell = pkgs.bashInteractive;
@@ -92,6 +91,6 @@ in {
     };
   };
 
-  networking.firewall.allowedTCPPorts = [ 27015 26900 1802 ];
-  networking.firewall.allowedUDPPorts = [ 26900 26901 26902 27005 27015 27020 ];
+  networking.firewall.allowedTCPPorts = [ 27015 27016 26900 1802 7776 7777 ];
+  networking.firewall.allowedUDPPorts = [ 26900 26901 26902 27005 27015 27016 27020 7776 7777 ];
 }
