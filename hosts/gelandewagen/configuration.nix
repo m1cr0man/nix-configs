@@ -10,6 +10,7 @@ in {
       ../../common/sysconfig.nix
       ../../services/dns
       ../../services/ssh.nix
+      ../../services/eggnor.nix
       ../../services/httpd.nix
       ../../services/gamesvm.nix
       ../../services/m1cr0blog.nix
@@ -78,6 +79,16 @@ in {
     ];
   };
   users.groups.breogan = {};
+
+  users.users.anders = {
+    home = "/home/anders";
+    shell = pkgs.bashInteractive;
+    group = "anders";
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOuW9Vc1zz3qA++TpqLb6jTBx2ZfejO0uqrYt/tmGaEM ed25519-key-20210126"
+    ];
+  };
+  users.groups.anders = {};
 
   systemd.services.stress = {
     description = "CPU stress to stop crashes";
