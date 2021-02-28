@@ -6,6 +6,8 @@
       ./samba-shares.nix
       ../../common/sysconfig.nix
       ../../services/ssh.nix
+      ../../services/postgresql.nix
+      ./postgresql.nix
     ];
 
   m1cr0man.chronograf.reverseProxy = false;
