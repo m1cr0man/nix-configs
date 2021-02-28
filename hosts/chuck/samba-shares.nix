@@ -14,15 +14,28 @@ in {
   imports = [ ../../services/samba ];
 
   m1cr0man.samba-shares = {
-    archives_master = share "/zhuge2/zgaming/archives/master" "Master old games archive";
-    steam_master = share "/zhuge2/zgaming/steam/master" "Master Steam archive";
-    origin_master = share "/zhuge2/zgaming/origin/master" "Master Origin archive";
+    archives_master = (share "/zhuge2/zgaming/archives/master" "Master old games archive") // {
+      extraConfig = {
+        "guest ok" = "yes";
+      };
+    };
+    steam_master = (share "/zhuge2/zgaming/steam/master" "Master Steam archive") // {
+      extraConfig = {
+        "guest ok" = "yes";
+      };
+    };
+    origin_master = (share "/zhuge2/zgaming/origin/master" "Master Origin archive") // {
+      extraConfig = {
+        "guest ok" = "yes";
+      };
+    };
     apps_drivers = share "/zhuge2/zstorage/apps_drivers" "Apps and Drivers";
     games_stuff = share "/zhuge2/zstorage/games_stuff" "Games Stuff";
     movies = share "/zhuge2/zstorage/movies" "Movie backups";
     music = share "/zhuge2/zstorage/music" "Music backups";
     pc_backups = share "/zhuge2/zstorage/pc_backups" "Computer backups";
     drive_c = share "/drive_c" "Old PC Drive C";
+    drive_d = share "/zhuge2/pcbackup/drive_d" "Old PC Drive D";
     pictures_videos = share "/zhuge2/zstorage/pictures_videos" "Pictures and Videos";
     sites = share "/zhuge2/zstorage/sites" "Websites";
     quick_share = (share "/zhuge2/zstorage/quick_share" "Quick Share") // {
