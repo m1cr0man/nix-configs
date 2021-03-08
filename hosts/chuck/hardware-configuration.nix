@@ -36,28 +36,8 @@
       fsType = "zfs";
     };
 
-  fileSystems."/zhuge2/testing" =
-    { device = "zhuge2/testing";
-      fsType = "zfs";
-    };
-
-  fileSystems."/zhuge2/zgaming/origin" =
-    { device = "zhuge2/zgaming/origin";
-      fsType = "zfs";
-    };
-
-  fileSystems."/zhuge2/zgaming/origin/master" =
-    { device = "zhuge2/zgaming/origin/master";
-      fsType = "zfs";
-    };
-
-  fileSystems."/zhuge2/zgaming/steam/master" =
-    { device = "zhuge2/zgaming/steam/master";
-      fsType = "zfs";
-    };
-
-  fileSystems."/zhuge2/zgaming/archives/master" =
-    { device = "zhuge2/zgaming/archives/master";
+  fileSystems."/zhuge2/games" =
+    { device = "zhuge2/games";
       fsType = "zfs";
     };
 

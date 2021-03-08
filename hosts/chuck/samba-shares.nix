@@ -14,18 +14,9 @@ in {
   imports = [ ../../services/samba ];
 
   m1cr0man.samba-shares = {
-    archives_master = (share "/zhuge2/zgaming/archives/master" "Master old games archive") // {
+    games = (share "/zhuge2/games" "Games") // {
       extraConfig = {
-        "guest ok" = "yes";
-      };
-    };
-    steam_master = (share "/zhuge2/zgaming/steam/master" "Master Steam archive") // {
-      extraConfig = {
-        "guest ok" = "yes";
-      };
-    };
-    origin_master = (share "/zhuge2/zgaming/origin/master" "Master Origin archive") // {
-      extraConfig = {
+        # TODO force user
         "guest ok" = "yes";
       };
     };
