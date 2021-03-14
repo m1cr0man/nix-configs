@@ -84,7 +84,7 @@ in {
     home = "/home/anders";
     shell = pkgs.bashInteractive;
     group = "anders";
-    openssh.authorizedKeys.keys = [
+    openssh.authorizedKeys.keys = config.users.users.root.openssh.authorizedKeys.keys ++ [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOuW9Vc1zz3qA++TpqLb6jTBx2ZfejO0uqrYt/tmGaEM ed25519-key-20210126"
     ];
   };
