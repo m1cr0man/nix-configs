@@ -19,6 +19,9 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.network.enable = lib.mkForce false;
 
+  # Reduce auto snapshot frequency
+  services.zfs.autoSnapshot.frequent = lib.mkForce 0;
+
   networking = {
     hostId = "4c1ff1d9";
     hostName = "chuck";
