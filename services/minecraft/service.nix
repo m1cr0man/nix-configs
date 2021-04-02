@@ -12,7 +12,8 @@ let
     + " -XX:CMSInitiatingOccupancyFraction=80 -XX:+UseCMSInitiatingOccupancyOnly"
     + " -XX:+UseParNewGC -XX:+CMSParallelRemarkEnabled -XX:+DisableExplicitGC"
     + " -XX:SurvivorRatio=5 -XX:TargetSurvivorRatio=90 -XX:+AggressiveOpts"
-    + " -XX:+UseFastAccessorMethods -XX:+UseBiasedLocking -XX:+UseCompressedOops";
+    + " -XX:+UseFastAccessorMethods -XX:+UseBiasedLocking -XX:+UseCompressedOops"
+    + " -Dpaper.playerconnection.keepalive=300";
 
   cfgToString = v: if builtins.isBool v then lib.boolToString v else toString v;
 

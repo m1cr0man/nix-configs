@@ -1,8 +1,12 @@
 { pkgs, ... }:
 let
   latestJar = pkgs.fetchurl {
-    url = "https://launcher.mojang.com/v1/objects/35139deedbd5182953cf1caa23835da59ca3d7cd/server.jar";
-    sha256 = "01i5nd03sbnffbyni1fa6hsg5yll2h19vfrpcydlivx10gck0ka4";
+    url = "https://launcher.mojang.com/v1/objects/1b557e7b033b583cd9f66746b7a9ab1ec1673ced/server.jar";
+    sha256 = "19ix6x5ij4jcwqam1dscnqwm0m251gysc2j793wjcrb9sb3jkwsq";
+  };
+  latestJarPaper = pkgs.fetchurl {
+    url = "https://papermc.io/api/v2/projects/paper/versions/1.16.5/builds/574/downloads/paper-1.16.5-574.jar";
+    sha256 = "0g8h03wsnlx2lhm84q8cyzvg11a68i3qkf46ck9ra84i9xzf9grf";
   };
 in {
   imports = [ ../../services/minecraft ];
@@ -40,7 +44,7 @@ in {
 
     adam = {
       memGb = 4;
-      jar = latestJar;
+      jar = latestJarPaper;
       port = 25525;
       serverProperties = {
         motd = "The big Savva House";
