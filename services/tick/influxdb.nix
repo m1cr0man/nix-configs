@@ -1,4 +1,7 @@
-{
+{ config, ... }:
+let
+  bindAddress = config.m1cr0man.influxdb.bindAddress;
+in {
   services.influxdb = {
     enable = true;
     dataDir = "/var/lib/tick/influxdb";
@@ -6,12 +9,12 @@
       admin.enabled = false;
       data.query-log-enabled = false;
       http = {
-        bind-address = "127.0.0.1:8086";
+        bind-address = "${bindAddress}:8086";
         log-enabled = false;
       };
       udp = [{
         enabled = true;
-        bind-address = "127.0.0.1:8089";
+        bind-address = "${bindAddress}:8089";
         database = "telegraf";
         retention-policy = "14d";
       }];

@@ -1,7 +1,12 @@
 { lib, ... }:
+with lib;
 {
-  options.m1cr0man.chronograf.reverseProxy = lib.mkOption {
+  options.m1cr0man.chronograf.reverseProxy = mkOption {
     default = true;
-    type = lib.types.nullOr lib.types.bool;
+    type = types.bool;
+  };
+  options.m1cr0man.influxdb.bindAddress = mkOption {
+    default = "127.0.0.1";
+    type = types.str;
   };
 }
