@@ -47,6 +47,22 @@ in {
     # everything else is explicitly upgraded to https
   };
 
+  # Monitoring
+  services.telegraf.inputs.apache = {
+    urls = [ "http://127.0.0.1/.server-status?auto" ];
+  };
+
+  services.telegraf.inputs.tail = [{
+    files = [ (config.services.httpd.logDir + "/access.log") ];
+    data_format = "grok";
+    grok_patterns = [ "%{COMBINED_LOG_FORMAT} %{DATA:vhost}" ];
+  } {
+    files = [ (config.services.httpd.logDir + "/error.log") ];
+    data_format = "grok";
+    grok_patterns = [ "%{HTTPD24_ERRORLOG}" ];
+  }];
+
+  # Certificates
   security.acme.certs."m1cr0man.com".group = lib.mkForce "acme";
   users.users.wwwrun.extraGroups = [ "acme" ];
 

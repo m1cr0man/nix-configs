@@ -2,6 +2,7 @@
 with lib;
 let
   base = import ./service.nix { inherit pkgs lib; };
+  secrets = import ../../common/secrets.nix;
   cfg = config.m1cr0man.minecraft-servers;
 
   restartService = optionalAttrs (cfg != {}) {
@@ -25,6 +26,12 @@ in {
   networking.firewall.allowedTCPPorts = flatten (mapAttrsToList (name: conf: [
     conf.port (conf.port + 1)
   ]) cfg);
+
+  services.telegraf.inputs.minecraft = (mapAttrsToList (name: conf: {
+    server = "127.0.0.1";
+    port = conf.port;
+    password = secrets.minecraft_rcon_password;
+  }));
 
   systemd.services = (mapAttrs' (name: conf: nameValuePair ("minecraft-${name}") (
     base.minecraftService {
