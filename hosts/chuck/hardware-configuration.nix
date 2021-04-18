@@ -21,18 +21,8 @@
       fsType = "vfat";
     };
 
-  fileSystems."/drive_c" =
-    { device = "/dev/zd16p3";
-      fsType = "ntfs";
-    };
-
   fileSystems."/nix" =
     { device = "zchuck/nix_store";
-      fsType = "zfs";
-    };
-
-  fileSystems."/zhuge2/pcbackup/drive_d" =
-    { device = "zhuge2/pcbackup/drive_d";
       fsType = "zfs";
     };
 

@@ -25,8 +25,6 @@ in {
     movies = share "/zhuge2/zstorage/movies" "Movie backups";
     music = share "/zhuge2/zstorage/music" "Music backups";
     pc_backups = share "/zhuge2/zstorage/pc_backups" "Computer backups";
-    drive_c = share "/drive_c" "Old PC Drive C";
-    drive_d = share "/zhuge2/pcbackup/drive_d" "Old PC Drive D";
     pictures_videos = share "/zhuge2/zstorage/pictures_videos" "Pictures and Videos";
     sites = share "/zhuge2/zstorage/sites" "Websites";
     quick_share = (share "/zhuge2/zstorage/quick_share" "Quick Share") // {

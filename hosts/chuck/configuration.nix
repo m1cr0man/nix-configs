@@ -7,10 +7,13 @@
       ../../common/sysconfig.nix
       ../../services/ssh.nix
       ../../services/postgresql.nix
+      ../../services/tick
+      ../../services/grafana.nix
       ./postgresql.nix
     ];
 
   m1cr0man.chronograf.reverseProxy = false;
+  m1cr0man.influxdb.bindAddress = "0.0.0.0";
 
   system.stateVersion = "21.03";
 
@@ -38,5 +41,7 @@
     }];
     defaultGateway = "192.168.14.254";
     nameservers = [ "192.168.14.254" "1.1.1.1" ];
+
+    firewall.allowedTCPPorts = [ 8086 8030 ];
   };
 }
