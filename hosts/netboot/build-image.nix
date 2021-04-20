@@ -1,8 +1,8 @@
+# To build: nix-build build-image.nix
 let
-  nixpkgs = <nixpkgs>;
-  pkgs = import nixpkgs {};
+  pkgs = import <nixpkgs> {};
   configuration = import ./configuration.nix;
-  nixos = import "${nixpkgs}/nixos" {
+  nixos = import "${<nixpkgs>}/nixos" {
     inherit configuration;
   };
 in

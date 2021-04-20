@@ -2,12 +2,12 @@
 with lib;
 {
   imports = [
-    "${nixpkgs}/nixos/modules/installer/netboot/netboot-minimal.nix"
+    "${<nixpkgs>}/nixos/modules/installer/netboot/netboot-minimal.nix"
     ../../common/sysconfig.nix
     ../../services/ssh.nix
   ];
 
-  services.mingetty.autologinUser = mkForce "root";
+  services.getty.autologinUser = mkForce "root";
   # Enable sshd which gets disabled by netboot-minimal.nix
   systemd.services.sshd.wantedBy = mkOverride 0 [ "multi-user.target" ];
 }
