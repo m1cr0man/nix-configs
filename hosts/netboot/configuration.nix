@@ -3,7 +3,7 @@ with lib;
 {
   imports = [
     "${<nixpkgs>}/nixos/modules/installer/netboot/netboot-minimal.nix"
-    ../../common/sysconfig.nix
+    ../../common/base.nix
     ../../services/ssh.nix
   ];
 

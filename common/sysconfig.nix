@@ -1,10 +1,8 @@
 { pkgs, config, lib, ... }:
 {
   imports = [
-    ./options.nix
+    ./base.nix
   ];
-
-  nixpkgs.config.allowUnfree = true;
 
   # Enable shell during boot
   boot.initrd.network = {
@@ -28,17 +26,6 @@
     ip l set eth0 down
   '';
 
-  boot.kernelParams = [
-    "boot.shell_on_fail"
-    "ip=dhcp"
-  ];
-
-  boot.supportedFilesystems = [ "zfs" ];
-  boot.zfs = {
-    enableUnstable = true;
-    forceImportRoot = true;
-    forceImportAll = false;
-  };
   services.zfs.autoSnapshot = {
     enable = true;
     frequent = 8;
@@ -85,19 +72,6 @@
     };
   };
 
-  networking.domain = "m1cr0man.com";
-
-  time.timeZone = "Europe/Dublin";
-  i18n.defaultLocale = "en_IE.UTF-8";
-  console = {
-    font = "Lat2-Terminus16";
-    keyMap = "uk";
-  };
-
-  environment.systemPackages = with pkgs; [
-    wget vim git screen zstd git-crypt htop
-  ];
-
   # Enable rsyslog
   services.rsyslogd.enable = true;
   services.rsyslogd.extraConfig = "*.* @127.0.0.1:6514;RSYSLOG_SyslogProtocol23Format";
@@ -107,7 +81,4 @@
   services.cron.systemCronJobs = [
     "0 4 * * * journalctl --vacuum-time=7d"
   ];
-
-  # Enable accounting so systemd-cgtop can show IO load
-  systemd.enableCgroupAccounting = true;
 }

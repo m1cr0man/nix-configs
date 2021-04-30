@@ -48,11 +48,11 @@ in {
   };
 
   # Monitoring
-  services.telegraf.inputs.apache = {
+  services.telegraf.extraConfig.inputs.apache = {
     urls = [ "http://127.0.0.1/.server-status?auto" ];
   };
 
-  services.telegraf.inputs.tail = [{
+  services.telegraf.extraConfig.inputs.tail = [{
     files = [ (config.services.httpd.logDir + "/access.log") ];
     data_format = "grok";
     grok_patterns = [ "%{COMBINED_LOG_FORMAT} %{DATA:vhost}" ];
@@ -63,7 +63,7 @@ in {
   }];
 
   # Certificates
-  security.acme.certs."m1cr0man.com".group = lib.mkForce "acme";
+  # TODO remove this
   users.users.wwwrun.extraGroups = [ "acme" ];
 
   networking.firewall.allowedTCPPorts = [ 80 443 ];

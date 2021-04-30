@@ -9,6 +9,7 @@ let
       useDefaultShell = true;
       group = name;
       extraGroups = [ "users" "wheel" ];
+      isNormalUser = true;
   };
 in {
   imports = [ ../../services/samba ];
