@@ -9,4 +9,14 @@ with lib;
     default = "127.0.0.1";
     type = types.str;
   };
+  options.m1cr0man.netbooter.dhcpProxyAddress = mkOption {
+    default = "192.168.137.0";
+    type = types.str;
+    description = "Listening range for DHCP proxying";
+  };
+  options.m1cr0man.netbooter.hostIp = mkOption {
+    default = "192.168.137.2";
+    type = types.str;
+    description = "Address of this host AKA the PXE boot server";
+  };
 }
