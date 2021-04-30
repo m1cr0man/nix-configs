@@ -9,9 +9,14 @@ with lib;
     default = "127.0.0.1";
     type = types.str;
   };
+  options.m1cr0man.netbooter.dhcpRange = mkOption {
+    default = null;
+    type = types.nullOr types.str;
+    description = "Pair of IP addresses (comma separated) of range for leases";
+  };
   options.m1cr0man.netbooter.dhcpProxyAddress = mkOption {
-    default = "192.168.137.0";
-    type = types.str;
+    default = null;
+    type = types.nullOr types.str;
     description = "Listening range for DHCP proxying";
   };
   options.m1cr0man.netbooter.hostIp = mkOption {

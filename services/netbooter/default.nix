@@ -4,6 +4,7 @@ let
   externalRoot = "/var/lib/netboot-root";
 
   dhcpProxyAddress = config.m1cr0man.netbooter.dhcpProxyAddress;
+  dhcpRange = config.m1cr0man.netbooter.dhcpRange;
   hostIp = config.m1cr0man.netbooter.hostIp;
   httpPort = 8069;
 
@@ -32,6 +33,13 @@ let
     '';
   };
 
+  dhcpListenConfig = if dhcpRange != null then ''
+    dhcp-range=${dhcpRange},12h
+    dhcp-authoritative
+  '' else ''
+    dhcp-range=${dhcpProxyAddress},proxy
+  '';
+
   # Embed ipxe script into the image for faster booting
   # ipxeEmbedded = pkgs.ipxe.override { embedScript = ipxeScript; };
 
@@ -50,6 +58,14 @@ let
     preferLocalBuild = true;
   };
 in {
+  assertions = [{
+    assertion = dhcpRange == null || dhcpProxyAddress == null;
+    message = ''
+      Options `m1cr0man.netbooter.dhcpRange` and
+      `m1cr0man.netbooter.dhcpProxyAddress` are mutually exclusive.
+    '';
+  }];
+
   services.lighttpd = {
     enable = true;
     port = httpPort;
@@ -64,15 +80,12 @@ in {
     resolveLocalQueries = false;
     extraConfig = ''
       port=0
-
+      listen-address=${hostIp}
+      log-dhcp
       enable-tftp
       tftp-root=${netbootRoot}
 
-      log-dhcp
-
-      # dhcp-range=192.168.14.0,proxy
-      dhcp-range=192.168.137.50,192.168.137.150,12h
-      dhcp-authoritative
+      ${dhcpListenConfig}
 
       # Speed up DHCP when no proxy is in use (set no-proxydhcp)
       dhcp-option=encap:175,176,1
@@ -92,6 +105,9 @@ in {
       dhcp-boot=tag:!iPXE,tag:!uefi,undionly.kpxe,,${hostIp}
     '';
   };
+
+  # Used for leasefile
+  systemd.services.dnsmasq.serviceConfig.StateDirectory = "dnsmasq";
 
   networking.firewall.allowedTCPPorts = [ 67 httpPort ];
   networking.firewall.allowedUDPPorts = [ 67 69 ];

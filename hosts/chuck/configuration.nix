@@ -15,6 +15,7 @@
 
   m1cr0man.chronograf.reverseProxy = false;
   m1cr0man.influxdb.bindAddress = "0.0.0.0";
+  m1cr0man.netbooter.dhcpRange = "192.168.137.200,192.168.137.250";
 
   system.stateVersion = "21.03";
 
