@@ -37,7 +37,7 @@
 
   # Fix vscode-server node binary on login
   environment.shellInit = let
-    node = pkgs.nodejs-12_x;
+    node = pkgs.nodejs-14_x;
     findutils = pkgs.findutils;
   in ''
     ${findutils}/bin/find ~/.vscode-server -type f -name node \( -execdir rm '{}' \; -and -execdir ln -s '${node}/bin/node' '{}' \; \)
