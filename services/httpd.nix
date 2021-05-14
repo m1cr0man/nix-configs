@@ -63,8 +63,8 @@ in {
   }];
 
   # Certificates
-  # TODO remove this
   users.users.wwwrun.extraGroups = [ "acme" ];
+  security.acme.certs."m1cr0man.com".group = "acme";
 
   networking.firewall.allowedTCPPorts = [ 80 443 ];
 }

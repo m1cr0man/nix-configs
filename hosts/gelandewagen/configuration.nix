@@ -57,6 +57,7 @@ in {
     group = "users";
     home = "/home/gmod";
     isSystemUser = false;
+    isNormalUser = true;
     useDefaultShell = true;
     uid = 1000;
   };
@@ -78,6 +79,7 @@ in {
     home = "/home/breogan";
     shell = pkgs.bashInteractive;
     group = "breogan";
+    isNormalUser = true;
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJIeiNkZ53utCm/d9a/m46xe00OTlRnRlrgEoiRmpW1j ed25519-key-20200418"
     ];
@@ -88,6 +90,7 @@ in {
     home = "/home/anders";
     shell = pkgs.bashInteractive;
     group = "anders";
+    isNormalUser = true;
     openssh.authorizedKeys.keys = config.users.users.root.openssh.authorizedKeys.keys ++ [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOuW9Vc1zz3qA++TpqLb6jTBx2ZfejO0uqrYt/tmGaEM ed25519-key-20210126"
     ];

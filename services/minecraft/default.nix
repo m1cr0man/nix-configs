@@ -27,11 +27,11 @@ in {
     conf.port (conf.port + 1)
   ]) cfg);
 
-  services.telegraf.inputs.minecraft = (mapAttrsToList (name: conf: {
+  services.telegraf.extraConfig.inputs.minecraft = (mapAttrsToList (name: conf: {
     server = "127.0.0.1";
-    port = conf.port;
+    port = builtins.toString conf.port;
     password = secrets.minecraft_rcon_password;
-  }));
+  }) cfg);
 
   systemd.services = (mapAttrs' (name: conf: nameValuePair ("minecraft-${name}") (
     base.minecraftService {

@@ -7,7 +7,7 @@ in {
     accessKey = secrets.minio_access_key;
     secretKey = secrets.minio_secret_key;
     configDir = "/var/www/minio/config";
-    dataDir = "/var/www/minio/data";
+    dataDir = [ "/var/www/minio/data" ];
     region = "EU";
   };
 
