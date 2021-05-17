@@ -6,11 +6,10 @@
       ./samba-shares.nix
       ../../common/sysconfig.nix
       ../../services/ssh.nix
-      ../../services/postgresql.nix
       ../../services/tick
       ../../services/netbooter
       ../../services/grafana.nix
-      ./postgresql.nix
+      ./services/postgresql.nix
     ];
 
   m1cr0man.chronograf.reverseProxy = false;

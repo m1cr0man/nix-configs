@@ -2,21 +2,9 @@
 let
   secrets = import ../common/secrets.nix;
 in {
-  security.acme.acceptTerms = true;
-  security.acme.email = "lucas+acme@m1cr0man.com";
-  # security.acme.server = "https://acme-staging-v02.api.letsencrypt.org/directory";
-
   # Allow telegraf to read logs
   systemd.tmpfiles.rules = [
     "d '${config.services.httpd.logDir}' 0755 ${config.services.httpd.user} ${config.services.httpd.group} - -"
-  ];
-
-  # Clear log file regularly since telegraf streams it
-  # Also reload httpd to pick up new certs
-  services.cron.systemCronJobs = [
-    "0 4 * * * echo Log cleared by cron script > ${config.services.httpd.logDir}/access.log"
-    "0 4 * * * echo Log cleared by cron script > ${config.services.httpd.logDir}/error.log"
-    "0 6 * * 0 systemctl reload httpd.service"
   ];
 
   services.httpd = {
@@ -28,6 +16,7 @@ in {
     extraConfig = ''
       LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" %v" combinedplus
       ProxyPreserveHost On
+      DirectoryIndex index.php index.html index.htm index.shtml
 
       <Location "/.server-status">
         SetHandler server-status
@@ -61,10 +50,6 @@ in {
     data_format = "grok";
     grok_patterns = [ "%{HTTPD24_ERRORLOG}" ];
   }];
-
-  # Certificates
-  users.users.wwwrun.extraGroups = [ "acme" ];
-  security.acme.certs."m1cr0man.com".group = "acme";
 
   networking.firewall.allowedTCPPorts = [ 80 443 ];
 }

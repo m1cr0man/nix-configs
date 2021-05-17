@@ -11,6 +11,7 @@ in {
       ../../services/dns
       ../../services/ssh.nix
       ../../services/eggnor.nix
+      ../../services/acme.nix
       ../../services/httpd.nix
       ../../services/gamesvm.nix
       ../../services/m1cr0blog.nix
