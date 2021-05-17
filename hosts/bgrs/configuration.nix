@@ -29,8 +29,6 @@ in {
       address = "192.168.137.5";
       prefixLength = 24;
     }];
-    defaultGateway = "192.168.137.1";
-    nameservers = [ "192.168.137.1" "1.1.1.1" ];
   };
 
   users.users.root.openssh.authorizedKeys.keys = [

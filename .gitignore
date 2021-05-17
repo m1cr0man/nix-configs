@@ -1,5 +1,6 @@
 /configuration.nix
 result/
+result
 *.key
 .vscode/
 *.patch
