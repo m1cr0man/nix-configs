@@ -1,11 +1,19 @@
 { pkgs, ... }:
 {
   imports = [ ../../../services/httpd.nix ];
+
+  # Required by Akaunting
+  systemd.services.httpd.path = [ pkgs.php80 ];
+
   services.httpd = {
     enablePHP = true;
     phpPackage = pkgs.php80;
     phpOptions = ''
-      extension=${pkgs.php80Extensions.pgsql}/lib/php/extensions/pgsql.so
+      extension = ${pkgs.php80Extensions.pgsql}/lib/php/extensions/pgsql.so
+      extension = ${pkgs.php80Extensions.gd}/lib/php/extensions/gd.so
+      extension = ${pkgs.php80Extensions.zip}/lib/php/extensions/zip.so
+      extension = ${pkgs.php80Extensions.pdo_mysql}/lib/php/extensions/pdo_mysql.so
+      error_reporting = E_ALL & ~E_DEPRECATED
     '';
     extraConfig = ''
       DavLockDB /var/www/davlock
@@ -14,8 +22,9 @@
       "192.168.137.5" = {
         documentRoot = "/var/www";
         extraConfig = ''
-          # Let PHP generate DAV-compatible indexes
+          # Let Apache generate DAV-compatible indexes
           DirectoryIndex disabled
+          php_admin_flag engine off
           <Directory "/var/www">
             Require all granted
             Dav On
@@ -39,6 +48,14 @@
       };
       "partman" = {
         documentRoot = "/var/www/partman";
+      };
+      "akaunting" = {
+        documentRoot = "/var/www/akaunting";
+        extraConfig = ''
+          <Directory "/var/www/akaunting">
+            AllowOverride All
+          </Directory>
+        '';
       };
     };
   };

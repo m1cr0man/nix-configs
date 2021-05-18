@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 let
   backup_dest = "root@192.168.14.1:/zhuge2/zstorage/pc_backups/bgrs/";
 in {
@@ -18,6 +18,7 @@ in {
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.initrd.network.enable = lib.mkForce false;
 
   networking = {
     hostId = "ed241724";

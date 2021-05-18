@@ -6,12 +6,13 @@ in {
   services.mysql = {
     enable = true;
     package = pkg;
-    ensureDatabases = [ "bgrs" ];
+    ensureDatabases = [ "bgrs" "akaunting" ];
     ensureUsers = [
       {
         name = "wwwrun";
         ensurePermissions = {
           "bgrs.*" = "ALL PRIVILEGES";
+          "akaunting.*" = "ALL PRIVILEGES";
         };
       }
     ];
