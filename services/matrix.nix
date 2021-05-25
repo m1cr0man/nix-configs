@@ -1,3 +1,5 @@
+# Note: If domain is added to /etc/hosts and resolves to 127.0.0.1
+# It will break some synapse key verification thing.
 { config, pkgs, ... }:
 let
   secrets = import ../common/secrets.nix;
@@ -28,6 +30,8 @@ let
   # Client
   element = pkgs.element-web.override {
     conf.default_server_config."m.homeserver" = {
+      # base_url _should_ be set to domain because Element will look for .well-known/matrix/client
+      # however it does not, and then fails to GET _matrix/
       "base_url" = "https://${server}";
       "server_name" = server;
     };
@@ -63,9 +67,15 @@ in {
 
       # Forward all Matrix API calls to the synapse Matrix homeserver
       locations."/_matrix" = {
-        proxyPass = "http://[::1]:8194";
+        # proxyPass = "http://[::1]:8194/_matrix";
         # CORS headers needed to allow element.${domain} to make calls from clients
-        extraConfig = corsAny;
+        # X-Forwarded-Proto suppresses some errors
+        extraConfig = corsAny + ''
+          ProxyPass http://[::1]:8194/_matrix nocanon
+          ProxyPassReverse http://[::1]:8194/_matrix
+          RequestHeader set X-Forwarded-Proto "https"
+          ProxyPreserveHost On
+        '';
       };
     };
 
@@ -95,5 +105,32 @@ in {
         ];
       }
     ];
-  };
+    logConfig = ''
+      version: 1
+
+      # In systemd's journal, loglevel is implicitly stored, so let's omit it
+      # from the message text.
+      formatters:
+          journal_fmt:
+              format: '%(name)s: [%(request)s] %(message)s'
+
+      filters:
+          context:
+              (): synapse.util.logcontext.LoggingContextFilter
+              request: ""
+
+      handlers:
+          journal:
+              class: systemd.journal.JournalHandler
+              formatter: journal_fmt
+              filters: [context]
+              SYSLOG_IDENTIFIER: matrix-synapse
+
+      root:
+          level: WARN
+          handlers: [journal]
+
+      disable_existing_loggers: False
+    '';
+    };
 }
