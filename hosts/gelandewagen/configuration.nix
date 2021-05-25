@@ -15,8 +15,10 @@ in {
       ../../services/httpd.nix
       ../../services/gamesvm.nix
       ../../services/m1cr0blog.nix
+      ../../services/matrix.nix
       ../../services/minio.nix
       ../../services/openttd.nix
+      ../../services/postgresql.nix
       ../../services/breogan.nix
       ../../services/plex.nix
       ../../services/weechat.nix
