@@ -29,6 +29,7 @@ let
 
   # Client
   element = pkgs.element-web.override {
+    conf.showLabsSettings = true;
     conf.default_server_config."m.homeserver" = {
       # base_url _should_ be set to domain because Element will look for .well-known/matrix/client
       # however it does not, and then fails to GET _matrix/
@@ -90,6 +91,11 @@ in {
     enable = true;
     server_name = domain;
     # registration_shared_secret = secrets.matrix_registration_secret;
+    # TODO remove in 1.35+ versions
+    extraConfig = ''
+      experimental_features:
+        spaces_enabled: true
+    '';
     listeners = [
       {
         port = 8194;
