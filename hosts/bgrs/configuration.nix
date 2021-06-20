@@ -1,6 +1,7 @@
 { config, pkgs, lib, ... }:
 let
   backup_dest = "root@192.168.14.1:/zhuge2/zstorage/pc_backups/bgrs/";
+  local_backup_dest = "/zeuspc/Backups/BGRS";
 in {
 
   imports =
@@ -48,8 +49,9 @@ in {
     description = "Copy backups before shutdown";
     wantedBy = [ "mysql-backup.service" "postgresql-backup.service" ];
     before = [ "mysql-backup.service" "postgresql-backup.service" ];
-    after = [ "network.target" ];
-    path = with pkgs; [ rsync openssh ];
+    after = [ "network.target" "zeuspc.mount" ];
+    wants = [ "zeuspc.mount" ];
+    path = with pkgs; [ rsync openssh util-linux ];
     script = "true";
     preStop = ''
       mkdir -p /var/www/backups/
@@ -62,11 +64,17 @@ in {
         fi
       done
       rsync \
-        -e "ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5" \
+        -e "ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 -i /root/.ssh/id_ed25519" \
         --chown='lucas:users' \
         --chmod=F660 \
         -va --delete \
         . '${backup_dest}' || true
+
+      if mountpoint /zeuspc; then
+        rsync \
+          -va --delete \
+          . '${local_backup_dest}' || true
+      fi
     '';
     serviceConfig = {
       Type = "oneshot";

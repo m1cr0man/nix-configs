@@ -2,8 +2,9 @@
 # and may be overwritten by future invocations.  Please make changes
 # to /etc/nixos/configuration.nix instead.
 { config, lib, pkgs, modulesPath, ... }:
-
-{
+let
+  secrets = import ../../common/secrets.nix;
+in {
   imports = [ ];
 
   boot.initrd.availableKernelModules = [ "sd_mod" ];
@@ -24,6 +25,17 @@
   fileSystems."/boot" =
     { device = "/dev/disk/by-uuid/D415-73CA";
       fsType = "vfat";
+    };
+
+  systemd.targets.network.before = [ "zeuspc.mount" ];
+  fileSystems."/zeuspc" =
+    { device = "//192.168.14.100/d$";
+      fsType = "cifs";
+      options = [
+        "nofail"
+        "username=zeus"
+        "password=${secrets.bgrs_cifs_password}"
+      ];
     };
 
   swapDevices =
