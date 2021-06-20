@@ -57,6 +57,14 @@
           </Directory>
         '';
       };
+      "invoiceplane" = {
+        documentRoot = "/var/www/invoiceplane";
+        extraConfig = ''
+          <Directory "/var/www/invoiceplane">
+            AllowOverride All
+          </Directory>
+        '';
+      };
     };
   };
 }
