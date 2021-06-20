@@ -45,4 +45,8 @@
 
     firewall.allowedTCPPorts = [ 8086 8030 ];
   };
+
+  users.users.root.openssh.authorizedKeys.keys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGQ/+dK+9Y/QduSpNPoX/yfKYZazgUVwhs3DjH008U2C root@bgrs"
+  ];
 }
