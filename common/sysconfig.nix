@@ -3,6 +3,7 @@
   imports = [
     ./base.nix
     ./zfs.nix
+    ./commands.nix
   ];
 
   # Use DHCP during the initrd, then undo the config before stage 2 boot
