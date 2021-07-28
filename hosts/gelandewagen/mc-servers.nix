@@ -1,12 +1,12 @@
 { pkgs, ... }:
 let
   latestJar = pkgs.fetchurl {
-    url = "https://launcher.mojang.com/v1/objects/1b557e7b033b583cd9f66746b7a9ab1ec1673ced/server.jar";
-    sha256 = "19ix6x5ij4jcwqam1dscnqwm0m251gysc2j793wjcrb9sb3jkwsq";
+    url = "https://launcher.mojang.com/v1/objects/a16d67e5807f57fc4e550299cf20226194497dc2/server.jar";
+    sha256 = "0pzmzagvrrapjsnd8xg4lqwynwnb5rcqk2n9h2kzba8p2fs13hp8";
   };
   latestJarPaper = pkgs.fetchurl {
-    url = "https://papermc.io/api/v2/projects/paper/versions/1.16.5/builds/574/downloads/paper-1.16.5-574.jar";
-    sha256 = "0g8h03wsnlx2lhm84q8cyzvg11a68i3qkf46ck9ra84i9xzf9grf";
+    url = "https://papermc.io/api/v2/projects/paper/versions/1.17.1/builds/136/downloads/paper-1.17.1-136.jar";
+    sha256 = "0y0vssg2jwggdkz812sm9i5xs3996sl014w6mb87b352b7ligwsv";
   };
 in {
   imports = [ ../../services/minecraft ];
@@ -15,6 +15,7 @@ in {
     creativity = {
       memGb = 8;
       jar = "forge-1.15.2-31.2.45.jar";
+      jre = pkgs.jre8;
       port = 25555;
       serverProperties = {
         motd = "Creativity 1.15.2.4";
@@ -25,11 +26,19 @@ in {
 
     cpssd = {
       memGb = 8;
-      jar = latestJar;
+      jar = "fabric-server-launch.jar";
       port = 25535;
+      user = "mcadmins";
+      group = "mcadmins";
       serverProperties = {
         motd = "MC PSSD";
-        enable-command-block = true;
+        level-seed = "-7379792622640751045";
+        max-world-size = "29999984";
+        max-players = "15";
+        max-tick-time = "30000";
+        view-distance = "10";
+        difficulty = "hard";
+        prevent-proxy-connections = false;
       };
     };
 

@@ -35,9 +35,7 @@ in {
 
   systemd.services = (mapAttrs' (name: conf: nameValuePair ("minecraft-${name}") (
     base.minecraftService {
-      name = conf.name;
-      memGb = conf.memGb;
-      jar = conf.jar;
+      inherit (conf) name memGb jar jre user group;
       serverProperties = conf.serverProperties // {
         "rcon.port" = conf.port + 1;
         "query.port" = conf.port;

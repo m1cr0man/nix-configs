@@ -100,6 +100,17 @@ in {
   };
   users.groups.anders = {};
 
+  users.users.mcadmins = {
+    home = "/home/mcadmins";
+    shell = pkgs.bashInteractive;
+    group = "mcadmins";
+    isNormalUser = true;
+    openssh.authorizedKeys.keys = config.users.users.root.openssh.authorizedKeys.keys ++ [
+      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDMTwoP357Z13kPk3jRc8fzSCQCIYrIe/X/a4rtKq/sPE+6ydUsXXZdcB9PvFNElDmTJGk0IoaJ6gjfjJFhzRMJvg4IKJ3mFWnkJ2FBdn+rB9CWxzx8VRZfN5Tj3BmQ/olgvxHlyI+Qh1+ceBCUH1PzNhAXTJ8uSc1rIWspunbbOU3kjW7nkf3SYCRIdHkFZXr3sf7jhw0EVvFUqfWMEl3uiEbFXzd3Hq1rFxAhvf0145ydnH/gBUyxuTP4tQDSbB3yfs8wSTRhXVDqYVz6+BKdRk67SsdY50+GR1Vp2Pd/tdmJlhu7yYyn6IPY8LIx3SGWPlk5prckDvA3I4ppdIz0ZcSgqgi9fYDmDWisaWwjPJzGlTUHLnzgxehCqrwj0qQC+k5PS6Epxq1OCyBlJcSUGgCQypLZMEOuqqf5G6ouhpvzBoDOc131Ih5Rj0zH/5r+ke+GGifoLRtbHBf2TdFjnNGjlf2XANLwHhICs3r7CPr6Kd+uQZzzApCB+wx1m8hBtax86/XqZUOr70tbbUiZvZpWzJMo7jsozsUnWfN4NBqzsyZ6/nWzpCYSXxiG8xGIptFBHr/2EsY3QaoJ8ncXdEt5d1WgqxQ3cepW+n+KYcavymy2ywO1Mij2Dwt7SobUMhkcrfVcxyFehozQAOZkZqL3ByGAaqdghpkIwn0MCQ== sailslickcode"
+    ];
+  };
+  users.groups.mcadmins = {};
+
   systemd.services.stress = {
     description = "CPU stress to stop crashes";
     wantedBy = [ "multi-user.target" ];

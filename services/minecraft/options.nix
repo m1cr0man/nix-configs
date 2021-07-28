@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ pkgs, lib, ... }:
 with lib;
 with types;
 let
@@ -19,6 +19,11 @@ let
         default = 2;
         description = "Jar file";
       };
+      jre = mkOption {
+        type = path;
+        default = pkgs.adoptopenjdk-jre-hotspot-bin-16;
+        description = "Java package to use";
+      };
       port = mkOption {
         type = int;
         default = 25565;
@@ -28,6 +33,16 @@ let
         type = attrs;
         default = { motd = name; };
         description = "server.properties attributes";
+      };
+      user = mkOption {
+        type = str;
+        default = "minecraft";
+        description = "Server service user for filesystem permissions";
+      };
+      group = mkOption {
+        type = str;
+        default = "nogroup";
+        description = "Server service group for filesystem permissions";
       };
     };
   };

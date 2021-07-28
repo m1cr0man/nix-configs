@@ -1,7 +1,7 @@
 $ORIGIN m1cr0man.com.
 $TTL 300
 @	IN	SOA	ns1.m1cr0man.com.	lucas.m1cr0man.com.	(
-			2021052402      ; Serial
+			2021072802      ; Serial
 			1H		; Slave refresh interval
 			5M		; Query retry interval
 			1W		; Expiry
@@ -37,8 +37,10 @@ gelandewagen			IN	A	144.76.44.123
 localhost			IN	A	127.0.0.1
 
 mcpssd				IN	A	144.76.44.123
-_minecraft._tcp.mcpssd		IN	SRV	0 10 25535	mcpssd.m1cr0man.com.
+_minecraft._tcp.mcpssd		IN	SRV	1 10 25535	mcpssd.m1cr0man.com.
 mcaaron				IN	CNAME	mcpssd
+cpssd					IN	CNAME	mcpssd
+_minecraft._tcp.cpssd			IN	SRV	1 10 25535	cpssd.m1cr0man.com.
 
 brotrick			IN	A	144.76.44.123
 _minecraft._tcp.brotrick	IN	SRV	0 10 25545	brotrick.m1cr0man.com.

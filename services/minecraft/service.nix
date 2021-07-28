@@ -5,15 +5,11 @@ let
   secrets = import ../../common/secrets.nix;
 
   mcRoot = /var/gaming/minecraft;
-  commonArgs = "-server -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalPacing"
-    + " -XX:+CMSClassUnloadingEnabled -XX:ParallelGCThreads=2"
-    + " -XX:MaxGCPauseMillis=50 -Dfml.queryResult=confirm"
+  commonArgs = "-server"
+    + " -XX:ParallelGCThreads=2 -XX:MaxGCPauseMillis=50"
     + " -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10"
-    + " -XX:CMSInitiatingOccupancyFraction=80 -XX:+UseCMSInitiatingOccupancyOnly"
-    + " -XX:+UseParNewGC -XX:+CMSParallelRemarkEnabled -XX:+DisableExplicitGC"
-    + " -XX:SurvivorRatio=5 -XX:TargetSurvivorRatio=90 -XX:+AggressiveOpts"
-    + " -XX:+UseFastAccessorMethods -XX:+UseBiasedLocking -XX:+UseCompressedOops"
-    + " -Dpaper.playerconnection.keepalive=300";
+    + " -XX:SurvivorRatio=5 -XX:TargetSurvivorRatio=90"
+    + " -Dfml.queryResult=confirm -Dpaper.playerconnection.keepalive=300";
 
   cfgToString = v: if builtins.isBool v then lib.boolToString v else toString v;
 
@@ -30,7 +26,7 @@ let
   '' + concatStringsSep "\n" (mapAttrsToList
     (n: v: "${n}=${cfgToString v}") (commonProps // props)));
 in {
-  minecraftService = {name, memGb, jar, serverProperties}: let
+  minecraftService = {name, memGb, jar, serverProperties, user, group, jre}: let
     serverRoot = mcRoot + "/${name}";
     memStr = "${builtins.toString memGb}G";
     memHalfStr = "${builtins.toString (memGb / 2)}G";
@@ -52,10 +48,12 @@ in {
       CPUWeight = 40;
       Restart = "always";
       RestartSec = 10;
-      User = "minecraft";
+      User = user;
+      Group = group;
+      UMask = 0002;
       WorkingDirectory = serverRoot;
       PrivateTmp = true;
-      ExecStart = "${pkgs.jre8}/bin/java -Xmx${memStr} -Xms${memHalfStr} ${commonArgs} -jar ${jar} nogui";
+      ExecStart = "${jre}/bin/java -Xmx${memStr} -Xms${memHalfStr} ${commonArgs} -jar ${jar} nogui";
     };
   };
 }
