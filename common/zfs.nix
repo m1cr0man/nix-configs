@@ -48,7 +48,7 @@ in {
     wantedBy = [ "timers.target" ];
     after = [ "zfs.target" ];
     timerConfig = {
-      OnCalendar = "daily";
+      OnCalendar = config.m1cr0man.zfs.scrubStartTime;
       RandomizedDelaySec = 60;
       Persistent = false;
     };
@@ -60,7 +60,7 @@ in {
     wantedBy = [ "timers.target" ];
     after = [ "zfs.target" ];
     timerConfig = {
-      OnCalendar = "*-*-* 00:30:00";
+      OnCalendar = config.m1cr0man.zfs.scrubStopTime;
       RandomizedDelaySec = 60;
       Persistent = true;
     };

@@ -33,6 +33,10 @@ in {
     version = 2;
     devices = [ "/dev/sda" "/dev/sdb" ];
   };
+  m1cr0man.zfs = {
+    scrubStartTime = "*-*-* 07:00:00";
+    scrubStopTime = "*-*-* 07:15:00";
+  };
 
   networking = {
     hostId = "4cdf6f98";

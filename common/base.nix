@@ -17,6 +17,9 @@
     forceImportRoot = true;
     forceImportAll = false;
   };
+  boot.extraModprobeConfig = ''
+    options zfs zfs_scrub_min_time_ms=50
+  '';
 
   networking.domain = "m1cr0man.com";
 

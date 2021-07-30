@@ -24,4 +24,14 @@ with lib;
     type = types.str;
     description = "Address of this host AKA the PXE boot server";
   };
+  options.m1cr0man.zfs.scrubStartTime = mkOption {
+    default = "daily";
+    type = types.str;
+    description = "When to start ZFS scrub. Any systemd-time format";
+  };
+  options.m1cr0man.zfs.scrubStopTime = mkOption {
+    default = "*-*-* 00:30:00";
+    type = types.str;
+    description = "When to stop ZFS scrub. Any systemd-time format";
+  };
 }
