@@ -25,6 +25,7 @@
         disk.mount_points = (lib.mapAttrsToList (k: v: k) config.fileSystems);
         diskio.devices = [ "sd[a-z]" ];
         syslog.server = "udp://127.0.0.1:6514";
+        socket_listener = { service_address = "tcp://127.0.0.1:8094"; };
       };
     };
   };

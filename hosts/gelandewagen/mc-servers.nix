@@ -13,7 +13,7 @@ in {
 
   m1cr0man.minecraft-servers = {
     creativity = {
-      memGb = 8;
+      memGb = 6;
       jar = "forge-1.15.2-31.2.45.jar";
       jre = pkgs.jre8;
       port = 25555;
@@ -52,7 +52,7 @@ in {
     # };
 
     adam = {
-      memGb = 4;
+      memGb = 3;
       jar = latestJarPaper;
       port = 25525;
       serverProperties = {

@@ -17,18 +17,23 @@ in {
       LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" %v" combinedplus
       ProxyPreserveHost On
       DirectoryIndex index.php index.html index.htm index.shtml
-
-      <Location "/.server-status">
-        SetHandler server-status
-        AuthType Basic
-        AuthName "Login for status"
-        AuthUserFile "${pkgs.writeText "status-htpasswd" secrets.generic_htpasswd}"
-        <RequireAny>
-          Require ip 127.0.0.1
-          Require valid-user
-        </RequireAny>
-      </Location>
     '';
+
+    # Vhost for server status
+    virtualHosts."127.0.0.1" = {
+      extraConfig = ''
+        <Location "/.server-status">
+          SetHandler server-status
+          AuthType Basic
+          AuthName "Login for status"
+          AuthUserFile "${pkgs.writeText "status-htpasswd" secrets.generic_htpasswd}"
+          <RequireAny>
+            Require ip 127.0.0.1
+            Require valid-user
+          </RequireAny>
+        </Location>
+      '';
+    };
 
     adminAddr = "lucas+httpd@m1cr0man.com";
 

@@ -56,7 +56,8 @@ in {
     serviceConfig = {
       RestartSec = 60;
       Restart = "always";
-      WorkingDirectory = "/opt/generic/vms";
+      RuntimeDirectory = "gamesvm";
+      WorkingDirectory = "/run/gamesvm";
     };
   };
 }

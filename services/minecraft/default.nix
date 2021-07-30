@@ -4,6 +4,7 @@ let
   base = import ./service.nix { inherit pkgs lib; };
   secrets = import ../../common/secrets.nix;
   cfg = config.m1cr0man.minecraft-servers;
+  mcmonitor = import ../../packages/mc-monitor { inherit pkgs; };
 
   restartService = optionalAttrs (cfg != {}) {
     minecraft-server-restart = {
@@ -18,6 +19,19 @@ let
       );
     };
   };
+
+  monitorService = let
+    serverHosts = with builtins; concatStringsSep " " (mapAttrsToList (name: conf:
+      "-servers 127.0.0.1:${toString conf.port}"
+    ) cfg);
+  in optionalAttrs (cfg != {} && config.services.telegraf.enable) {
+    minecraft-server-monitor = {
+      description = "Monitor minecraft servers, report to Telegraf";
+      after = [ "network.target" ];
+      wantedBy = [ "multi-user.target" ];
+      script = "${mcmonitor}/bin/mc-monitor gather-for-telegraf -telegraf-address 127.0.0.1:8094 ${serverHosts}";
+    };
+  };
 in {
   imports = [
     ./options.nix
@@ -27,11 +41,12 @@ in {
     conf.port (conf.port + 1)
   ]) cfg);
 
-  services.telegraf.extraConfig.inputs.minecraft = (mapAttrsToList (name: conf: {
-    server = "127.0.0.1";
-    port = builtins.toString conf.port;
-    password = secrets.minecraft_rcon_password;
-  }) cfg);
+  # Broken. See https://github.com/influxdata/telegraf/issues/8103
+  # services.telegraf.extraConfig.inputs.minecraft = (mapAttrsToList (name: conf: {
+  #   server = "127.0.0.1";
+  #   port = builtins.toString (conf.port + 1);
+  #   password = secrets.minecraft_rcon_password;
+  # }) cfg);
 
   systemd.services = (mapAttrs' (name: conf: nameValuePair ("minecraft-${name}") (
     base.minecraftService {
@@ -42,7 +57,7 @@ in {
         server-port = conf.port;
       };
     }
-  )) cfg) // restartService;
+  )) cfg) // restartService // monitorService;
 
   systemd.timers = optionalAttrs (cfg != {}) {
     minecraft-server-restart = {
