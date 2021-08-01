@@ -13,7 +13,7 @@ in {
       ../../services/eggnor.nix
       ../../services/acme.nix
       ../../services/httpd.nix
-      ../../services/gamesvm.nix
+      # ../../services/gamesvm.nix
       ../../services/m1cr0blog.nix
       ../../services/matrix.nix
       ../../services/minio.nix

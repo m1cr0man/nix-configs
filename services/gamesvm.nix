@@ -35,7 +35,7 @@ in {
                   -boot menu=on,splash-time=5000 \
                   -blockdev node-name=pflash0-blkdev,driver=file,filename=${ovmf}/OVMF_CODE.fd,read-only=on \
                   -blockdev node-name=pflash1-blkdev,driver=file,filename=/var/run/OVMF_VARS_gamesvm.fd,read-only=off \
-                  -blockdev node-name=os-storage,driver=host_device,filename=/dev/zvol/zstorage/vms/games_c,aio=native,cache.direct=on \
+                  -blockdev node-name=os-storage,driver=host_device,filename=/dev/zvol/zgelandewagen/vms/games_c,aio=native,cache.direct=on \
                   -device pcie-root-port,bus=pcie.0,multifunction=on,port=1,chassis=1,id=rp0 \
                   -device virtio-blk-pci,drive=os-storage,bootindex=1,id=virtio-disk0,bus=rp0,addr=00.0 \
                   -nic user,model=virtio,id=vmnet0,net=192.168.0.0/24,dhcpstart=192.168.0.9,dns=192.168.0.3,hostname=gamesvm
