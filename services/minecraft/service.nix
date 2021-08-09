@@ -4,7 +4,7 @@
 let
   secrets = import ../../common/secrets.nix;
 
-  mcRoot = /var/gaming/minecraft;
+  mcRoot = "/var/gaming/minecraft";
   commonArgs = "-server"
     + " -XX:ParallelGCThreads=2 -XX:MaxGCPauseMillis=50"
     + " -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10"
@@ -26,21 +26,67 @@ let
   '' + concatStringsSep "\n" (mapAttrsToList
     (n: v: "${n}=${cfgToString v}") (commonProps // props)));
 in {
-  minecraftService = {name, memGb, jar, serverProperties, user, group, jre}: let
+  minecraftService = {name, memGb, jar, serverProperties, user, group, jre, zramSizeGb, zramDevice}: let
     serverRoot = mcRoot + "/${name}";
     memStr = "${builtins.toString memGb}G";
     memHalfStr = "${builtins.toString (memGb / 2)}G";
     propsFile = serverPropertiesFile serverProperties;
+    mcrcon = "mcrcon -s -P ${builtins.toString serverProperties."rcon.port"} -p '${secrets.minecraft_rcon_password}'";
+    zramMount = "/tmp/zram-mc-${name}";
+    zramResetCommands = ''
+      if [ -e ${zramDevice} ]; then
+        umount ${zramDevice} || true
+      fi
+    '';
+    preStartScript = pkgs.writeShellScript "mc-${name}-prestart" (''
+      set -euxo pipefail
+      mkdir -p ${serverRoot}
+      cd ${serverRoot}
+      echo eula=true > eula.txt
+      cp -b --suffix=.stateful ${propsFile} server.properties
+      chown -R ${user}:${group} ${serverRoot}
+    '' + (lib.optionalString (zramSizeGb > 0) ''
+      ${zramResetCommands}
+      zramctl --size ${builtins.toString zramSizeGb}G --algorithm zstd ${zramDevice}
+      mkfs.ext4 -F ${zramDevice}
+      mkdir -p ${zramMount}
+      mount ${zramDevice} ${zramMount}
+      rsync -aH --delete ${serverRoot}/. ${zramMount}/
+      chown -R ${user}:${group} ${zramMount}
+    ''));
+    postStopScript = pkgs.writeShellScript "mc-${name}-poststop" (if zramSizeGb > 0 then ''
+      if [ -e ${zramMount} -a -n "$(ls -1 ${zramMount})" ]; then
+        rsync -aH --delete ${zramMount}/. ${serverRoot}/
+      fi
+      ${zramResetCommands}
+    '' else "true");
   in {
     description = serverProperties.motd;
     aliases = [ "mc-${name}" ];
-    after = [ "network.target" ];
+    after = [ "network.target" "local-fs.target" "zram-reloader.service" ];
     wantedBy = [ "multi-user.target" ];
     restartIfChanged = false;
+    path = [ jre pkgs.util-linux pkgs.e2fsprogs pkgs.rsync pkgs.mcrcon ];
 
-    preStart = ''
-      echo eula=true > eula.txt
-      cp -b --suffix=.stateful ${propsFile} server.properties
+    script = ''
+      cd ${if zramSizeGb > 0 then zramMount else serverRoot}
+      (
+        sleep 120
+        while true; do
+          echo "Syncing data"
+          ${mcrcon} save-all
+          sleep 5
+          rsync -aH --delete ${zramMount}/. ${serverRoot}/ || true
+          sleep 120
+        done
+      ) &
+      java -Xmx${memStr} -Xms${memHalfStr} ${commonArgs} -jar ${jar} nogui
+      kill %1
+    '';
+
+    preStop = ''
+      ${mcrcon} -w 5 "say Server shutting down in 10 seconds" save-all stop
+      tail --pid=$MAINPID -f /dev/null
     '';
 
     serviceConfig = {
@@ -51,9 +97,11 @@ in {
       User = user;
       Group = group;
       UMask = 0002;
-      WorkingDirectory = serverRoot;
-      PrivateTmp = true;
-      ExecStart = "${jre}/bin/java -Xmx${memStr} -Xms${memHalfStr} ${commonArgs} -jar ${jar} nogui";
+      WorkingDirectory = lib.mkIf (zramSizeGb == 0) serverRoot;
+      PrivateTmp = false;
+      ExecStartPre = "+" + preStartScript;
+      ExecStopPost = "+" + postStopScript;
+      TimeoutStopSec = 120;
     };
   };
 }

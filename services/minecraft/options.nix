@@ -44,6 +44,16 @@ let
         default = "nogroup";
         description = "Server service group for filesystem permissions";
       };
+      zramSizeGb = mkOption {
+        type = int;
+        default = 0;
+        description = "Size of allocated ZRAM disk, if any";
+      };
+      zramDevice = mkOption {
+        type = str;
+        default = "/dev/zram0";
+        description = "ZRAM device to use";
+      };
     };
   };
 

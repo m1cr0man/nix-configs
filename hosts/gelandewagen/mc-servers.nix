@@ -26,6 +26,8 @@ in {
 
     cpssd = {
       memGb = 8;
+      zramSizeGb = 6;
+      zramDevice = "/dev/zram0";
       jar = "fabric-server-launch.jar";
       port = 25535;
       user = "mcadmins";
@@ -57,6 +59,26 @@ in {
       port = 25525;
       serverProperties = {
         motd = "The big Savva House";
+      };
+    };
+
+    test = {
+      memGb = 6;
+      zramSizeGb = 4;
+      zramDevice = "/dev/zram1";
+      jar = "fabric-server-launch.jar";
+      port = 25515;
+      user = "mcadmins";
+      group = "mcadmins";
+      serverProperties = {
+        motd = "[QA] MC PSSD";
+        level-seed = "-7379792622640751045";
+        max-world-size = "29999984";
+        max-players = "15";
+        max-tick-time = "30000";
+        view-distance = "10";
+        difficulty = "hard";
+        prevent-proxy-connections = false;
       };
     };
   };
