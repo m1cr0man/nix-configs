@@ -68,8 +68,8 @@ in {
     restartIfChanged = false;
     path = [ jre pkgs.util-linux pkgs.e2fsprogs pkgs.rsync pkgs.mcrcon ];
 
-    script = ''
-      cd ${if zramSizeGb > 0 then zramMount else serverRoot}
+    script = if zramSizeGb > 0 then ''
+      cd ${zramMount}
       (
         sleep 120
         while true; do
@@ -82,6 +82,9 @@ in {
       ) &
       java -Xmx${memStr} -Xms${memHalfStr} ${commonArgs} -jar ${jar} nogui
       kill %1
+    '' else ''
+      cd ${serverRoot}
+      java -Xmx${memStr} -Xms${memHalfStr} ${commonArgs} -jar ${jar} nogui
     '';
 
     preStop = ''
