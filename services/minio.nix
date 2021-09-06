@@ -1,11 +1,10 @@
 let
   secrets = import ../common/secrets.nix;
+  credsFile = "/var/secrets/minio_creds.env";
 in {
 
   services.minio = {
     enable = true;
-    accessKey = secrets.minio_access_key;
-    secretKey = secrets.minio_secret_key;
     configDir = "/var/www/minio/config";
     dataDir = [ "/var/www/minio/data" ];
     region = "EU";

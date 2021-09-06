@@ -8,6 +8,7 @@
       ../../services/ssh.nix
       ../../services/tick
       ../../services/netbooter
+      ../../services/unlocker.nix
       ../../services/grafana.nix
       ./services/postgresql.nix
     ];

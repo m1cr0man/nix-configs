@@ -22,7 +22,6 @@ in {
       ../../services/breogan.nix
       ../../services/plex.nix
       ../../services/weechat.nix
-      ../../services/rb-tunnel.nix
       ../../services/tick
       ../../services/vault.nix
     ];

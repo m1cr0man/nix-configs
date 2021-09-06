@@ -23,9 +23,7 @@ in buildGoModule rec {
     make .bindata
   '';
 
-  buildFlagsArray = [ ''-ldflags=
-    -X main.version=${version}
-  '' ];
+  ldflags = [ "-X main.version=${version}" ];
 
   excludedPackages = "test";
 
