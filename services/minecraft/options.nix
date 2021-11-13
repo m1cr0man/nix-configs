@@ -4,6 +4,7 @@ with types;
 let
   serverOpts = { name, ... }: {
     options = {
+      enable = mkEnableOption "this Minecraft server";
       name = mkOption {
         type = str;
         default = name;

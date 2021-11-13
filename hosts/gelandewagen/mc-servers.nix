@@ -13,6 +13,7 @@ in {
 
   m1cr0man.minecraft-servers = {
     creativity = {
+      enable = false;
       memGb = 6;
       jar = "forge-1.15.2-31.2.45.jar";
       jre = pkgs.jre8;
@@ -25,6 +26,7 @@ in {
     };
 
     cpssd = {
+      enable = true;
       memGb = 8;
       zramSizeGb = 6;
       zramDevice = "/dev/zram0";
@@ -44,16 +46,18 @@ in {
       };
     };
 
-    # patrick = {
-    #   memGb = 2;
-    #   jar = latestJar;
-    #   port = 25545;
-    #   serverProperties = {
-    #     motd = "Idk Patrick's brother";
-    #   };
-    # };
+    patrick = {
+      enable = false;
+      memGb = 2;
+      jar = latestJar;
+      port = 25545;
+      serverProperties = {
+        motd = "Idk Patrick's brother";
+      };
+    };
 
     adam = {
+      enable = false;
       memGb = 3;
       jar = latestJarPaper;
       port = 25525;
@@ -63,6 +67,7 @@ in {
     };
 
     test = {
+      enable = false;
       memGb = 6;
       zramSizeGb = 4;
       zramDevice = "/dev/zram1";

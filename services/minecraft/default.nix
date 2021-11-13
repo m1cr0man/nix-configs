@@ -3,7 +3,7 @@ with lib;
 let
   base = import ./service.nix { inherit pkgs lib; };
   secrets = import ../../common/secrets.nix;
-  cfg = config.m1cr0man.minecraft-servers;
+  cfg = filterAttrs (k: v: v.enable) config.m1cr0man.minecraft-servers;
   mcmonitor = import ../../packages/mc-monitor { inherit pkgs; };
 
   restartService = optionalAttrs (cfg != {}) {
