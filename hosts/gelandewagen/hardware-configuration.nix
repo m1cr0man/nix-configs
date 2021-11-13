@@ -15,7 +15,7 @@ in {
     ];
 
   boot.initrd.availableKernelModules = [ "ehci_pci" "ahci" "usb_storage" "sd_mod" "r8169" ];
-  boot.kernelModules = [ "kvm-intel" ];
+  boot.kernelModules = [ "kvm-intel" "zram" ];
   boot.extraModulePackages = [ ];
   boot.kernelParams = [ "intel_idle.max_cstate=0" "processor.max_cstate=1" ];
 
@@ -36,6 +36,11 @@ in {
 
   fileSystems."/home" =
     { device = "zgelandewagen/home";
+      fsType = "zfs";
+    };
+
+  fileSystems."/opt/vms" =
+    { device = "zgelandewagen/vms";
       fsType = "zfs";
     };
 
