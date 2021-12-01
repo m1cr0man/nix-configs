@@ -20,4 +20,7 @@
         level = "INFO"
     '';
   };
+  # TODO upstream
+  users.users.kapacitor.group = "kapacitor";
+  users.groups.kapacitor = {};
 }

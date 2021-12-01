@@ -5,7 +5,9 @@
     isSystemUser = true;
     shell = "/dev/null";
     home = "/dev/null";
+    group = "openttd";
   };
+  users.groups.openttd = {};
 
   systemd.services.openttd = {
     description = "Transport tycoon game";

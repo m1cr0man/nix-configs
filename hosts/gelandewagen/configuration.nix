@@ -123,6 +123,16 @@ in {
   };
   users.groups.mcadmins = {};
 
+  users.users.lucas = {
+    home = "/home/lucas";
+    shell = pkgs.bashInteractive;
+    group = "lucas";
+    isNormalUser = true;
+    extraGroups = [ "wheel" ];
+    openssh.authorizedKeys.keys = config.users.users.root.openssh.authorizedKeys.keys;
+  };
+  users.groups.lucas = {};
+
   systemd.services.stress = {
     description = "CPU stress to stop crashes";
     wantedBy = [ "multi-user.target" ];

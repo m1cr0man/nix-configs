@@ -54,12 +54,7 @@ in {
       rsync -aH --delete ${serverRoot}/. ${zramMount}/
       chown -R ${user}:${group} ${zramMount}
     ''));
-    postStopScript = pkgs.writeShellScript "mc-${name}-poststop" (if zramSizeGb > 0 then ''
-      if [ -e ${zramMount} -a -n "$(ls -1 ${zramMount})" ]; then
-        rsync -aH --delete ${zramMount}/. ${serverRoot}/
-      fi
-      ${zramResetCommands}
-    '' else "true");
+    postStopScript = pkgs.writeShellScript "mc-${name}-poststop" (if zramSizeGb > 0 then zramResetCommands else "true");
   in {
     description = serverProperties.motd;
     aliases = [ "mc-${name}" ];
@@ -69,19 +64,38 @@ in {
     path = [ jre pkgs.util-linux pkgs.e2fsprogs pkgs.rsync pkgs.mcrcon ];
 
     script = if zramSizeGb > 0 then ''
+      savemc () {
+        echo Syncing data
+        ${mcrcon} -w 5 save-all save-off || true
+        if ! rsync -vaH --delete ${zramMount}/. ${serverRoot}/; then
+          ${mcrcon} "say Something went wrong saving the game, tell admin. $(date +'%F %X')"
+        fi
+        ${mcrcon} save-on || true
+      }
+
       cd ${zramMount}
+      export RUN=run.txt
+      touch $RUN
+
       (
-        sleep 120
-        while true; do
-          echo "Syncing data"
-          ${mcrcon} save-all
-          sleep 5
-          rsync -aH --delete ${zramMount}/. ${serverRoot}/ || true
-          sleep 120
+        while test -e $RUN; do
+          # Sleep for 3 mins, but monitor run.txt
+          for i in {1..180}; do
+            if test -e $RUN; then
+              sleep 1
+            else
+              break
+            fi
+          done
+          savemc
         done
       ) &
+
       java -Xmx${memStr} -Xms${memHalfStr} ${commonArgs} -jar ${jar} nogui
-      kill %1
+
+      rm $RUN
+      echo Gracefully shutting down
+      wait %1
     '' else ''
       cd ${serverRoot}
       java -Xmx${memStr} -Xms${memHalfStr} ${commonArgs} -jar ${jar} nogui

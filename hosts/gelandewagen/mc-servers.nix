@@ -1,8 +1,8 @@
 { pkgs, ... }:
 let
   latestJar = pkgs.fetchurl {
-    url = "https://launcher.mojang.com/v1/objects/a16d67e5807f57fc4e550299cf20226194497dc2/server.jar";
-    sha256 = "0pzmzagvrrapjsnd8xg4lqwynwnb5rcqk2n9h2kzba8p2fs13hp8";
+    url = "https://launcher.mojang.com/v1/objects/3cf24a8694aca6267883b17d934efacc5e44440d/server.jar";
+    sha256 = "0vvycjcfq96z7cl5dsrq98k9b7j7l4x0y9nflrcqmcvink7fs5w4";
   };
   latestJarPaper = pkgs.fetchurl {
     url = "https://papermc.io/api/v2/projects/paper/versions/1.17.1/builds/136/downloads/paper-1.17.1-136.jar";
@@ -36,11 +36,11 @@ in {
       group = "mcadmins";
       serverProperties = {
         motd = "MC PSSD";
-        level-seed = "-7379792622640751045";
+        level-seed = "-2873225848197999158";
         max-world-size = "29999984";
         max-players = "15";
         max-tick-time = "30000";
-        view-distance = "10";
+        view-distance = "12";
         difficulty = "hard";
         prevent-proxy-connections = false;
       };

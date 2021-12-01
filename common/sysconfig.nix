@@ -17,6 +17,7 @@
     node = pkgs.nodejs-14_x;
     findutils = pkgs.findutils;
   in ''
+    umask 0027
     ${findutils}/bin/find ~/.vscode-server -type f -name node \( -execdir rm '{}' \; -and -execdir ln -s '${node}/bin/node' '{}' \; \)
   '';
 

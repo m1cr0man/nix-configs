@@ -22,7 +22,7 @@ let
       };
       jre = mkOption {
         type = path;
-        default = pkgs.adoptopenjdk-jre-hotspot-bin-16;
+        default = pkgs.jdk17_headless;
         description = "Java package to use";
       };
       port = mkOption {
