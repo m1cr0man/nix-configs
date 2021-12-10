@@ -40,7 +40,7 @@ in {
         max-world-size = "29999984";
         max-players = "15";
         max-tick-time = "30000";
-        view-distance = "12";
+        view-distance = "20";
         difficulty = "hard";
         prevent-proxy-connections = false;
       };

@@ -70,7 +70,6 @@ in {
         if ! rsync -vaH --delete ${zramMount}/. ${serverRoot}/; then
           ${mcrcon} "say Something went wrong saving the game, tell admin. $(date +'%F %X')"
         fi
-        ${mcrcon} save-on || true
       }
 
       cd ${zramMount}
