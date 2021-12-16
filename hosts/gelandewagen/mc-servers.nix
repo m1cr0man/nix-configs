@@ -27,7 +27,7 @@ in {
 
     cpssd = {
       enable = true;
-      memGb = 8;
+      memGb = 10;
       zramSizeGb = 6;
       zramDevice = "/dev/zram0";
       jar = "fabric-server-launch.jar";
@@ -40,7 +40,7 @@ in {
         max-world-size = "29999984";
         max-players = "15";
         max-tick-time = "30000";
-        view-distance = "20";
+        view-distance = "15";
         difficulty = "hard";
         prevent-proxy-connections = false;
       };
