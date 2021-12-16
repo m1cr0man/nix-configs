@@ -9,6 +9,7 @@ $TTL 300
 	IN	NS		ns1.m1cr0man.com.
 	IN	NS		ns2.m1cr0man.com.
 	IN	A		144.76.44.123
+	IN  AAAA  2a01:4f8:191:503f::1
 
 ; Gmail
 	IN	MX	10	aspmx.l.google.com.

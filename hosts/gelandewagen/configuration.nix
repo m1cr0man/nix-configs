@@ -56,7 +56,15 @@ in {
       address = "144.76.44.123";
       prefixLength = 27;
     }];
+    interfaces.eth0.ipv6.addresses = [{
+      address = "2a01:4f8:191:503f::1";
+      prefixLength = 64;
+    }];
     defaultGateway = "144.76.44.97";
+    defaultGateway6 = {
+      address = "fe80::1";
+      interface = "eth0";
+    };
     nameservers = [ "213.133.98.98" "1.1.1.1" ];
     hosts."136.206.15.3" = [ "irc.redbrick.dcu.ie" ];
   };
