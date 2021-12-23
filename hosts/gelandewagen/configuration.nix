@@ -19,6 +19,7 @@ in {
       ../../services/openttd.nix
       ../../services/postgresql.nix
       ../../services/breogan.nix
+      ../../services/conor.nix
       ../../services/plex.nix
       ../../services/weechat.nix
       ../../services/tick
@@ -141,6 +142,20 @@ in {
   };
   users.groups.lucas = {};
 
+  users.users.conor = {
+    home = "/home/conor";
+    shell = pkgs.bashInteractive;
+    group = "conor";
+    isNormalUser = true;
+    openssh.authorizedKeys.keys = config.users.users.root.openssh.authorizedKeys.keys ++ [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPUlcCjTDPA9E4Bj04kdojvsjNnXXWKhJdmrum94zUdm Conor@LAPTOP-VA4JS3RE"
+    ];
+    packages = with pkgs; [
+      nodejs-14_x
+    ];
+  };
+  users.groups.conor = {};
+
   systemd.services.stress = {
     description = "CPU stress to stop crashes";
     wantedBy = [ "multi-user.target" ];
@@ -150,6 +165,7 @@ in {
     serviceConfig = {
       Restart = "always";
       CPUWeight = 5;
+      CPUSchedulingPriority = 2;
     };
   };
 
