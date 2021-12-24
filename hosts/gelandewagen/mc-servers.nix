@@ -5,29 +5,36 @@ let
     sha256 = "0vvycjcfq96z7cl5dsrq98k9b7j7l4x0y9nflrcqmcvink7fs5w4";
   };
   latestJarPaper = pkgs.fetchurl {
-    url = "https://papermc.io/api/v2/projects/paper/versions/1.17.1/builds/136/downloads/paper-1.17.1-136.jar";
-    sha256 = "0y0vssg2jwggdkz812sm9i5xs3996sl014w6mb87b352b7ligwsv";
+    url = "https://papermc.io/api/v2/projects/paper/versions/1.18.1/builds/101/downloads/paper-1.18.1-101.jar";
+    sha256 = "0a8bg9f0vg6507a6aj7ag5788vrd0jxp6iq9nldddfk7h8p3bxp7";
   };
 in {
   imports = [ ../../services/minecraft ];
 
   m1cr0man.minecraft-servers = {
-    creativity = {
+    create = {
       enable = false;
-      memGb = 6;
-      jar = "forge-1.15.2-31.2.45.jar";
+      memGb = 10;
+      jar = "forge-1.16.5-36.2.20.jar";
       jre = pkgs.jre8;
       port = 25555;
+      user = "mcadmins";
+      group = "mcadmins";
       serverProperties = {
-        motd = "Creativity 1.15.2.4";
-        level-seed = "-821503530";
+        motd = "Create 1.3 mc 1.16";
+        level-seed = "768000";
+        level-type = "biomesoplenty";
+        max-world-size = "200000";
+        max-players = "15";
+        max-tick-time = "30000";
+        view-distance = "15";
         difficulty = "hard";
       };
     };
 
     cpssd = {
       enable = true;
-      memGb = 10;
+      memGb = 8;
       zramSizeGb = 6;
       zramDevice = "/dev/zram0";
       jar = "fabric-server-launch.jar";
@@ -57,9 +64,11 @@ in {
     };
 
     adam = {
-      enable = false;
-      memGb = 3;
+      enable = true;
+      memGb = 4;
       jar = latestJarPaper;
+      user = "mcadmins";
+      group = "mcadmins";
       port = 25525;
       serverProperties = {
         motd = "The big Savva House";

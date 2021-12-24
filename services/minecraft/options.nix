@@ -37,6 +37,7 @@ let
       };
       user = mkOption {
         type = str;
+        # TODO use dynamic user if not exists
         default = "minecraft";
         description = "Server service user for filesystem permissions";
       };
