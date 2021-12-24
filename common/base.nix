@@ -19,6 +19,7 @@
   };
   boot.extraModprobeConfig = ''
     options zfs zfs_scrub_min_time_ms=50
+    options zfs zfs_arc_max=4294967296
   '';
 
   networking.domain = "m1cr0man.com";
