@@ -1,7 +1,7 @@
 $ORIGIN m1cr0man.com.
 $TTL 300
 @	IN	SOA	ns1.m1cr0man.com.	lucas.m1cr0man.com.	(
-			2021122304      ; Serial
+			2021126301      ; Serial
 			1H		; Slave refresh interval
 			5M		; Query retry interval
 			1W		; Expiry
@@ -55,6 +55,7 @@ dynmap.mcmodded			IN	CNAME	mcmodded
 
 www						IN	CNAME	m1cr0man.com.
 s3						IN	CNAME	m1cr0man.com.
+ui.s3					IN	CNAME	m1cr0man.com.
 u						IN	CNAME	m1cr0man.com.
 dev						IN	CNAME	m1cr0man.com.
 vault					IN	CNAME	m1cr0man.com.

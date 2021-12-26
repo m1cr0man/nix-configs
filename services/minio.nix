@@ -10,10 +10,15 @@ in {
     region = "EU";
   };
 
-  security.acme.certs."m1cr0man.com".extraDomainNames = [ "s3.m1cr0man.com" ];
+  security.acme.certs."m1cr0man.com".extraDomainNames = [ "s3.m1cr0man.com" "ui.s3.m1cr0man.com" ];
   services.httpd.virtualHosts."s3.m1cr0man.com" = {
     forceSSL = true;
     useACMEHost = "m1cr0man.com";
     extraConfig = "ProxyPass / http://127.0.0.1:9000/";
+  };
+  services.httpd.virtualHosts."ui.s3.m1cr0man.com" = {
+    forceSSL = true;
+    useACMEHost = "m1cr0man.com";
+    extraConfig = "ProxyPass / http://127.0.0.1:9001/";
   };
 }
