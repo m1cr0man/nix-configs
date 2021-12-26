@@ -1,11 +1,10 @@
 { config, pkgs, ... }:
-let
-  secrets = import ../../common/secrets.nix;
-in {
+{
 
   imports =
     [
       ./hardware-configuration.nix
+      ./users.nix
       ./mc-servers.nix
       ../../common/sysconfig.nix
       ../../services/dns
@@ -72,90 +71,6 @@ in {
 
   virtualisation.docker.enable = true;
   virtualisation.docker.listenOptions = [ "/var/run/docker.sock" "0.0.0.0:2375" ];
-
-  users.users.gmod = {
-    createHome = true;
-    description = "Garrys mod";
-    extraGroups = [ "wheel" ];
-    group = "users";
-    home = "/home/gmod";
-    isSystemUser = false;
-    isNormalUser = true;
-    useDefaultShell = true;
-    uid = 1000;
-  };
-
-  users.users.portfwd-guest = {
-    home = "/var/empty";
-    shell = pkgs.bashInteractive;
-    group = "nogroup";
-    hashedPassword = secrets.portfwd_guest_password;
-    createHome = false;
-    useDefaultShell = false;
-    isNormalUser = true;
-    openssh.authorizedKeys.keys = [
-      "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAtXDL7LWBiySe4YZmosFxqzjxjcROtmse22+HFShD4L7bjpqWDkIy7ynTAn/EzizVAT2UFs2z2QObJBsaxObPMdYLpAnVW2sLKh40AhsveYlxiXhVbpfMqIZ6lqtUOMqSN3ql7eUwqWMnWtBz4yl5XwLIoNmnT20XDjNJzoGk+VOTNedldDZEM1oHOw+owtAr1k2sBu2dStXbiUgIjAyDOszNp5z1dyV8Zu/bEmFj3+Uw/JID+IneZCtk/HKrPldwv+tAbSnL2+LTmQhcdfk3GZGRh/EcAyHB+PkswIoxP7p7XoQLt10fdYYpzPur4Mo45gH/RE9ybhpxfasAj7411w== git@ip"
-    ];
-  };
-
-  users.users.breogan = {
-    home = "/home/breogan";
-    shell = pkgs.bashInteractive;
-    group = "breogan";
-    isNormalUser = true;
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJIeiNkZ53utCm/d9a/m46xe00OTlRnRlrgEoiRmpW1j ed25519-key-20200418"
-    ];
-  };
-  users.groups.breogan = {};
-
-  users.users.anders = {
-    home = "/home/anders";
-    shell = pkgs.bashInteractive;
-    group = "anders";
-    isNormalUser = true;
-    openssh.authorizedKeys.keys = config.users.users.root.openssh.authorizedKeys.keys ++ [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOuW9Vc1zz3qA++TpqLb6jTBx2ZfejO0uqrYt/tmGaEM ed25519-key-20210126"
-    ];
-  };
-  users.groups.anders = {};
-
-  users.users.mcadmins = {
-    home = "/home/mcadmins";
-    shell = pkgs.bashInteractive;
-    group = "mcadmins";
-    isNormalUser = true;
-    openssh.authorizedKeys.keys = config.users.users.root.openssh.authorizedKeys.keys ++ [
-      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDMTwoP357Z13kPk3jRc8fzSCQCIYrIe/X/a4rtKq/sPE+6ydUsXXZdcB9PvFNElDmTJGk0IoaJ6gjfjJFhzRMJvg4IKJ3mFWnkJ2FBdn+rB9CWxzx8VRZfN5Tj3BmQ/olgvxHlyI+Qh1+ceBCUH1PzNhAXTJ8uSc1rIWspunbbOU3kjW7nkf3SYCRIdHkFZXr3sf7jhw0EVvFUqfWMEl3uiEbFXzd3Hq1rFxAhvf0145ydnH/gBUyxuTP4tQDSbB3yfs8wSTRhXVDqYVz6+BKdRk67SsdY50+GR1Vp2Pd/tdmJlhu7yYyn6IPY8LIx3SGWPlk5prckDvA3I4ppdIz0ZcSgqgi9fYDmDWisaWwjPJzGlTUHLnzgxehCqrwj0qQC+k5PS6Epxq1OCyBlJcSUGgCQypLZMEOuqqf5G6ouhpvzBoDOc131Ih5Rj0zH/5r+ke+GGifoLRtbHBf2TdFjnNGjlf2XANLwHhICs3r7CPr6Kd+uQZzzApCB+wx1m8hBtax86/XqZUOr70tbbUiZvZpWzJMo7jsozsUnWfN4NBqzsyZ6/nWzpCYSXxiG8xGIptFBHr/2EsY3QaoJ8ncXdEt5d1WgqxQ3cepW+n+KYcavymy2ywO1Mij2Dwt7SobUMhkcrfVcxyFehozQAOZkZqL3ByGAaqdghpkIwn0MCQ== sailslickcode"
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM9ajmos3wSH3igGDzNXTC8Gpew2XfFWE17czqXXJMBs dvxl@synckey-apd"
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJL8j3uGq7UuFBvFrJPAzgkiaushzYnjyHYQKeQ48fgd Drumsy"
-    ];
-  };
-  users.groups.mcadmins = {};
-
-  users.users.lucas = {
-    home = "/home/lucas";
-    shell = pkgs.bashInteractive;
-    group = "lucas";
-    isNormalUser = true;
-    extraGroups = [ "wheel" ];
-    openssh.authorizedKeys.keys = config.users.users.root.openssh.authorizedKeys.keys;
-  };
-  users.groups.lucas = {};
-
-  users.users.conor = {
-    home = "/home/conor";
-    shell = pkgs.bashInteractive;
-    group = "conor";
-    isNormalUser = true;
-    openssh.authorizedKeys.keys = config.users.users.root.openssh.authorizedKeys.keys ++ [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPUlcCjTDPA9E4Bj04kdojvsjNnXXWKhJdmrum94zUdm Conor@LAPTOP-VA4JS3RE"
-    ];
-    packages = with pkgs; [
-      nodejs-14_x
-    ];
-  };
-  users.groups.conor = {};
 
   systemd.services.stress = {
     description = "CPU stress to stop crashes";
