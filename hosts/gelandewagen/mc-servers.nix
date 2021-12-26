@@ -13,8 +13,10 @@ in {
 
   m1cr0man.minecraft-servers = {
     create = {
-      enable = false;
+      enable = true;
       memGb = 10;
+      zramSizeGb = 5;
+      zramDevice = "/dev/zram1";
       jar = "forge-1.16.5-36.2.20.jar";
       jre = pkgs.jre8;
       port = 25555;
@@ -22,20 +24,19 @@ in {
       group = "mcadmins";
       serverProperties = {
         motd = "Create 1.3 mc 1.16";
-        level-seed = "768000";
         level-type = "biomesoplenty";
         max-world-size = "200000";
         max-players = "15";
-        max-tick-time = "30000";
-        view-distance = "15";
-        difficulty = "hard";
+        max-tick-time = "90000";
+        view-distance = "8";
+        difficulty = "normal";
       };
     };
 
     cpssd = {
       enable = true;
-      memGb = 8;
-      zramSizeGb = 6;
+      memGb = 6;
+      zramSizeGb = 5;
       zramDevice = "/dev/zram0";
       jar = "fabric-server-launch.jar";
       port = 25535;
