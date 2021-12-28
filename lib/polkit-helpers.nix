@@ -9,14 +9,16 @@ in {
       const group = ${toJSON group};
       const unit = ${toJSON unit};
       const verbs = ${toJSON verbs};
-      if (
-        action.lookup("unit") === unit
-        && (verbs.indexOf(action.lookup("verb")) + 1)
-        && subject.isInGroup(group)
-      ) {
-        return polkit.Result.YES;
+      if (action.lookup("unit") === unit) {
+        if (
+          (verbs.indexOf(action.lookup("verb")) + 1)
+          && subject.isInGroup(group)
+        ) {
+          return polkit.Result.YES;
+        }
+        polkit.log("User " + subject.user + " is attempting " + action.lookup("verb") + " on unit " + unit);
+        return polkit.Result.NO;
       }
-      return polkit.Result.NO;
     });
   '';
 }

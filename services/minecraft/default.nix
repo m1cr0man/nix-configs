@@ -5,6 +5,7 @@ let
   secrets = import ../../common/secrets.nix;
   cfg = filterAttrs (k: v: v.enable) config.m1cr0man.minecraft-servers;
   mcmonitor = import ../../packages/mc-monitor { inherit pkgs; };
+  polkit-helpers = import ../../lib/polkit-helpers.nix;
 
   restartService = optionalAttrs (cfg != {}) {
     minecraft-server-restart = {
@@ -58,6 +59,11 @@ in {
       };
     }
   )) cfg) // restartService // monitorService;
+
+  security.polkit.extraConfig = concatStringsSep "\n" (mapAttrsToList (name: conf: polkit-helpers.makeUnitRule {
+    group = conf.group;
+    unit = "minecraft-${name}.service";
+  }) cfg);
 
   systemd.timers = optionalAttrs (cfg != {}) {
     minecraft-server-restart = {
