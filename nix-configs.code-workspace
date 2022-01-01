@@ -1,0 +1,28 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "nix.enableLanguageServer": true,
+    "editor.tabSize": 2,
+    "terminal.integrated.profiles.linux": {
+      "Nix Shell": {
+        "path": "nix-shell",
+        "icon": "terminal-linux",
+      },
+    },
+    "terminal.integrated.defaultProfile.linux": "Nix Shell",
+    "debug.allowBreakpointsEverywhere": true,
+    "nixEnvSelector.nixFile": "${workspaceRoot}/shell.nix",
+    "sops.creationEnabled": true,
+  },
+  "extensions": {
+    "recommendations": [
+      "jnoortheen.nix-ide",
+      "arrterian.nix-env-selector",
+      "signageos.signageos-vscode-sops"
+    ]
+  }
+}

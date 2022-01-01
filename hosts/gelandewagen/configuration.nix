@@ -1,28 +1,28 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, myModulesPath, addModules, addModulesRecursive, ... }:
 {
 
   imports =
-    [
+    (
+      addModules myModulesPath [
+        "sysconfig"
+        "gaming/minecraft"
+        "gaming/openttd.nix"
+        "monitoring"
+        "servers/postgresql.nix"
+        "servers/vault.nix"
+        "management/ssh"
+        "www/acme.nix"
+        "www/bind.nix"
+        "www/httpd.nix"
+        "www/matrix.nix"
+        "www/minio.nix"
+        "www/plex.nix"
+        "www/weechat.nix"
+      ]
+    ) ++ (
+      addModulesRecursive ./modules
+    ) ++ [
       ./hardware-configuration.nix
-      ./users.nix
-      ./mc-servers.nix
-      ../../common/sysconfig.nix
-      ../../services/dns
-      ../../services/ssh.nix
-      ../../services/eggnor.nix
-      ../../services/acme.nix
-      ../../services/httpd.nix
-      ../../services/m1cr0blog.nix
-      ../../services/matrix.nix
-      ../../services/minio.nix
-      ../../services/openttd.nix
-      ../../services/postgresql.nix
-      ../../services/breogan.nix
-      ../../services/conor.nix
-      ../../services/plex.nix
-      ../../services/weechat.nix
-      ../../services/tick
-      ../../services/vault.nix
     ];
 
   system.stateVersion = "21.03";
@@ -30,12 +30,21 @@
     enable = true;
     version = 2;
     devices = [ "/dev/sda" "/dev/sdb" ];
+    configurationLimit = 5;
   };
-  m1cr0man.zfs = {
-    scrubStartTime = "*-*-* 07:00:00";
-    scrubStopTime = "*-*-* 07:15:00";
+  nix.trustedUsers = [ "root" "lucas" ];
+
+  m1cr0man = {
+    general.rsyslogServer = "127.0.0.1:6514";
+    zfs = {
+      scrubStartTime = "*-*-* 07:00:00";
+      scrubStopTime = "*-*-* 07:15:00";
+      encryptedDatasets = [ "zgelandewagen" ];
+    };
   };
 
+  # Used for some MC servers
+  # numDevices = Number of MC servers using ramdisk
   zramSwap = {
     enable = true;
     algorithm = "zstd";
@@ -68,9 +77,6 @@
     nameservers = [ "213.133.98.98" "1.1.1.1" ];
     hosts."136.206.15.3" = [ "irc.redbrick.dcu.ie" ];
   };
-
-  virtualisation.docker.enable = true;
-  virtualisation.docker.listenOptions = [ "/var/run/docker.sock" "0.0.0.0:2375" ];
 
   systemd.services.stress = {
     description = "CPU stress to stop crashes";

@@ -4,7 +4,8 @@
 { config, lib, pkgs, modulesPath, ... }:
 let
   secrets = import ../../common/secrets.nix;
-in {
+in
+{
   imports = [ ];
 
   boot.initrd.availableKernelModules = [ "sd_mod" ];
@@ -13,34 +14,41 @@ in {
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "zroot/nixos";
+    {
+      device = "zroot/nixos";
       fsType = "zfs";
     };
 
   fileSystems."/nix" =
-    { device = "zroot/nixos/store";
+    {
+      device = "zroot/nixos/store";
       fsType = "zfs";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/D415-73CA";
+    {
+      device = "/dev/disk/by-uuid/D415-73CA";
       fsType = "vfat";
     };
 
   systemd.targets.network.before = [ "zeuspc.mount" ];
   fileSystems."/zeuspc" =
-    { device = "//192.168.14.100/d$";
+    {
+      device = "//192.168.14.100/d$";
       fsType = "cifs";
       options = [
         "nofail"
         "username=zeus"
-        "password=${secrets.bgrs_cifs_password}"
+        "password=$CIFS_PASSWORD"
       ];
     };
 
+  # TODO test
+  systemd.mounts."zeuspc".mountConfig.EnvironmentFile = config.sops.secrets.bgrs_passwords_env.path;
+  sops.secrets.bgrs_passwords_env.neededForUsers = true;
+
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/96a2e8c7-dbe8-4ee4-a38b-cf2d6199438d"; }
-    ];
+    [{ device = "/dev/disk/by-uuid/96a2e8c7-dbe8-4ee4-a38b-cf2d6199438d"; }];
 
   virtualisation.hypervGuest.enable = true;
 }

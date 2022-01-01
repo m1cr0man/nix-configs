@@ -1,11 +1,10 @@
 { config, pkgs, ... }:
 let
-  secrets = import ../../common/secrets.nix;
-
   steamEx = with pkgs; steam.override {
     extraPkgs = pkgs: [ gcc-unwrapped glib json-glib ];
   };
-in {
+in
+{
 
   imports =
     [
@@ -38,9 +37,17 @@ in {
   };
 
   environment.systemPackages = with pkgs; [
-    steamEx opera wine-staging lutris discord
-    xorg.xf86inputjoystick nfs-utils pciutils
-    vaapiIntel libva libglvnd
+    steamEx
+    opera
+    wine-staging
+    lutris
+    discord
+    xorg.xf86inputjoystick
+    nfs-utils
+    pciutils
+    vaapiIntel
+    libva
+    libglvnd
   ];
 
   # Steam support
@@ -65,5 +72,5 @@ in {
     group = "lucas";
     extraGroups = [ "wheel" ];
   };
-  users.groups.lucas = {};
+  users.groups.lucas = { };
 }

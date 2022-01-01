@@ -1,9 +1,11 @@
 with builtins;
 let
-  DEFAULT_VERBS = ["start" "stop" "restart" "reload"];
-in {
-  makeUnitRule = { group, unit, verbs ? DEFAULT_VERBS }: let
-  in ''
+  DEFAULT_VERBS = [ "start" "stop" "restart" "reload" ];
+in
+{
+  # Generates a policy kit rule allowing some other group to
+  # conduct a systemd action on a particular unit.
+  makeUnitRule = { group, unit, verbs ? DEFAULT_VERBS }: ''
     polkit.addRule(function(action, subject) {
       // polkit.log("action = " + action);
       const group = ${toJSON group};
