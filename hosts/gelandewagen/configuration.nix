@@ -1,10 +1,9 @@
-{ config, lib, pkgs, myModulesPath, addModules, addModulesRecursive, ... }:
+{ config, lib, pkgs, ... }:
 {
 
-  imports =
+  imports = with lib.m1cr0man.module;
     (
-      addModules myModulesPath [
-        "sysconfig"
+      addModules ../../modules [
         "gaming/minecraft"
         "gaming/openttd.nix"
         "monitoring"

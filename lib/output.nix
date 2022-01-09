@@ -26,7 +26,6 @@ rec {
   };
 
   # Found in oxalica's config
-  # TODO seems to be in upstream nixosSystem now, can probably remove it
   # Ref: https://github.com/dramforever/config/blob/63be844019b7ca675ea587da3b3ff0248158d9fc/flake.nix#L24-L28
   systemLabelModule = {
     system.configurationRevision = self.rev or null;
@@ -40,9 +39,7 @@ rec {
   # Builds a system configuration entry for nixosConfigurations.
   # nixpkgs.lib.nixosSystem is defined in nixpkg's flake.nix
   mkConfiguration =
-    { name
-    , modules
-    }: nixpkgs.lib.nixosSystem {
+    { name }: nixpkgs.lib.nixosSystem {
       # These settings are required to configure the nixpkgs used for module building.
       # Without inheriting pkgs here, the defaultPkgs would be used which wouldn't include
       # our overlays.
@@ -50,12 +47,6 @@ rec {
       # and https://github.com/NixOS/nixpkgs/blob/0699530f08290f34c532beedd66046825d9756fa/nixos/modules/misc/nixpkgs.nix#L58
       inherit system pkgs;
       inherit (pkgs) lib;
-
-      # Add a couple of helpers to specialArgs for easy relative imports
-      # TODO try remove these
-      specialArgs.myModulesPath = myModulesPath;
-      specialArgs.addModules = pkgs.lib.m1cr0man.addModules;
-      specialArgs.addModulesRecursive = pkgs.lib.m1cr0man.addModulesRecursive;
 
       # args is technically deprecated/internal.
       # you shouldn't use them here (although you could).
@@ -65,9 +56,7 @@ rec {
         systemLabelModule
         sops-nix.nixosModules.sops
         {
-          # Add our overlays
-          # TODO test shouldn't be necessary now
-          # nixpkgs.overlays = builtins.attrValues self.overlays;
+          # Ensure it doesn't auto-import another nixpkgs
           nixpkgs.pkgs = pkgs;
 
           # Pin nixpkgs so that commands like "nix shell nixpkgs#<pkg>" are more efficient
@@ -83,11 +72,12 @@ rec {
           # Use the host-specific sops secrets by default
           sops.defaultSopsFile = "${configPath}/hosts/${name}/secrets.yaml";
         }
-        "${myModulesPath}/global-options.nix"
-        "${myModulesPath}/secrets"
-        "${myModulesPath}/sysconfig"
         "${configPath}/hosts/${name}/configuration.nix"
-      ] ++ modules;
+      ] ++ (pkgs.lib.m1cr0man.module.addModules myModulesPath [
+        "global-options.nix"
+        "secrets"
+        "sysconfig"
+      ]);
     };
 
   # Checks recommended by deploy-rs
@@ -108,4 +98,7 @@ rec {
         };
       })
       self.nixosConfigurations;
+
+  # Generates a nixosModules tree based on the filesystem tree
+  autoExportedModules = (import "${configPath}/lib/module.nix").importModulesRecursive myModulesPath;
 }

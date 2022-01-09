@@ -2,6 +2,13 @@
 
 Used to deploy m1cr0man.com primarily
 
+## Using this repo in your own flakes
+
+Everything in this repo is reusable, you don't have to fork
+it! All [modules](./modules) are exported under the `nixosModules`
+flake output keyed by their path.
+For example, `m1cr0manFlake.nixosModules.sysconfig.zfs`.
+
 ## Secrets using Age, sops and sops-nix
 
 Age is a simple program to encrypt/decrypt files.

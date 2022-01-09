@@ -6,7 +6,9 @@ rec {
   inherit domain;
 
   # PolicyKit helpers
-  polkit = import ./polkit-helpers.nix;
+  polkit = import ./polkit.nix;
+
+  module = import ./module.nix;
 
   # Configures a given SOPS secret name for use with
   # a specific user. The "key" optional arg is used
@@ -31,32 +33,4 @@ rec {
       RewriteRule /(.*)           ws://${host}/$1 [P,L]
     '';
   });
-
-  # Builds import paths for modules from modulesPath
-  addModules = modulesPath: modules: map (mod: "${modulesPath}/${mod}") modules;
-
-  # Imports modules from a directory.
-  # Assumes that default.nix files include all child nix files in a directory.
-  addModulesRecursive = modulesPath:
-    with builtins;
-    let
-      defaultNix = "${modulesPath}/default.nix";
-    in
-    # Return default.nix if one exists
-    if pathExists defaultNix then [ defaultNix ]
-    else
-    # Return all regular files that end in nix
-    # Recurse into directories
-      concatLists (attrValues (
-        mapAttrs
-          (item: ftype:
-            let
-              itemPath = "${modulesPath}/${item}";
-            in
-            if ftype == "regular" && (match ".*\.nix$" item) != null then [ itemPath ]
-            else if ftype == "directory" then addModulesRecursive itemPath
-            else [ ]
-          )
-          (readDir modulesPath)
-      ));
 }

@@ -24,32 +24,26 @@
       nixosConfigurations = {
         # bgrs = mkConfiguration {
         #   name = "bgrs";
-        #   modules = [ ];
         # };
 
         # chuck = mkConfiguration {
         #   name = "chuck";
-        #   modules = [ ];
         # };
 
         gelandewagen = mkConfiguration {
           name = "gelandewagen";
-          modules = [ ];
         };
 
         # homegame = mkConfiguration {
         #   name = "homegame";
-        #   modules = [ ];
         # };
 
         # optiplexxx = mkConfiguration {
         #   name = "optiplexxx";
-        #   modules = [ ];
         # };
 
         # testing = mkConfiguration {
         #   name = "testing";
-        #   modules = [ ];
         # };
       };
 
@@ -57,10 +51,19 @@
       deploy.nodes = deployNodes;
       checks = deployChecks;
 
-      # Exported overlays, for use in dependent flakes and nixosConfigurations
+      # Exported modules, for use in other people's flakes and nixosConfigurations
       nixosModules = {
         inherit systemLabelModule;
-      };
+        # Best way I could think of to export the lib folder. Technically these
+        # aren't modules but they aren't packages either, and really the user could
+        # just use "${myflake}/lib/module.nix" but why do that if you are
+        # also importing this?
+        lib = {
+          module = import ./lib/module.nix;
+          polkit = import ./lib/polkit.nix;
+          output = import ./lib/output.nix;
+        };
+      } // autoExportedModules;
 
       # Exported overlays, for use in dependent flakes and nixosConfigurations
       # Added to pkgs in lib/output.nix
@@ -73,12 +76,18 @@
         extraPackages = final: prev: {
           "${pkgRoot}" = import ./packages { callPackage = final.callPackage; };
           # If needed you can replace import with `final.callPackage` here
-          lib = prev.lib.extend (f: p: { "${pkgRoot}" = import ./lib/module-helpers.nix { inherit domain; }; });
+          lib = prev.lib.extend (f: p: { "${pkgRoot}" = import ./lib/helpers.nix { inherit domain; }; });
         };
         # Adding deploy-rs here too because I iterate + import
         # all overlays in output.nix:pkgs = import nixpkgs...
         deploy-rs = deploy-rs.overlay;
       };
+
+      # Exported packages, for use in dependent flakes
+      # Re-exports packages defined in overlays above
+      # e.g. can be used with `nix build .#<pkgname>`
+      # system and pkgs come from lib/output.nix
+      packages."${system}" = pkgs."${pkgRoot}";
 
       # Configure devShell
       # Usable with `nix develop`. shell.nix provides nix-shell compat.
@@ -99,11 +108,5 @@
         # I use VS Code Remote SSH.
         EDITOR = "code --wait";
       };
-
-      # Exported packages, for use in dependent flakes
-      # Re-exports packages defined in overlays above
-      # e.g. can be used with `nix build .#<pkgname>`
-      # system and pkgs come from lib/output.nix
-      packages."${system}" = pkgs."${pkgRoot}";
     };
 }
