@@ -1,5 +1,5 @@
 # TODO Allow telegraf to read logs
-{ config, lib, ... }:
+{ config, lib, domain, ... }:
 let
   cfg = config.m1cr0man.webserver;
 
@@ -51,6 +51,7 @@ in
       };
 
       users.users."${user}".extraGroups = [ "acme" ];
+      security.acme.certs."${domain}".reloadServices = [ "httpd.service" ];
 
       networking.firewall.allowedTCPPorts = [ 80 443 ];
     }

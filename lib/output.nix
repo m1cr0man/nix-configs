@@ -69,8 +69,6 @@ rec {
           # TODO test shouldn't be necessary now
           # nixpkgs.overlays = builtins.attrValues self.overlays;
           nixpkgs.pkgs = pkgs;
-          # Enable unfree packages
-          # nixpkgs.config.allowUnfree = true;
 
           # Pin nixpkgs so that commands like "nix shell nixpkgs#<pkg>" are more efficient
           # Source: https://www.tweag.io/blog/2020-07-31-nixos-flakes/ "Pinning Nixpkgs"

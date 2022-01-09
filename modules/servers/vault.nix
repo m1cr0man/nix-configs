@@ -21,6 +21,7 @@ in
   networking.hosts."127.0.0.1" = [ "vault.${domain}" ];
 
   users.users.vault.extraGroups = [ "acme" ];
+  security.acme.certs."${domain}".reloadServices = [ "vault.service" ];
 
   services.httpd.virtualHosts."vault.${domain}" = {
     forceSSL = true;
