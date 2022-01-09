@@ -56,9 +56,7 @@
 
   networking = {
     hostId = "4cdf6f98";
-    hostName = "gelandewagen";
     useDHCP = false;
-    # hosts."127.0.0.1" = [ "m1cr0man.com" ];
 
     usePredictableInterfaceNames = false;
     interfaces.eth0.ipv4.addresses = [{

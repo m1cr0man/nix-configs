@@ -99,7 +99,9 @@ rec {
       activator = deploy-rs.lib.x86_64-linux.activate.nixos;
     in
     builtins.mapAttrs
-      (name: conf: {
+      (hostname: conf: {
+        inherit hostname;
+        sshUser = "root";
         profiles.system = {
           user = "root";
           path = activator conf;

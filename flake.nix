@@ -22,39 +22,40 @@
       # All hosts managed by this repository should be added here
       # nixosConfigurations is read by `nixos-rebuild`
       nixosConfigurations = {
-        bgrs = mkConfiguration {
-          name = "bgrs";
-          modules = [ ];
-        };
+        # bgrs = mkConfiguration {
+        #   name = "bgrs";
+        #   modules = [ ];
+        # };
 
-        chuck = mkConfiguration {
-          name = "chuck";
-          modules = [ ];
-        };
+        # chuck = mkConfiguration {
+        #   name = "chuck";
+        #   modules = [ ];
+        # };
 
         gelandewagen = mkConfiguration {
           name = "gelandewagen";
           modules = [ ];
         };
 
-        homegame = mkConfiguration {
-          name = "homegame";
-          modules = [ ];
-        };
+        # homegame = mkConfiguration {
+        #   name = "homegame";
+        #   modules = [ ];
+        # };
 
-        optiplexxx = mkConfiguration {
-          name = "optiplexxx";
-          modules = [ ];
-        };
+        # optiplexxx = mkConfiguration {
+        #   name = "optiplexxx";
+        #   modules = [ ];
+        # };
 
-        testing = mkConfiguration {
-          name = "testing";
-          modules = [ ];
-        };
+        # testing = mkConfiguration {
+        #   name = "testing";
+        #   modules = [ ];
+        # };
       };
 
       # The deploy attribute is used by deploy-rs
       deploy.nodes = deployNodes;
+      checks = deployChecks;
 
       # Exported overlays, for use in dependent flakes and nixosConfigurations
       nixosModules = {
@@ -70,7 +71,7 @@
         # into overlays first. That way, people can override the nixpkgs that is being used to build
         # the package by using the overlay directly.
         extraPackages = final: prev: {
-          "${pkgRoot}" = final.callPackage ./packages { };
+          "${pkgRoot}" = import ./packages { callPackage = final.callPackage; };
           # If needed you can replace import with `final.callPackage` here
           lib = prev.lib.extend (f: p: { "${pkgRoot}" = import ./lib/module-helpers.nix { inherit domain; }; });
         };

@@ -2,7 +2,7 @@
 symlinkJoin {
   name = "scripts";
   paths = [
-    (callPackage ./scan-network.nix { })
+    (callPackage ./scan-network { })
     (callPackage ./zfs-unlocker { })
   ];
 }

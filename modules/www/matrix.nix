@@ -51,11 +51,6 @@ in
     };
   };
 
-  # Depends on postgresql
-  imports = [
-    ../servers/postgresql.nix
-  ];
-
   config = {
     services.postgresql.ensureUsers = [{
       name = dbname;
