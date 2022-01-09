@@ -72,6 +72,7 @@ in
       port = 25525;
       serverProperties = {
         motd = "The big Savva House";
+        white-list = true;
       };
     };
 

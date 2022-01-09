@@ -57,5 +57,8 @@ in
 
     # Use SSH host key as SOPS key
     sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+
+    # Clean up nix store automatically
+    nix.gc.automatic = true;
   };
 }
