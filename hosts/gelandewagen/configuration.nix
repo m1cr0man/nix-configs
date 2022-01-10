@@ -2,25 +2,24 @@
 {
 
   imports = with lib.m1cr0man.module;
-    (
-      addModules ../../modules [
-        "gaming/minecraft"
-        "gaming/openttd.nix"
-        "monitoring"
-        "servers/postgresql.nix"
-        "servers/vault.nix"
-        "management/ssh"
-        "www/acme.nix"
-        "www/bind.nix"
-        "www/httpd.nix"
-        "www/matrix.nix"
-        "www/minio.nix"
-        "www/plex.nix"
-        "www/weechat.nix"
-      ]
-    ) ++ (
-      addModulesRecursive ./modules
-    ) ++ [
+    addModules ../../modules [
+      "gaming/minecraft"
+      "gaming/openttd.nix"
+      "monitoring"
+      "servers/postgresql.nix"
+      "servers/vault.nix"
+      "management/ssh"
+      "www/acme.nix"
+      "www/bind.nix"
+      "www/httpd.nix"
+      "www/matrix.nix"
+      "www/minio.nix"
+      "www/plex.nix"
+      "www/weechat.nix"
+    ]
+    ++
+    addModulesRecursive ./modules
+    ++ [
       ./hardware-configuration.nix
     ];
 

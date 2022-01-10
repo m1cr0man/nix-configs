@@ -26,9 +26,9 @@
         #   name = "bgrs";
         # };
 
-        # chuck = mkConfiguration {
-        #   name = "chuck";
-        # };
+        chuck = mkConfiguration {
+          name = "chuck";
+        };
 
         gelandewagen = mkConfiguration {
           name = "gelandewagen";
@@ -47,10 +47,6 @@
 
         # optiplexxx = mkConfiguration {
         #   name = "optiplexxx";
-        # };
-
-        # testing = mkConfiguration {
-        #   name = "testing";
         # };
       };
 
@@ -82,6 +78,7 @@
         # the package by using the overlay directly.
         extraPackages = final: prev: {
           "${pkgRoot}" = import ./packages { callPackage = final.callPackage; };
+          # It's a bit more complex to extend lib since it's self-referential
           # If needed you can replace import with `final.callPackage` here
           lib = prev.lib.extend (f: p: { "${pkgRoot}" = import ./lib/helpers.nix { inherit domain; }; });
         };

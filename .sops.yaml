@@ -1,6 +1,7 @@
 keys:
   - &admin_m1cr0man age13lchgqu59yz7x2q6t7djev9k4m6pmh756wp59mdqueh382sqdeeq2rczzz
   - &server_gelandewagen age1zhe8pxej68p6ws98f8z6wc4rnf5nacve5v6xyc6juld7c6j773zqxufwg5
+  - &server_chuck age16pxktaeyt0py3tmrf423f5zmk8gx04rcv0cljuvzaw5k6ap96cusevwghc
 creation_rules:
   - path_regex: modules/secrets/shared.yaml$
     key_groups:
@@ -12,6 +13,11 @@ creation_rules:
     - age:
       - *admin_m1cr0man
       - *server_gelandewagen
+  - path_regex: hosts/chuck/secrets.yaml$
+    key_groups:
+    - age:
+      - *admin_m1cr0man
+      - *server_chuck
   - path_regex: hosts/bgrs/secrets.yaml$
     key_groups:
     - age:

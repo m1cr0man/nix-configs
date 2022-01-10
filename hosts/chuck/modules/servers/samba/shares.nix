@@ -4,16 +4,15 @@ let
   };
 
   mkUser = name: uid: {
-      inherit name uid;
-      home = "/zhuge2/zstorage/users/${name}";
-      useDefaultShell = true;
-      group = name;
-      extraGroups = [ "users" "wheel" ];
-      isNormalUser = true;
+    inherit name uid;
+    home = "/zhuge2/zstorage/users/${name}";
+    useDefaultShell = true;
+    group = name;
+    extraGroups = [ "users" "wheel" ];
+    isNormalUser = true;
   };
-in {
-  imports = [ ../../services/samba ];
-
+in
+{
   m1cr0man.samba-shares = {
     games = (share "/zhuge2/games" "Games") // {
       extraConfig = {

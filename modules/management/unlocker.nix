@@ -1,9 +1,10 @@
 { pkgs, ... }:
 let
-  unlocker = import ../packages/unlocker { inherit pkgs; };
+  unlocker = "${pkgs.m1cr0man.scripts}/bin/zfs-unlocker";
   passwordFile = "/var/secrets/unlocker_password.txt";
   identityFile = "/root/.ssh/id_ed25519";
-in {
+in
+{
   systemd.services.unlocker = {
     description = "Encrypted ZFS root unlocker";
     after = [ "network.target" ];
@@ -11,12 +12,12 @@ in {
     path = with pkgs; [ openssh ];
 
     serviceConfig = {
-        ExecStart = ''
-          ${unlocker}/bin/unlocker ${passwordFile} ${identityFile}
-        '';
-        Restart = "always";
-        RestartSec = "10";
-        WorkingDirectory = "/var/empty";
+      ExecStart = ''
+        ${unlocker} ${passwordFile} ${identityFile}
+      '';
+      Restart = "always";
+      RestartSec = "10";
+      WorkingDirectory = "/var/empty";
     };
   };
 }

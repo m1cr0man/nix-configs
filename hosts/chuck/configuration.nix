@@ -1,24 +1,23 @@
 { config, pkgs, lib, ... }:
 {
   imports = with lib.m1cr0man.module;
-    (
-      addModules ../../modules [
-        "management/ssh"
-        "monitoring"
-        "management/unlocker.nix"
-        "servers/netbooter"
-        "servers/postgresql.nix"
-      ]
-    ) ++ (
-      addModulesRecursive ./modules
-    ) ++ [
+    addModules ../../modules [
+      "management/ssh"
+      "monitoring"
+      "management/unlocker.nix"
+      "servers/netbooter"
+      "servers/samba"
+    ]
+    ++
+    addModulesRecursive ./modules
+    ++ [
       ./hardware-configuration.nix
     ];
 
   m1cr0man = {
-    chronograf.reverseProxy = false;
     influxdb.bindAddress = "0.0.0.0";
     netbooter.dhcpRange = "192.168.137.200,192.168.137.250";
+    netbooter.buildNixos = true;
   };
 
   system.stateVersion = "21.03";
@@ -30,6 +29,11 @@
 
   # Reduce auto snapshot frequency
   services.zfs.autoSnapshot.frequent = lib.mkForce 0;
+
+  # Need moar build ram
+  services.logind.extraConfig = ''
+    RuntimeDirectorySize=2G
+  '';
 
   networking = {
     hostId = "4c1ff1d9";
