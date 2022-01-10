@@ -25,10 +25,10 @@ in
 
       certs."${domain}" = {
         domain = "*.${domain}";
+        extraDomainNames = [ domain ];
         dnsProvider = "rfc2136";
         credentialsFile = config.sops.secrets."${cfg.rfc2136EnvSecret}".path;
-        # Local DNS server with no replica, no need to wait for propagation
-        dnsPropagationCheck = false;
+        dnsPropagationCheck = true;
       };
     };
 
