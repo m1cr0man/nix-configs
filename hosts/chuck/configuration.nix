@@ -1,21 +1,25 @@
 { config, pkgs, lib, ... }:
 {
-  imports =
-    [
+  imports = with lib.m1cr0man.module;
+    (
+      addModules ../../modules [
+        "management/ssh"
+        "monitoring"
+        "management/unlocker.nix"
+        "servers/netbooter"
+        "servers/postgresql.nix"
+      ]
+    ) ++ (
+      addModulesRecursive ./modules
+    ) ++ [
       ./hardware-configuration.nix
-      ./samba-shares.nix
-      ../../common/sysconfig.nix
-      ../../services/ssh.nix
-      ../../services/tick
-      ../../services/netbooter
-      ../../services/unlocker.nix
-      ../../services/grafana.nix
-      ./services/postgresql.nix
     ];
 
-  m1cr0man.chronograf.reverseProxy = false;
-  m1cr0man.influxdb.bindAddress = "0.0.0.0";
-  m1cr0man.netbooter.dhcpRange = "192.168.137.200,192.168.137.250";
+  m1cr0man = {
+    chronograf.reverseProxy = false;
+    influxdb.bindAddress = "0.0.0.0";
+    netbooter.dhcpRange = "192.168.137.200,192.168.137.250";
+  };
 
   system.stateVersion = "21.03";
 
