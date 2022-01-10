@@ -38,6 +38,13 @@
         #   name = "homegame";
         # };
 
+        netboot = mkConfiguration {
+          name = "netboot";
+          modules = [
+            "${nixpkgs}/nixos/modules/installer/netboot/netboot-minimal.nix"
+          ];
+        };
+
         # optiplexxx = mkConfiguration {
         #   name = "optiplexxx";
         # };

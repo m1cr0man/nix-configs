@@ -39,7 +39,7 @@ rec {
   # Builds a system configuration entry for nixosConfigurations.
   # nixpkgs.lib.nixosSystem is defined in nixpkg's flake.nix
   mkConfiguration =
-    { name }: nixpkgs.lib.nixosSystem {
+    { name, modules ? [ ] }: nixpkgs.lib.nixosSystem {
       # These settings are required to configure the nixpkgs used for module building.
       # Without inheriting pkgs here, the defaultPkgs would be used which wouldn't include
       # our overlays.
@@ -52,7 +52,7 @@ rec {
       # you shouldn't use them here (although you could).
       # instead, create a module and set _module.args = { ... }
 
-      modules = [
+      modules = modules ++ [
         systemLabelModule
         sops-nix.nixosModules.sops
         {
@@ -66,8 +66,12 @@ rec {
           networking.hostName = name;
           networking.domain = domain;
 
-          # Add domain to the module args so we don't have to do `config.networking.domain` everywhere
-          _module.args.domain = domain;
+          _module.args = {
+            # Add domain to the module args so we don't have to do `config.networking.domain` everywhere.
+            inherit domain;
+            # Add self for... uh.. Nothing. You know what? Don't ask. Also, don't copy this.
+            inherit self;
+          };
 
           # Use the host-specific sops secrets by default
           sops.defaultSopsFile = "${configPath}/hosts/${name}/secrets.yaml";

@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, self, ... }:
 let
   cfg = config.m1cr0man.netbooter;
 
@@ -10,7 +10,7 @@ let
   hostIp = cfg.hostIp;
   httpPort = 8069;
 
-  nixOS = import ../../hosts/netboot/build-image.nix { inherit pkgs; };
+  nixOS = import ./nixos-image.nix { inherit pkgs self; };
 
   ipxeScript = pkgs.writeTextFile {
     name = menuFileName;
@@ -20,7 +20,7 @@ let
       :mainmenu
       menu Select an option
 
-      item nixos NixOS
+      ${lib.optionalString cfg.buildNixos "item nixos NixOS"}
       item external External
 
       choose os
@@ -49,9 +49,8 @@ let
   # Root for TFTP + HTTP
   netbootRoot = with pkgs; symlinkJoin {
     name = "netboot-tftp-root";
-    paths = [
+    paths = (lib.optional (cfg.buildNixos) nixOS) ++ [
       ipxe
-      nixOS
       (runCommand "netboot-symlinks" { } ''
         mkdir -p $out
         ln -s /var/lib/netboot $out/external
@@ -77,6 +76,11 @@ in
       default = "192.168.137.2";
       type = types.str;
       description = "Address of this host AKA the PXE boot server";
+    };
+    buildNixos = mkOption {
+      default = false;
+      type = types.bool;
+      description = "Whether to build nixosConfigurations.netboot and bake it into the iPXE menu";
     };
   };
 

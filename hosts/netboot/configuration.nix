@@ -1,13 +1,13 @@
-{ config, pkgs, lib, ... }:
-with lib;
+{ config, lib, pkgs, ... }:
 {
-  imports = [
-    "${<nixpkgs>}/nixos/modules/installer/netboot/netboot-minimal.nix"
-    ../../common/base.nix
-    ../../services/ssh.nix
-  ];
+  imports = with lib.m1cr0man.module;
+    addModules ../../modules [
+      "management/ssh"
+    ];
 
-  services.getty.autologinUser = mkForce "root";
+  networking.nameservers = [ "1.1.1.1" "8.8.8.8" ];
+
+  services.getty.autologinUser = lib.mkForce "root";
   # Enable sshd which gets disabled by netboot-minimal.nix
-  systemd.services.sshd.wantedBy = mkOverride 0 [ "multi-user.target" ];
+  systemd.services.sshd.wantedBy = lib.mkOverride 0 [ "multi-user.target" ];
 }
