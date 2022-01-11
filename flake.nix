@@ -18,6 +18,21 @@
         domain = "m1cr0man.com";
         system = "x86_64-linux";
       };
+    let
+      devDeps = [
+        pkgs.nix-prefetch-git
+        pkgs.gnupg
+        # For VS Code Nix IDE plugin
+        pkgs.rnix-lsp
+        # Sops related packages. Took me a moment to realise sops
+        # is an independent thing from sops-nix ;)
+        pkgs.age
+        pkgs.sops
+        pkgs.ssh-to-age
+        # For deploying systems
+        pkgs.deploy-rs.deploy-rs
+      ];
+    in
     {
       # All hosts managed by this repository should be added here
       # nixosConfigurations is read by `nixos-rebuild`
@@ -91,24 +106,21 @@
       # Re-exports packages defined in overlays above
       # e.g. can be used with `nix build .#<pkgname>`
       # system and pkgs come from lib/output.nix
-      packages."${system}" = pkgs."${pkgRoot}";
+      packages."${system}" = pkgs."${pkgRoot}" // {
+        # Required for adding a gcroot to stop the devshell getting GC'd
+        # See https://github.com/NixOS/nix/issues/2208
+        # Usage: nix build .#devShellPackages -o /nix/var/nix/gcroots/per-user/$USER/devdeps
+        devShellPackages = pkgs.symlinkJoin {
+          name = "dev-shell-packages";
+          paths = devDeps;
+        };
+      };
 
       # Configure devShell
       # Usable with `nix develop`. shell.nix provides nix-shell compat.
       # system and pkgs come from lib/output.nix
       devShell."${system}" = pkgs.mkShell {
-        packages = [
-          pkgs.nix-prefetch-git
-          # For VS Code Nix IDE plugin
-          pkgs.rnix-lsp
-          # Sops related packages. Took me a moment to realise sops
-          # is an independent thing from sops-nix ;)
-          pkgs.age
-          pkgs.sops
-          pkgs.ssh-to-age
-          # For deploying systems
-          pkgs.deploy-rs.deploy-rs
-        ];
+        packages = devDeps;
         # I use VS Code Remote SSH.
         EDITOR = "code --wait";
       };
