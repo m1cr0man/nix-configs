@@ -1,7 +1,5 @@
 { pkgs, ... }:
 {
-  imports = [ ../../../services/httpd.nix ];
-
   # Required by Akaunting
   systemd.services.httpd.path = [ pkgs.php80 ];
 

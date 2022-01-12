@@ -37,9 +37,9 @@
       # All hosts managed by this repository should be added here
       # nixosConfigurations is read by `nixos-rebuild`
       nixosConfigurations = {
-        # bgrs = mkConfiguration {
-        #   name = "bgrs";
-        # };
+        bgrs = mkConfiguration {
+          name = "bgrs";
+        };
 
         chuck = mkConfiguration {
           name = "chuck";

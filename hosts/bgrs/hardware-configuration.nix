@@ -2,9 +2,6 @@
 # and may be overwritten by future invocations.  Please make changes
 # to /etc/nixos/configuration.nix instead.
 { config, lib, pkgs, modulesPath, ... }:
-let
-  secrets = import ../../common/secrets.nix;
-in
 {
   imports = [ ];
 
@@ -33,19 +30,21 @@ in
 
   systemd.targets.network.before = [ "zeuspc.mount" ];
   fileSystems."/zeuspc" =
+    let
+      credsFile = config.sops.secrets.bgrs_cifs_creds.path;
+    in
     {
       device = "//192.168.14.100/d$";
       fsType = "cifs";
+      depends = credsFile;
       options = [
         "nofail"
-        "username=zeus"
-        "password=$CIFS_PASSWORD"
+        "credentials=${credsFile}"
       ];
     };
 
   # TODO test
-  systemd.mounts."zeuspc".mountConfig.EnvironmentFile = config.sops.secrets.bgrs_passwords_env.path;
-  sops.secrets.bgrs_passwords_env.neededForUsers = true;
+  sops.secrets.bgrs_cifs_creds = { };
 
   swapDevices =
     [{ device = "/dev/disk/by-uuid/96a2e8c7-dbe8-4ee4-a38b-cf2d6199438d"; }];

@@ -54,4 +54,7 @@ an age key.
 ```bash
 sudo cat /etc/ssh/ssh_host_ed25519_key.pub | ssh-to-age
 # Output is the entry to add to .sops.yaml
+# Also update relevant secret files
+sops updatekeys modules/secrets/shared.yaml
+sops updatekeys hosts/$HOSTNAME/secrets.yaml
 ```
