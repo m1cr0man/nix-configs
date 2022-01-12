@@ -9,12 +9,15 @@ in
     addModules ../../modules [
       "management/ssh"
       "monitoring"
+      "www/httpd.nix"
     ]
     ++
     addModulesRecursive ./modules
     ++ [
       ./hardware-configuration.nix
     ];
+
+  m1cr0man.webserver.setupACME = false;
 
   system.stateVersion = "21.05";
 

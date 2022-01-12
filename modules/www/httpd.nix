@@ -12,6 +12,12 @@ in
       default = "generic_htpasswd";
       description = "SOPS secret key for htpasswd to use for /.server-status auth.";
     };
+    setupACME = lib.mkOption {
+      default = true;
+      example = true;
+      description = "Whether to enable ACME provisioning.";
+      type = lib.types.bool;
+    };
   };
 
   config = lib.mkMerge [
@@ -50,11 +56,13 @@ in
         # everything else is explicitly upgraded to https
       };
 
-      users.users."${user}".extraGroups = [ "acme" ];
-      security.acme.certs."${domain}".reloadServices = [ "httpd.service" ];
-
       networking.firewall.allowedTCPPorts = [ 80 443 ];
     }
+
+    (lib.mkIf cfg.setupACME {
+      users.users."${user}".extraGroups = [ "acme" ];
+      security.acme.certs."${domain}".reloadServices = [ "httpd.service" ];
+    })
 
     # Set up sops secrets
     (lib.m1cr0man.setupSopsSecret { inherit user; name = cfg.htpasswdSecret; })

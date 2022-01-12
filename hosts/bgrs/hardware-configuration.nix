@@ -28,7 +28,11 @@
       fsType = "vfat";
     };
 
+  # Don't unmount zeuspc before network, so that the copy-backups
+  # scripts can succeed.
   systemd.targets.network.before = [ "zeuspc.mount" ];
+  sops.secrets.bgrs_cifs_creds = { };
+
   fileSystems."/zeuspc" =
     let
       credsFile = config.sops.secrets.bgrs_cifs_creds.path;
@@ -36,15 +40,13 @@
     {
       device = "//192.168.14.100/d$";
       fsType = "cifs";
-      depends = credsFile;
+      depends = [ credsFile ];
       options = [
         "nofail"
         "credentials=${credsFile}"
       ];
     };
 
-  # TODO test
-  sops.secrets.bgrs_cifs_creds = { };
 
   swapDevices =
     [{ device = "/dev/disk/by-uuid/96a2e8c7-dbe8-4ee4-a38b-cf2d6199438d"; }];
