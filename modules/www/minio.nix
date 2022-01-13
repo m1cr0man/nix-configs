@@ -36,7 +36,7 @@ in
 
     services.httpd.virtualHosts = lib.mkIf (cfg.addVhost) {
       "s3.${domain}" = lib.m1cr0man.makeVhostProxy { host = "${listenAddress}"; };
-      "ui.s3.${domain}" = lib.m1cr0man.makeVhostProxy { host = "${consoleAddress}"; };
+      "s3-ui.${domain}" = lib.m1cr0man.makeVhostProxy { host = "${consoleAddress}"; };
     };
   };
 }
