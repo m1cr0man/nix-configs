@@ -59,7 +59,7 @@ in
     { device = "/dev/disk/by-partuuid/6120e0b2-ded9-4641-bb93-d0be45c72d57"; priority = 100; }
   ];
 
-  nix.maxJobs = lib.mkDefault 8;
+  nix.settings.max-jobs = lib.mkDefault 8;
   powerManagement.cpuFreqGovernor = lib.mkDefault "performance";
 
   # Enable KSM because the MC servers share a lot of data

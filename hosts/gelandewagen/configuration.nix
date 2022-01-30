@@ -30,7 +30,7 @@
     devices = [ "/dev/sda" "/dev/sdb" ];
     configurationLimit = 5;
   };
-  nix.trustedUsers = [ "root" "lucas" ];
+  nix.settings.trusted-users = [ "root" "lucas" ];
 
   m1cr0man = {
     general.rsyslogServer = "127.0.0.1:6514";
