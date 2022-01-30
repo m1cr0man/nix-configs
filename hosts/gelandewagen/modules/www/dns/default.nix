@@ -14,7 +14,7 @@ in
 {
   services.bind.zones = [
     (makeZone "m1cr0man.com")
-    (makeZone "cragglerock.cf")
+    (makeZone "m1cr0test.tk")
   ];
 
   systemd.services.bind-copy-zones = {
@@ -23,11 +23,10 @@ in
     description = "Copies initial zones on first start";
     script = ''
       cp -n ${./m1cr0man.com.db} m1cr0man.com.db
-      cp -n ${./cragglerock.cf.db} cragglerock.cf.db
+      cp -n ${./m1cr0test.tk.db} m1cr0test.tk.db
     '';
     serviceConfig = {
       Type = "oneshot";
-      RemainAfterExit = true;
       StateDirectory = "www/bind";
       WorkingDirectory = dataDir;
       User = "named";

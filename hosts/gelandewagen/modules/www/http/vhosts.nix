@@ -8,6 +8,21 @@ with lib.m1cr0man;
       documentRoot = pkgs.m1cr0man.m1cr0blog;
     };
 
+    "m1cr0test.tk" = makeVhost {
+      useACMEHost = "m1cr0test.tk";
+      serverAliases = [ "www.m1cr0test.tk" ];
+      documentRoot = pkgs.runCommand "m1cr0test-wwwroot" { } ''
+        mkdir -p $out
+        cat > $out/index.html << EOF
+        <!DOCTYPE html>
+        <html>
+        <head><title>Epic web site easter egg</title></head>
+        <body><h1>Oh hi mark</h1></body>
+        </html>
+        EOF
+      '';
+    };
+
     "breogan.${domain}" = makeVhostProxy { host = "127.0.0.1:1357"; };
 
     "eggnor.m1cr0man.com" = makeVhostProxy { host = "127.0.0.1:5120"; };
