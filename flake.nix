@@ -2,7 +2,7 @@
   description = "M1cr0man Nix Configurations";
 
   inputs = {
-    nixpkgs.url = github:NixOS/nixpkgs/nixos-unstable;
+    nixpkgs.url = github:m1cr0man/nixpkgs/networkd-containers-rebased;
 
     deploy-rs.url = github:serokell/deploy-rs;
     deploy-rs.inputs.nixpkgs.follows = "nixpkgs";
