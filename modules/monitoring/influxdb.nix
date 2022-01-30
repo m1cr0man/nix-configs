@@ -30,6 +30,13 @@ in
           database = "telegraf";
           retention-policy = "14d";
         }];
+        # Upstream sets typesdb to a value depending on collectd.
+        # Collectd depends on xen, which is deprecated, and thus
+        # fails the config eval.
+        collectd = [{
+          enabled = false;
+          typesdb = "";
+        }];
       };
     };
   };
