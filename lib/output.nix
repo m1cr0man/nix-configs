@@ -70,6 +70,11 @@ rec {
           nix.nixPath = [ "/etc/nix/path" ];
           environment.etc."nix/path/nixpkgs".source = nixpkgs;
 
+          # Enable flakes globally
+          nix.extraOptions = ''
+            experimental-features = nix-command flakes
+          '';
+
           networking.hostName = name;
           networking.domain = domain;
 

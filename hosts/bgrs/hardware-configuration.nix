@@ -28,6 +28,12 @@
       fsType = "vfat";
     };
 
+  fileSystems."/var/lib/containers" =
+    {
+      device = "zroot/containers";
+      fsType = "zfs";
+    };
+
   # Don't unmount zeuspc before network, so that the copy-backups
   # scripts can succeed.
   systemd.targets.network.before = [ "zeuspc.mount" ];
