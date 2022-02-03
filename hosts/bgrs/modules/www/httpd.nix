@@ -1,7 +1,8 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
+with lib.m1cr0man;
 {
   # Required by Akaunting
-  systemd.services.httpd.path = [ pkgs.php80 ];
+  systemd.services.httpd.path = [ pkgs.php80 pkgs.zip pkgs.unzip pkgs.gd ];
 
   services.httpd = {
     enablePHP = true;
@@ -62,6 +63,10 @@
             AllowOverride All
           </Directory>
         '';
+      };
+      "ledgersmb" = (makeVhostProxy { host = "127.0.0.1:5762"; }) // {
+        forceSSL = false;
+        useACMEHost = null;
       };
     };
   };
