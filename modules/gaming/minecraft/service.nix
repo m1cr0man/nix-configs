@@ -60,7 +60,7 @@ in
     in
     {
       description = serverProperties.motd;
-      aliases = [ "mc-${name}" ];
+      aliases = [ "mc-${name}.service" ];
       after = [ "network.target" "local-fs.target" "zram-reloader.service" ];
       wantedBy = [ "multi-user.target" ];
       restartIfChanged = false;
