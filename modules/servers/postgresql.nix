@@ -29,6 +29,8 @@ in
       description = "Runs database scripts on each postgres startup";
       serviceConfig = {
         Type = "oneshot";
+        User = "postgres";
+        Group = "postgres";
         ExecStart = "${package}/bin/psql -d postgres -f '${startupScript}'";
       };
     };
