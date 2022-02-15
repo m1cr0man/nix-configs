@@ -36,6 +36,12 @@ in
       "panic=60"
     ];
 
+    # Increase UDP receive buffer size for better QUIC performance.
+    boot.kernel.sysctl = {
+      "net.core.rmem_default" = 2000000;
+      "net.core.rmem_max" = 2500000;
+    };
+
     # Enable accounting so systemd-cgtop can show IO load
     systemd.enableCgroupAccounting = true;
 
