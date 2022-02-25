@@ -39,12 +39,8 @@ in
           extraConfig = ''
             <Location "/.server-status">
               SetHandler server-status
-              AuthType Basic
-              AuthName "Login for status"
-              AuthUserFile "${config.sops.secrets."${cfg.htpasswdSecret}".path}"
               <RequireAny>
                 Require ip 127.0.0.1
-                Require valid-user
               </RequireAny>
             </Location>
           '';
@@ -54,6 +50,10 @@ in
 
         # Only acme certs and status are accessible via port 80,
         # everything else is explicitly upgraded to https
+      };
+
+      services.telegraf.extraConfig.inputs.apache = {
+        urls = [ "http://127.0.0.1/.server-status?auto" ];
       };
 
       networking.firewall.allowedTCPPorts = [ 80 443 ];
