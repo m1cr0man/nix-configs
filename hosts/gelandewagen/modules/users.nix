@@ -58,6 +58,9 @@ in
 
     (mkNormalUser "lucas" {
       extraArgs.extraGroups = [ "wheel" ];
+      keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIq17Vz/gxVGDifkRFO6W5DJvJ5JnZ+DBq85W3UtRv82 lucas@ip-svr"
+      ];
     })
 
     (mkNormalUser "mcadmins" {
