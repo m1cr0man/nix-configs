@@ -5,8 +5,8 @@ let
     sha256 = "0vvycjcfq96z7cl5dsrq98k9b7j7l4x0y9nflrcqmcvink7fs5w4";
   };
   latestJarPaper = builtins.fetchurl {
-    url = "https://papermc.io/api/v2/projects/paper/versions/1.18.1/builds/101/downloads/paper-1.18.1-101.jar";
-    sha256 = "0a8bg9f0vg6507a6aj7ag5788vrd0jxp6iq9nldddfk7h8p3bxp7";
+    url = "https://papermc.io/api/v2/projects/paper/versions/1.18.2/builds/268/downloads/paper-1.18.2-268.jar";
+    sha256 = "sha256:1hn4dcz9bhpdg5h0cw2jy97ai88qy485z2pny1v04z665lvqj0qh";
   };
 in
 {
@@ -71,7 +71,7 @@ in
       group = "mcadmins";
       port = 25525;
       serverProperties = {
-        motd = "The big Savva House";
+        motd = "The Big Savva House";
         white-list = true;
       };
     };
