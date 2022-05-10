@@ -33,4 +33,15 @@ rec {
       RewriteRule /(.*)           ws://${host}/$1 [P,L]
     '';
   });
+
+  makeNormalUser = name: { description ? "Manged by NixOS Config", keys ? [ ], group ? name, home ? "/home/${name}", extraArgs ? { } }: {
+    "${name}" = {
+      inherit name description group home;
+      openssh.authorizedKeys.keys = keys;
+      createHome = true;
+      isSystemUser = false;
+      isNormalUser = true;
+      useDefaultShell = true;
+    } // extraArgs;
+  };
 }

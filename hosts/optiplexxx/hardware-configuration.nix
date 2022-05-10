@@ -25,7 +25,7 @@
       fsType = "zfs";
     };
 
-  swapDevices =[
+  swapDevices = [
     { device = "/dev/disk/by-partuuid/adc0f5a6-ff72-4bae-8b7f-f20702e3846a"; }
   ];
 }

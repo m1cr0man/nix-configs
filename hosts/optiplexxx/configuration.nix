@@ -1,11 +1,16 @@
-{ config, pkgs, ... }:
-{
+{ config, pkgs, lib, ... }:
+let
+  rootKeys = config.users.users.root.openssh.authorizedKeys.keys;
+in {
 
-  imports =
-    [
+  imports = with lib.m1cr0man.module;
+    addModules ../../modules [
+      "management/ssh"
+    ]
+    ++
+    addModulesRecursive ./modules
+    ++ [
       ./hardware-configuration.nix
-      ../../common/sysconfig.nix
-      ../../services/ssh.nix
     ];
 
   system.stateVersion = "21.03";
@@ -27,12 +32,9 @@
     }];
     defaultGateway = "192.168.14.254";
     nameservers = [ "192.168.14.254" "1.1.1.1" ];
-  };
 
-  users.users.lucasguest = {
-    isNormalUser = true;
-    home = "/home/lucasguest";
-    extraGroups = [ "wheel" ];
+    firewall.allowedTCPPorts = [ 27016 27017 ];
+    firewall.allowedUDPPorts = [ 27016 27017 ];
   };
 
   # Enable KSM because the MC servers share a lot of data

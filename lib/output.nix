@@ -3,7 +3,7 @@
 let
   # We add the modules folder to the store and later add it to specialArgs.
   # This saves us doing long relative paths in imports for hosts.
-  configPath = "${../.}";
+  configPath = self;
   myModulesPath = "${configPath}/modules";
 in
 rec {

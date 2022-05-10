@@ -46,7 +46,7 @@ in
   };
 
   users.users.root.openssh.authorizedKeys.keys = [
-    "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAjcQS+kqhAZ9EXs2wHArqWYIMh1snadkhpuz6fDIbeE9dTtr7Z1MfO5UsDAO/PpK/kyBU3pHBCpVpd9l/Vcxaf+f9pVONxpywcC00iDeZ7zdnKNr2ER9stG0Yo2es2CGt+2UPdjFOTqJsGiroNlKNi43voSuzIEKmNoord69AfUxAMXak0DeE5GjdKpmxvF5Volaa2wH2Kg/ZMiHT7KUQlxOnoemzz5/bAj2d2KLqD9bgfk0BWM29IHcVv+BUJ7FMuSq31d4022ABP/18mcFGIbGSRwvmbRf1lSWig1FjfA7UMcmEP5+22GXEqU6j99D2EVoX69qxP1XYwYCTCXnMVw== rsa-key-zeus-pc"
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGLjzYGz5SbhwxoaVuNQr1HWJuzqshVRB3QgV3qHdFvR id_ed25519_zeuspc.pem"
   ];
 
   systemd.services.copy-backups =

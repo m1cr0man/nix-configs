@@ -2,7 +2,7 @@
   description = "M1cr0man Nix Configurations";
 
   inputs = {
-    nixpkgs.url = github:m1cr0man/nixpkgs/networkd-containers-rebased;
+    nixpkgs.url = github:NixOS/nixpkgs/nixos-unstable;
 
     deploy-rs.url = github:serokell/deploy-rs;
     deploy-rs.inputs.nixpkgs.follows = "nixpkgs";
@@ -60,9 +60,9 @@
           ];
         };
 
-        # optiplexxx = mkConfiguration {
-        #   name = "optiplexxx";
-        # };
+        optiplexxx = mkConfiguration {
+          name = "optiplexxx";
+        };
       };
 
       # The deploy attribute is used by deploy-rs

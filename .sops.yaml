@@ -3,6 +3,7 @@ keys:
   - &server_gelandewagen age1zhe8pxej68p6ws98f8z6wc4rnf5nacve5v6xyc6juld7c6j773zqxufwg5
   - &server_chuck age16pxktaeyt0py3tmrf423f5zmk8gx04rcv0cljuvzaw5k6ap96cusevwghc
   - &server_bgrs age1mzj3fhw43g5r9cduajqd8xcxth0zcrwetye5r4gf8v6u7la4v5fqmxxmcj
+  - &server_optiplexxx age1ef6wy5vedl6x63gwjntwgjk6v95vrny78t4pw5uxl3dy6hndldtstjnsd8
 creation_rules:
   - path_regex: modules/secrets/shared.yaml$
     key_groups:
@@ -11,6 +12,7 @@ creation_rules:
       - *server_gelandewagen
       - *server_chuck
       - *server_bgrs
+      - *server_optiplexxx
   - path_regex: hosts/gelandewagen/secrets.yaml$
     key_groups:
     - age:
@@ -26,3 +28,8 @@ creation_rules:
     - age:
       - *admin_m1cr0man
       - *server_bgrs
+  - path_regex: hosts/optiplexxx/secrets.yaml$
+    key_groups:
+    - age:
+      - *admin_m1cr0man
+      - *server_optiplexxx
