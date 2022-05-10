@@ -9,6 +9,7 @@ in
     mcadmins = { };
     lucas = { };
     conor = { };
+    zeus = { };
   };
 
   sops.secrets.portfwd_guest_password.neededForUsers = true;
