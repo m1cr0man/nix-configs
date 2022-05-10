@@ -20,7 +20,7 @@
   # Fix vscode-server node binary on login
   environment.shellInit =
     let
-      node = pkgs.nodejs-14_x;
+      node = pkgs.nodejs-16_x;
       findutils = pkgs.findutils;
     in
     ''
