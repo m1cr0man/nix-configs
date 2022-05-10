@@ -33,8 +33,8 @@ in {
     defaultGateway = "192.168.14.254";
     nameservers = [ "192.168.14.254" "1.1.1.1" ];
 
-    firewall.allowedTCPPorts = [ 27016 27017 ];
-    firewall.allowedUDPPorts = [ 27016 27017 ];
+    firewall.allowedTCPPorts = [ ];
+    firewall.allowedUDPPorts = [ 27015 27016 27017 26900 26901 26902 26903 ];
   };
 
   # Enable KSM because the MC servers share a lot of data

@@ -26,6 +26,6 @@
     };
 
   swapDevices = [
-    { device = "/dev/disk/by-partuuid/adc0f5a6-ff72-4bae-8b7f-f20702e3846a"; }
+    { device = "/dev/disk/by-partuuid/acbee226-0160-4e2d-8bcb-64faf83770a8"; }
   ];
 }
