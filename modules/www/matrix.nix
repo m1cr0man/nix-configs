@@ -92,51 +92,53 @@ in
 
     services.matrix-synapse = {
       enable = true;
-      server_name = domain;
-      # Used for initial set up
-      registration_shared_secret = lib.mkIf (cfg.registrationSecret != "") cfg.registrationSecret;
-      listeners = [
-        {
-          port = 8194;
-          bind_address = "::1";
-          type = "http";
-          tls = false;
-          x_forwarded = true;
-          resources = [
-            {
-              names = [ "client" "federation" ];
-              compress = false;
-            }
-          ];
-        }
-      ];
-      logConfig = ''
-        version: 1
+      settings = {
+        server_name = domain;
+        # Used for initial set up
+        registration_shared_secret = lib.mkIf (cfg.registrationSecret != "") cfg.registrationSecret;
+        listeners = [
+          {
+            port = 8194;
+            bind_addresses = ["::1"];
+            type = "http";
+            tls = false;
+            x_forwarded = true;
+            resources = [
+              {
+                names = [ "client" "federation" ];
+                compress = false;
+              }
+            ];
+          }
+        ];
+        log_config = pkgs.writeText "synaps-log-config" ''
+          version: 1
 
-        # In systemd's journal, loglevel is implicitly stored, so let's omit it
-        # from the message text.
-        formatters:
-            journal_fmt:
-                format: '%(name)s: [%(request)s] %(message)s'
+          # In systemd's journal, loglevel is implicitly stored, so let's omit it
+          # from the message text.
+          formatters:
+              journal_fmt:
+                  format: '%(name)s: [%(request)s] %(message)s'
 
-        filters:
-            context:
-                (): synapse.util.logcontext.LoggingContextFilter
-                request: ""
+          filters:
+              context:
+                  (): synapse.util.logcontext.LoggingContextFilter
+                  request: ""
 
-        handlers:
-            journal:
-                class: systemd.journal.JournalHandler
-                formatter: journal_fmt
-                filters: [context]
-                SYSLOG_IDENTIFIER: matrix-synapse
+          handlers:
+              journal:
+                  class: systemd.journal.JournalHandler
+                  formatter: journal_fmt
+                  filters: [context]
+                  SYSLOG_IDENTIFIER: matrix-synapse
 
-        root:
-            level: WARN
-            handlers: [journal]
+          root:
+              level: WARN
+              handlers: [journal]
 
-        disable_existing_loggers: False
-      '';
+          disable_existing_loggers: False
+        '';
+      };
     };
   };
 }
