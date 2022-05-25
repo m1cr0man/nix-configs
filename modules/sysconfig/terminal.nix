@@ -15,6 +15,8 @@
     vim
     wget
     zstd
+    sops
+    nix-prefetch-github
   ];
 
   # Fix vscode-server node binary on login

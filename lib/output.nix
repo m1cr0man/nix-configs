@@ -55,7 +55,7 @@ rec {
       modules = modules ++ [
         systemLabelModule
         sops-nix.nixosModules.sops
-        {
+        ({ config, ... }: {
           # Ensure it doesn't auto-import another nixpkgs
           nixpkgs.pkgs = pkgs;
 
@@ -70,9 +70,21 @@ rec {
           nix.nixPath = [ "/etc/nix/path" ];
           environment.etc."nix/path/nixpkgs".source = nixpkgs;
 
-          # Enable flakes globally
-          nix.extraOptions = ''
+          # Enable flakes globally.
+          # Also enable nix-plugins and our own extra-builtins so we can decrypt sops at eval time for some special cases.
+          nix.extraOptions = let
+            nix-plugins = (pkgs.nix-plugins.overrideAttrs (prev: {
+              src = pkgs.fetchFromGitHub {
+                owner = "shlevy";
+                repo = "nix-plugins";
+                rev = "e3b8c5a3210adc310acc204cbd17bbcbc73c84ae";
+                sha256 = "AkHsZpYM4EY8SNuF6LhxF2peOjp69ICGc3kOLkDms64=";
+              };
+            })).override { nix = config.nix.package; };
+          in ''
             experimental-features = nix-command flakes
+            plugin-files = ${nix-plugins}/lib/nix/plugins
+            extra-builtins-file = ${configPath}/lib/extra-builtins.nix
           '';
 
           networking.hostName = name;
@@ -87,7 +99,7 @@ rec {
 
           # Use the host-specific sops secrets by default
           sops.defaultSopsFile = "${configPath}/hosts/${name}/secrets.yaml";
-        }
+        })
         "${configPath}/hosts/${name}/configuration.nix"
       ] ++ (pkgs.lib.m1cr0man.module.addModules myModulesPath [
         "global-options.nix"
