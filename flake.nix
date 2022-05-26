@@ -49,9 +49,13 @@
           name = "gelandewagen";
         };
 
-        # homegame = mkConfiguration {
-        #   name = "homegame";
-        # };
+        optiplexxx = mkConfiguration {
+          name = "optiplexxx";
+        };
+
+        unimog = mkConfiguration {
+          name = "unimog";
+        };
 
         netboot = mkConfiguration {
           name = "netboot";
@@ -76,10 +80,6 @@
               };
             }
           ];
-        };
-
-        optiplexxx = mkConfiguration {
-          name = "optiplexxx";
         };
       };
 
