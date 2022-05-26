@@ -60,6 +60,24 @@
           ];
         };
 
+        kexec = { address, prefixLength, defaultGateway }: mkConfiguration {
+          name = "kexec";
+          modules = [
+            "${nixpkgs}/nixos/modules/installer/kexec/kexec-boot.nix"
+            {
+              networking = {
+                usePredictableInterfaceNames = false;
+                interfaces.eth0 = {
+                    ipv4.addresses = [{
+                    inherit address prefixLength;
+                  }];
+                };
+                inherit defaultGateway;
+              };
+            }
+          ];
+        };
+
         optiplexxx = mkConfiguration {
           name = "optiplexxx";
         };
@@ -114,6 +132,11 @@
           name = "dev-shell-packages";
           paths = devDeps;
         };
+        # As defined by https://github.com/NixOS/nixpkgs/blob/104f09f2e4a84a9845da4c0131dac34b090c4b02/nixos/modules/installer/kexec/kexec-boot.nix#L22
+        # To build, run nix repl and then:
+        # :lf .
+        # :b packages.x86_64-linux.kexec { address = "1.2.3.4"; prefixLength = 24; defaultGateway = "1.2.3.1"; }
+        kexec = args: (self.nixosConfigurations.kexec args).config.system.build.kexecBoot;
       };
 
       # Configure devShell
