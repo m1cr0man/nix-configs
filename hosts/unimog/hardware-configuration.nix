@@ -27,11 +27,11 @@
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/9CA6-9CCC";
+    { device = "/dev/disk/by-partlabel/ESP";
       fsType = "vfat";
     };
 
   swapDevices = [
-    { device = "/dev/disk/by-uuid/828d45ec-9ec4-4f0e-8b5f-1b8ceed8e5c8"; }
+    { device = "/dev/disk/by-partlabel/Swap"; }
   ];
 }
