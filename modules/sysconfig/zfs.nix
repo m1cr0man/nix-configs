@@ -94,7 +94,7 @@ in
     boot.zfs = {
       enableUnstable = true;
       forceImportRoot = true;
-      forceImportAll = false;
+      forceImportAll = lib.mkDefault false;
     };
 
     # Set some sane values for the kmod
@@ -102,11 +102,6 @@ in
       options zfs zfs_scrub_min_time_ms=50
       options zfs zfs_arc_max=4294967296
     '';
-
-    # Load all interfaces via DHCP in initrd
-    boot.kernelParams = lib.mkIf (cfg.encryptedDatasets != [ ]) [
-      "ip=dhcp"
-    ];
 
     # Set up initrd unlocker system
     boot.initrd = lib.mkIf (cfg.encryptedDatasets != [ ]) {

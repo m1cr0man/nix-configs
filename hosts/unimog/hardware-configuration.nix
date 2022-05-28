@@ -3,7 +3,7 @@
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
   # Note e1000e for networking during boot
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "sd_mod" "e1000e" ];
+  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "sd_mod" "usb_storage" "e1000e" ];
   boot.kernelModules = [ "kvm-intel" "zram" ];
 
   fileSystems."/" =

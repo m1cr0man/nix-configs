@@ -18,14 +18,21 @@ in {
   boot.loader.grub = {
     enable = true;
     version = 2;
-    devices = [ "/dev/sdc" ];
+    devices = [ "/dev/disk/by-id/ata-SAMSUNG_MZ7LM480HCHP-00003_S1YJNX0H503030" ];
     configurationLimit = 5;
+    efiSupport = true;
+    efiInstallAsRemovable = true;
   };
+  boot.loader.efi.efiSysMountPoint = "/boot";
+
+  # Set network configuration for initrd
+  boot.kernelParams = [
+    "ip=${localSecrets.ipv4Address}::${localSecrets.ipv4Gateway}:${localSecrets.ipv4Netmask}:${config.networking.hostName}:eth0:static"
+  ];
 
   networking = {
     hostId = "68f9ddb5";
-    # Required for initrd DHCP
-    useDHCP = true;
+    useDHCP = false;
 
     usePredictableInterfaceNames = false;
     interfaces.eth0 = {
@@ -63,7 +70,7 @@ in {
   hardware.ksm.enable = true;
 
   # Enable powersave governor because this server is mental anyway
-  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  powerManagement.cpuFreqGovernor = "powersave";
+  hardware.cpu.intel.updateMicrocode = true;
 
 }
