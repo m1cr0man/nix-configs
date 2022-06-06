@@ -67,8 +67,8 @@
         kexec = { address, prefixLength, defaultGateway }: mkConfiguration {
           name = "kexec";
           modules = [
-            "${nixpkgs}/nixos/modules/installer/kexec/kexec-boot.nix"
-            {
+            ({ modulesPath, ... }: {
+              imports = [ "${modulesPath}/installer/kexec/kexec-boot.nix" ];
               networking = {
                 usePredictableInterfaceNames = false;
                 interfaces.eth0 = {
@@ -78,7 +78,7 @@
                 };
                 inherit defaultGateway;
               };
-            }
+            })
           ];
         };
       };
