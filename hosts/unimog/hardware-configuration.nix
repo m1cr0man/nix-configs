@@ -7,27 +7,32 @@
   boot.kernelModules = [ "kvm-intel" "zram" ];
 
   fileSystems."/" =
-    { device = "zunimog_ssd/nixos/root";
+    {
+      device = "zunimog_ssd/nixos/root";
       fsType = "zfs";
     };
 
-  fileSystems."/nix/store" =
-    { device = "zunimog_ssd/nixos/store";
+  fileSystems."/nix" =
+    {
+      device = "zunimog_ssd/nixos/nix";
       fsType = "zfs";
     };
 
   fileSystems."/home" =
-    { device = "zunimog_hdd/nixos/home";
+    {
+      device = "zunimog_hdd/nixos/home";
       fsType = "zfs";
     };
 
   fileSystems."/var" =
-    { device = "zunimog_hdd/nixos/var";
+    {
+      device = "zunimog_hdd/nixos/var";
       fsType = "zfs";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-partlabel/ESP";
+    {
+      device = "/dev/disk/by-partlabel/ESP";
       fsType = "vfat";
     };
 
