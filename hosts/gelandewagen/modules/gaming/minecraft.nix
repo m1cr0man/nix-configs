@@ -1,8 +1,8 @@
 { pkgs, ... }:
 let
   latestJar = builtins.fetchurl {
-    url = "https://launcher.mojang.com/v1/objects/3cf24a8694aca6267883b17d934efacc5e44440d/server.jar";
-    sha256 = "0vvycjcfq96z7cl5dsrq98k9b7j7l4x0y9nflrcqmcvink7fs5w4";
+    url = "https://launcher.mojang.com/v1/objects/e00c4052dac1d59a1188b2aa9d5a87113aaf1122/server.jar";
+    sha256 = "1cnjrqr2vn8gppd1y1lcdrc46fd7m1b3zl28zpbw72fgy1bd1vyy";
   };
   latestJarPaper = builtins.fetchurl {
     url = "https://papermc.io/api/v2/projects/paper/versions/1.18.2/builds/268/downloads/paper-1.18.2-268.jar";
@@ -66,7 +66,7 @@ in
     adam = {
       enable = true;
       memGb = 4;
-      jar = latestJarPaper;
+      jar = latestJar;
       user = "mcadmins";
       group = "mcadmins";
       port = 25525;
