@@ -40,18 +40,14 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1652082323,
-        "narHash": "sha256-7GSVLvfCJtH9dJ3om9Lg4fsi9UKvoxxR69gUTcx0ol8=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "2a3aac479caeba0a65b2ad755fe5f284f1fde74d",
-        "type": "github"
+        "lastModified": 1655058731,
+        "narHash": "sha256-UWq2Jbn2qZjBPfV78u0/KD9oqmo2nn6wjdjemHHXC3g=",
+        "path": "/home/lucas/ssd/nixpkgs",
+        "type": "path"
       },
       "original": {
-        "owner": "NixOS",
-        "ref": "nixos-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
+        "path": "/home/lucas/ssd/nixpkgs",
+        "type": "path"
       }
     },
     "root": {
