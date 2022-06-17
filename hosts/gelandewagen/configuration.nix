@@ -41,6 +41,11 @@
     };
   };
 
+  # Set network configuration for initrd
+  boot.kernelParams = [
+    "ip=144.76.44.123::144.76.44.97:255.255.255.224:${config.networking.hostName}:eth0:static"
+  ];
+
   # Used for some MC servers
   # numDevices = Number of MC servers using ramdisk
   zramSwap = {
