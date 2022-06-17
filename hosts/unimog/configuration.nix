@@ -1,7 +1,8 @@
 { config, pkgs, lib, ... }:
 let
   localSecrets = builtins.extraBuiltins.readSops ./secrets.nix.enc;
-in {
+in
+{
 
   imports = with lib.m1cr0man.module;
     addModules ../../modules [
@@ -33,6 +34,7 @@ in {
   networking = {
     hostId = "68f9ddb5";
     useDHCP = false;
+    useNetworkd = true;
 
     usePredictableInterfaceNames = false;
     interfaces.eth0 = {
@@ -46,16 +48,17 @@ in {
         prefixLength = localSecrets.ipv6Prefix;
       }];
     };
-    defaultGateway = localSecrets.ipv4Gateway;
-    defaultGateway6 = {
-      address = localSecrets.ipv6Gateway;
-      interface = "eth0";
-    };
+    #defaultGateway = localSecrets.ipv4Gateway;
+    #defaultGateway6.address = localSecrets.ipv6Gateway;
+
     nameservers = [ "185.12.64.1" "1.1.1.1" ];
 
     firewall.allowedTCPPorts = [ ];
     firewall.allowedUDPPorts = [ ];
   };
+
+  # Workaround for https://github.com/NixOS/nixpkgs/issues/178078
+  systemd.network.networks."40-eth0".gateway = [ localSecrets.ipv4Gateway localSecrets.ipv6Gateway ];
 
   m1cr0man = {
     general.rsyslogServer = "127.0.0.1:6514";
