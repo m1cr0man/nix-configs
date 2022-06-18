@@ -36,6 +36,18 @@
       fsType = "vfat";
     };
 
+  fileSystems."/home/lucas/ssd" =
+    {
+      device = "zunimog_ssd/lucas";
+      fsType = "zfs";
+    };
+
+  fileSystems."/home/zeus/ssd" =
+    {
+      device = "zunimog_ssd/zeus";
+      fsType = "zfs";
+    };
+
   swapDevices = [
     { device = "/dev/disk/by-partlabel/Swap"; }
   ];
