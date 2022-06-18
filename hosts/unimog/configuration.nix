@@ -19,7 +19,7 @@ in
   boot.loader.grub = {
     enable = true;
     version = 2;
-    devices = [ "/dev/disk/by-id/ata-SAMSUNG_MZ7LM480HCHP-00003_S1YJNX0H503030" ];
+    devices = [ "/dev/disk/by-id/wwn-0x5002538c402dc7cc" ];
     configurationLimit = 5;
     efiSupport = true;
     efiInstallAsRemovable = true;
@@ -53,8 +53,8 @@ in
 
     nameservers = [ "185.12.64.1" "1.1.1.1" ];
 
-    firewall.allowedTCPPorts = [ ];
-    firewall.allowedUDPPorts = [ ];
+    firewall.allowedTCPPorts = [ 27015 27016 26900 1802 7776 7777 ];
+    firewall.allowedUDPPorts = [ 26900 26901 26902 27005 27015 27016 27020 7776 7777 2456 2457 2458 ];
   };
 
   # Workaround for https://github.com/NixOS/nixpkgs/issues/178078

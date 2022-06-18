@@ -60,7 +60,9 @@
         netboot = mkConfiguration {
           name = "netboot";
           modules = [
-            "${nixpkgs}/nixos/modules/installer/netboot/netboot-minimal.nix"
+            ({ modulesPath, ... }: {
+              imports = [ "${modulesPath}/installer/netboot/netboot-minimal.nix" ];
+            })
           ];
         };
 
@@ -70,13 +72,13 @@
             ({ modulesPath, ... }: {
               imports = [ "${modulesPath}/installer/kexec/kexec-boot.nix" ];
               networking = {
+                inherit defaultGateway;
                 usePredictableInterfaceNames = false;
                 interfaces.eth0 = {
-                    ipv4.addresses = [{
+                  ipv4.addresses = [{
                     inherit address prefixLength;
                   }];
                 };
-                inherit defaultGateway;
               };
             })
           ];
