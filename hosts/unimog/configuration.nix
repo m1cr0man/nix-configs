@@ -7,6 +7,7 @@ in
   imports = with lib.m1cr0man.module;
     addModules ../../modules [
       "management/ssh"
+      "vms/gamesvm.nix"
     ]
     ++
     addModulesRecursive ./modules
@@ -53,12 +54,18 @@ in
 
     nameservers = [ "185.12.64.1" "1.1.1.1" ];
 
-    firewall.allowedTCPPorts = [ 27015 27016 26900 1802 7776 7777 ];
-    firewall.allowedUDPPorts = [ 26900 26901 26902 27005 27015 27016 27020 7776 7777 2456 2457 2458 ];
+    firewall.allowedTCPPorts = [ ];
+    firewall.allowedUDPPorts = [ 27016 2456 2457 2458 ];
   };
 
   # Workaround for https://github.com/NixOS/nixpkgs/issues/178078
   systemd.network.networks."40-eth0".gateway = [ localSecrets.ipv4Gateway localSecrets.ipv6Gateway ];
+
+  # Workaround for systemd-networkd-wait-online.service failures
+  systemd.services."systemd-networkd-wait-online".serviceConfig.ExecStart = [
+    ""
+    "${config.systemd.package}/lib/systemd/systemd-networkd-wait-online --any --timeout=30"
+  ];
 
   m1cr0man = {
     general.rsyslogServer = "127.0.0.1:6514";

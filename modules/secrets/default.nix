@@ -9,4 +9,5 @@ in
   sops.secrets.generic_htpasswd.sopsFile = path;
   sops.secrets.minecraft_rcon_env.sopsFile = path;
   sops.secrets.spice_password_env.sopsFile = path;
+  sops.secrets.spice_password.sopsFile = path;
 }

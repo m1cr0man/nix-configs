@@ -48,6 +48,18 @@
       fsType = "zfs";
     };
 
+  fileSystems."/var/lib/vms" =
+    {
+      device = "zunimog_hdd/vms";
+      fsType = "zfs";
+    };
+
+  fileSystems."/var/lib/vms/ssd" =
+    {
+      device = "zunimog_ssd/vms";
+      fsType = "zfs";
+    };
+
   swapDevices = [
     { device = "/dev/disk/by-partlabel/Swap"; }
   ];
