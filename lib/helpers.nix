@@ -16,7 +16,7 @@ rec {
   # one-key-to-many-service secret.
   setupSopsSecret = { name, user ? "root", key ? name }: {
     users.users."${user}".extraGroups = [ "keys" ];
-    sops.secrets."${name}".owner = user;
+    sops.secrets."${key}".owner = user;
   };
 
   # Sets up a vhost forcing SSL and useACMEHost

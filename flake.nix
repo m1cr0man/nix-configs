@@ -2,19 +2,22 @@
   description = "M1cr0man Nix Configurations";
 
   inputs = {
-    nixpkgs.url = "path:/home/lucas/ssd/nixpkgs";
+    nixpkgs.url = "git+file:///home/lucas/ssd/nixpkgs?ref=refs%2fheads%2fnetworkd-containers";
 
     deploy-rs.url = github:serokell/deploy-rs;
     deploy-rs.inputs.nixpkgs.follows = "nixpkgs";
 
     sops-nix.url = github:Mic92/sops-nix;
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+
+    nixos-nspawn.url = "github:m1cr0man/python-nixos-nspawn";
+    nixos-nspawn.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, deploy-rs, sops-nix, ... }@inputs:
+  outputs = { self, nixpkgs, deploy-rs, sops-nix, nixos-nspawn, snm, ... }@inputs:
     with import ./lib/output.nix
       {
-        inherit self nixpkgs deploy-rs sops-nix;
+        inherit inputs;
         domain = "m1cr0man.com";
         system = "x86_64-linux";
       };
@@ -85,6 +88,9 @@
         };
       };
 
+      nixosContainers = {
+      };
+
       # The deploy attribute is used by deploy-rs
       deploy.nodes = deployNodes;
       checks = deployChecks;
@@ -120,6 +126,7 @@
         # Adding deploy-rs here too because I iterate + import
         # all overlays in output.nix:pkgs = import nixpkgs...
         deploy-rs = deploy-rs.overlay;
+        nixos-nspawn = nixos-nspawn.overlays.default;
       };
 
       # Exported packages, for use in dependent flakes

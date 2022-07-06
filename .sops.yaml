@@ -40,6 +40,11 @@ creation_rules:
     - age:
       - *admin_m1cr0man
       - *server_optiplexxx
+  - path_regex: containers/.*/secrets.yaml$
+    key_groups:
+    - age:
+      - *admin_m1cr0man
+      - *server_unimog
   - path_regex: secrets.nix(.enc)?$
     key_groups:
     - age:
