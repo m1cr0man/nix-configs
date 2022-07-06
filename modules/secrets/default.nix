@@ -9,6 +9,7 @@ in
   # Use SSH host key as SOPS key
   sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
 
+  sops.secrets.acme_cloudflare_env.sopsFile = path;
   sops.secrets.generic_htpasswd.sopsFile = path;
   sops.secrets.minecraft_rcon_env.sopsFile = path;
   sops.secrets.spice_password_env.sopsFile = path;
