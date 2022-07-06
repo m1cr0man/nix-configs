@@ -12,6 +12,9 @@
 
     nixos-nspawn.url = "github:m1cr0man/python-nixos-nspawn";
     nixos-nspawn.inputs.nixpkgs.follows = "nixpkgs";
+
+    snm.url = "git+https://gitlab.com/simple-nixos-mailserver/nixos-mailserver.git?ref=master";
+    snm.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = { self, nixpkgs, deploy-rs, sops-nix, nixos-nspawn, snm, ... }@inputs:
@@ -89,6 +92,13 @@
       };
 
       nixosContainers = {
+        email = mkContainer {
+          name = "email";
+          modules = [
+            sops-nix.nixosModules.sops
+            snm.nixosModules.mailserver
+          ];
+        };
       };
 
       # The deploy attribute is used by deploy-rs

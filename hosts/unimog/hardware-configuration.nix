@@ -60,6 +60,12 @@
       fsType = "zfs";
     };
 
+  fileSystems."/var/lib/blamethe.tools" =
+    {
+      device = "zunimog_hdd/blamethe.tools";
+      fsType = "zfs";
+    };
+
   swapDevices = [
     { device = "/dev/disk/by-partlabel/Swap"; }
   ];

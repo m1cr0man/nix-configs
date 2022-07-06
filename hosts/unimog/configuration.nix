@@ -54,8 +54,21 @@ in
 
     nameservers = [ "185.12.64.1" "1.1.1.1" ];
 
-    firewall.allowedTCPPorts = [ ];
-    firewall.allowedUDPPorts = [ 27016 2456 2457 2458 ];
+    firewall.allowedTCPPorts = [
+      # Mail ports
+      25
+      143
+      587
+      4190
+    ];
+    firewall.allowedUDPPorts = [
+      # Space Engineers
+      27016
+      # Valheim
+      2456
+      2457
+      2458
+    ];
   };
 
   # Workaround for https://github.com/NixOS/nixpkgs/issues/178078
