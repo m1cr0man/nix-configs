@@ -142,25 +142,6 @@ rec {
       ];
     };
 
-  # Checks recommended by deploy-rs
-  deployChecks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
-
-  # Builds deploy-rs' deploy.nodes entries from self.nixosConfigurations
-  deployNodes =
-    let
-      activator = deploy-rs.lib.x86_64-linux.activate.nixos;
-    in
-    builtins.mapAttrs
-      (hostname: conf: {
-        inherit hostname;
-        sshUser = "root";
-        profiles.system = {
-          user = "root";
-          path = activator conf;
-        };
-      })
-      self.nixosConfigurations;
-
   # Generates a nixosModules tree based on the filesystem tree
   autoExportedModules = (import "${configPath}/lib/module.nix").importModulesRecursive myModulesPath;
 }

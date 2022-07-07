@@ -4,10 +4,7 @@
   inputs = {
     nixpkgs.url = "git+file:///home/lucas/ssd/nixpkgs?ref=refs%2fheads%2fnetworkd-containers";
 
-    deploy-rs.url = github:serokell/deploy-rs;
-    deploy-rs.inputs.nixpkgs.follows = "nixpkgs";
-
-    sops-nix.url = github:Mic92/sops-nix;
+    sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
     nixos-nspawn.url = "github:m1cr0man/python-nixos-nspawn";
@@ -17,7 +14,7 @@
     snm.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, deploy-rs, sops-nix, nixos-nspawn, snm, ... }@inputs:
+  outputs = { self, nixpkgs, sops-nix, nixos-nspawn, snm, ... }@inputs:
     with import ./lib/output.nix
       {
         inherit inputs;
@@ -35,8 +32,6 @@
         pkgs.age
         pkgs.sops
         pkgs.ssh-to-age
-        # For deploying systems
-        pkgs.deploy-rs.deploy-rs
       ];
     in
     {
@@ -101,10 +96,6 @@
         };
       };
 
-      # The deploy attribute is used by deploy-rs
-      deploy.nodes = deployNodes;
-      checks = deployChecks;
-
       # Exported modules, for use in other people's flakes and nixosConfigurations
       nixosModules = {
         inherit systemLabelModule;
@@ -133,9 +124,6 @@
           # If needed you can replace import with `final.callPackage` here
           lib = prev.lib.extend (f: p: { "${pkgRoot}" = import ./lib/helpers.nix { inherit domain; }; });
         };
-        # Adding deploy-rs here too because I iterate + import
-        # all overlays in output.nix:pkgs = import nixpkgs...
-        deploy-rs = deploy-rs.overlay;
         nixos-nspawn = nixos-nspawn.overlays.default;
       };
 
