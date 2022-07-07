@@ -60,6 +60,9 @@ in
       143
       587
       4190
+      # Web ports
+      80
+      443
     ];
     firewall.allowedUDPPorts = [
       # Space Engineers
