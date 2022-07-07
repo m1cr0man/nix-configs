@@ -50,6 +50,7 @@ in
       localDnsResolver = false;
       virusScanning = true;
       fullTextSearch.enable = true;
+      fullTextSearch.enforced = "body";
 
       # IMAP
       # TLS 143 > SSL 993
