@@ -66,6 +66,12 @@
       fsType = "zfs";
     };
 
+  fileSystems."/var/lib/containers/web" =
+    {
+      device = "zunimog_hdd/containers/web";
+      fsType = "zfs";
+    };
+
   swapDevices = [
     { device = "/dev/disk/by-partlabel/Swap"; }
   ];

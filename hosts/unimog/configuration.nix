@@ -8,6 +8,7 @@ in
     addModules ../../modules [
       "management/ssh"
       "vms/gamesvm.nix"
+      "www/acme-base.nix"
     ]
     ++
     addModulesRecursive ./modules
@@ -63,6 +64,8 @@ in
       # Web ports
       80
       443
+      # Plex
+      32400
     ];
     firewall.allowedUDPPorts = [
       # Space Engineers

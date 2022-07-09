@@ -97,6 +97,12 @@
             snm.nixosModules.mailserver
           ];
         };
+        web = mkContainer {
+          name = "web";
+          modules = [
+            sops-nix.nixosModules.sops
+          ];
+        };
       };
 
       # Exported modules, for use in other people's flakes and nixosConfigurations
