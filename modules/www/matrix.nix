@@ -4,7 +4,7 @@
 let
   cfg = config.m1cr0man.matrix;
 
-  server = "${config.networking.hostName}.${domain}";
+  server = "${cfg.serverHostName}.${domain}";
 
   # Required protocol endpoints
   urlPrefix = "/.well-known/matrix";
@@ -49,19 +49,16 @@ in
         This secret is not secure and should be removed once completed.
       '';
     };
+    serverHostName = mkOption {
+      default = "matrix";
+      type = types.str;
+      description = ''
+        Hostname of the publically accessible address of the server.
+      '';
+    };
   };
 
   config = {
-    services.postgresql.ensureUsers = [{
-      name = dbname;
-      ensurePermissions = {
-        "DATABASE \"${dbname}\"" = "ALL PRIVILEGES";
-      };
-    }];
-    m1cr0man.postgresql.startupCommands = ''
-      CREATE DATABASE "${dbname}" TEMPLATE template0 LC_COLLATE = "C" LC_CTYPE = "C";
-    '';
-
     services.httpd.virtualHosts = {
       "${domain}".locations = {
         "${urlPrefix}/server" = mkLocation serverInfo;
@@ -90,16 +87,33 @@ in
       };
     };
 
+    users.users.matrix-synapse.extraGroups = [ "acme" ];
+
     services.matrix-synapse = {
       enable = true;
       settings = {
         server_name = domain;
+        # Args is passed adlib to psycopg2
+        # https://github.com/matrix-org/synapse/blob/a962c5a56de69c03848646f25991fabe6e4c39d1/synapse/storage/database.py#L142
+        # https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-PARAMKEYWORDS
+        database.args =
+          let
+            certs = "/var/lib/acme/postgresql.local";
+          in
+          {
+            host = "postgresql.local";
+            user = dbname;
+            sslmode = "verify-full";
+            sslrootcert = "${certs}/ca/cert.pem";
+            sslcert = "${certs}/matrix-synapse/cert.pem";
+            sslkey = "${certs}/matrix-synapse/key.pem";
+          };
         # Used for initial set up
         registration_shared_secret = lib.mkIf (cfg.registrationSecret != "") cfg.registrationSecret;
         listeners = [
           {
             port = 8194;
-            bind_addresses = ["::1"];
+            bind_addresses = [ "::1" ];
             type = "http";
             tls = false;
             x_forwarded = true;
