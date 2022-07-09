@@ -26,6 +26,8 @@ in
             587
             # Sieve
             4190
+            # Radicale
+            5232
           ];
       bindMounts = [
         stateDir

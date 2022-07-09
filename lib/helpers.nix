@@ -22,16 +22,20 @@ rec {
   # Sets up a vhost forcing SSL and useACMEHost
   makeVhost = { forceSSL ? true, useACMEHost ? domain, ... }@args: { inherit forceSSL useACMEHost; } // args;
 
-  # Same as above but for reverse proxying with websocket support.
-  # Additional args can be added to the result attrset with the // syntax.
-  makeVhostProxy = { host, protocol ? "http", location ? "/", extraConfig ? "" }: (makeVhost {
-    locations."${location}".proxyPass = "${protocol}://${host}/";
+  makeLocationProxy = { host, protocol ? "http", location ? "/", extraConfig ? "" }: {
+    proxyPass = "${protocol}://${host}/";
     extraConfig = ''
       ${extraConfig}
       RewriteEngine On
       RewriteCond %{HTTP:Upgrade} =websocket [NC]
-      RewriteRule /(.*)           ws://${host}/$1 [P,L]
+      RewriteRule ${location}(.*)           ws://${host}/$1 [P,L]
     '';
+  };
+
+  # Same as above but for reverse proxying with websocket support.
+  # Additional args can be added to the result attrset with the // syntax.
+  makeVhostProxy = { location ? "/", ... }@args: (makeVhost {
+    locations."${location}" = makeLocationProxy args;
   });
 
   makeNormalUser = name: { description ? "Manged by NixOS Config", keys ? [ ], group ? name, home ? "/home/${name}", extraArgs ? { } }: {

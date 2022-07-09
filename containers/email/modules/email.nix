@@ -36,6 +36,7 @@ in
       virusScanning = true;
       fullTextSearch.enable = true;
       fullTextSearch.enforced = "body";
+      lmtpSaveToDetailMailbox = "no";
 
       # IMAP
       # TLS 143 > SSL 993
@@ -58,5 +59,31 @@ in
       keyFile = "${certPath}/key.pem";
       certificateFile = "${certPath}/fullchain.pem";
       certificateScheme = 1;
+
+      # Custom mailboxes configuration to enable autoexpunge
+      mailboxes = {
+        Trash = {
+          auto = "create";
+          specialUse = "Trash";
+          autoexpunge = "60d";
+        };
+        Junk = {
+          auto = "subscribe";
+          specialUse = "Junk";
+          autoexpunge = "90d";
+        };
+        Drafts = {
+          auto = "subscribe";
+          specialUse = "Drafts";
+        };
+        Sent = {
+          auto = "subscribe";
+          specialUse = "Sent";
+        };
+        Archive = {
+          auto = "subscribe";
+          specialUse = "Archive";
+        };
+      };
     };
 }

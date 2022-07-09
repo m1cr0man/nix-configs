@@ -8,6 +8,13 @@
         name = "matrix-synapse";
         ensurePermissions."DATABASE \"${name}\"" = "ALL PRIVILEGES";
       }
+      {
+        name = "rainloop";
+        ensurePermissions."DATABASE \"rainloop-contacts\"" = "ALL PRIVILEGES";
+      }
+    ];
+    ensureDatabases = [
+      "rainloop-contacts"
     ];
   };
 
