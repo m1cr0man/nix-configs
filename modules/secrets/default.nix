@@ -16,6 +16,7 @@ in
   sops.secrets.acme_cloudflare_env.sopsFile = path;
   sops.secrets.generic_htpasswd.sopsFile = path;
   sops.secrets.minecraft_rcon_env.sopsFile = path;
+  sops.secrets.minio_credentials_env.sopsFile = path;
   sops.secrets.spice_password_env.sopsFile = path;
   sops.secrets.spice_password.sopsFile = path;
 }

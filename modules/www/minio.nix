@@ -25,8 +25,6 @@ in
     services.minio = {
       enable = true;
       inherit listenAddress consoleAddress;
-      configDir = "/var/lib/www/minio/config";
-      dataDir = [ "/var/lib/www/minio/data" ];
       region = "EU";
       rootCredentialsFile = config.sops.secrets."${cfg.credentialsEnvSecret}".path;
     };
