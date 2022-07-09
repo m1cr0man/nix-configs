@@ -127,6 +127,7 @@ in
     # Set auto snapshot settings. Will still need to be toggled on a per-dataset basis
     services.zfs.autoSnapshot = {
       enable = true;
+      flags = "-k -p --utc";
       frequent = 4;
       hourly = 6;
       daily = 7;
