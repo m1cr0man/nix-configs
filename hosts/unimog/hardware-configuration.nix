@@ -60,9 +60,9 @@
       fsType = "zfs";
     };
 
-  fileSystems."/var/lib/blamethe.tools" =
+  fileSystems."/var/lib/containers/database" =
     {
-      device = "zunimog_hdd/blamethe.tools";
+      device = "zunimog_hdd/containers/database";
       fsType = "zfs";
     };
 

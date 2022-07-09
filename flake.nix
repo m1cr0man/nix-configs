@@ -87,6 +87,9 @@
       };
 
       nixosContainers = {
+        database = mkContainer {
+          name = "database";
+        };
         email = mkContainer {
           name = "email";
           modules = [
