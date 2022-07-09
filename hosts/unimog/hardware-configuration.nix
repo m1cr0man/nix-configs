@@ -66,6 +66,12 @@
       fsType = "zfs";
     };
 
+  fileSystems."/var/lib/containers/email" =
+    {
+      device = "zunimog_hdd/containers/email";
+      fsType = "zfs";
+    };
+
   fileSystems."/var/lib/containers/web" =
     {
       device = "zunimog_hdd/containers/web";
