@@ -11,11 +11,24 @@ in
 
   config = {
     boot.isContainer = true;
+
+    users.mutableUsers = false;
+    users.allowNoPasswordLogin = true;
+
     networking = {
       useHostResolvConf = false;
       useDHCP = false;
       useNetworkd = true;
     };
-    nixosContainer.activation.strategy = lib.mkDefault "restart";
+
+    nixosContainer = {
+      ephemeral = true;
+      bridge = "br-containers";
+      activation.strategy = lib.mkDefault "reload";
+      bindMounts = [
+        "/etc/ssh"
+        "/var/lib/acme"
+      ];
+    };
   };
 }

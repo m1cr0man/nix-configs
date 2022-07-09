@@ -62,7 +62,7 @@ rec {
       '';
   };
 
-  baseModule = name: {
+  baseModule = instanceType: name: {
     # Ensure it doesn't auto-import another nixpkgs
     nixpkgs.pkgs = pkgs;
 
@@ -84,12 +84,12 @@ rec {
       inherit self;
     };
 
-    # Use the host-specific sops secrets by default
-    sops.defaultSopsFile = "${configPath}/hosts/${name}/secrets.yaml";
-
     # Set hostname and domain name
     networking.hostName = name;
     networking.domain = domain;
+
+    # Set instanceType
+    m1cr0man.instanceType = instanceType;
   };
 
   # My own version of nixpkgs.lib.nixosSystem as the latter evaluates
@@ -110,7 +110,7 @@ rec {
     { name, modules ? [ ] }: nixosSystem (
       modules ++ [
         systemLabelModule
-        (baseModule name)
+        (baseModule "host" name)
         nixOptionsModule
         sops-nix.nixosModules.sops
         "${configPath}/hosts/${name}/configuration.nix"
@@ -127,11 +127,11 @@ rec {
     let
       container = nixosSystem (
         modules ++ [
-          (baseModule name)
+          (baseModule "container" name)
           "${configPath}/containers/${name}/configuration.nix"
         ] ++ (pkgs.lib.m1cr0man.module.addModules myModulesPath [
+          "global-options.nix"
           "containers"
-          "secrets"
           "sysconfig/users-groups.nix"
         ])
       );

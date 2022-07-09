@@ -19,5 +19,25 @@ in
       defaultText = "admin@\${config.m1cr0man.domain}";
       description = "Admin email address for ACME, HTTPd, and other services.";
     };
+
+    instanceType = mkOption {
+      type = types.str;
+      default = "host";
+      description = "Type of instance being deployed. Valid values are host or container.";
+    };
+
+    container = {
+      hostAddress = mkOption {
+        type = types.str;
+        default = "beef::1";
+        description = "Address of the container's host.";
+      };
+
+      stateDir = mkOption {
+        type = types.path;
+        default = "/var/lib/containers/${config.networking.hostName}";
+        description = "Folder where the container's state can be saved.";
+      };
+    };
   };
 }
