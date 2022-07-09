@@ -6,7 +6,10 @@ let
 
   cfg = config.m1cr0man.postgresql;
 
-  package = cfg.package;
+  package = cfg.package.overrideAttrs (prev: {
+    buildInputs = prev.buildInputs ++ [ pkgs.pam ];
+    configureFlags = prev.configureFlags ++ [ "--with-pam" ];
+  });
   startupScript = pkgs.writeText "postgres-startup-commands" cfg.startupCommands;
   localDomain = "postgresql.local";
 in
@@ -39,6 +42,10 @@ in
         ExecStart = "${package}/bin/psql -d postgres -f '${startupScript}'";
       };
     };
+
+    security.pam.services.postgresql.unixAuth = true;
+
+    users.users.postgres.extraGroups = [ "acme" "sockets" "shadow" ];
 
     systemd.services.postgresql-certs =
       let
@@ -93,8 +100,6 @@ in
       params.postgresql = { };
     };
 
-    users.users.postgres.extraGroups = [ "acme" ];
-
     services.postgresql = {
       enable = true;
       enableTCPIP = true;
@@ -104,7 +109,9 @@ in
       initialScript = startupScript;
       authentication = ''
         hostssl all all 192.168.0.0/16 cert
-        hostssl all all beef::/64 cert
+        hostssl all all beef::/64      cert
+        local   all postgres           peer
+        local   all all                pam
       '';
       settings = {
         ssl = true;
@@ -113,6 +120,9 @@ in
         ssl_ca_file = "/var/lib/acme/${localDomain}/ca/cert.pem";
         ssl_cert_file = "/var/lib/acme/${localDomain}/server/cert.pem";
         ssl_key_file = "/var/lib/acme/${localDomain}/server/key.pem";
+        unix_socket_directories = "/run/postgresql,/var/lib/sockets";
+        unix_socket_group = "sockets";
+        unix_socket_permissions = "0770";
       };
     };
   };

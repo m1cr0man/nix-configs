@@ -19,4 +19,10 @@ in
   sops.secrets.minio_credentials_env.sopsFile = path;
   sops.secrets.spice_password_env.sopsFile = path;
   sops.secrets.spice_password.sopsFile = path;
+  sops.secrets.matrix_synapse_database_password.sopsFile = path;
+  sops.secrets.matrix_synapse_database_hashed_password.sopsFile = path;
+  sops.secrets.nextcloud_database_password.sopsFile = path;
+  sops.secrets.nextcloud_database_hashed_password.sopsFile = path;
+  sops.secrets.rainloop_database_password.sopsFile = path;
+  sops.secrets.rainloop_database_hashed_password.sopsFile = path;
 }

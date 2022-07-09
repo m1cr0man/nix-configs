@@ -28,6 +28,7 @@ in
       bindMounts = [
         "/etc/ssh"
         "/var/lib/acme"
+        "/var/lib/sockets"
       ];
     };
   };

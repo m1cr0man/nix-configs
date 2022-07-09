@@ -31,6 +31,7 @@ in
       bindMounts = [
         "${stateDir}/matrix-synapse:/var/lib/matrix-synapse"
         "${stateDir}/minio:/var/lib/minio"
+        "${stateDir}/nextcloud:/var/lib/nextcloud"
         "${stateDir}/plex:/var/lib/plex"
         "${stateDir}/rainloop:/var/lib/rainloop"
       ];

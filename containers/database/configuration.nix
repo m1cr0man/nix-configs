@@ -5,6 +5,7 @@ in
 {
   imports = with lib.m1cr0man.module;
     addModules ../../modules [
+      "secrets"
       "servers/postgresql.nix"
     ]
     ++

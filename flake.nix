@@ -89,6 +89,9 @@
       nixosContainers = {
         database = mkContainer {
           name = "database";
+          modules = [
+            sops-nix.nixosModules.sops
+          ];
         };
         email = mkContainer {
           name = "email";
