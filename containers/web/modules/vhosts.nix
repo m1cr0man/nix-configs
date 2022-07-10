@@ -16,6 +16,7 @@ in
   services.httpd.phpOptions = ''
     upload_max_filesize = 50M
     post_max_size = 50M
+    error_reporting = E_ALL ^ (E_NOTICE | E_WARNING | E_DEPRECATED)
   '';
   services.httpd.virtualHosts = {
 
