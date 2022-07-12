@@ -45,9 +45,16 @@ in
     "eggnor.${domain}" = makeVhostProxy { host = "containerhost.local:5120"; };
 
     # Subdomain can't use wildcard certs
-    "foundry.conor.${domain}" = (makeVhostProxy { host = "containerhost.local:30000"; }) // {
+    # Also, socket.io doesn't like the RewriteRule style websocket handling
+    "foundry.conor.${domain}" = makeVhost {
       useACMEHost = null;
       enableACME = true;
+      extraConfig = ''
+        ProxyPreserveHost On
+        ProxyPass  "/socket.io/" "ws://containerhost.local:30000/socket.io/"
+        ProxyPass / http://containerhost.local:30000/
+        ProxyPassReverse / http://containerhost.local:30000/
+      '';
     };
 
     "mail.vccomputers.ie" = makeVhost {

@@ -27,6 +27,7 @@ in
         mpm = "event";
         maxClients = 500;
         logFormat = "combinedplus";
+        extraModules = [ "proxy_wstunnel" ];
 
         extraConfig = ''
           LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" %v" combinedplus
