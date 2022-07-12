@@ -6,7 +6,7 @@ in
   nix.settings.trusted-users = [ "root" "lucas" "zeus" ];
 
   users.groups = {
-    conor =  { };
+    conor = { };
     lucas = { };
     zeus = { };
   };
@@ -17,6 +17,7 @@ in
     (makeNormalUser "conor" {
       keys = rootKeys ++ [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPUlcCjTDPA9E4Bj04kdojvsjNnXXWKhJdmrum94zUdm Conor@LAPTOP-VA4JS3RE"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF3zyHMJERyIp7ydHBOM0JucdfFFqAFp/05iCk8L2540 conor@hisdesktop"
       ];
     })
 
