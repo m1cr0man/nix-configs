@@ -39,16 +39,14 @@ in
       lmtpSaveToDetailMailbox = "no";
 
       # IMAP
-      # TLS 143 > SSL 993
       enableImap = true;
-      enableImapSsl = false;
+      enableImapSsl = true;
       enableManageSieve = true;
       hierarchySeparator = "/";
       useFsLayout = true;
 
-      # TLS 587 > SSL 465
       enableSubmission = true;
-      enableSubmissionSsl = false;
+      enableSubmissionSsl = true;
 
       indexDir = "${stateDir}/indexing";
       mailDirectory = "${stateDir}/mailboxes";

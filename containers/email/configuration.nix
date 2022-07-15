@@ -22,7 +22,9 @@ in
             25
             # IMAP TLS
             143
+            993
             # SMTP Submission
+            465
             587
             # Sieve
             4190
