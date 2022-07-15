@@ -59,6 +59,8 @@ in
       # Mail ports
       25
       143
+      993
+      465
       587
       4190
       # Web ports
