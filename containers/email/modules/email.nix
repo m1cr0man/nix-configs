@@ -17,6 +17,36 @@ in
     updater.settings.DatabaseDirectory = lib.mkForce "${stateDir}/clamav";
   };
 
+  # Enable virtual All and Flagged mailboxes
+  services.dovecot2 = {
+    mailPlugins.globally.enable = [ "virtual" ];
+    extraConfig =
+      let
+        mailDir = config.mailserver.mailDirectory;
+        hs = config.mailserver.hierarchySeparator;
+      in
+      ''
+        namespace {
+          prefix = virtual${hs}
+          separator = ${hs}
+          type = private
+          location = virtual:/etc/dovecot/virtual:INDEX=${mailDir}/.virtual/%d/%n:CONTROL=${mailDir}/.virtual/%d/%n:VOLATILEDIR=${mailDir}/.virtual/%d/%n
+        }
+      '';
+  };
+
+  environment.etc."dovecot/virtual/All Mail/dovecot-virtual" = {
+    user = config.services.dovecot2.mailUser;
+    group = config.services.dovecot2.mailGroup;
+    mode = "0444";
+    text = ''
+      *
+      -Trash
+      -Trash/*
+        all
+    '';
+  };
+
   mailserver =
     {
       enable = true;
@@ -34,9 +64,12 @@ in
       # Use systemd-resolved
       localDnsResolver = false;
       virusScanning = true;
-      fullTextSearch.enable = true;
-      fullTextSearch.enforced = "body";
       lmtpSaveToDetailMailbox = "no";
+      fullTextSearch = {
+        enable = true;
+        enforced = "body";
+        memoryLimit = 8000; # MiB
+      };
 
       # IMAP
       enableImap = true;
@@ -81,6 +114,10 @@ in
         Archive = {
           auto = "subscribe";
           specialUse = "Archive";
+        };
+        "virtual/All Mail" = {
+          auto = "no";
+          specialUse = "All";
         };
       };
     };
