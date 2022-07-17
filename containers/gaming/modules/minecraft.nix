@@ -14,9 +14,8 @@ in
     create = {
       enable = true;
       memGb = 10;
-      zramSizeGb = 5;
-      zramDevice = "/dev/zram1";
-      jar = "forge-1.16.5-36.2.20.jar";
+      ramfsDirectory = "/var/lib/gaming/zram1";
+      jar = "forge-1.16.5-36.2.35.jar";
       jre = pkgs.jre8;
       port = 25555;
       user = "mcadmins";
@@ -35,8 +34,7 @@ in
     cpssd = {
       enable = true;
       memGb = 6;
-      zramSizeGb = 5;
-      zramDevice = "/dev/zram0";
+      ramfsDirectory = "/var/lib/gaming/zram0";
       jar = "fabric-server-launch.jar";
       port = 25535;
       user = "mcadmins";
@@ -79,8 +77,6 @@ in
     test = {
       enable = false;
       memGb = 6;
-      zramSizeGb = 4;
-      zramDevice = "/dev/zram1";
       jar = "fabric-server-launch.jar";
       port = 25515;
       user = "mcadmins";

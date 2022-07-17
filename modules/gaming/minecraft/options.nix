@@ -43,25 +43,26 @@ let
       };
       group = mkOption {
         type = str;
-        default = "nogroup";
+        default = "minecraft";
         description = "Server service group for filesystem permissions";
       };
-      zramSizeGb = mkOption {
-        type = int;
-        default = 0;
-        description = "Size of allocated ZRAM disk, if any";
+      ramfsDirectory = mkOption {
+        type = nullOr path;
+        default = null;
+        description = "Absolute path to ramfs directory to use to run server from.";
       };
-      zramDevice = mkOption {
+      stateDirectory = mkOption {
         type = str;
-        default = "/dev/zram0";
-        description = "ZRAM device to use";
+        default = "/var/lib/gaming/minecraft/${name}";
+        description = "Where to store game files";
       };
     };
   };
 
-in {
+in
+{
   options.m1cr0man.minecraft-servers = mkOption {
-    default = {};
+    default = { };
     type = attrsOf (submodule serverOpts);
   };
 }

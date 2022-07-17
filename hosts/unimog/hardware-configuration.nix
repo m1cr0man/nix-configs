@@ -78,6 +78,32 @@
       fsType = "zfs";
     };
 
+  fileSystems."/var/lib/containers/gaming" =
+    {
+      device = "zunimog_hdd/containers/gaming";
+      fsType = "zfs";
+    };
+
+  fileSystems."/var/lib/containers/gaming/zram0" =
+    {
+      device = "/dev/zram0";
+      fsType = "ext4";
+      options = [
+        "nofail"
+        "x-systemd.requires=zram@0-5.service"
+      ];
+    };
+
+  fileSystems."/var/lib/containers/gaming/zram1" =
+    {
+      device = "/dev/zram1";
+      fsType = "ext4";
+      options = [
+        "nofail"
+        "x-systemd.requires=zram@1-5.service"
+      ];
+    };
+
   swapDevices = [
     { device = "/dev/disk/by-partlabel/Swap"; }
   ];

@@ -106,6 +106,12 @@
             sops-nix.nixosModules.sops
           ];
         };
+        gaming = mkContainer {
+          name = "gaming";
+          modules = [
+            sops-nix.nixosModules.sops
+          ];
+        };
       };
 
       # Exported modules, for use in other people's flakes and nixosConfigurations

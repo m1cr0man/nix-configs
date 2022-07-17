@@ -51,7 +51,7 @@ in
   systemd.services = (mapAttrs'
     (name: conf: nameValuePair ("minecraft-${name}") (
       base.minecraftService {
-        inherit (conf) name memGb jar jre user group zramSizeGb zramDevice;
+        inherit (conf) name memGb jar jre user group ramfsDirectory stateDirectory;
         secretsFile = config.sops.secrets.minecraft_rcon_env.path;
         serverProperties = conf.serverProperties // {
           "rcon.port" = conf.port + 1;
@@ -63,6 +63,14 @@ in
     cfg) // restartService // monitorService;
 
   sops.secrets.minecraft_rcon_env = { };
+
+  users.users = mapAttrs'
+    (name: conf: nameValuePair (conf.user) {
+      isSystemUser = mkDefault true;
+      group = conf.group;
+    })
+    cfg;
+  users.groups = mapAttrs' (name: conf: nameValuePair (conf.group) { }) cfg;
 
   security.polkit.extraConfig = concatStringsSep "\n" (mapAttrsToList
     (name: conf: lib.m1cr0man.polkit.makeUnitRule {

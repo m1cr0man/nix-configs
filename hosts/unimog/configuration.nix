@@ -9,6 +9,7 @@ in
       "management/ssh"
       "vms/gamesvm.nix"
       "www/acme-base.nix"
+      "www/weechat.nix"
     ]
     ++
     addModulesRecursive ./modules
@@ -68,6 +69,14 @@ in
       443
       # Plex
       32400
+      # Minecraft
+      25565
+      25555
+      25545
+      25535
+      25525
+      # OpenTTD
+      3979
     ];
     firewall.allowedUDPPorts = [
       # Space Engineers
@@ -76,6 +85,8 @@ in
       2456
       2457
       2458
+      # OpenTTD
+      3979
     ];
   };
 
