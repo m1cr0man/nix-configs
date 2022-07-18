@@ -5,6 +5,13 @@ let
     group = "nextcloud";
   };
   home = config.users.users.nextcloud.home;
+
+  phpProxyConfig = ''
+    RewriteEngine On
+    RewriteCond %{HTTP:Authorization} ^(.*)
+    RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
+    SetHandler "proxy:unix:${config.services.phpfpm.pools.nextcloud.socket}|fcgi://localhost/"
+  '';
 in
 {
   sops.secrets.nextcloud_database_password = sopsPerms;
@@ -80,9 +87,11 @@ in
         '';
         "~ \"^\\/(?:index|remote|public|cron|core\\/ajax\\/update|status|ocs\\/v[12]|updater\\/.+|oc[ms]-provider\\/.+|.+\\/richdocumentscode\\/proxy)\\.php(?:$|\\/)\"" = {
           priority = 500;
-          extraConfig = ''
-            SetHandler "proxy:unix:${config.services.phpfpm.pools.nextcloud.socket}|fcgi://localhost/"
-          '';
+          extraConfig = phpProxyConfig;
+        };
+        "~ \"^.*.php(?:$|\\/)\"" = {
+          priority = 600;
+          extraConfig = phpProxyConfig;
         };
       };
       # Taken from NixOS manual
