@@ -8,6 +8,7 @@
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICZRqQtVCoRxkYXZS9kr3AVuxi6Zz87j/xeHWsJFDadd lucas@OnePlusOne"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMFvcG7o/SHHzXALASd6GN5DCPR1tpZz6st5X29iGoT9 lucas@ascension"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINV2JF6dDjXlmUgVlzk7y5VwXx4r5+1rd95e+lU4VayA lucas@blueboi"
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPcZTGjFqksYJQ45GJhMHlDH6VJX2zof4wUh+K/VMbfN lucas@nord2"
   ];
 
   services.openssh = {
