@@ -8,8 +8,12 @@ let
 
   phpProxyConfig = ''
     RewriteEngine On
+    RewriteCond %{REQUEST_METHOD} OPTIONS
+    RewriteRule .* - [R=204,NC,L]
+
     RewriteCond %{HTTP:Authorization} ^(.*)
     RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
+
     SetHandler "proxy:unix:${config.services.phpfpm.pools.nextcloud.socket}|fcgi://localhost/"
   '';
 in
@@ -114,6 +118,20 @@ in
           Require all granted
           Options +FollowSymLinks
         </Directory>
+
+        Header set X-Content-Type-Options nosniff
+        Header set X-XSS-Protection "1; mode=block"
+        Header set X-Robots-Tag none
+        Header set X-Download-Options noopen
+        Header set X-Permitted-Cross-Domain-Policies none
+        Header set X-Frame-Options sameorigin
+        Header set Referrer-Policy no-referrer
+
+        Header always add Access-Control-Allow-Headers "*"
+        Header always add Access-Control-Allow-Methods "*"
+
+        Header always set Access-Control-Allow-Origin "https://${config.services.nextcloud.hostName}" "expr=req('origin') == 'https://${config.services.nextcloud.hostName}'"
+        Header always set Access-Control-Allow-Origin "https://app.keeweb.info" "expr=req('origin') == 'https://app.keeweb.info'"
       '';
     };
   };
