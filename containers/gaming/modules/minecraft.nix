@@ -12,7 +12,7 @@ in
 {
   m1cr0man.minecraft-servers = {
     create = {
-      enable = true;
+      enable = false;
       memGb = 10;
       ramfsDirectory = "/var/lib/gaming/zram1";
       jar = "forge-1.16.5-36.2.35.jar";
@@ -31,7 +31,7 @@ in
       };
     };
 
-    cpssd = {
+    focreate = {
       enable = true;
       memGb = 6;
       ramfsDirectory = "/var/lib/gaming/zram0";
@@ -40,8 +40,7 @@ in
       user = "mcadmins";
       group = "mcadmins";
       serverProperties = {
-        motd = "MC PSSD";
-        level-seed = "-2873225848197999158";
+        motd = "Fabulously Optimised Create 1.18.2";
         max-world-size = "29999984";
         max-players = "15";
         max-tick-time = "30000";
