@@ -11,6 +11,7 @@ in
   # );
 
   security.acme.certs."foundry.conor.${domain}".reloadServices = [ "httpd.service" ];
+  security.acme.certs."foundry.luckothe.irish".reloadServices = [ "httpd.service" ];
 
   services.httpd.enablePHP = true;
   services.httpd.phpOptions = ''
@@ -54,6 +55,17 @@ in
         ProxyPass  "/socket.io/" "ws://containerhost.local:30000/socket.io/"
         ProxyPass / http://containerhost.local:30000/
         ProxyPassReverse / http://containerhost.local:30000/
+      '';
+    };
+
+    "foundry.luckothe.irish" = makeVhost {
+      useACMEHost = null;
+      enableACME = true;
+      extraConfig = ''
+        ProxyPreserveHost On
+        ProxyPass  "/socket.io/" "ws://containerhost.local:30001/socket.io/"
+        ProxyPass / http://containerhost.local:30001/
+        ProxyPassReverse / http://containerhost.local:30001/
       '';
     };
 

@@ -6,6 +6,7 @@ in
   nix.settings.trusted-users = [ "root" "lucas" "zeus" ];
 
   users.groups = {
+    anders = { };
     conor = { };
     lucas = { };
     zeus = { };
@@ -14,6 +15,12 @@ in
   sops.secrets.zeus_password.neededForUsers = true;
 
   users.users = with lib.m1cr0man; lib.mkMerge [
+    (makeNormalUser "anders" {
+      keys = rootKeys ++ [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOuW9Vc1zz3qA++TpqLb6jTBx2ZfejO0uqrYt/tmGaEM ed25519-key-20210126"
+      ];
+    })
+
     (makeNormalUser "conor" {
       keys = rootKeys ++ [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPUlcCjTDPA9E4Bj04kdojvsjNnXXWKhJdmrum94zUdm Conor@LAPTOP-VA4JS3RE"
@@ -23,7 +30,7 @@ in
 
     (makeNormalUser "lucas" {
       extraArgs = {
-        extraGroups = [ "wheel" ];
+        extraGroups = [ "wheel" "acme" ];
         packages = [ pkgs.gnupg ];
       };
       keys = rootKeys ++ [

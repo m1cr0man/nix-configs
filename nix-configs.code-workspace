@@ -17,6 +17,7 @@
     "debug.allowBreakpointsEverywhere": true,
     "nixEnvSelector.nixFile": "${workspaceRoot}/shell.nix",
     "sops.creationEnabled": true,
+    "editor.formatOnSave": false,
   },
   "extensions": {
     "recommendations": [
