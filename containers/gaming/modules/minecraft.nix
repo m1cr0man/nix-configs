@@ -43,7 +43,7 @@ in
         motd = "Fabulously Optimised Create 1.18.2";
         max-world-size = "29999984";
         max-players = "15";
-        max-tick-time = "30000";
+        max-tick-time = "90000";
         view-distance = "15";
         difficulty = "hard";
         prevent-proxy-connections = false;
@@ -81,12 +81,11 @@ in
       user = "mcadmins";
       group = "mcadmins";
       serverProperties = {
-        motd = "[QA] MC PSSD";
-        level-seed = "-7379792622640751045";
+        motd = "[QA] Fabulously Optimised Create 1.18.2";
         max-world-size = "29999984";
         max-players = "15";
-        max-tick-time = "30000";
-        view-distance = "10";
+        max-tick-time = "90000";
+        view-distance = "15";
         difficulty = "hard";
         prevent-proxy-connections = false;
       };
