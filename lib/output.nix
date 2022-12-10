@@ -45,19 +45,9 @@ rec {
     # Enable flakes globally.
     # Also enable nix-plugins and our own extra-builtins so we can decrypt sops at eval time for some special cases.
     nix.extraOptions =
-      let
-        nix-plugins = (pkgs.nix-plugins.overrideAttrs (prev: {
-          src = pkgs.fetchFromGitHub {
-            owner = "shlevy";
-            repo = "nix-plugins";
-            rev = "e3b8c5a3210adc310acc204cbd17bbcbc73c84ae";
-            sha256 = "AkHsZpYM4EY8SNuF6LhxF2peOjp69ICGc3kOLkDms64=";
-          };
-        })).override { nix = config.nix.package; };
-      in
       ''
         experimental-features = nix-command flakes
-        plugin-files = ${nix-plugins}/lib/nix/plugins
+        plugin-files = ${pkgs.nix-plugins}/lib/nix/plugins
         extra-builtins-file = ${configPath}/lib/extra-builtins.nix
       '';
   };
