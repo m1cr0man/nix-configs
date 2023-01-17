@@ -1,7 +1,7 @@
 # Helper functions for flake output
 { inputs, domain, system ? builtins.currentSystem }:
-with inputs;
 let
+  inherit (inputs) self nixpkgs nixos-nspawn sops-nix;
   # We add the modules folder to the store and later add it to specialArgs.
   # This saves us doing long relative paths in imports for hosts.
   configPath = self;
@@ -112,26 +112,17 @@ rec {
     );
 
   # Builds a container configuration entry for nixosContainers
-  mkContainer =
-    { name, modules ? [ ] }:
-    let
-      container = nixosSystem (
-        modules ++ [
-          (baseModule "container" name)
-          "${configPath}/containers/${name}/configuration.nix"
-        ] ++ (pkgs.lib.m1cr0man.module.addModules myModulesPath [
-          "global-options.nix"
-          "containers"
-          "sysconfig/users-groups.nix"
-        ])
-      );
-    in
-    pkgs.buildEnv {
-      inherit name;
-      paths = [
-        container.config.system.build.toplevel
-        (pkgs.writeTextDir "data" (builtins.toJSON container.config.nixosContainer))
-      ];
+  mkContainer = { name, modules ? [ ] }:
+    nixos-nspawn.lib.mkContainer {
+      inherit nixpkgs system pkgs name;
+      modules = modules ++ [
+        (baseModule "container" name)
+        "${configPath}/containers/${name}/configuration.nix"
+      ] ++ (pkgs.lib.m1cr0man.module.addModules myModulesPath [
+        "global-options.nix"
+        "containers"
+        "sysconfig/users-groups.nix"
+      ]);
     };
 
   # Generates a nixosModules tree based on the filesystem tree

@@ -1,14 +1,8 @@
 { lib, modulesPath, ... }:
 let
   inherit (lib) types mkOption;
-  containerOptions = (import (modulesPath + "/virtualisation/containers-next/container-options.nix")
-    {
-      inherit lib;
-    }).options;
 in
 {
-  options.nixosContainer = builtins.removeAttrs containerOptions [ "system-config" "nixpkgs" ];
-
   config = {
     boot.isContainer = true;
 
@@ -26,8 +20,11 @@ in
       bridge = "br-containers";
       activation.strategy = lib.mkDefault "reload";
       bindMounts = [
+        # Required to read host key to decrypt sops secrets
         "/etc/ssh"
+        # Required to access certificates managed on the host
         "/var/lib/acme"
+        # Required for sharing UNIX sockets between containers
         "/var/lib/sockets"
       ];
     };

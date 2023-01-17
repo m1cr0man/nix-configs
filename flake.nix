@@ -2,7 +2,7 @@
   description = "M1cr0man Nix Configurations";
 
   inputs = {
-    nixpkgs.url = "git+file:///home/lucas/ssd/nixpkgs?ref=refs%2fheads%2fnetworkd-containers";
+    nixpkgs.url = "github:m1cr0man/nixpkgs/networkd-containers-rebased";
 
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
@@ -86,7 +86,7 @@
         };
       };
 
-      nixosContainers = {
+      nixosContainers."${system}" = {
         database = mkContainer {
           name = "database";
           modules = [
