@@ -1,8 +1,8 @@
 { pkgs, ... }:
 let
   latestJar = builtins.fetchurl {
-    url = "https://launcher.mojang.com/v1/objects/e00c4052dac1d59a1188b2aa9d5a87113aaf1122/server.jar";
-    sha256 = "1cnjrqr2vn8gppd1y1lcdrc46fd7m1b3zl28zpbw72fgy1bd1vyy";
+    url = "https://piston-data.mojang.com/v1/objects/c9df48efed58511cdd0213c56b9013a7b5c9ac1f/server.jar";
+    sha256 = "06qykz3nq7qmfw4phs3wvq3nk28clg8s3qrs37856aai8b8kmgaf";
   };
   latestJarPaper = builtins.fetchurl {
     url = "https://papermc.io/api/v2/projects/paper/versions/1.18.2/builds/268/downloads/paper-1.18.2-268.jar";
