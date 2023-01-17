@@ -11,13 +11,13 @@ in
       ssh = ''
         enabled = true
         filter = sshd
-        maxretry = 5
+        maxretry = 25
         action = iptables[name=SSH, port=${port}, protocol=tcp]
       '';
       sshd-ddos = ''
         enabled  = true
         filter = sshd-ddos
-        maxretry = 5
+        maxretry = 25
         action   = iptables[name=SSH, port=${port}, protocol=tcp]
       '';
     };
