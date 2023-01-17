@@ -5,6 +5,8 @@
       "management/ssh"
     ];
 
+  system.stateVersion = "22.11";
+
   networking.nameservers = [ "1.1.1.1" "8.8.8.8" ];
 
   services.getty.autologinUser = lib.mkForce "root";

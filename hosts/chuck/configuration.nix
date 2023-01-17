@@ -4,8 +4,6 @@
     addModules ../../modules [
       "management/ssh"
       "monitoring"
-      "management/unlocker.nix"
-      "servers/netbooter"
       "servers/samba"
     ]
     ++
@@ -16,11 +14,9 @@
 
   m1cr0man = {
     influxdb.bindAddress = "0.0.0.0";
-    netbooter.dhcpRange = "192.168.137.200,192.168.137.250";
-    netbooter.buildNixos = true;
   };
 
-  system.stateVersion = "21.03";
+  system.stateVersion = "22.11";
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -39,6 +35,7 @@
     hostId = "4c1ff1d9";
     hostName = "chuck";
     useDHCP = false;
+    useNetworkd = true;
 
     usePredictableInterfaceNames = false;
     interfaces.eth0.ipv4.addresses = [{
@@ -54,6 +51,12 @@
 
     firewall.allowedTCPPorts = [ 8086 8030 ];
   };
+
+  # Workaround for systemd-networkd-wait-online.service failures
+  systemd.services."systemd-networkd-wait-online".serviceConfig.ExecStart = [
+    ""
+    "${config.systemd.package}/lib/systemd/systemd-networkd-wait-online --any --timeout=30"
+  ];
 
   users.users.root.openssh.authorizedKeys.keys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGQ/+dK+9Y/QduSpNPoX/yfKYZazgUVwhs3DjH008U2C root@bgrs"
