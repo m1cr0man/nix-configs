@@ -30,6 +30,7 @@
   services.logind.extraConfig = ''
     RuntimeDirectorySize=2G
   '';
+  systemd.services.nix-daemon.environment.TMPDIR = "/nix/tmp";
 
   networking = {
     hostId = "4c1ff1d9";
