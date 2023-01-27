@@ -62,6 +62,6 @@ in
     };
 
     # Clean up nix store automatically
-    nix.gc.automatic = true;
+    nix.gc.automatic = false;
   };
 }

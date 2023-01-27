@@ -17,6 +17,7 @@
     zstd
     sops
     nix-prefetch-github
+    rsync
   ];
 
   # Fix vscode-server node binary on login
