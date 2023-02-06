@@ -42,9 +42,6 @@ in
       "net.core.rmem_max" = 2500000;
     };
 
-    # Enable accounting so systemd-cgtop can show IO load
-    systemd.enableCgroupAccounting = true;
-
     # Limit logs sizes and retention duration in journalctl
     # RuntimeKeepFree is used to ensure a certain amount of available mem
     # on low memory systems (< 500M)

@@ -121,6 +121,7 @@ rec {
       ] ++ (pkgs.lib.m1cr0man.module.addModules myModulesPath [
         "global-options.nix"
         "containers"
+        "sysconfig/core.nix"
         "sysconfig/users-groups.nix"
       ]);
     };
