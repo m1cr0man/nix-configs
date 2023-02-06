@@ -87,6 +87,14 @@ in
         See https://www.freedesktop.org/software/systemd/man/systemd.time.html#Calendar%20Events
       '';
     };
+
+    arcMaxGb = with lib; mkOption {
+      default = 4;
+      type = types.int;
+      description = ''
+        Maximum size of the in memory ARC cache in gigabytes.
+      '';
+    };
   };
 
   config = lib.mkIf (cfg.enable) {
@@ -100,7 +108,7 @@ in
     # Set some sane values for the kmod
     boot.extraModprobeConfig = ''
       options zfs zfs_scrub_min_time_ms=50
-      options zfs zfs_arc_max=4294967296
+      options zfs zfs_arc_max=${builtins.toString (cfg.arcMaxGb * 1000 * 1000 * 1000)}
     '';
 
     # Set up initrd unlocker system
