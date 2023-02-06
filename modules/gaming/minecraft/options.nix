@@ -20,6 +20,11 @@ let
         default = 2;
         description = "Jar file";
       };
+      launchCommand = mkOption {
+        type = nullOr str;
+        default = null;
+        description = "Alternative command to use to launch the server as opposed to java";
+      };
       jre = mkOption {
         type = path;
         default = pkgs.jdk17_headless;

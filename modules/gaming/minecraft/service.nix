@@ -26,7 +26,7 @@ let
     (commonProps // props)));
 in
 {
-  minecraftService = { name, memGb, jar, serverProperties, user, group, jre, ramfsDirectory, secretsFile, stateDirectory }:
+  minecraftService = { name, memGb, jar, serverProperties, user, group, jre, ramfsDirectory, secretsFile, stateDirectory, launchCommand }:
     let
       memStr = "${builtins.toString memGb}G";
       memHalfStr = "${builtins.toString (memGb / 2)}G";
@@ -49,6 +49,10 @@ in
           rm -rf "${ramfsDirectory}"/*
         fi
       '' else "true");
+      startCommand = if launchCommand == null then
+        "java -Xmx${memStr} -Xms${memHalfStr} ${commonArgs} -jar ${jar} nogui"
+        else
+        launchCommand;
     in
     {
       description = serverProperties.motd;
@@ -87,14 +91,12 @@ in
             done
           ) &
 
-          java -Xmx${memStr} -Xms${memHalfStr} ${commonArgs} -jar ${jar} nogui
+          ${startCommand}
 
           rm $RUN
           echo Gracefully shutting down
           wait %1
-        '' else ''
-          java -Xmx${memStr} -Xms${memHalfStr} ${commonArgs} -jar ${jar} nogui
-        '';
+        '' else startCommand;
 
       preStop = ''
         ${mcrcon} -w 5 "say Server shutting down in 10 seconds" save-all stop

@@ -51,7 +51,7 @@ in
   systemd.services = (mapAttrs'
     (name: conf: nameValuePair ("minecraft-${name}") (
       base.minecraftService {
-        inherit (conf) name memGb jar jre user group ramfsDirectory stateDirectory;
+        inherit (conf) name memGb jar jre user group ramfsDirectory stateDirectory launchCommand;
         secretsFile = config.sops.secrets.minecraft_rcon_env.path;
         serverProperties = conf.serverProperties // {
           "rcon.port" = conf.port + 1;

@@ -11,28 +11,34 @@ let
 in
 {
   m1cr0man.minecraft-servers = {
-    create = {
-      enable = false;
-      memGb = 10;
+    vaulthunters = {
+      enable = true;
       ramfsDirectory = "/var/lib/gaming/zram1";
-      jar = "forge-1.16.5-36.2.35.jar";
-      jre = pkgs.jre8;
+      launchCommand = "java -Xmx10G -Xms5G @libraries/net/minecraftforge/forge/1.18.2-40.1.93/unix_args.txt";
+      # These 2 args won't actually be used
+      memGb = 10;
+      jar = "forge-1.18.2-40.1.93.jar";
       port = 25555;
       user = "mcadmins";
       group = "mcadmins";
       serverProperties = {
-        motd = "Create 1.3 mc 1.16";
-        level-type = "biomesoplenty";
-        max-world-size = "200000";
+        difficulty = "normal";
+        enable-command-block = true;
+        enable-jmx-monitoring = false;
+        enable-status = true;
+        level-type = "default";
         max-players = "15";
         max-tick-time = "90000";
-        view-distance = "8";
-        difficulty = "normal";
+        max-world-size = "200000";
+        motd = "Vault Hunters 1.18";
+        simulation-distance = "10";
+        spawn-protection = "0";
+        view-distance = "10";
       };
     };
 
     focreate = {
-      enable = true;
+      enable = false;
       memGb = 6;
       ramfsDirectory = "/var/lib/gaming/zram0";
       jar = "fabric-server-launch.jar";
@@ -50,18 +56,8 @@ in
       };
     };
 
-    patrick = {
-      enable = false;
-      memGb = 2;
-      jar = latestJar;
-      port = 25545;
-      serverProperties = {
-        motd = "Idk Patrick's brother";
-      };
-    };
-
     adam = {
-      enable = true;
+      enable = false;
       memGb = 4;
       jar = latestJar;
       user = "mcadmins";
@@ -70,24 +66,6 @@ in
       serverProperties = {
         motd = "The Big Savva House";
         white-list = true;
-      };
-    };
-
-    test = {
-      enable = false;
-      memGb = 6;
-      jar = "fabric-server-launch.jar";
-      port = 25515;
-      user = "mcadmins";
-      group = "mcadmins";
-      serverProperties = {
-        motd = "[QA] Fabulously Optimised Create 1.18.2";
-        max-world-size = "29999984";
-        max-players = "15";
-        max-tick-time = "90000";
-        view-distance = "15";
-        difficulty = "hard";
-        prevent-proxy-connections = false;
       };
     };
   };
