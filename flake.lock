@@ -70,16 +70,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1675709408,
-        "narHash": "sha256-z36vC4+n/VzZHIo9CjI4otgPz1bv7iBU6fI3QPwEA0w=",
+        "lastModified": 1675800251,
+        "narHash": "sha256-5ZHcvJ72PbWWRIiKmVDLkTcAMn1olv9kdh0n2k52+5s=",
         "owner": "m1cr0man",
         "repo": "nixpkgs",
-        "rev": "9cd10d1326ac4a8c6f092b43098dbdda81a70216",
+        "rev": "0e8789bec36f2340e47e95560c7300dd03750c58",
         "type": "github"
       },
       "original": {
         "owner": "m1cr0man",
-        "ref": "networkd-containers-rebased",
+        "ref": "rfc108-minimal",
         "repo": "nixpkgs",
         "type": "github"
       }
