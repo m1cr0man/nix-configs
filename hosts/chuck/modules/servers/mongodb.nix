@@ -1,5 +1,0 @@
-{
-  services.mongodb = {
-    enable = true;
-  };
-}
