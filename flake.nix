@@ -15,6 +15,12 @@
 
     nixos-vscode-server.url = "github:msteen/nixos-vscode-server";
     nixos-vscode-server.inputs.nixpkgs.follows = "nixpkgs";
+
+    jovian.url = "github:m1cr0man/Jovian-NixOS/hw-support-ucm-flakes";
+    jovian.inputs.nixpkgs.follows = "nixpkgs";
+
+    home-manager.url = "github:m1cr0man/home-manager/opera";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = { self, sops-nix, ... }@inputs:
@@ -71,11 +77,18 @@
           ];
         };
 
+        deic = mkConfiguration {
+          name = "deic";
+          modules = [
+            inputs.jovian.nixosModules.jovian
+          ];
+        };
+
         kexec = { address, prefixLength, defaultGateway }: mkConfiguration {
           name = "kexec";
           modules = [
             ({ modulesPath, ... }: {
-              imports = [ "${modulesPath}/installer/kexec/kexec-boot.nix" ];
+              imports = [ "${modulesPath}/installer/netboot/netboot-minimal.nix" ];
               networking = {
                 inherit defaultGateway;
                 usePredictableInterfaceNames = false;
@@ -118,6 +131,13 @@
         };
       };
 
+      homeConfigurations = {
+        deck = inputs.home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          modules = [ ./homes/deck ];
+        };
+      };
+
       # Exported modules, for use in other people's flakes and nixosConfigurations
       nixosModules = {
         inherit systemLabelModule;
@@ -147,6 +167,7 @@
           lib = prev.lib.extend (f: p: { "${pkgRoot}" = import ./lib/helpers.nix { inherit domain; }; });
         };
         nixos-nspawn = inputs.nixos-nspawn.overlays.default;
+        jovian = inputs.jovian.overlays.jovian;
       };
 
       # Exported packages, for use in dependent flakes
@@ -165,7 +186,8 @@
         # To build, run nix repl and then:
         # :lf .
         # :b packages.x86_64-linux.kexec { address = "1.2.3.4"; prefixLength = 24; defaultGateway = "1.2.3.1"; }
-        kexec = args: (self.nixosConfigurations.kexec args).config.system.build.kexecBoot;
+        kexec = args: (self.nixosConfigurations.kexec args).config.system.build.kexecTree;
+        home-manager = inputs.home-manager.packages."${system}".home-manager;
       };
 
       # Configure devShell
