@@ -53,6 +53,7 @@
 
         chuck = mkConfiguration {
           name = "chuck";
+          modules = [ inputs.nixos-vscode-server.nixosModules.default ];
         };
 
         gelandewagen = mkConfiguration {

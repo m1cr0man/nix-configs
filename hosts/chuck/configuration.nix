@@ -59,6 +59,9 @@
     "${config.systemd.package}/lib/systemd/systemd-networkd-wait-online --any --timeout=30"
   ];
 
+  # Enable VSCode Remote Server
+  services.vscode-server.enable = true;
+
   users.users.root.openssh.authorizedKeys.keys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGQ/+dK+9Y/QduSpNPoX/yfKYZazgUVwhs3DjH008U2C root@bgrs"
   ];
