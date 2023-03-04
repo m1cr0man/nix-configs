@@ -4,4 +4,5 @@
   m1cr0blog = callPackage ./m1cr0blog { };
   mc-monitor = callPackage ./mc-monitor { };
   upd72020x = callPackage ./upd72020x { };
+  upgrade-pg-cluster = callPackage ./upgrade-pg-cluster { };
 }

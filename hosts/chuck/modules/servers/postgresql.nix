@@ -2,8 +2,8 @@
 {
   services.postgresql = {
     enable = true;
-    package = pkgs.postgresql_13;
-    extraPlugins = with pkgs.postgresql_13.pkgs; [ postgis ];
+    package = pkgs.postgresql_15;
+    extraPlugins = with pkgs.postgresql_15.pkgs; [ postgis timescaledb ];
     ensureDatabases = [ "pathfinder" ];
     enableTCPIP = true;
     authentication = ''
