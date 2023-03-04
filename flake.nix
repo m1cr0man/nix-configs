@@ -12,9 +12,12 @@
 
     snm.url = "git+https://gitlab.com/simple-nixos-mailserver/nixos-mailserver.git?ref=master";
     snm.inputs.nixpkgs.follows = "nixpkgs";
+
+    nixos-vscode-server.url = "github:msteen/nixos-vscode-server";
+    nixos-vscode-server.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, sops-nix, nixos-nspawn, snm, ... }@inputs:
+  outputs = { self, sops-nix, ... }@inputs:
     with import ./lib/output.nix
       {
         inherit inputs;
@@ -56,6 +59,7 @@
 
         unimog = mkConfiguration {
           name = "unimog";
+          modules = [ inputs.nixos-vscode-server.nixosModules.default ];
         };
 
         netboot = mkConfiguration {
@@ -97,7 +101,7 @@
           name = "email";
           modules = [
             sops-nix.nixosModules.sops
-            snm.nixosModules.mailserver
+            inputs.snm.nixosModules.mailserver
           ];
         };
         web = mkContainer {
@@ -142,7 +146,7 @@
           # If needed you can replace import with `final.callPackage` here
           lib = prev.lib.extend (f: p: { "${pkgRoot}" = import ./lib/helpers.nix { inherit domain; }; });
         };
-        nixos-nspawn = nixos-nspawn.overlays.default;
+        nixos-nspawn = inputs.nixos-nspawn.overlays.default;
       };
 
       # Exported packages, for use in dependent flakes

@@ -104,6 +104,9 @@ in
     "${config.systemd.package}/lib/systemd/systemd-networkd-wait-online --any --timeout=30"
   ];
 
+  # Enable VSCode Remote Server
+  services.vscode-server.enable = true;
+
   m1cr0man = {
     general.rsyslogServer = "127.0.0.1:6514";
     zfs = {
@@ -119,5 +122,4 @@ in
   # Enable powersave governor because this server is mental anyway
   powerManagement.cpuFreqGovernor = "powersave";
   hardware.cpu.intel.updateMicrocode = true;
-
 }

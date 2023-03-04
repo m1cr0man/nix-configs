@@ -17,17 +17,4 @@
     nix-prefetch-github
     rsync
   ];
-
-  # Fix vscode-server node binary on login
-  environment.shellInit =
-    let
-      node = pkgs.nodejs-16_x;
-      findutils = pkgs.findutils;
-    in
-    ''
-      umask 0027
-      if test -e ~/.vscode-server; then
-        ${findutils}/bin/find ~/.vscode-server -type f -name node \( -execdir rm '{}' \; -and -execdir ln -s '${node}/bin/node' '{}' \; \)
-      fi
-    '';
 }
