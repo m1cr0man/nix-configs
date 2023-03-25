@@ -15,7 +15,7 @@
     enable = true;
 
     # Support all types of port forwarding, including unix socket binds
-    gatewayPorts = "yes";
+    settings.GatewayPorts = "yes";
     extraConfig = ''
       StreamLocalBindUnlink yes
     '';

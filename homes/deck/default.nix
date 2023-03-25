@@ -7,7 +7,6 @@
     packages = with pkgs; [
       cura
       discord
-      lutris
       ((prismlauncher.override { jdks = [ jdk17 jdk8 ]; }).overrideAttrs (prev: {
           postInstall =
           let

@@ -19,11 +19,16 @@
     efi.efiSysMountPoint = "/boot";
     efi.canTouchEfiVariables = true;
   };
+  boot.plymouth.enable = true;
 
   networking = {
     hostId = "2c652136";
     firewall.enable = false;
+    networkmanager.enable = true;
   };
+
+  # Disable fail2ban because it needs the firewall
+  services.fail2ban.enable = lib.mkForce false;
 
   services.resolved = {
     enable = true;

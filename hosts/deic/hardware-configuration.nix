@@ -36,4 +36,6 @@
   swapDevices = [
     { device = "/dev/disk/by-partlabel/Swap"; }
   ];
+
+  powerManagement.enable = true;
 }

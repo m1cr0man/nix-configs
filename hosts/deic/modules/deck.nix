@@ -3,14 +3,9 @@
   jovian = {
     devices.steamdeck.enable = true;
     devices.steamdeck.enableSoundSupport = true;
-    devices.steamdeck.enableMesaPatches = true;
+    devices.steamdeck.enableMesaPatches = false;
     steam.enable = true;
   };
-
-  boot.plymouth.enable = true;
-
-  networking.networkmanager.enable = true;
-  powerManagement.enable = true;
 
   services.gnome.gnome-remote-desktop.enable = false;
 
@@ -48,12 +43,8 @@
 
   services.xserver.desktopManager.gnome = {
     enable = true;
-    # Add Firefox and other tools useful for installation to the launcher
-    favoriteAppsOverride = ''
-      [org.gnome.shell]
-      favorite-apps=[ 'firefox.desktop', 'nixos-manual.desktop', 'org.gnome.Terminal.desktop', 'org.gnome.Nautilus.desktop', 'gparted.desktop' ]
-    '';
   };
+
 
   # Disable unwanted stuff
   programs.geary.enable = false;
@@ -85,10 +76,10 @@
   hardware.opengl = let
     overrideVersion = mesa:
       mesa.overrideAttrs (_: rec {
-        version = "23.0.0-rc5";
+        version = "23.0.1";
         src = pkgs.fetchurl {
           url = "https://archive.mesa3d.org/mesa-${version}.tar.xz";
-          hash = "sha256-rER8jsVMgUK/xLNNWpfWDW2pUJh9z2p8FrCSiLFlQ+0=";
+          hash = "sha256-6OWGhWtViTq66b3NuYtBwIHZCbsfrzcubnJiMHvzSt8=";
         };
       });
     mesa23 = overrideVersion pkgs.mesa;
