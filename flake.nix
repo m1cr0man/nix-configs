@@ -2,7 +2,7 @@
   description = "M1cr0man Nix Configurations";
 
   inputs = {
-    nixpkgs.url = "github:m1cr0man/nixpkgs/rfc108-minimal";
+    nixpkgs.url = "github:m1cr0man/nixpkgs/networkd-containers";
 
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
@@ -16,7 +16,7 @@
     nixos-vscode-server.url = "github:msteen/nixos-vscode-server";
     nixos-vscode-server.inputs.nixpkgs.follows = "nixpkgs";
 
-    jovian.url = "github:m1cr0man/Jovian-NixOS/hw-support-ucm-flakes";
+    jovian.url = "github:m1cr0man/Jovian-NixOS/flakes";
     jovian.inputs.nixpkgs.follows = "nixpkgs";
 
     home-manager.url = "github:m1cr0man/home-manager/opera";
