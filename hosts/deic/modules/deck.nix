@@ -73,20 +73,8 @@
   ];
 
   # Updated mesa
-  hardware.opengl = let
-    overrideVersion = mesa:
-      mesa.overrideAttrs (_: rec {
-        version = "23.0.1";
-        src = pkgs.fetchurl {
-          url = "https://archive.mesa3d.org/mesa-${version}.tar.xz";
-          hash = "sha256-6OWGhWtViTq66b3NuYtBwIHZCbsfrzcubnJiMHvzSt8=";
-        };
-      });
-    mesa23 = overrideVersion pkgs.mesa;
-    mesa23_32 = overrideVersion pkgs.pkgsi686Linux.mesa;
-  in {
-    package = mesa23.drivers;
-    package32 = mesa23_32.drivers;
+  hardware.opengl = {
+    package = pkgs.mesa_23.drivers;
+    package32 = pkgs.pkgsi686Linux.mesa_23.drivers;
   };
-
 }
