@@ -51,16 +51,43 @@
     ];
   };
 
-  programs.vscode = {
+  programs.direnv = {
     enable = true;
-    extensions = with pkgs.vscode-extensions; [
+    nix-direnv.enable = true;
+  };
+
+  programs.vscode = let
+    loadAfter = deps: pkg: pkg.overrideAttrs (old: {
+      nativeBuildInputs = old.nativeBuildInputs or [] ++ [ pkgs.jq pkgs.moreutils ];
+
+      preInstall = old.preInstall or "" + ''
+        jq '.extensionDependencies |= . + $deps' \
+          --argjson deps ${lib.escapeShellArg (builtins.toJSON deps)} \
+          package.json | sponge package.json
+      '';
+    });
+  in {
+    enable = true;
+    extensions = with pkgs.vscode-extensions;
+    # Extensions which do not need direnv
+    [
+      # General
+      mkhl.direnv
       # Nix dev
       bbenoist.nix
       jnoortheen.nix-ide
-      arrterian.nix-env-selector
       # Rust dev
       vadimcn.vscode-lldb
-      matklad.rust-analyzer
+    ] ++ map (loadAfter [ "mkhl.direnv" ])
+    # Extensions depending on direnv
+    [
+      # Rust dev
+      # ## Will always use a direnv rust-analyzer
+      (rust-lang.rust-analyzer.override { setDefaultServerPath = false; })
+      # Python dev
+      ms-python.python
+      ms-python.vscode-pylance
+      ms-pyright.pyright
     ];
     userSettings = {
       "editor.minimap.enabled" = false;
