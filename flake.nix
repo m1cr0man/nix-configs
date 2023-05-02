@@ -19,7 +19,7 @@
     jovian.url = "github:m1cr0man/Jovian-NixOS/flakes";
     jovian.inputs.nixpkgs.follows = "nixpkgs";
 
-    home-manager.url = "github:m1cr0man/home-manager/opera";
+    home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
@@ -170,6 +170,8 @@
         nixos-nspawn = inputs.nixos-nspawn.overlays.default;
         jovian = inputs.jovian.overlays.jovian;
       };
+
+      legacyPackages.${system} = pkgs;
 
       # Exported packages, for use in dependent flakes
       # Re-exports packages defined in overlays above
