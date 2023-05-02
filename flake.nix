@@ -137,6 +137,10 @@
           inherit pkgs;
           modules = [ ./homes/deck ];
         };
+        unimog-lucas = inputs.home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          modules = [ ./homes/unimog-lucas ];
+        };
       };
 
       # Exported modules, for use in other people's flakes and nixosConfigurations

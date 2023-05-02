@@ -1,5 +1,10 @@
 { pkgs, lib, ... }:
 {
+  imports = [
+    ../../modules/home/general-dev.nix
+    ../../modules/home/vscode.nix
+  ];
+
   home = {
     stateVersion = "23.05";
     username = "deck";
@@ -41,7 +46,8 @@
 
   manual.manpages.enable = false;
 
-  programs.opera = {
+  # Repurposing
+  programs.vivaldi = {
     enable = true;
     package = pkgs.opera.override { proprietaryCodecs = true; };
     extensions = [
@@ -51,72 +57,6 @@
     ];
   };
 
-  programs.direnv = {
-    enable = true;
-    nix-direnv.enable = true;
-  };
-
-  programs.vscode = let
-    loadAfter = deps: pkg: pkg.overrideAttrs (old: {
-      nativeBuildInputs = old.nativeBuildInputs or [] ++ [ pkgs.jq pkgs.moreutils ];
-
-      preInstall = old.preInstall or "" + ''
-        jq '.extensionDependencies |= . + $deps' \
-          --argjson deps ${lib.escapeShellArg (builtins.toJSON deps)} \
-          package.json | sponge package.json
-      '';
-    });
-  in {
-    enable = true;
-    extensions = with pkgs.vscode-extensions;
-    # Extensions which do not need direnv
-    [
-      # General
-      mkhl.direnv
-      # Nix dev
-      bbenoist.nix
-      jnoortheen.nix-ide
-      # Rust dev
-      vadimcn.vscode-lldb
-    ] ++ map (loadAfter [ "mkhl.direnv" ])
-    # Extensions depending on direnv
-    [
-      # Rust dev
-      # ## Will always use a direnv rust-analyzer
-      (rust-lang.rust-analyzer.override { setDefaultServerPath = false; })
-      # Python dev
-      ms-python.python
-      ms-python.vscode-pylance
-      ms-pyright.pyright
-    ];
-    userSettings = {
-      "editor.minimap.enabled" = false;
-      "files.insertFinalNewline" = true;
-      "files.trimFinalNewlines" = true;
-      "files.trimTrailingWhitespace" = true;
-      "[nix]"."editor.tabSize" = 2;
-      "terminal.integrated.env.linux"."EDITOR" = "code --wait";
-      "terminal.integrated.localEchoEnabled" = "off";
-      "workbench.startupEditor" = "none";
-      "telemetry.telemetryLevel" = "off";
-    };
-  };
-
-  programs.git = {
-    enable = true;
-    # A little less obfuscation, a little more spammin', please
-    userName = "Lu" + "cas Sav" + "va";
-    userEmail = "lu" + "cas" + "@" + "m1cr" + "0man.com";
-    signing = {
-      key = "F9CE6D3DCDC78F2D";
-      signByDefault = true;
-    };
-  };
-
-  programs.bash.enable = true;
-  programs.gpg = {
-    enable = true;
-  };
   services.gpg-agent = {
     enable = true;
     enableExtraSocket = true;
