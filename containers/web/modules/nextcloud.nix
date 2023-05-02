@@ -7,10 +7,6 @@ let
   home = config.users.users.nextcloud.home;
 
   phpProxyConfig = ''
-    RewriteEngine On
-    RewriteCond %{REQUEST_METHOD} OPTIONS
-    RewriteRule .* - [R=204,NC,L]
-
     RewriteCond %{HTTP:Authorization} ^(.*)
     RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
 
@@ -54,6 +50,8 @@ in
     package = pkgs.nextcloud25;
     hostName = "nextcloud.${domain}";
     https = true;
+    logType = "file";
+    maxUploadSize = "4100M";
 
     config = {
       dbtype = "pgsql";
@@ -64,6 +62,7 @@ in
       dbpassFile = config.sops.secrets.nextcloud_database_password.path;
       adminpassFile = config.sops.secrets.nextcloud_root_password.path;
       adminuser = "root";
+      defaultPhoneRegion = "IE";
     };
   };
 
@@ -71,30 +70,11 @@ in
     extraModules = [ "proxy_fcgi" ];
     virtualHosts."${config.services.nextcloud.hostName}" = lib.m1cr0man.makeVhost {
       documentRoot = config.services.nextcloud.package;
-
       # Port of the nginx config from
       # https://github.com/NixOS/nixpkgs/blob/38860c9e91cb00f4d8cd19c7b4e36c45680c89b5/nixos/modules/services/web-apps/nextcloud.nix#L914
       locations = {
-        "/.well-known" = {
-          priority = 210;
-          extraConfig = ''
-            Redirect permanent /.well-known/carddav /remote.php/dav
-            Redirect permanent /.well-known/caldav /remote.php/dav
-            Redirect permanent /.well-known/pki-validation /index.php
-          '';
-        };
-        "~ \"^/(?:build|tests|config|lib|3rdparty|templates|data)(?:$|/)\"".extraConfig = ''
-          Require all denied
-        '';
-        "~ \"^/(?:\.autotest|occ|issue|indie|db_|console)\"".extraConfig = ''
-          Require all denied
-        '';
         "~ \"^\\/(?:index|remote|public|cron|core\\/ajax\\/update|status|ocs\\/v[12]|updater\\/.+|oc[ms]-provider\\/.+|.+\\/richdocumentscode\\/proxy)\\.php(?:$|\\/)\"" = {
           priority = 500;
-          extraConfig = phpProxyConfig;
-        };
-        "~ \"^.*.php(?:$|\\/)\"" = {
-          priority = 600;
           extraConfig = phpProxyConfig;
         };
       };
@@ -104,28 +84,27 @@ in
         <Directory "${home}/store-apps">
           Require all granted
           Options +FollowSymLinks
+          AllowOverride All
         </Directory>
 
         Alias /nix-apps "${home}/nix-apps"
         <Directory "${home}/nix-apps">
           Require all granted
           Options +FollowSymLinks
+          AllowOverride All
         </Directory>
 
-        # TODO try_files directive from L983
         <Directory "${config.services.nextcloud.package}">
-          DirectoryIndex index.php
           Require all granted
-          Options +FollowSymLinks
+          Options FollowSymLinks MultiViews
+          AllowOverride All
+
+          <IfModule mod_dav.c>
+            Dav off
+          </IfModule>
         </Directory>
 
-        Header set X-Content-Type-Options nosniff
-        Header set X-XSS-Protection "1; mode=block"
-        Header set X-Robots-Tag none
-        Header set X-Download-Options noopen
-        Header set X-Permitted-Cross-Domain-Policies none
-        Header set X-Frame-Options sameorigin
-        Header set Referrer-Policy no-referrer
+        Header always set Strict-Transport-Security "max-age=15552000; includeSubDomains"
 
         Header always add Access-Control-Allow-Headers "*"
         Header always add Access-Control-Allow-Methods "*"
