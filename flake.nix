@@ -2,7 +2,7 @@
   description = "M1cr0man Nix Configurations";
 
   inputs = {
-    nixpkgs.url = "github:m1cr0man/nixpkgs/networkd-containers";
+    nixpkgs.url = "github:m1cr0man/nixpkgs/networkd-containers-browsers";
 
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
@@ -19,7 +19,7 @@
     jovian.url = "github:m1cr0man/Jovian-NixOS/flakes";
     jovian.inputs.nixpkgs.follows = "nixpkgs";
 
-    home-manager.url = "github:nix-community/home-manager";
+    home-manager.url = "github:m1cr0man/home-manager/opera";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
@@ -175,6 +175,7 @@
         jovian = inputs.jovian.overlays.jovian;
       };
 
+      # Re-export nixpkgs as legacyPackages so that we can do `nix run .#<pkg name>` for any nixpkg.
       legacyPackages.${system} = pkgs;
 
       # Exported packages, for use in dependent flakes

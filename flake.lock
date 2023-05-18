@@ -70,15 +70,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1682779989,
-        "narHash": "sha256-H8AjcIBYFYrlRobYJ+n1B+ZJ6TsaaeZpuLn4iRqVvr4=",
-        "owner": "nix-community",
+        "lastModified": 1684262616,
+        "narHash": "sha256-gQO5pwUhinTNsoxQFOflZPISPY+M8erGcscjG3Imx+g=",
+        "owner": "m1cr0man",
         "repo": "home-manager",
-        "rev": "3144311f31194b537808ae6848f86f3dbf977d59",
+        "rev": "8de89bff2e38809b4a51c50cf155c65011d9097e",
         "type": "github"
       },
       "original": {
-        "owner": "nix-community",
+        "owner": "m1cr0man",
+        "ref": "opera",
         "repo": "home-manager",
         "type": "github"
       }
@@ -148,16 +149,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1682011205,
-        "narHash": "sha256-JM7pI/UMu14oQ6Hh9FXP/K5qtAu7UQCTutt2jdeDTiY=",
+        "lastModified": 1684367426,
+        "narHash": "sha256-I/jauLN1XE9MnH1K9Ln66QzOWimfk+b+09pFqzxSazQ=",
         "owner": "m1cr0man",
         "repo": "nixpkgs",
-        "rev": "99140ae03ea02d209a9e0dbe85c4a893970761f4",
+        "rev": "37e2b09571595553ddffe17dedbab2a154905cd9",
         "type": "github"
       },
       "original": {
         "owner": "m1cr0man",
-        "ref": "networkd-containers",
+        "ref": "networkd-containers-browsers",
         "repo": "nixpkgs",
         "type": "github"
       }

@@ -46,15 +46,8 @@
 
   manual.manpages.enable = false;
 
-  # Repurposing
-  programs.vivaldi = {
+  programs.microsoft-edge-beta = {
     enable = true;
-    package = pkgs.opera.override { proprietaryCodecs = true; };
-    extensions = [
-      {
-        id = "gnblbpbepfbfmoobegdogkglpbhcjofh";
-      }
-    ];
   };
 
   services.gpg-agent = {
