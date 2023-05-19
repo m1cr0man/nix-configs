@@ -6,7 +6,6 @@ in
   jovian = {
     devices.steamdeck = {
       enable = true;
-      enableKernelPatches = false;
     };
     steam = {
       enable = true;
@@ -15,9 +14,6 @@ in
       inherit desktopSession;
     };
   };
-
-  # Use newer kernel
-  boot.kernelPackages = pkgs.linuxPackages_6_2;
 
   # Launch wayland gnome through dbus-run-session
   services.xserver.displayManager.sessionPackages = [
