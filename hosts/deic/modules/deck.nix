@@ -2,7 +2,12 @@
 {
   jovian = {
     devices.steamdeck.enable = true;
-    steam.enable = true;
+    steam = {
+      enable = true;
+      autoStart = true;
+      user = "deck";
+      desktopSession = "gnome";
+    };
   };
 
   # Use pipewire + wireplumber for all audio

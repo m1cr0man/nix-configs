@@ -16,7 +16,7 @@
     nixos-vscode-server.url = "github:msteen/nixos-vscode-server";
     nixos-vscode-server.inputs.nixpkgs.follows = "nixpkgs";
 
-    jovian.url = "github:m1cr0man/Jovian-NixOS/flakes";
+    jovian.url = "github:m1cr0man/Jovian-NixOS/flakes-with-prs";
     jovian.inputs.nixpkgs.follows = "nixpkgs";
 
     home-manager.url = "github:m1cr0man/home-manager/opera";

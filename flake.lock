@@ -110,16 +110,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1684447230,
-        "narHash": "sha256-EXCP11D8gLd1j4JrsUGAfDjNNTIeS0icDCsCgysHKKQ=",
+        "lastModified": 1684530679,
+        "narHash": "sha256-ruhGzQdK4jX3/c2PrOZF/vJ/RTScsd6mj3JSwRps/CY=",
         "owner": "m1cr0man",
         "repo": "Jovian-NixOS",
-        "rev": "8d46b6773600c0418ca3deb9ff3b1591e794ec37",
+        "rev": "294932ea4ba1d707de13d44313b98095f12ec848",
         "type": "github"
       },
       "original": {
         "owner": "m1cr0man",
-        "ref": "flakes",
+        "ref": "flakes-with-prs",
         "repo": "Jovian-NixOS",
         "type": "github"
       }
