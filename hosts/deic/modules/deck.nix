@@ -1,14 +1,37 @@
 { config, pkgs, lib, ... }:
+let
+  desktopSession = "gnome-wayland-dbus";
+in
 {
   jovian = {
-    devices.steamdeck.enable = true;
+    devices.steamdeck = {
+      enable = true;
+      enableKernelPatches = false;
+    };
     steam = {
       enable = true;
       autoStart = true;
       user = "deck";
-      desktopSession = "gnome";
+      inherit desktopSession;
     };
   };
+
+  # Use newer kernel
+  boot.kernelPackages = pkgs.linuxPackages_6_2;
+
+  # Launch wayland gnome through dbus-run-session
+  services.xserver.displayManager.sessionPackages = [
+    ((pkgs.runCommand "gnome-wayland-dbus-sessions" {} ''
+      mkdir -p "$out/share/wayland-sessions"
+      sed \
+        's!Exec=!Exec=${pkgs.dbus}/bin/dbus-run-session !g' \
+        '${pkgs.gnome.gnome-session.sessions}/share/wayland-sessions/gnome-wayland.desktop' \
+      > "$out/share/wayland-sessions/${desktopSession}.desktop"
+
+    '').overrideAttrs (old: {
+      passthru.providedSessions = [ desktopSession ];
+    }))
+  ];
 
   # Use pipewire + wireplumber for all audio
   hardware.pulseaudio.enable = false;
