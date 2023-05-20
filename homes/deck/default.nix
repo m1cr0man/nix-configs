@@ -49,13 +49,4 @@
   programs.microsoft-edge-beta = {
     enable = true;
   };
-
-  services.gpg-agent = {
-    enable = true;
-    enableExtraSocket = true;
-    enableSshSupport = true;
-    enableScDaemon = false;
-    pinentryFlavor = "gnome3";
-  };
-  systemd.user.services.gpg-agent.Service.Environment = [ "LISTEN_FDNAMES=std:ssh:extra" ];
 }
