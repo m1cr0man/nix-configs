@@ -7,8 +7,13 @@ let
   home = config.users.users.nextcloud.home;
 
   phpProxyConfig = ''
+    RewriteEngine On
     RewriteCond %{HTTP:Authorization} ^(.*)
     RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
+
+    RewriteCond %{HTTP:Origin} https://app.keeweb.info
+    RewriteCond %{REQUEST_METHOD} OPTIONS
+    RewriteRule .* - [R=204,NC,L]
 
     SetHandler "proxy:unix:${config.services.phpfpm.pools.nextcloud.socket}|fcgi://localhost/"
   '';
@@ -47,7 +52,7 @@ in
 
   services.nextcloud = {
     enable = true;
-    package = pkgs.nextcloud25;
+    package = pkgs.nextcloud26;
     hostName = "nextcloud.${domain}";
     https = true;
     logType = "file";
