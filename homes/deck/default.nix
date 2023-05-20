@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, config, ... }:
 {
   imports = [
     ../../modules/home/general-dev.nix
@@ -42,9 +42,11 @@
           '';
       }))
     ];
-  };
 
-  manual.manpages.enable = false;
+    file."${config.home.homeDirectory}/.gnupg/gpg-agent.conf".text = ''
+      pinentry-program ${pkgs.pinentry.gnome3}/bin/pinentry
+    '';
+  };
 
   programs.microsoft-edge-beta = {
     enable = true;
