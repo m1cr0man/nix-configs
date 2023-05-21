@@ -2,7 +2,7 @@
   description = "M1cr0man Nix Configurations";
 
   inputs = {
-    nixpkgs.url = "github:m1cr0man/nixpkgs/networkd-containers-browsers";
+    nixpkgs.url = "github:m1cr0man/nixpkgs/rfc108-minimal-browsers";
 
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
@@ -182,7 +182,7 @@
       # Re-exports packages defined in overlays above
       # e.g. can be used with `nix build .#<pkgname>`
       # system and pkgs come from lib/output.nix
-      packages."${system}" = pkgs."${pkgRoot}" // {
+      packages.${system} = pkgs."${pkgRoot}" // {
         # Required for adding a gcroot to stop the devshell getting GC'd
         # See https://github.com/NixOS/nix/issues/2208
         # Usage: nix build .#devShellPackages -o /nix/var/nix/gcroots/per-user/$USER/devdeps
@@ -195,13 +195,13 @@
         # :lf .
         # :b packages.x86_64-linux.kexec { address = "1.2.3.4"; prefixLength = 24; defaultGateway = "1.2.3.1"; }
         kexec = args: (self.nixosConfigurations.kexec args).config.system.build.kexecTree;
-        home-manager = inputs.home-manager.packages."${system}".home-manager;
+        home-manager = inputs.home-manager.packages.${system}.home-manager;
       };
 
       # Configure devShell
       # Usable with `nix develop`. shell.nix provides nix-shell compat.
       # system and pkgs come from lib/output.nix
-      devShell."${system}" = pkgs.mkShell {
+      devShell.${system} = pkgs.mkShell {
         packages = devDeps;
         # I use VS Code Remote SSH.
         EDITOR = "code --wait";
