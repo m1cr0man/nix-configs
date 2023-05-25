@@ -1,12 +1,12 @@
 { pkgs, ... }:
 let
   latestJar = builtins.fetchurl {
-    url = "https://piston-data.mojang.com/v1/objects/c9df48efed58511cdd0213c56b9013a7b5c9ac1f/server.jar";
-    sha256 = "06qykz3nq7qmfw4phs3wvq3nk28clg8s3qrs37856aai8b8kmgaf";
+    url = "https://piston-data.mojang.com/v1/objects/8f3112a1049751cc472ec13e397eade5336ca7ae/server.jar";
+    sha256 = "0lrzpqd6zjvqh9g2byicgh66n43z0hwzp863r22ifx2hll6s2955";
   };
   latestJarPaper = builtins.fetchurl {
-    url = "https://papermc.io/api/v2/projects/paper/versions/1.18.2/builds/268/downloads/paper-1.18.2-268.jar";
-    sha256 = "sha256:1hn4dcz9bhpdg5h0cw2jy97ai88qy485z2pny1v04z665lvqj0qh";
+    url = "https://api.purpurmc.org/v2/purpur/1.19.4/1976/download";
+    sha256 = "0lxzvgn4r6q02klsrxz07xx458k8wwkgdycnmwpdj6hfwi2bv1vr";
   };
 in
 {
@@ -57,9 +57,9 @@ in
     };
 
     adam = {
-      enable = false;
+      enable = true;
       memGb = 4;
-      jar = latestJar;
+      jar = latestJarPaper;
       user = "mcadmins";
       group = "mcadmins";
       port = 25525;
