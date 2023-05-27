@@ -23,7 +23,7 @@ in
       parent = [ "mysql.service" ];
     in
     {
-      description = "Peform mysqldump before shutdown";
+      description = "Perform mysqldump before shutdown";
       # Start with mysql
       wantedBy = parent;
       # Stop with mysql

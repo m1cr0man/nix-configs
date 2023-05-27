@@ -14,10 +14,14 @@ in {
     ];
 
   system.stateVersion = "23.05";
+
   boot.loader.grub = {
     enable = true;
-    devices = [ "/dev/disk/by-id/wwn-0x5000c5006cdc1295" ];
+    version = 2;
+    devices = [ "/dev/sda" ];
     configurationLimit = 5;
+    efiSupport = true;
+    efiInstallAsRemovable = true;
   };
 
   networking = {

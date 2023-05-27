@@ -42,7 +42,7 @@ in
       parent = [ "postgresql.service" ];
     in
     {
-      description = "Peform pg_dumpall before shutdown";
+      description = "Perform pg_dumpall before shutdown";
       # Start with postgresql
       wantedBy = parent;
       # Stop with postgresql

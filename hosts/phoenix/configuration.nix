@@ -1,11 +1,13 @@
 { config, pkgs, lib, ... }:
 let
   localSecrets = builtins.extraBuiltins.readSops ./secrets.nix.enc;
+  prodACMEServer = "https://acme-v02.api.letsencrypt.org/directory";
 in
 {
   imports = with lib.m1cr0man.module;
     addModules ../../modules [
       "management/ssh"
+      "www/bind.nix"
     ]
     ++
     addModulesRecursive ./modules
@@ -83,5 +85,4 @@ in
 
   # Enable KSM because the MC servers share a lot of data
   hardware.ksm.enable = true;
-
 }

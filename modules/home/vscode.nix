@@ -51,6 +51,8 @@ in
           version = "1.2.1";
           sha256 = "sha256-K2H4OHH6vgQvhhcOFdP3RD0fPghAxxbgurv+N82pFNs=";
         })
+        # Go dev
+        golang.go
       ] ++ map (loadAfter [ "mkhl.direnv" ])
       # Extensions depending on direnv
       [

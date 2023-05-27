@@ -5,6 +5,7 @@ in
 {
   services.fail2ban = {
     enable = true;
+    maxretry = 10;
 
     jails = {
       # Docs: https://github.com/fail2ban/fail2ban/blob/master/config/action.d/iptables-common.conf

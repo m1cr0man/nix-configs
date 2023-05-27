@@ -26,7 +26,7 @@ in
       keys = rootKeys;
       extraArgs = {
         extraGroups = [ "wheel" ];
-        passwordFile = config.sops.secrets.george_password.path;
+        hashedPasswordFile = config.sops.secrets.george_password.path;
       };
     })
 
@@ -36,7 +36,7 @@ in
       keys = rootKeys ++ [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMznnngrMCxW3bdpY32QPaAbgNGPp58A4t3tAnV1HdRW root@dhcpserver-tassie"
       ];
-      extraArgs.passwordFile = config.sops.secrets.portfwd_guest_password.path;
+      extraArgs.hashedPasswordFile = config.sops.secrets.portfwd_guest_password.path;
     })
   ];
 }

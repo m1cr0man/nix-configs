@@ -3,14 +3,16 @@ let
   rootKeys = config.users.users.root.openssh.authorizedKeys.keys;
 in
 {
-  users.groups = {
-    lucasguest = { };
-    zeus = { };
-  };
+  users.mutableUsers = false;
 
   sops.secrets.zeus_password.neededForUsers = true;
 
   nix.settings.trusted-users = [ "root" "zeus" ];
+
+  users.groups = {
+    lucasguest = { };
+    zeus = { };
+  };
 
   users.users = with lib.m1cr0man; lib.mkMerge [
     (makeNormalUser "lucasguest" {
