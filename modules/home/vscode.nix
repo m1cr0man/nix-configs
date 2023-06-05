@@ -51,6 +51,7 @@
         "terminal.integrated.localEchoEnabled" = "off";
         "workbench.startupEditor" = "none";
         "telemetry.telemetryLevel" = "off";
+        "update.mode" = "none";
       };
     };
 
