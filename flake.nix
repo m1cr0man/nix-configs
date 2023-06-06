@@ -104,7 +104,7 @@
         };
       };
 
-      nixosContainers."${system}" = {
+      nixosContainers.${system} = {
         database = mkContainer {
           name = "database";
           modules = [

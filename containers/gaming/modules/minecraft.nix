@@ -58,13 +58,33 @@ in
 
     adam = {
       enable = true;
-      memGb = 4;
-      jar = latestJarPaper;
+      memGb = 12;
+      jar = "cf_MedievalMinecraftFABRIC_1.19.2_21HF.jar";
       user = "mcadmins";
       group = "mcadmins";
       port = 25525;
       serverProperties = {
-        motd = "The Big Savva House";
+        allow-flight = true;
+        announce-player-achievements = true;
+        broadcast-rcon-to-ops = true;
+        difficulty = "easy";
+        enable-command-block = false;
+        enable-jmx-monitoring = false;
+        enable-status = true;
+        enforce-secure-profile = true;
+        level-type = "bclib\\:normal";
+        level-name = "Grand Land of Ampersand";
+        max-chained-neighbor-updates = "1000000";
+        max-players = "20";
+        max-tick-time = "60000";
+        max-world-size = "200000";
+        motd = "CodexCon2023 - EYE Of THE COOKIE";
+        rate-limit = "0";
+        simulation-distance = "7";
+        spawn-monsters = true;
+        spawn-npcs = true;
+        spawn-protection = "0";
+        view-distance = "7";
         white-list = true;
       };
     };
