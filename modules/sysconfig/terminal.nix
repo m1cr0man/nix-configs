@@ -6,7 +6,6 @@
   };
 
   programs.bash = {
-    blesh.enable = true;
     interactiveShellInit = ''
       # Save each command in history as soon as it is executed
       PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
@@ -28,6 +27,10 @@
       )
 
       shopt -s "''${SHOPTFLAGS[@]}"
+
+      # Zsh-like completion
+      bind 'set show-all-if-ambiguous on'
+      bind 'TAB:menu-complete'
     '';
   };
 
