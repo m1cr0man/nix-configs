@@ -3,6 +3,7 @@ keys:
   - &server_gelandewagen age1zhe8pxej68p6ws98f8z6wc4rnf5nacve5v6xyc6juld7c6j773zqxufwg5
   - &server_unimog age1efge322n8kg4y3mu3lgefxdc99a0q22sd6n4plezw6gg0nentcfq40pwk4
   - &server_chuck age16pxktaeyt0py3tmrf423f5zmk8gx04rcv0cljuvzaw5k6ap96cusevwghc
+  - &server_sarah age1397q7ywndyu4x9vtn40ttqwy4jwkvqh2rw66pxn3k7w5fmdj9c8q226gxw
   - &server_bgrs age1mzj3fhw43g5r9cduajqd8xcxth0zcrwetye5r4gf8v6u7la4v5fqmxxmcj
   - &server_optiplexxx age1ef6wy5vedl6x63gwjntwgjk6v95vrny78t4pw5uxl3dy6hndldtstjnsd8
   - &server_deic age10q255h9qmtgd53htlzvuauazz0qdkln6a0u0cjd50v02s6ezmp5qtadlam
@@ -14,6 +15,7 @@ creation_rules:
       - *server_gelandewagen
       - *server_unimog
       - *server_chuck
+      - *server_sarah
       - *server_bgrs
       - *server_optiplexxx
       - *server_deic
@@ -32,6 +34,11 @@ creation_rules:
     - age:
       - *admin_m1cr0man
       - *server_chuck
+  - path_regex: hosts/sarah/secrets.yaml$
+    key_groups:
+    - age:
+      - *admin_m1cr0man
+      - *server_sarah
   - path_regex: hosts/bgrs/secrets.yaml$
     key_groups:
     - age:

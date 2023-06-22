@@ -3,7 +3,6 @@
   imports = with lib.m1cr0man.module;
     addModules ../../modules [
       "management/ssh"
-      "monitoring"
       "servers/samba"
     ]
     ++
@@ -12,11 +11,7 @@
       ./hardware-configuration.nix
     ];
 
-  m1cr0man = {
-    influxdb.bindAddress = "0.0.0.0";
-  };
-
-  system.stateVersion = "22.11";
+  system.stateVersion = "23.05";
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -33,8 +28,8 @@
   systemd.services.nix-daemon.environment.TMPDIR = "/nix/tmp";
 
   networking = {
-    hostId = "4c1ff1d9";
-    hostName = "chuck";
+    hostId = "a5206bac";
+    hostName = "sarah";
     useDHCP = false;
     useNetworkd = true;
 
@@ -44,7 +39,7 @@
       prefixLength = 24;
     }];
     interfaces.eth1.ipv4.addresses = [{
-      address = "192.168.14.1";
+      address = "192.168.14.3";
       prefixLength = 24;
     }];
     defaultGateway = "192.168.14.254";

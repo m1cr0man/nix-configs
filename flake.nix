@@ -56,6 +56,11 @@
           modules = [ inputs.nixos-vscode-server.nixosModules.default ];
         };
 
+        sarah = mkConfiguration {
+          name = "sarah";
+          modules = [ inputs.nixos-vscode-server.nixosModules.default ];
+        };
+
         gelandewagen = mkConfiguration {
           name = "gelandewagen";
         };
