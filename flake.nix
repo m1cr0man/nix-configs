@@ -2,7 +2,7 @@
   description = "M1cr0man Nix Configurations";
 
   inputs = {
-    nixpkgs.url = "github:m1cr0man/nixpkgs/rfc108-minimal-browsers";
+    nixpkgs.url = "github:m1cr0man/nixpkgs/rfc108-minimal";
 
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";

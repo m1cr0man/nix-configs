@@ -21,7 +21,6 @@ in
 
   boot.loader.grub = {
     enable = true;
-    version = 2;
     devices = [ "/dev/disk/by-id/wwn-0x5002538c402dc7cc" ];
     configurationLimit = 5;
     efiSupport = true;
