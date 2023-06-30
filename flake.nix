@@ -130,6 +130,12 @@
             sops-nix.nixosModules.sops
           ];
         };
+        technae = mkContainer {
+          name = "technae";
+          modules = [
+            sops-nix.nixosModules.sops
+          ];
+        };
       };
 
       homeConfigurations = {

@@ -7,35 +7,34 @@ in
     addModules ../../modules [
       "secrets"
       "gaming/minecraft"
-      "gaming/openttd.nix"
+      "management/ssh"
     ]
     ++
     addModulesRecursive ./modules;
 
-  system.stateVersion = "22.11";
+  system.stateVersion = "23.05";
+
+  users.users.root.openssh.authorizedKeys.keys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINgKNU+q8EawCHKxGaxjtIME+Z3HcBJ5bNJVa6T6ypBy technae"
+  ];
+
+  environment.systemPackages = [ config.m1cr0man.minecraft-servers.technae.jre pkgs.htop pkgs.unzip ];
 
   nixosContainer =
     {
-      forwardPorts =
+      forwardPorts = [
+        { hostPort = 2424; containerPort = 22; }
+      ] ++ (
         builtins.map
           (port: { hostPort = port; containerPort = port; })
           [
             # Minecraft
-            25565
-            25566
-            25555
-            25556
-            25545
-            25546
-            25535
-            25536
-            # OpenTTD
-            3979
-          ];
+            25525
+            25526
+          ]
+      );
       bindMounts = [
         "${stateDir}:/var/lib/gaming"
-        "${stateDir}/zram0:/var/lib/gaming/zram0"
-        "${stateDir}/zram1:/var/lib/gaming/zram1"
         "/home/mcadmins"
       ];
     };

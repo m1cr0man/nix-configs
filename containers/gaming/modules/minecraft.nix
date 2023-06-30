@@ -40,7 +40,6 @@ in
     focreate = {
       enable = false;
       memGb = 6;
-      ramfsDirectory = "/var/lib/gaming/zram0";
       jar = "fabric-server-launch.jar";
       port = 25535;
       user = "mcadmins";
@@ -57,8 +56,8 @@ in
     };
 
     adam = {
-      enable = true;
-      memGb = 12;
+      enable = false;
+      memGb = 16;
       jar = "cf_MedievalMinecraftFABRIC_1.19.2_21HF.jar";
       user = "mcadmins";
       group = "mcadmins";
