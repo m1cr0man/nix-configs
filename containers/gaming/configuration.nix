@@ -34,8 +34,6 @@ in
           ];
       bindMounts = [
         "${stateDir}:/var/lib/gaming"
-        "${stateDir}/zram0:/var/lib/gaming/zram0"
-        "${stateDir}/zram1:/var/lib/gaming/zram1"
         "/home/mcadmins"
       ];
     };

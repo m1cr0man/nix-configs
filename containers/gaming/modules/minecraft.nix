@@ -13,7 +13,6 @@ in
   m1cr0man.minecraft-servers = {
     vaulthunters = {
       enable = true;
-      ramfsDirectory = "/var/lib/gaming/zram1";
       launchCommand = "java -Xmx10G -Xms5G @libraries/net/minecraftforge/forge/1.18.2-40.1.93/unix_args.txt";
       # These 2 args won't actually be used
       memGb = 10;
