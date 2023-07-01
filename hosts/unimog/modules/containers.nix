@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 let
   bridgeName = "br-containers";
 in
@@ -8,6 +8,13 @@ in
   networking.firewall.trustedInterfaces = [ bridgeName "ve-+" ];
 
   environment.systemPackages = [ pkgs.nixos-nspawn ];
+
+  # Force cgroupv2
+  # https://github.com/NixOS/nixpkgs/pull/198526
+  # lib.mkForce to set as few extraneous vars as possible.
+  systemd.services."systemd-nspawn@".environment = lib.mkForce {
+    SYSTEMD_NSPAWN_UNIFIED_HIERARCHY = "1";
+  };
 
   systemd.network = {
     netdevs."40-${bridgeName}".netdevConfig = {
