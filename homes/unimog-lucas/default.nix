@@ -6,6 +6,9 @@
   ];
 
   m1cr0man.vscode.remoteEditor = true;
+  nixpkgs.config.permittedInsecurePackages = [
+    "nodejs-16.20.1"
+  ];
 
   home = {
     stateVersion = "23.05";
