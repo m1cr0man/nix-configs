@@ -58,3 +58,4 @@ sudo cat /etc/ssh/ssh_host_ed25519_key.pub | ssh-to-age
 sops updatekeys modules/secrets/shared.yaml
 sops updatekeys hosts/$HOSTNAME/secrets.yaml
 ```
+find . -name \*.enc | sed "s/.enc//" | while read -r fp; do sops --decrypt $fp.enc > $fp ; done

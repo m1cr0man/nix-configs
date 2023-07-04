@@ -1,6 +1,6 @@
 { domain, config, lib, ... }:
 let
-  localSecrets = builtins.extraBuiltins.readSops ./secrets.nix.enc;
+  localSecrets = import ./secrets.nix;
   inherit (localSecrets { inherit config lib; }) domains loginAccounts sopsEntries;
 
   stateDir = config.m1cr0man.container.stateDir;
