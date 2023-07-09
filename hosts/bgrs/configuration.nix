@@ -19,7 +19,7 @@ in
 
   m1cr0man.webserver.setupACME = false;
 
-  system.stateVersion = "21.05";
+  system.stateVersion = "23.05";
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -39,7 +39,7 @@ in
       prefixLength = 24;
     }];
     interfaces.eth1.ipv4.addresses = [{
-      address = "192.168.14.3";
+      address = "192.168.14.4";
       prefixLength = 24;
     }];
     nameservers = [ "192.168.14.254" "1.1.1.1" ];

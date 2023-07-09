@@ -2,16 +2,16 @@
 with lib.m1cr0man;
 {
   # Required by Akaunting
-  systemd.services.httpd.path = [ pkgs.php80 pkgs.zip pkgs.unzip pkgs.gd ];
+  systemd.services.httpd.path = [ pkgs.php83 pkgs.zip pkgs.unzip pkgs.gd ];
 
   services.httpd = {
     enablePHP = true;
-    phpPackage = pkgs.php80;
+    phpPackage = pkgs.php83;
     phpOptions = ''
-      extension = ${pkgs.php80Extensions.pgsql}/lib/php/extensions/pgsql.so
-      extension = ${pkgs.php80Extensions.gd}/lib/php/extensions/gd.so
-      extension = ${pkgs.php80Extensions.zip}/lib/php/extensions/zip.so
-      extension = ${pkgs.php80Extensions.pdo_mysql}/lib/php/extensions/pdo_mysql.so
+      extension = ${pkgs.php83Extensions.pgsql}/lib/php/extensions/pgsql.so
+      extension = ${pkgs.php83Extensions.gd}/lib/php/extensions/gd.so
+      extension = ${pkgs.php83Extensions.zip}/lib/php/extensions/zip.so
+      extension = ${pkgs.php83Extensions.pdo_mysql}/lib/php/extensions/pdo_mysql.so
       error_reporting = E_ALL & ~E_DEPRECATED
     '';
     extraConfig = ''
