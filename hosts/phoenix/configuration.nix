@@ -1,0 +1,87 @@
+{ config, pkgs, lib, ... }:
+let
+  localSecrets = builtins.extraBuiltins.readSops ./secrets.nix.enc;
+in
+{
+  imports = with lib.m1cr0man.module;
+    addModules ../../modules [
+      "management/ssh"
+    ]
+    ++
+    addModulesRecursive ./modules
+    ++ [
+      ./hardware-configuration.nix
+    ];
+
+  system.stateVersion = "23.11";
+
+  boot.loader.grub = {
+    enable = true;
+    configurationLimit = 5;
+    efiSupport = true;
+    efiInstallAsRemovable = true;
+    mirroredBoots = [
+      {
+        devices = [
+          "/dev/disk/by-id/wwn-0x5002538c0004258a"
+        ];
+        path = "/boot";
+      }
+      {
+        devices = [
+          "/dev/disk/by-id/wwn-0x50025388003531bd"
+        ];
+        path = "/boot2";
+      }
+    ];
+  };
+
+  # Reduce auto snapshot frequency
+  services.zfs.autoSnapshot.frequent = lib.mkForce 0;
+
+  # Set network configuration for initrd
+  boot.kernelParams = [
+    "ip=${localSecrets.ipv4Address}::${localSecrets.ipv4Gateway}:${localSecrets.ipv4Netmask}:${config.networking.hostName}:eth0:static"
+  ];
+
+  networking = {
+    hostId = "19b5c3da";
+    domain = lib.mkForce "vccomputers.ie";
+    useDHCP = false;
+    useNetworkd = true;
+
+    usePredictableInterfaceNames = false;
+    interfaces.eth0 = {
+      useDHCP = false;
+      ipv4.addresses = [{
+        address = localSecrets.ipv4Address;
+        prefixLength = localSecrets.ipv4Prefix;
+      }];
+      ipv6.addresses = [{
+        address = localSecrets.ipv6Address;
+        prefixLength = localSecrets.ipv6Prefix;
+      }];
+    };
+    defaultGateway = localSecrets.ipv4Gateway;
+    defaultGateway6.address = localSecrets.ipv6Gateway;
+
+    nameservers = [ "185.12.64.1" "1.1.1.1" ];
+
+    firewall.allowedTCPPorts = [ 80 443 ];
+  };
+
+  # Enable VSCode Remote Server
+  services.vscode-server.enable = true;
+
+  m1cr0man = {
+    zfs = {
+      scrubStartTime = "*-*-* 05:00:00";
+      scrubStopTime = "*-*-* 05:15:00";
+      encryptedDatasets = [ "zphoenix_ssd" ];
+    };
+  };
+
+  # Enable KSM because the MC servers share a lot of data
+  hardware.ksm.enable = true;
+
+}

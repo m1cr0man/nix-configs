@@ -74,6 +74,11 @@
           modules = [ inputs.nixos-vscode-server.nixosModules.default ];
         };
 
+        phoenix = mkConfiguration {
+          name = "phoenix";
+          modules = [ inputs.nixos-vscode-server.nixosModules.default ];
+        };
+
         netboot = mkConfiguration {
           name = "netboot";
           modules = [
