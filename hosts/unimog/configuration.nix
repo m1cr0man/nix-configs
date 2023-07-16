@@ -1,6 +1,6 @@
 { config, pkgs, lib, ... }:
 let
-  localSecrets = import ./secrets.nix;
+  localSecrets = builtins.extraBuiltins.readSops ./secrets.nix.enc;
 in
 {
 
