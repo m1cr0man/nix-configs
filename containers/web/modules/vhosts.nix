@@ -10,9 +10,6 @@ in
   #     config.services.httpd.virtualHosts
   # );
 
-  security.acme.certs."foundry.conor.${domain}".reloadServices = [ "httpd.service" ];
-  security.acme.certs."foundry.luckothe.irish".reloadServices = [ "httpd.service" ];
-
   services.httpd.enablePHP = true;
   services.httpd.phpOptions = ''
     upload_max_filesize = 50M
@@ -47,9 +44,7 @@ in
 
     # Subdomain can't use wildcard certs
     # Also, socket.io doesn't like the RewriteRule style websocket handling
-    "foundry.conor.${domain}" = makeVhost {
-      useACMEHost = null;
-      enableACME = true;
+    "foundry-conor.${domain}" = makeVhost {
       extraConfig = ''
         ProxyPreserveHost On
         ProxyPass  "/socket.io/" "ws://containerhost.local:30000/socket.io/"
@@ -58,9 +53,7 @@ in
       '';
     };
 
-    "foundry.luckothe.irish" = makeVhost {
-      useACMEHost = null;
-      enableACME = true;
+    "foundry-anders.${domain}" = makeVhost {
       extraConfig = ''
         ProxyPreserveHost On
         ProxyPass  "/socket.io/" "ws://containerhost.local:30001/socket.io/"
