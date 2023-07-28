@@ -1,8 +1,14 @@
+{ pkgs, ... }:
 {
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
   };
+
+  # Ensure nix-direnv uses system nix version
+  nixpkgs.overlays = [(next: prev: {
+    nix-direnv = prev.nix-direnv.override { nix = prev.nixVersions.nix_2_16; };
+  })];
 
   programs.git = {
     enable = true;
