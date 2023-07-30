@@ -75,11 +75,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1686000573,
-        "narHash": "sha256-kspGewtO6S+aZGCvzq6+gCsM5JbUIyEshc8KmByfQqw=",
+        "lastModified": 1690714923,
+        "narHash": "sha256-VQopPcpIapgtf5HZ/Q7m132NndwkI8iB1GjrALd7N7M=",
         "owner": "m1cr0man",
         "repo": "home-manager",
-        "rev": "edd5bab84375cf313cf2d0ad1f0fe9b7196b6496",
+        "rev": "8047a4527a21c9a4905ee4279d411309d02055fe",
         "type": "github"
       },
       "original": {

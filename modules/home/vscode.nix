@@ -19,6 +19,7 @@
       editor = if config.m1cr0man.vscode.remoteEditor then "openvscode-server" else "code";
     in {
       enable = true;
+      mutableExtensionsDir = false;
       extensions = with pkgs.vscode-extensions;
       # Extensions which do not need direnv
       [
