@@ -96,11 +96,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1690120208,
-        "narHash": "sha256-LzK1t8f2QzOOUVbd88xFVBymsYCMlG3CHgd0v5OZOpw=",
+        "lastModified": 1690575359,
+        "narHash": "sha256-l5ighA/TYdHT9Cr0CReMp+bgfAVGBz8k3Zu/6UuHC9Y=",
         "owner": "m1cr0man",
         "repo": "Jovian-NixOS",
-        "rev": "f43ba03fbff6d87b0b09093122b3e93f95b46637",
+        "rev": "c0468fe9f8dd5b62783b5e7f60be905d835115ec",
         "type": "github"
       },
       "original": {
@@ -155,16 +155,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1689535990,
-        "narHash": "sha256-WxUVH+Be+j6j4ftPYKbjgD22cDRSMzzjnQk1x17LC+M=",
+        "lastModified": 1690625347,
+        "narHash": "sha256-bPGnVz47lYsKK8CeTOATBXyttUiG0M09qMvjV5Szq9I=",
         "owner": "m1cr0man",
         "repo": "nixpkgs",
-        "rev": "78ea1aa40192a191e0d3caa09a7075a3234d3e6c",
+        "rev": "3562b8be97417023cb2c04c87d5994da31629371",
         "type": "github"
       },
       "original": {
         "owner": "m1cr0man",
-        "ref": "rfc108-minimal",
+        "ref": "rfc108-minimal-greetd",
         "repo": "nixpkgs",
         "type": "github"
       }

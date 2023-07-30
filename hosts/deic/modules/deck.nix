@@ -1,7 +1,4 @@
 { config, pkgs, lib, ... }:
-let
-  desktopSession = "gnome-wayland-dbus";
-in
 {
   jovian = {
     devices.steamdeck = {
@@ -11,29 +8,30 @@ in
       enable = true;
       autoStart = true;
       user = "deck";
-      inherit desktopSession;
+      desktopSession = "gnome-wayland";
     };
   };
-
-  # Launch wayland gnome through dbus-run-session
-  services.xserver.displayManager.sessionPackages = [
-    ((pkgs.runCommand "gnome-wayland-dbus-sessions" {} ''
-      mkdir -p "$out/share/wayland-sessions"
-      sed \
-        's!Exec=!Exec=${pkgs.dbus}/bin/dbus-run-session !g' \
-        '${pkgs.gnome.gnome-session.sessions}/share/wayland-sessions/gnome-wayland.desktop' \
-      > "$out/share/wayland-sessions/${desktopSession}.desktop"
-
-    '').overrideAttrs (old: {
-      passthru.providedSessions = [ desktopSession ];
-    }))
-  ];
 
   # Use pipewire + wireplumber for all audio
   hardware.pulseaudio.enable = false;
   services.pipewire.wireplumber.enable = true;
 
   services.gnome.gnome-remote-desktop.enable = false;
+
+  # Used to start graphical-session.target when steam-session is started
+  systemd.user.targets."steam-session" = {
+    description = "Steam Graphical user session";
+    wantedBy = ["steam-session.slice"];
+    partOf = ["steam-session.slice"];
+    after = ["steam-session.slice"];
+    before = ["graphical-session.target"];
+    bindsTo = ["graphical-session.target"];
+  };
+
+  systemd.user.services."xdg-desktop-portal-gnome" = {
+    requisite = [ "gnome-session.target" ];
+    after = [ "gnome-session.target" ];
+  };
 
   environment.systemPackages = [
     pkgs.gnome.gnome-tweaks
