@@ -24,6 +24,7 @@
       # Extensions which do not need direnv
       [
         # General
+        ms-vscode-remote.remote-ssh
         mkhl.direnv
         # Nix dev
         bbenoist.nix
