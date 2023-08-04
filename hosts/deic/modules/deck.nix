@@ -35,8 +35,6 @@
 
   environment.systemPackages = [
     pkgs.gnome.gnome-tweaks
-    # Tray icons
-    pkgs.gnomeExtensions.appindicator
   ];
 
   # Required for tray icons

@@ -5,6 +5,14 @@
     ../../modules/home/vscode.nix
   ];
 
+  dconf.settings."org/gnome/shell" = {
+    disable-user-extensions = false;
+    enabled-extensions = [
+      "appindicatorsupport@rcjonas.gmail.com"
+      "noannoyance@daase.net"
+    ];
+  };
+
   home = {
     stateVersion = "23.05";
     username = "deck";
@@ -15,6 +23,8 @@
       lutris
       obsidian
       wineWowPackages.stagingFull
+      gnomeExtensions.appindicator
+      gnomeExtensions.noannoyance-2
       ((prismlauncher.override { jdks = [ jdk17 jdk8 ]; }).overrideAttrs (prev: {
           postInstall =
           let
