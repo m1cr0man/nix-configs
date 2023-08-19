@@ -36,6 +36,29 @@ in
       };
     };
 
+    farming = {
+      enable = true;
+      memGb = 10;
+      jre = pkgs.jdk8;
+      jar = "forge-1.10.2-12.18.3.2511-universal.jar";
+      port = 25545;
+      user = "mcadmins";
+      group = "mcadmins";
+      serverProperties = {
+        difficulty = "normal";
+        enable-command-block = true;
+        enable-jmx-monitoring = false;
+        enable-status = true;
+        level-type = "default";
+        max-players = "15";
+        max-tick-time = "90000";
+        max-world-size = "200000";
+        motd = "Farming Valley 1.0.12";
+        spawn-protection = "0";
+        view-distance = "10";
+      };
+    };
+
     focreate = {
       enable = false;
       memGb = 6;

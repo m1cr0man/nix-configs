@@ -2,11 +2,14 @@
 # multiple servers.
 { pkgs, lib }:
 let
+  log4jConf = ./log4j2.xml;
+
   commonArgs = "-server"
     + " -XX:ParallelGCThreads=2 -XX:MaxGCPauseMillis=50"
     + " -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10"
     + " -XX:SurvivorRatio=5 -XX:TargetSurvivorRatio=90"
-    + " -Dfml.queryResult=confirm -Dpaper.playerconnection.keepalive=300";
+    + " -Dfml.queryResult=confirm -Dpaper.playerconnection.keepalive=300"
+    + " -Dlog4j2.formatMsgNoLookups=true -Dlog4j.configurationFile=${log4jConf}";
 
   cfgToString = v: if builtins.isBool v then lib.boolToString v else toString v;
 
