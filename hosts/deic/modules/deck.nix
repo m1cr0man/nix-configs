@@ -73,6 +73,9 @@
     atomix # puzzle game
   ]);
 
+  services.joycond.enable = true;
+  hardware.steam-hardware.enable = true;
+
   environment.defaultPackages = with pkgs; [
     glxinfo
     (steam.override { extraArgs = "-steamdeck"; })
