@@ -45,7 +45,8 @@ rec {
     # Enable flakes globally.
     # Also enable nix-plugins and our own extra-builtins so we can decrypt sops at eval time for some special cases.
     # Always ensure nix version matches that expected by nix-plugins
-    nix.package = pkgs.nixVersions.nix_2_16;
+    # TL;DR Bump whenever nix.conf/nix-plugins errors appear in build
+    nix.package = pkgs.nixVersions.nix_2_17;
     nix.extraOptions =
       ''
         experimental-features = nix-command flakes
