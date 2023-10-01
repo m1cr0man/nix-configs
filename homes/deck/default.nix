@@ -59,7 +59,7 @@
     '';
   };
 
-  programs.microsoft-edge-beta = {
+  programs.microsoft-edge = {
     enable = true;
   };
 }
