@@ -34,6 +34,7 @@ in
         "${stateDir}/nextcloud:/var/lib/nextcloud"
         "${stateDir}/plex:/var/lib/plex"
         "${stateDir}/rainloop:/var/lib/rainloop"
+        "${stateDir}/julia:/var/lib/julia"
       ];
     };
 

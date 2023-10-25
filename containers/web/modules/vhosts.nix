@@ -70,5 +70,17 @@ in
         Redirect 301 / https://mail.${domain}
       '';
     };
+
+    "julia-mendez.com" = makeVhost {
+      useACMEHost = null;
+      enableACME = true;
+      serverAliases = [ "www.julia-mendez.com" ];
+      documentRoot = "/var/lib/julia";
+      extraConfig = ''
+        RewriteEngine on
+        RewriteCond %{HTTP_HOST} ^www\.julia-mendez.com$ [NC]
+        RewriteRule ^(.*)$ http://julia-mendez.com/$1 [R=301,L]
+      '';
+    };
   };
 }
