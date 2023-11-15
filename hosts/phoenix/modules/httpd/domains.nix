@@ -40,9 +40,9 @@ in lib.mkMerge [
     username = "crclk";
     domain = "crclk.ie";
     # Not migrated yet
-    # aliases = [
-    #   "resourcecentreletterkenny.com" "www.resourcecentreletterkenny.com"
-    # ];
+    aliases = [
+      "resourcecentreletterkenny.com" "www.resourcecentreletterkenny.com"
+    ];
     php = true;
     mysql = true;
   })
