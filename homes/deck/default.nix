@@ -3,6 +3,7 @@
   imports = [
     ../../modules/home/general-dev.nix
     ../../modules/home/vscode.nix
+    ./krisp.nix
   ];
 
   dconf.settings."org/gnome/shell" = {
@@ -13,13 +14,17 @@
     ];
   };
 
+  programs.discord = {
+    enable = true;
+    wrapDiscord = true;
+  };
+
   home = {
     stateVersion = "23.05";
     username = "deck";
     homeDirectory = "/home/deck";
     packages = with pkgs; [
       cura
-      discord
       lutris
       obsidian
       wineWowPackages.stagingFull
