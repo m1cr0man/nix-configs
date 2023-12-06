@@ -28,9 +28,6 @@
 
       shopt -s "''${SHOPTFLAGS[@]}"
 
-      # Zsh-like completion
-      bind 'set show-all-if-ambiguous on'
-      bind 'TAB:menu-complete'
     '';
   };
 
