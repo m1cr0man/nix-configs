@@ -16,7 +16,7 @@
   hardware.pulseaudio.enable = false;
   services.pipewire.wireplumber.enable = true;
 
-  services.gnome.gnome-remote-desktop.enable = false;
+  services.gnome.gnome-remote-desktop.enable = true;
 
   # Used to start graphical-session.target when steam-session is started
   systemd.user.targets."steam-session" = {
