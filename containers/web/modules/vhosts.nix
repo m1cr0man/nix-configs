@@ -62,6 +62,15 @@ in
       '';
     };
 
+    "foundry-patrick.${domain}" = makeVhost {
+      extraConfig = ''
+        ProxyPreserveHost On
+        ProxyPass  "/socket.io/" "ws://containerhost.local:30002/socket.io/"
+        ProxyPass / http://containerhost.local:30002/
+        ProxyPassReverse / http://containerhost.local:30002/
+      '';
+    };
+
     "mail.vccomputers.ie" = makeVhost {
       forceSSL = false;
       addSSL = false;
