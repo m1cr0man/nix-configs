@@ -8,8 +8,11 @@ in
   users.groups = {
     anders = { };
     conor = { };
+    patrick = { };
+    adam = { };
     lucas = { };
     zeus = { };
+    git = { };
   };
 
   sops.secrets.zeus_password.neededForUsers = true;
@@ -29,9 +32,25 @@ in
       ];
     })
 
+    (makeNormalUser "patrick" {
+      keys = rootKeys ++ [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHf3Ilvy8pzh+jEA1GFkGgmIQmkJRSPDmKWh+RAtQWcA patrick@windows"
+      ];
+    })
+
     (makeNormalUser "lucas" {
       extraArgs = {
-        extraGroups = [ "wheel" "acme" ];
+        extraGroups = [ "wheel" "acme" "git" ];
+        packages = [ pkgs.gnupg ];
+      };
+      keys = rootKeys ++ [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIq17Vz/gxVGDifkRFO6W5DJvJ5JnZ+DBq85W3UtRv82 lucas@ip-svr"
+      ];
+    })
+
+    (makeNormalUser "adam" {
+      extraArgs = {
+        extraGroups = [ "git" ];
         packages = [ pkgs.gnupg ];
       };
       keys = rootKeys ++ [
@@ -44,7 +63,7 @@ in
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGLjzYGz5SbhwxoaVuNQr1HWJuzqshVRB3QgV3qHdFvR id_ed25519_zeuspc.pem"
       ];
       extraArgs = {
-        extraGroups = [ "wheel" ];
+        extraGroups = [ "wheel" "git" ];
         passwordFile = config.sops.secrets.zeus_password.path;
       };
     })
