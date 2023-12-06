@@ -8,7 +8,7 @@
       enable = true;
       autoStart = true;
       user = "deck";
-      desktopSession = "gnome-wayland";
+      desktopSession = "gnome";
     };
   };
 

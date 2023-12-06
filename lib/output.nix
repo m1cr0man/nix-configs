@@ -55,9 +55,9 @@ rec {
       '';
   };
 
-  baseModule = instanceType: name: {
+  baseModule = instanceType: name: { lib, ... }: {
     # Ensure it doesn't auto-import another nixpkgs
-    nixpkgs.pkgs = pkgs;
+    nixpkgs.pkgs = lib.mkForce pkgs;
 
     # Pin nixpkgs so that commands like "nix shell nixpkgs#<pkg>" are more efficient
     # Source: https://www.tweag.io/blog/2020-07-31-nixos-flakes/ "Pinning Nixpkgs"
