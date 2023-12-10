@@ -188,7 +188,6 @@
           lib = prev.lib.extend (f: p: { "${pkgRoot}" = import ./lib/helpers.nix { inherit domain; }; });
         };
         nixos-nspawn = inputs.nixos-nspawn.overlays.default;
-        jovian = inputs.jovian.overlays.jovian;
       };
 
       # Re-export nixpkgs as legacyPackages so that we can do `nix run .#<pkg name>` for any nixpkg.
