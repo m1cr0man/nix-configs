@@ -42,7 +42,10 @@
       address = "192.168.14.3";
       prefixLength = 24;
     }];
-    defaultGateway = "192.168.14.254";
+    defaultGateway = {
+      interface = "eth1";
+      address = "192.168.14.254";
+    };
     nameservers = [ "192.168.14.254" "1.1.1.1" ];
 
     firewall.allowedTCPPorts = [ 8086 8030 ];
