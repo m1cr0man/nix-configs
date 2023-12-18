@@ -9,7 +9,6 @@ in
       "www/acme-base.nix"
       "www/httpd.nix"
       "www/matrix.nix"
-      "www/minio.nix"
       "www/plex.nix"
     ]
     ++
