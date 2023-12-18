@@ -19,4 +19,13 @@
       openvscode-server
     ];
   };
+
+  systemd.user.services.openvscode-server = {
+    Unit.Description = "Open VSCode Server";
+    Install.WantedBy = [ "default.target" ];
+    Service = {
+      ExecStart = "${pkgs.openvscode-server}/bin/openvscode-server --telemetry-level=off --socket-path=/home/lucas/.openvscode-server.sock --accept-server-license-terms --without-connection-token";
+      ExecSearchPath = [ "${pkgs.coreutils}/bin" "${pkgs.git}/bin" "${pkgs.gnused}/bin" "/home/lucas/.nix-profile/bin" "/nix/profile/bin" "/home/lucas/.local/state/nix/profile/bin" "/etc/profiles/per-user/lucas/bin" ];
+    };
+  };
 }
