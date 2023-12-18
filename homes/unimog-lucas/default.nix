@@ -9,6 +9,7 @@
   nixpkgs.config.permittedInsecurePackages = [
     "nodejs-16.20.2"
   ];
+  nixpkgs.config.allowUnfree = true;
 
   home = {
     stateVersion = "24.05";
