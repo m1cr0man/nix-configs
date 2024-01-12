@@ -25,7 +25,7 @@ in
         enable-command-block = true;
         enable-jmx-monitoring = false;
         enable-status = true;
-        level-type = "default";
+        level-type = "minecraft:normal";
         max-players = "15";
         max-tick-time = "90000";
         max-world-size = "200000";
@@ -36,11 +36,10 @@ in
       };
     };
 
-    farming = {
+    mands = {
       enable = true;
       memGb = 10;
-      jre = pkgs.jdk8;
-      jar = "forge-1.10.2-12.18.3.2511-universal.jar";
+      jar = "fabric-server-mc.1.20.1-loader.0.15.3-launcher.1.0.0.jar";
       port = 25545;
       user = "mcadmins";
       group = "mcadmins";
@@ -49,11 +48,12 @@ in
         enable-command-block = true;
         enable-jmx-monitoring = false;
         enable-status = true;
-        level-type = "default";
+        level-type = "minecraft:normal";
+        level-seed = "4820996100054001649";
         max-players = "15";
         max-tick-time = "90000";
         max-world-size = "200000";
-        motd = "Farming Valley 1.0.12";
+        motd = "M and S 1.20.1.1";
         spawn-protection = "0";
         view-distance = "10";
       };
