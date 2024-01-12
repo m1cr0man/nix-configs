@@ -26,10 +26,21 @@
         # General
         ms-vscode-remote.remote-ssh
         mkhl.direnv
-        # Nix dev
-        bbenoist.nix
+        (pkgs.vscode-utils.extensionFromVscodeMarketplace {
+          publisher = "reduckted";
+          name = "vscode-gitweblinks";
+          version = "2.9.3";
+          sha256 = "sha256-Da21EIu5rZlIANti5q/ys01PvtgWr7IXVchoCa03m1w=";
+        })
         # Rust dev
         vadimcn.vscode-lldb
+        tamasfe.even-better-toml
+        (pkgs.vscode-utils.extensionFromVscodeMarketplace {
+          publisher = "belfz";
+          name = "search-crates-io";
+          version = "1.2.1";
+          sha256 = "sha256-K2H4OHH6vgQvhhcOFdP3RD0fPghAxxbgurv+N82pFNs=";
+        })
       ] ++ map (loadAfter [ "mkhl.direnv" ])
       # Extensions depending on direnv
       [
