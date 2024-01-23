@@ -12,7 +12,7 @@ in
 {
   m1cr0man.minecraft-servers = {
     vaulthunters = {
-      enable = true;
+      enable = false;
       launchCommand = "java -Xmx10G -Xms5G @libraries/net/minecraftforge/forge/1.18.2-40.1.93/unix_args.txt";
       # These 2 args won't actually be used
       memGb = 10;
@@ -36,10 +36,12 @@ in
       };
     };
 
-    mands = {
+    magitech = {
       enable = true;
+      launchCommand = "java -Xmx10G -Xms5G @libraries/net/minecraftforge/forge/1.18.2-40.2.9/unix_args.txt";
+      # These 2 args won't actually be used
       memGb = 10;
-      jar = "fabric-server-mc.1.20.1-loader.0.15.3-launcher.1.0.0.jar";
+      jar = "forge-1.18.2-40.2.9-server.jar";
       port = 25545;
       user = "mcadmins";
       group = "mcadmins";
@@ -48,12 +50,12 @@ in
         enable-command-block = true;
         enable-jmx-monitoring = false;
         enable-status = true;
-        level-type = "minecraft:normal";
-        level-seed = "4820996100054001649";
+        level-type = "normal";
+        level-seed = "7450815697094550916";
         max-players = "15";
         max-tick-time = "90000";
         max-world-size = "200000";
-        motd = "M and S 1.20.1.1";
+        motd = "Create Arcane Engineering 1.18.2";
         spawn-protection = "0";
         view-distance = "10";
       };
