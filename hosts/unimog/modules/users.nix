@@ -40,7 +40,7 @@ in
 
     (makeNormalUser "lucas" {
       extraArgs = {
-        extraGroups = [ "wheel" "acme" "git" ];
+        extraGroups = [ "wheel" "acme" "git" "sockets" ];
         packages = [ pkgs.gnupg ];
       };
       keys = rootKeys ++ [
@@ -50,7 +50,7 @@ in
 
     (makeNormalUser "adam" {
       extraArgs = {
-        extraGroups = [ "git" ];
+        extraGroups = [ "git" "sockets" ];
         packages = [ pkgs.gnupg ];
       };
       keys = rootKeys ++ [
@@ -65,7 +65,7 @@ in
       ];
       extraArgs = {
         extraGroups = [ "wheel" "git" ];
-        passwordFile = config.sops.secrets.zeus_password.path;
+        hashedPasswordFile = config.sops.secrets.zeus_password.path;
       };
     })
 
@@ -77,7 +77,7 @@ in
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMznnngrMCxW3bdpY32QPaAbgNGPp58A4t3tAnV1HdRW root@dhcpserver-tassie"
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOpdRenXTF6HHbgwNdu++dvlucOPX5ZC8Zb+/HXzgoHo admin@feefy"
       ];
-      extraArgs.passwordFile = config.sops.secrets.portfwd_guest_password.path;
+      extraArgs.hashedPasswordFile = config.sops.secrets.portfwd_guest_password.path;
     })
   ];
 }
