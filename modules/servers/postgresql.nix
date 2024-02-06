@@ -1,9 +1,5 @@
 { config, lib, pkgs, ... }:
 let
-  # Example connection strings
-  # psql "host=postgresql.local user=matrix-synapse sslcert=./matrix-synapse/cert.pem sslkey=./matrix-synapse/key.pem sslrootcert=./ca/cert.pem sslmode=verify-full"
-  # psql "postgresql://matrix-synapse@postgresql.local/matrix-synapse?sslcert=./matrix-synapse/cert.pem&sslkey=./matrix-synapse/key.pem&sslrootcert=./ca/cert.pem&sslmode=verify-full"
-
   cfg = config.m1cr0man.postgresql;
 
   package = cfg.package.overrideAttrs (prev: {
@@ -12,6 +8,8 @@ let
   });
   startupScript = pkgs.writeText "postgres-startup-commands" cfg.startupCommands;
   localDomain = "postgresql.local";
+
+  hasTCPIP = config.services.postgresql.enableTCPIP;
 in
 {
   options.m1cr0man.postgresql = with lib; {
@@ -30,22 +28,24 @@ in
     };
   };
 
-  config = {
-    systemd.services.postgresql-startup-commands = {
-      wantedBy = [ "postgresql.service" ];
-      after = [ "postgresql.service" ];
-      description = "Runs database scripts on each postgres startup";
-      serviceConfig = {
-        Type = "oneshot";
-        User = "postgres";
-        Group = "postgres";
-        ExecStart = "${package}/bin/psql -d postgres -f '${startupScript}'";
+  config = lib.mkMerge [
+  (lib.mkIf (hasTCPIP) {
+    users.users.postgres.extraGroups = [ "acme" ];
+
+    services.postgresql = {
+      authentication = ''
+        hostssl all all 192.168.0.0/16 cert
+        hostssl all all beef::/64      cert
+      '';
+      settings = {
+        ssl = true;
+        ssl_ciphers = "HIGH:+3DES:!aNULL";
+        ssl_dh_params_file = "${config.security.dhparams.params.postgresql.path}";
+        ssl_ca_file = "/var/lib/acme/${localDomain}/ca/cert.pem";
+        ssl_cert_file = "/var/lib/acme/${localDomain}/server/cert.pem";
+        ssl_key_file = "/var/lib/acme/${localDomain}/server/key.pem";
       };
     };
-
-    security.pam.services.postgresql.unixAuth = true;
-
-    users.users.postgres.extraGroups = [ "acme" "sockets" "shadow" ];
 
     systemd.services.postgresql-certs =
       let
@@ -100,30 +100,44 @@ in
       params.postgresql = { };
     };
 
+  })  
+  {
+    systemd.services.postgresql-startup-commands = {
+      wantedBy = [ "postgresql.service" ];
+      after = [ "postgresql.service" ];
+      description = "Runs database scripts on each postgres startup";
+      serviceConfig = {
+        Type = "oneshot";
+        User = "postgres";
+        Group = "postgres";
+        ExecStart = "${package}/bin/psql -d postgres -f '${startupScript}'";
+      };
+    };
+
+    security.pam.services.postgresql.unixAuth = true;
+
+    users.users.postgres.extraGroups = [ "sockets" "shadow" ];
+
     services.postgresql = {
       enable = true;
-      enableTCPIP = true;
       inherit package;
       # On first startup, it will be necessary to run the startupScript early.
       # It doesn't hurt that it'll run twice - it should be idempotent.
       initialScript = startupScript;
       authentication = ''
-        hostssl all all 192.168.0.0/16 cert
-        hostssl all all beef::/64      cert
         local   all postgres           peer
         local   all all                pam
       '';
       settings = {
-        ssl = true;
-        ssl_ciphers = "HIGH:+3DES:!aNULL";
-        ssl_dh_params_file = "${config.security.dhparams.params.postgresql.path}";
-        ssl_ca_file = "/var/lib/acme/${localDomain}/ca/cert.pem";
-        ssl_cert_file = "/var/lib/acme/${localDomain}/server/cert.pem";
-        ssl_key_file = "/var/lib/acme/${localDomain}/server/key.pem";
         unix_socket_directories = "/run/postgresql,/var/lib/sockets";
         unix_socket_group = "sockets";
         unix_socket_permissions = "0770";
+        log_connections = true;
+        logging_collector = true;
+        log_disconnections = true;
+        log_destination = lib.mkForce "syslog";
       };
     };
-  };
+  }
+  ];
 }

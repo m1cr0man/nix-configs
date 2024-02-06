@@ -218,8 +218,6 @@
       # system and pkgs come from lib/output.nix
       devShell.${system} = pkgs.mkShell {
         packages = devDeps;
-        # I use VS Code Remote SSH.
-        EDITOR = "code --wait";
       };
     };
 }

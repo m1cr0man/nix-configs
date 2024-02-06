@@ -1,8 +1,8 @@
-{ config, ... }:
+{ config, lib, ... }:
 let
   sopsSuffix = "_database_hashed_password";
   mkUser = sopsKey: {
-    passwordFile = config.sops.secrets."${sopsKey}".path;
+    hashedPasswordFile = config.sops.secrets."${sopsKey}".path;
     home = "/var/empty";
     createHome = false;
     isSystemUser = true;
@@ -11,9 +11,6 @@ let
   };
 in
 {
-  # Allow other hosts on the bridge to connect to postgresql
-  networking.firewall.allowedTCPPorts = [ 5432 ];
-
   # Set passwords for each user
   users.users.matrix-synapse = mkUser "matrix_synapse${sopsSuffix}";
   users.users.nextcloud = mkUser "nextcloud${sopsSuffix}";
@@ -24,18 +21,21 @@ in
   sops.secrets."rainloop${sopsSuffix}".neededForUsers = true;
 
   services.postgresql = {
+    # Not needed - everything uses sockets
+    enableTCPIP = false;
     ensureUsers = [
       rec {
         name = "matrix-synapse";
-        ensurePermissions."DATABASE \"${name}\"" = "ALL PRIVILEGES";
+        ensureClauses.login = true;
       }
       rec {
         name = "nextcloud";
-        ensurePermissions."DATABASE \"${name}\"" = "ALL PRIVILEGES";
+        ensureDBOwnership = true;
+        ensureClauses.login = true;
       }
       {
         name = "rainloop";
-        ensurePermissions."DATABASE \"rainloop-contacts\"" = "ALL PRIVILEGES";
+        ensureClauses.login = true;
       }
     ];
     ensureDatabases = [
@@ -44,7 +44,11 @@ in
     ];
   };
 
-  m1cr0man.postgresql.startupCommands = ''
-    CREATE DATABASE "matrix-synapse" TEMPLATE template0 LC_COLLATE = "C" LC_CTYPE = "C";
+  systemd.services.postgresql.postStart = lib.mkAfter ''
+    if ! ( $PSQL -tAc "SELECT 1 FROM pg_database WHERE datname = 'matrix-synapse'" | grep -q 1 ); then
+      $PSQL -tAc 'CREATE DATABASE "matrix-synapse" TEMPLATE template0 LC_COLLATE = "C" LC_CTYPE = "C"'
+      $PSQL -tAC 'ALTER DATABASE "matrix-synapse" OWNER TO "matrix-synapse";'
+    fi
+    $PSQL -tAc 'ALTER DATABASE "rainloop-contacts" OWNER TO "rainloop";'
   '';
 }

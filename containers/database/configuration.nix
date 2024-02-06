@@ -15,15 +15,9 @@ in
 
   nixosContainer =
     {
-      forwardPorts =
-        builtins.map
-          (port: { hostPort = port; containerPort = port; })
-          [
-            # Postgresql
-            5432
-          ];
       bindMounts = [
         "${stateDir}/postgresql:/var/lib/postgresql"
+        "${stateDir}/mongodb:/var/db/mongodb"
       ];
     };
 }

@@ -37,6 +37,5 @@ in
       ];
     };
 
-  # Map postgres server to host
-  networking.hosts."${config.m1cr0man.container.hostAddress}" = [ "postgresql.local" "containerhost.local" ];
+  networking.hosts."${config.m1cr0man.container.hostAddress}" = [ "containerhost.local" ];
 }

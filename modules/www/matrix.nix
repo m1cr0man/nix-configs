@@ -36,8 +36,6 @@ let
       "server_name" = server;
     };
   };
-
-  dbname = "matrix-synapse";
 in
 {
   options.m1cr0man.matrix = with lib; {
@@ -87,27 +85,26 @@ in
       };
     };
 
-    users.users.matrix-synapse.extraGroups = [ "acme" ];
+    users.users.matrix-synapse.extraGroups = [ "acme" "sockets" ];
+    sops.secrets.matrix_synapse_db_settings = {
+      owner = "matrix-synapse";
+      group = "matrix-synapse";
+    };
 
     services.matrix-synapse = {
       enable = true;
-      settings = {
-        server_name = domain;
+
+      extraConfigFiles = [
         # Args is passed adlib to psycopg2
         # https://github.com/matrix-org/synapse/blob/a962c5a56de69c03848646f25991fabe6e4c39d1/synapse/storage/database.py#L142
         # https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-PARAMKEYWORDS
-        database.args =
-          let
-            certs = "/var/lib/acme/postgresql.local";
-          in
-          {
-            host = "postgresql.local";
-            user = dbname;
-            sslmode = "verify-full";
-            sslrootcert = "${certs}/ca/cert.pem";
-            sslcert = "${certs}/matrix-synapse/cert.pem";
-            sslkey = "${certs}/matrix-synapse/key.pem";
-          };
+        # set via extraConfigFiles to hide password.
+        config.sops.secrets.matrix_synapse_db_settings.path
+      ];
+
+      settings = {
+        server_name = domain;
+        suppress_key_server_warning = true;
         # Used for initial set up
         registration_shared_secret = lib.mkIf (cfg.registrationSecret != "") cfg.registrationSecret;
         listeners = [

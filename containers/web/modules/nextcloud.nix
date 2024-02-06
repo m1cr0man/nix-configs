@@ -26,11 +26,10 @@ in
   users.groups.nextcloud.members = [ config.services.httpd.user ];
 
   # Ensure postgres is running before nextcloud-setup is run
-  systemd.services.nextcloud-setup.preStart = ''
-    while test ! -e /var/lib/sockets/.s.PGSQL.5432; do
-      echo "Waiting for PostgreSQL socket"
-    done
-  '';
+  systemd.services.nextcloud-setup = {
+    after = [ "postgresql-wait.service" ];
+    requires = [ "postgresql-wait.service" ];
+  };
 
   # Use httpd > nginx
   services.nginx.enable = false;
