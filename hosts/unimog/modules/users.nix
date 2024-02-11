@@ -20,12 +20,14 @@ in
 
   users.users = with lib.m1cr0man; lib.mkMerge [
     (makeNormalUser "anders" {
+      extraArgs.linger = true;
       keys = rootKeys ++ [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOuW9Vc1zz3qA++TpqLb6jTBx2ZfejO0uqrYt/tmGaEM ed25519-key-20210126"
       ];
     })
 
     (makeNormalUser "conor" {
+      extraArgs.linger = true;
       keys = rootKeys ++ [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPUlcCjTDPA9E4Bj04kdojvsjNnXXWKhJdmrum94zUdm Conor@LAPTOP-VA4JS3RE"
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF3zyHMJERyIp7ydHBOM0JucdfFFqAFp/05iCk8L2540 conor@hisdesktop"
@@ -33,6 +35,7 @@ in
     })
 
     (makeNormalUser "patrick" {
+      extraArgs.linger = true;
       keys = rootKeys ++ [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHf3Ilvy8pzh+jEA1GFkGgmIQmkJRSPDmKWh+RAtQWcA patrick@windows"
       ];
@@ -40,6 +43,7 @@ in
 
     (makeNormalUser "lucas" {
       extraArgs = {
+        linger = true;
         extraGroups = [ "wheel" "acme" "git" "sockets" ];
         packages = [ pkgs.gnupg ];
       };
