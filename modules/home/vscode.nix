@@ -1,7 +1,17 @@
 { pkgs, lib, config, ... }:
+let
+  cfg = config.m1cr0man.vscode;
+  home = config.home.homeDirectory;
+  vscodeSocket = "${home}/.cache/openvscode-server.sock";
+in
 {
   options.m1cr0man.vscode = {
     remoteEditor = lib.mkEnableOption "openvscode-server as the EDITOR";
+    serverSocket = lib.mkOption {
+      type = lib.types.path;
+      default = "${home}/.openvscode-server.sock";
+      description = "Path to the OpenVSCode server listening socket";
+    };
   };
 
   config = {
@@ -85,6 +95,45 @@
       # This way openvscode-server will read the machine settings
       # on startup.
       "${machineConfig}".source = config.home.file."${userConfig}".source;
+    };
+
+    # This will be started on demand by the socket unit.
+    systemd.user.services.openvscode-server = {
+      Unit = {
+        Description = "Open VSCode Server";
+        # Required so that the service shuts down when no connections remain
+        BindsTo = [ "openvscode-server-proxy.service" ];
+      };
+      Service = {
+        ExecStart = "${pkgs.openvscode-server}/bin/openvscode-server --telemetry-level=off --socket-path=${vscodeSocket} --accept-server-license-terms --without-connection-token";
+        ExecSearchPath = [ "${pkgs.coreutils}/bin" "${pkgs.git}/bin" "${pkgs.gnused}/bin" "${home}/.nix-profile/bin" "/nix/profile/bin" "${home}/.local/state/nix/profile/bin" "/etc/profiles/per-user/lucas/bin" ];
+      };
+    };
+
+    # See mongodb module for more info on how this operates
+    systemd.user.services."openvscode-server-proxy" = {
+      Unit = {
+        Description = "Connects clients to openvscode-server via systemd sockets";
+        BindsTo = [ "openvscode-server-proxy.socket" ];
+        Requires = [ "openvscode-server.service" ];
+        After = [ "openvscode-server-proxy.socket" "openvscode-server.service" ];
+      };
+
+      Service = {
+        ExecStart = "${pkgs.systemd.out}/lib/systemd/systemd-socket-proxyd --exit-idle-time=15min ${vscodeSocket}";
+        Type = "notify";
+      };
+    };
+
+    systemd.user.sockets.openvscode-server-proxy = {
+      Unit.Description = "Open VSCode Server Listening Socket";
+      Install.WantedBy = [ "default.target" ];
+      Socket = {
+        ListenStream = cfg.serverSocket;
+        # One proxy service per listener connection
+        Accept = false;
+        SocketMode = "0600";
+      };
     };
   };
 }
