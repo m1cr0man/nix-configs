@@ -10,6 +10,7 @@ in
       "vms/gamesvm.nix"
       "www/acme-base.nix"
       "www/weechat.nix"
+      "servers/microvm-host.nix"
     ]
     ++
     addModulesRecursive ./modules

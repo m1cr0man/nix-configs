@@ -21,6 +21,11 @@
 
     home-manager.url = "github:m1cr0man/home-manager/opera";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    microvm.url = "github:astro/microvm.nix";
+    microvm.inputs.nixpkgs.follows = "nixpkgs";
+
+    impermanence.url = "github:nix-community/impermanence";
   };
 
   outputs = { self, sops-nix, ... }@inputs:
@@ -71,7 +76,15 @@
 
         unimog = mkConfiguration {
           name = "unimog";
-          modules = [ inputs.nixos-vscode-server.nixosModules.default ];
+          modules = [
+            inputs.nixos-vscode-server.nixosModules.default
+            inputs.microvm.nixosModules.host
+            {
+              _module.args = {
+                inherit (inputs) impermanence;
+              };
+            }
+          ];
         };
 
         phoenix = mkConfiguration {
@@ -144,6 +157,18 @@
           name = "technae";
           modules = [
             sops-nix.nixosModules.sops
+          ];
+        };
+        microvm = mkContainer {
+          name = "microvm";
+          modules = [
+            sops-nix.nixosModules.sops
+            inputs.microvm.nixosModules.host
+            {
+              _module.args = {
+                inherit (inputs) impermanence;
+              };
+            }
           ];
         };
       };

@@ -37,6 +37,24 @@
         "systems": "systems"
       },
       "locked": {
+        "lastModified": 1701680307,
+        "narHash": "sha256-kAuep2h5ajznlPMD9rnQyffWG8EM/C73lejGofXvdM8=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "4022d587cbbfd70fe950c1e2083a02621806a725",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "flake-utils_2": {
+      "inputs": {
+        "systems": "systems_2"
+      },
+      "locked": {
         "lastModified": 1687709756,
         "narHash": "sha256-Y5wKlQSkgEK2weWdOu4J3riRd+kV/VCgHsqLNTTWQ/0=",
         "owner": "numtide",
@@ -50,9 +68,9 @@
         "type": "github"
       }
     },
-    "flake-utils_2": {
+    "flake-utils_3": {
       "inputs": {
-        "systems": "systems_2"
+        "systems": "systems_3"
       },
       "locked": {
         "lastModified": 1681202837,
@@ -89,6 +107,21 @@
         "type": "github"
       }
     },
+    "impermanence": {
+      "locked": {
+        "lastModified": 1706639736,
+        "narHash": "sha256-CaG4j9+UwBDfinxxvJMo6yOonSmSo0ZgnbD7aj2Put0=",
+        "owner": "nix-community",
+        "repo": "impermanence",
+        "rev": "cd13c2917eaa68e4c49fea0ff9cada45440d7045",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "impermanence",
+        "type": "github"
+      }
+    },
     "jovian": {
       "inputs": {
         "nix-github-actions": "nix-github-actions",
@@ -108,6 +141,28 @@
         "owner": "Jovian-Experiments",
         "ref": "development",
         "repo": "Jovian-NixOS",
+        "type": "github"
+      }
+    },
+    "microvm": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "spectrum": "spectrum"
+      },
+      "locked": {
+        "lastModified": 1708030119,
+        "narHash": "sha256-szAJdvg27Mj54npMHnDH+0NYQFJOuuW70h+uvKALy0M=",
+        "owner": "astro",
+        "repo": "microvm.nix",
+        "rev": "995b1c5d7fa2a9e64047acbf1e897579178d768c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "astro",
+        "repo": "microvm.nix",
         "type": "github"
       }
     },
@@ -135,18 +190,18 @@
     },
     "nixos-nspawn": {
       "inputs": {
-        "flake-utils": "flake-utils",
+        "flake-utils": "flake-utils_2",
         "nixpkgs": [
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1701207401,
-        "narHash": "sha256-KroZHbBN4GzanOH3pJUC72E7Tb+2yMdw4F7Y2KGFKqQ=",
-        "owner": "m1cr0man",
-        "repo": "python-nixos-nspawn",
-        "rev": "7050653aae13d62b484c7e6eacba8725f4a638f2",
-        "type": "github"
+        "dirtyRev": "801e15bb8067d627a26e50645bb564c95b1f85c2-dirty",
+        "dirtyShortRev": "801e15b-dirty",
+        "lastModified": 1703033729,
+        "narHash": "sha256-IfjoKQKe6P0JSIgCyH/MKVGZc9b0gGgaEGUKT7j94oY=",
+        "type": "git",
+        "url": "file:///home/lucas/python-nixos-nspawn"
       },
       "original": {
         "owner": "m1cr0man",
@@ -157,7 +212,7 @@
     },
     "nixos-vscode-server": {
       "inputs": {
-        "flake-utils": "flake-utils_2",
+        "flake-utils": "flake-utils_3",
         "nixpkgs": [
           "nixpkgs"
         ]
@@ -241,7 +296,9 @@
     "root": {
       "inputs": {
         "home-manager": "home-manager",
+        "impermanence": "impermanence",
         "jovian": "jovian",
+        "microvm": "microvm",
         "nixos-nspawn": "nixos-nspawn",
         "nixos-vscode-server": "nixos-vscode-server",
         "nixpkgs": "nixpkgs",
@@ -296,6 +353,22 @@
         "type": "github"
       }
     },
+    "spectrum": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1703273931,
+        "narHash": "sha256-CJ1Crdi5fXHkCiemovsp20/RC4vpDaZl1R6V273FecI=",
+        "ref": "refs/heads/main",
+        "rev": "97e2f3429ee61dc37664b4d096b2fec48a57b691",
+        "revCount": 597,
+        "type": "git",
+        "url": "https://spectrum-os.org/git/spectrum"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://spectrum-os.org/git/spectrum"
+      }
+    },
     "systems": {
       "locked": {
         "lastModified": 1681028828,
@@ -312,6 +385,21 @@
       }
     },
     "systems_2": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
+    "systems_3": {
       "locked": {
         "lastModified": 1681028828,
         "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
