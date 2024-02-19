@@ -1,4 +1,4 @@
-{ pkgs, impermanence, lib, self, ... }: let
+{ pkgs, lib, self, ... }: let
   baseConfig = { config, ... }: let
     name = config.networking.hostName;
   in {
@@ -17,37 +17,26 @@
 
     # It is highly recommended to share the host's nix-store
     # with the VMs to prevent building huge images.
-    microvm.shares = [{
-      source = "/nix/store";
-      mountPoint = "/nix/.ro-store";
-      tag = "ro-store";
-      proto = "virtiofs";
-    }];
-
-    microvm.volumes = [{
-      image = "/var/lib/microvms/${name}/state.img";
-      label = "state";
-      # Size is in MiB
-      size = 32000;
-      mountPoint = "/state";
-    }];
-
-    # Required by impermanence
-    fileSystems."/state".neededForBoot = true;
-
-    environment.persistence."/state" = {
-      hideMounts = true;
-      directories = [
-        "/var/log"
-        "/var/lib"
-        "/etc/ssh"
-        "/etc/kubernetes"
-        "/etc/kube-flannel"
-      ];
-      files = [
-        "/etc/machine-id"
-      ];
-    };
+    microvm.shares = [
+      {
+        source = "/nix/store";
+        mountPoint = "/nix/.ro-store";
+        tag = "ro-store";
+        proto = "virtiofs";
+      }
+      {
+        source = "/var/lib/microvms/kube-master/etc";
+        mountPoint = "/etc";
+        tag = "etc";
+        proto = "virtiofs";
+      }
+      {
+        source = "/var/lib/microvms/kube-master/var";
+        mountPoint = "/var";
+        tag = "var";
+        proto = "virtiofs";
+      }
+    ];
 
     users.mutableUsers = false;
 
@@ -74,7 +63,6 @@ in {
       config = {
         imports = [
           baseConfig
-          impermanence.nixosModules.impermanence
         ];
 
         networking.hostName = "kube-master";
