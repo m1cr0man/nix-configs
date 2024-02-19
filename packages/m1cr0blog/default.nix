@@ -6,8 +6,8 @@ stdenvNoCC.mkDerivation {
   src = fetchFromGitHub {
     owner = "m1cr0man";
     repo = "m1cr0blog-hugo";
-    rev = "a44ebabeaf6e39790ac1804c4d315dec063cd8b3";
-    sha256 = "e9+K3PW9jnD7BUN95xFiMLuo6iMEzJ/FMm/xeq5jnwE=";
+    rev = "a5639d2d2663774b92795e89523316273c7aa220";
+    hash = "sha256-2qaWZ0w1L3DgaHX6k2leh9LEbyx4gaxWu/NCAKN5XTg=";
   };
 
   buildInputs = [ hugo ];
