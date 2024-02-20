@@ -58,3 +58,11 @@ sudo cat /etc/ssh/ssh_host_ed25519_key.pub | ssh-to-age
 sops updatekeys modules/secrets/shared.yaml
 sops updatekeys hosts/$HOSTNAME/secrets.yaml
 ```
+
+### Launching MicroVMs
+
+Example running the kube-master VM.
+
+```bash
+sudo microvm -f $(pwd) -c kube-master
+```
