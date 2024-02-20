@@ -23,7 +23,7 @@ in
     instanceType = mkOption {
       type = types.str;
       default = "host";
-      description = "Type of instance being deployed. Valid values are host or container.";
+      description = "Type of instance being deployed. Valid values are host, microvm or container.";
     };
 
     container = {

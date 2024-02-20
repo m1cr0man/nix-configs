@@ -59,6 +59,8 @@ rec {
     # Pin nixpkgs so that commands like "nix shell nixpkgs#<pkg>" are more efficient
     # Source: https://www.tweag.io/blog/2020-07-31-nixos-flakes/ "Pinning Nixpkgs"
     nix.registry.nixpkgs.flake = nixpkgs;
+    # Source: https://discourse.nixos.org/t/how-to-prevent-flake-from-downloading-registry-at-every-flake-command/32003/3
+    nix.settings.flake-registry = "${inputs.flake-registry}/flake-registry.json";
 
     # Also set the NIX_PATH appropriately so legacy commands use our nixpkgs and not the
     # channels. You may have to rm ~/.nix-defexpr/channels too.
@@ -96,8 +98,8 @@ rec {
     };
 
   # Builds a system configuration entry for nixosConfigurations.
-  mkConfiguration =
-    { name, modules ? [ ] }: nixosSystem (
+  mkConfiguration = { name, modules ? [ ] }:
+    nixosSystem (
       modules ++ [
         systemLabelModule
         (baseModule "host" name)
@@ -106,8 +108,8 @@ rec {
         "${configPath}/hosts/${name}/configuration.nix"
       ] ++ (pkgs.lib.m1cr0man.module.addModules myModulesPath [
         "global-options.nix"
-        "secrets"
         "sysconfig"
+        "secrets"
       ])
     );
 
@@ -121,11 +123,27 @@ rec {
         "${configPath}/containers/${name}/configuration.nix"
       ] ++ (pkgs.lib.m1cr0man.module.addModules myModulesPath [
         "global-options.nix"
-        "containers"
         "sysconfig/core.nix"
         "sysconfig/users-groups.nix"
+        "containers"
       ]);
     };
+
+  mkMicroVM = { name, modules ? [ ] }:
+    nixosSystem (
+      modules ++ [
+        systemLabelModule
+        (baseModule "microvm" name)
+        nixOptionsModule
+        inputs.microvm.nixosModules.microvm
+        "${configPath}/microvms/${name}/configuration.nix"
+      ] ++ (pkgs.lib.m1cr0man.module.addModules myModulesPath [
+        "global-options.nix"
+        "sysconfig/core.nix"
+        "sysconfig/users-groups.nix"
+        "microvms/vm.nix"
+      ])
+    );
 
   # Generates a nixosModules tree based on the filesystem tree
   autoExportedModules = (import "${configPath}/lib/module.nix").importModulesRecursive myModulesPath;

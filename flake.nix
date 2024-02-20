@@ -34,6 +34,11 @@
     microvm.inputs.nixpkgs.follows = "nixpkgs";
 
     impermanence.url = "github:nix-community/impermanence";
+
+    flake-registry = {
+      url = "github:nixos/flake-registry";
+      flake = false;
+    };
   };
 
   outputs = { self, sops-nix, ... }@inputs:
@@ -126,6 +131,11 @@
             })
           ];
         };
+
+        # MicroVMs
+        kube-master = mkMicroVM {
+          name = "kube-master";
+        };
       };
 
       nixosContainers.${system} = {
@@ -158,18 +168,6 @@
           name = "technae";
           modules = [
             sops-nix.nixosModules.sops
-          ];
-        };
-        microvm = mkContainer {
-          name = "microvm";
-          modules = [
-            sops-nix.nixosModules.sops
-            inputs.microvm.nixosModules.host
-            {
-              _module.args = {
-                inherit (inputs) impermanence;
-              };
-            }
           ];
         };
       };
