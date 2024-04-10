@@ -240,9 +240,15 @@ in lib.mkMerge [
     domain = "royalandprior.ie";
     wordpress = true;
   })
-  (mkDomain {
-    username = "stewarta";
-    domain = "stewartandmaclochlainn.ie";
+  ({
+    services.httpd.virtualHosts."stewartandmaclochlainn.ie" = {
+      serverAliases = [
+        "www.stewartandmaclochlainn.ie"
+      ];
+      globalRedirect = "https://www.saml.ie/";
+      onlySSL = true;
+      enableACME = true;
+    };
   })
   (mkDomain {
     username = "stjohnfc";
