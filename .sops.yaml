@@ -1,5 +1,6 @@
 keys:
   - &admin_m1cr0man age13lchgqu59yz7x2q6t7djev9k4m6pmh756wp59mdqueh382sqdeeq2rczzz
+  - &admin_zeus age1n54pgwhwpulus7hrrmz6q6h52z59xpuyryt3yyqgzsx65xnq2v5sxvhf53
   - &server_gelandewagen age1zhe8pxej68p6ws98f8z6wc4rnf5nacve5v6xyc6juld7c6j773zqxufwg5
   - &server_unimog age1efge322n8kg4y3mu3lgefxdc99a0q22sd6n4plezw6gg0nentcfq40pwk4
   - &server_chuck age16pxktaeyt0py3tmrf423f5zmk8gx04rcv0cljuvzaw5k6ap96cusevwghc
@@ -13,6 +14,7 @@ creation_rules:
     key_groups:
     - age:
       - *admin_m1cr0man
+      - *admin_zeus
       - *server_gelandewagen
       - *server_unimog
       - *server_chuck
@@ -35,11 +37,13 @@ creation_rules:
     key_groups:
     - age:
       - *admin_m1cr0man
+      - *admin_zeus
       - *server_chuck
   - path_regex: hosts/sarah/secrets.yaml$
     key_groups:
     - age:
       - *admin_m1cr0man
+      - *admin_zeus
       - *server_sarah
   - path_regex: hosts/bgrs/secrets.yaml$
     key_groups:
@@ -60,6 +64,7 @@ creation_rules:
     key_groups:
     - age:
       - *admin_m1cr0man
+      - *admin_zeus
       - *server_phoenix
   - path_regex: containers/.*/secrets.yaml$
     key_groups:
@@ -70,3 +75,4 @@ creation_rules:
     key_groups:
     - age:
       - *admin_m1cr0man
+      - *admin_zeus
