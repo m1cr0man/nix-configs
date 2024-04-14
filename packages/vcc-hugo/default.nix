@@ -7,7 +7,7 @@ stdenvNoCC.mkDerivation {
     url = "george@phoenix.vccomputers.ie:/home/george/vcc-hugo.git";
     name = "vcc-hugo";
     submodules = true;
-    rev = "703787b50f303accc48710b18f16f1617099dbf6";
+    rev = "2dbf1326da81d4e96a33fd8408ab5c88e28cdbc7";
   };
 
   buildInputs = [ hugo git openssh ];
