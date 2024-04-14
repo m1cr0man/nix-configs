@@ -208,28 +208,6 @@
         "type": "github"
       }
     },
-    "jovian": {
-      "inputs": {
-        "nix-github-actions": "nix-github-actions",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1712909442,
-        "narHash": "sha256-D+VrmsPLkEbxNcI7lp9rGFR33RumbQIyhhjJ4PooWBs=",
-        "owner": "Jovian-Experiments",
-        "repo": "Jovian-NixOS",
-        "rev": "8886e3da78fcefb11935ea85da3d1572bf444c55",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Jovian-Experiments",
-        "ref": "development",
-        "repo": "Jovian-NixOS",
-        "type": "github"
-      }
-    },
     "mailform-rs": {
       "inputs": {
         "advisory-db": [
@@ -260,28 +238,6 @@
       "original": {
         "owner": "m1cr0man",
         "repo": "mailform-rs",
-        "type": "github"
-      }
-    },
-    "nix-github-actions": {
-      "inputs": {
-        "nixpkgs": [
-          "jovian",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1690328911,
-        "narHash": "sha256-fxtExYk+aGf2YbjeWQ8JY9/n9dwuEt+ma1eUFzF8Jeo=",
-        "owner": "zhaofengli",
-        "repo": "nix-github-actions",
-        "rev": "96df4a39c52f53cb7098b923224d8ce941b64747",
-        "type": "github"
-      },
-      "original": {
-        "owner": "zhaofengli",
-        "ref": "matrix-name",
-        "repo": "nix-github-actions",
         "type": "github"
       }
     },
@@ -364,7 +320,6 @@
       "inputs": {
         "home-manager": "home-manager",
         "imhumane-rs": "imhumane-rs",
-        "jovian": "jovian",
         "mailform-rs": "mailform-rs",
         "nixos-nspawn": "nixos-nspawn",
         "nixos-vscode-server": "nixos-vscode-server",

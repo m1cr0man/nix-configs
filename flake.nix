@@ -16,9 +16,6 @@
     nixos-vscode-server.url = "github:msteen/nixos-vscode-server";
     nixos-vscode-server.inputs.nixpkgs.follows = "nixpkgs";
 
-    jovian.url = "github:Jovian-Experiments/Jovian-NixOS/development";
-    jovian.inputs.nixpkgs.follows = "nixpkgs";
-
     home-manager.url = "github:m1cr0man/home-manager/opera";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -99,13 +96,6 @@
           ];
         };
 
-        deic = mkConfiguration {
-          name = "deic";
-          modules = [
-            inputs.jovian.nixosModules.jovian
-          ];
-        };
-
         kexec = { address, prefixLength, defaultGateway }: mkConfiguration {
           name = "kexec";
           modules = [
@@ -160,10 +150,6 @@
       };
 
       homeConfigurations = {
-        deck = inputs.home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          modules = [ ./homes/deck ];
-        };
         unimog-lucas = inputs.home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = [ ./homes/unimog-lucas ];
