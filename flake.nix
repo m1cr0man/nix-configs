@@ -150,6 +150,10 @@
       };
 
       homeConfigurations = {
+        phoenix-george = inputs.home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          modules = [ ./homes/phoenix-george ];
+        };
         unimog-lucas = inputs.home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = [ ./homes/unimog-lucas ];
