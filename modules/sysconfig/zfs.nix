@@ -100,7 +100,6 @@ in
   config = lib.mkIf (cfg.enable) {
     boot.supportedFilesystems = [ "zfs" ];
     boot.zfs = {
-      enableUnstable = true;
       forceImportRoot = true;
       forceImportAll = lib.mkDefault false;
     };

@@ -24,11 +24,11 @@ in
     # Not needed - everything uses sockets
     enableTCPIP = false;
     ensureUsers = [
-      rec {
+      {
         name = "matrix-synapse";
         ensureClauses.login = true;
       }
-      rec {
+      {
         name = "nextcloud";
         ensureDBOwnership = true;
         ensureClauses.login = true;

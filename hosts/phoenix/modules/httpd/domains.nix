@@ -112,20 +112,11 @@ in lib.mkMerge [
   # LSA needs access to LSC
   # CSC needs access to LSC and vice versa
   {
-    services.postgresql.ensureUsers = [
-      {
-        name = "lsa";
-        ensurePermissions."DATABASE lsc" = "ALL PRIVILEGES";
-      }
-      {
-        name = "csc";
-        ensurePermissions."DATABASE lsc" = "ALL PRIVILEGES";
-      }
-      {
-        name = "lsc";
-        ensurePermissions."DATABASE csc" = "ALL PRIVILEGES";
-      }
-    ];
+    systemd.services.postgresql.postStart = lib.mkAfter ''
+      $PSQL -tAc 'GRANT ALL PRIVILEGES ON DATABASE lsc TO "lsa";' || true
+      $PSQL -tAc 'GRANT ALL PRIVILEGES ON DATABASE lsc TO "csc";' || true
+      $PSQL -tAc 'GRANT ALL PRIVILEGES ON DATABASE csc TO "lsc";' || true
+    '';
   }
   (mkDomain {
     username = "connapty";

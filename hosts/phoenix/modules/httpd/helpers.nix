@@ -57,10 +57,8 @@ let
       ensureUsers = [
         {
           name = username;
-          ensurePermissions = {
-            "DATABASE ${username}" = "ALL PRIVILEGES";
-            "ALL TABLES IN SCHEMA public" = "ALL PRIVILEGES";
-          };
+          ensureDBOwnership = true;
+          ensureClauses.login = true;
         }
       ];
     };
