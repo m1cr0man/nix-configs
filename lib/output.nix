@@ -120,6 +120,7 @@ rec {
       inherit nixpkgs system pkgs name;
       modules = modules ++ [
         (baseModule "container" name)
+        nixOptionsModule
         "${configPath}/containers/${name}/configuration.nix"
       ] ++ (pkgs.lib.m1cr0man.module.addModules myModulesPath [
         "global-options.nix"

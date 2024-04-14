@@ -89,7 +89,7 @@ in
       # SSL Certs
       keyFile = "${certPath}/key.pem";
       certificateFile = "${certPath}/fullchain.pem";
-      certificateScheme = 1;
+      certificateScheme = "manual";
 
       # Custom mailboxes configuration to enable autoexpunge
       mailboxes = {
