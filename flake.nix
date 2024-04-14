@@ -21,6 +21,17 @@
 
     home-manager.url = "github:m1cr0man/home-manager/opera";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    imhumane-rs.url = "github:m1cr0man/imhumane-rs";
+    imhumane-rs.inputs.nixpkgs.follows = "nixpkgs";
+
+    mailform-rs.url = "github:m1cr0man/mailform-rs";
+    mailform-rs.inputs = {
+      nixpkgs.follows = "nixpkgs";
+      crane.follows = "imhumane-rs/crane";
+      fenix.follows = "imhumane-rs/fenix";
+      advisory-db.follows = "imhumane-rs/advisory-db";
+    };
   };
 
   outputs = { self, sops-nix, ... }@inputs:
@@ -185,9 +196,11 @@
           "${pkgRoot}" = import ./packages { callPackage = final.callPackage; };
           # It's a bit more complex to extend lib since it's self-referential
           # If needed you can replace import with `final.callPackage` here
-          lib = prev.lib.extend (f: p: { "${pkgRoot}" = import ./lib/helpers.nix { inherit domain; }; });
+          lib = prev.lib.extend (f: p: { "${pkgRoot}" = import ./lib/helpers.nix { inherit domain; lib = final.lib; }; });
         };
         nixos-nspawn = inputs.nixos-nspawn.overlays.default;
+        imhumane-rs = inputs.imhumane-rs.overlays.imhumane-rs-nixpkgs;
+        mailform-rs = inputs.mailform-rs.overlays.mailform-rs-nixpkgs;
       };
 
       # Re-export nixpkgs as legacyPackages so that we can do `nix run .#<pkg name>` for any nixpkg.

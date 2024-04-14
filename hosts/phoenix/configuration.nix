@@ -8,6 +8,8 @@ in
     addModules ../../modules [
       "management/ssh"
       "www/bind.nix"
+      "www/imhumane-rs.nix"
+      "www/mailform-rs.nix"
     ]
     ++
     addModulesRecursive ./modules
@@ -64,8 +66,14 @@ in
         prefixLength = localSecrets.ipv6Prefix;
       }];
     };
-    defaultGateway = localSecrets.ipv4Gateway;
-    defaultGateway6.address = localSecrets.ipv6Gateway;
+    defaultGateway = {
+      address = localSecrets.ipv4Gateway;
+      interface = "eth0";
+    };
+    defaultGateway6 = {
+      address = localSecrets.ipv6Gateway;
+      interface = "eth0";
+    };
 
     nameservers = [ "185.12.64.1" "1.1.1.1" ];
 

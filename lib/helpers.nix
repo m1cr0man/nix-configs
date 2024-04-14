@@ -1,7 +1,7 @@
 # Helpers for writing modules
 # Imported as an overlay in flake.nix
 # Exposed as lib.m1cr0man
-{ domain }:
+{ domain, lib }:
 rec {
   inherit domain;
 
@@ -48,4 +48,13 @@ rec {
       useDefaultShell = true;
     } // extraArgs;
   };
+
+  # Converts a lowerCamelCase string to SCREAMING_SNAKE_CASE
+  lowerCamelToScreamingSnake = camelStr:
+    builtins.concatStringsSep
+      ""
+      (builtins.map
+        (v: if builtins.typeOf v == "list" then "_" + (builtins.head v) else lib.strings.toUpper v)
+        (builtins.split "([A-Z]+)" camelStr)
+      );
 }

@@ -3,12 +3,19 @@ let
   helpers = import ./helpers.nix { inherit pkgs config lib; };
   inherit (helpers) mkDomain mkHeldDomain;
 in lib.mkMerge [
-  (mkDomain {
-    username = "vcc";
-    domain = "vccomputers.ie";
-    php = true;
-    mysql = true;
-  })
+  {
+    services.httpd.virtualHosts."vccomputers.ie" = {
+      serverAliases = [ "www.vccomputers.ie" ];
+      extraConfig = helpers.rewriteRules "vccomputers.ie";
+      onlySSL = true;
+      forceSSL = false;
+      enableACME = true;
+      useACMEHost = null;
+      locations."/" = lib.m1cr0man.makeLocationProxy {
+        host = "localhost:8097";
+      };
+    };
+  }
   (mkDomain {
     username = "achiever";
     domain = "achiever.ie";

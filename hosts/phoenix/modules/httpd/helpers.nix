@@ -107,7 +107,15 @@ let
     };
   };
 
+  rewriteRules = primaryDomain: ''
+    RewriteEngine on
+    RewriteCond %{HTTP:Authorization} ^(.*)
+    RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
+    RewriteCond %{HTTP_HOST} !^${primaryDomain} [NC]
+    RewriteRule (.*) %{REQUEST_SCHEME}://${primaryDomain}%{REQUEST_URI} [L,R=301]
+  '';
 in {
+  inherit rewriteRules;
 
   # TODO
   # - Add per-user database backup directory
@@ -186,11 +194,7 @@ in {
             Require all denied
           </Files>
 
-          RewriteEngine on
-          RewriteCond %{HTTP:Authorization} ^(.*)
-          RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
-          RewriteCond %{HTTP_HOST} !^${primaryDomain} [NC]
-          RewriteRule (.*) %{REQUEST_SCHEME}://${primaryDomain}%{REQUEST_URI} [L,R=301]
+          ${rewriteRules primaryDomain}
         '';
       };
     }
