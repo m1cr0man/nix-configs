@@ -8,9 +8,9 @@ in
     package = pkg;
     enableTCPIP = false;
     settings = {
-      log_connections = true;
+      log_connections = false;
       logging_collector = true;
-      log_disconnections = true;
+      log_disconnections = false;
       log_destination = lib.mkForce "syslog";
       # _actually_ disable TCPIP and not just limit to localhost
       listen_addresses = lib.mkForce "";

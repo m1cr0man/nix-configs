@@ -104,6 +104,7 @@ in {
       serviceConfig = {
         User = "imhumane";
         Group = "imhumane";
+        UMask = "0002";
         NoNewPrivileges = true;
         ExecStart = "${pkgs.imhumane}/bin/imhumane";
         RuntimeDirectory = "imhumane-rs";

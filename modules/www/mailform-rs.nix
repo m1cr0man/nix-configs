@@ -105,10 +105,11 @@ in {
       serviceConfig = {
         User = "mailform";
         Group = "mailform";
+        UMask = "0002";
         NoNewPrivileges = true;
         ExecStart = "${pkgs.mailform-rs}/bin/mailform-rs";
         RuntimeDirectory = "mailform-rs";
-        WorkingDirectory = "%t/imhumane-rs";
+        WorkingDirectory = "%t/mailform-rs";
         Restart = "always";
         RestartSec = 10;
       };

@@ -195,11 +195,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1713058598,
-        "narHash": "sha256-BR8FURJ1edQNQW7I5D9kUHNbyo6qXiaWe4QKlpfAhxs=",
+        "lastModified": 1713103582,
+        "narHash": "sha256-f/TgOdhogQzW4X35kqC8O7gT2uT8SZCshvpnQIdmkt8=",
         "owner": "m1cr0man",
         "repo": "imhumane-rs",
-        "rev": "6eba005735b28daa7b1923decc55e19573372ff5",
+        "rev": "ff4c74febdf2cefb7fa3dfcd7e8704d2ea94cfe4",
         "type": "github"
       },
       "original": {

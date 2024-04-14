@@ -9,6 +9,7 @@ let
     worker_processes 1;
 
     error_log  /var/log/vcc-site/error.log;
+    pid        /var/run/vcc-site/nginx.pid;
 
     events {
       worker_connections  1024;
@@ -21,10 +22,10 @@ let
       sendfile           on;
       gzip               on;
 
-      access_log  /var/log/vcc-site/access.log main;
       log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
                         '$status $body_bytes_sent "$http_referer" '
                         '"$http_user_agent" "$http_x_forwarded_for"';
+      access_log  /var/log/vcc-site/access.log main;
 
       upstream imhumane {
         server unix:/var/run/imhumane-rs/listener.sock;
@@ -35,8 +36,15 @@ let
       }
 
       server {
-        listen       8097;
-        server_name  localhost;
+        listen           8097;
+        port_in_redirect off;
+        root             ${documentRoot};
+
+        proxy_hide_header Access-Control-Allow-Origin;
+        proxy_hide_header Access-Control-Allow-Method;
+        proxy_hide_header Access-Control-Allow-Methods;
+        proxy_hide_header Access-Control-Allow-Headers;
+        proxy_hide_header Access-Control-Allow-Credentials;
 
         location /api/validate_token {
           internal;
@@ -58,10 +66,6 @@ let
         location /api/mailform/ {
           auth_request /api/validate_token;
           proxy_pass http://mailform/;
-        }
-
-        location / {
-          root ${documentRoot};
         }
       }
     }
@@ -95,7 +99,8 @@ in {
       DynamicUser = true;
       SupplementaryGroups = [ "mailform" "imhumane" ];
       LogsDirectory = "vcc-site";
-      ExecStart = "${pkgs.nginx}/bin/nginx -c ${nginxConfig} -e /dev/stdout";
+      RuntimeDirectory = "vcc-site";
+      ExecStart = "${pkgs.nginx}/bin/nginx -c ${nginxConfig} -e /var/log/vcc-site/error.main.log";
     };
   };
 }

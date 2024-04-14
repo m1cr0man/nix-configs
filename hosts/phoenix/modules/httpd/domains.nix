@@ -2,17 +2,25 @@
 let
   helpers = import ./helpers.nix { inherit pkgs config lib; };
   inherit (helpers) mkDomain mkHeldDomain;
+  vccDomain = "vccomputers.ie";
 in lib.mkMerge [
   {
-    services.httpd.virtualHosts."vccomputers.ie" = {
-      serverAliases = [ "www.vccomputers.ie" ];
-      extraConfig = helpers.rewriteRules "vccomputers.ie";
+    services.httpd.virtualHosts."${vccDomain}" = {
+      serverAliases = [ "www.${vccDomain}" ];
+      extraConfig = (helpers.rewriteRules "${vccDomain}") + ''
+        Header always set Access-Control-Allow-Origin  "https://${vccDomain}"
+        Header always set Access-Control-Allow-Credentials  "false"
+        Header always set Access-Control-Allow-Methods  "GET, OPTIONS, HEAD, POST"
+      '';
       onlySSL = true;
       forceSSL = false;
       enableACME = true;
       useACMEHost = null;
       locations."/" = lib.m1cr0man.makeLocationProxy {
         host = "localhost:8097";
+        extraConfig = ''
+          ProxyPreserveHost On
+        '';
       };
     };
   }

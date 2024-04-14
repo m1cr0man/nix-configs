@@ -1,13 +1,13 @@
 { stdenvNoCC, hugo, git, openssh }:
 stdenvNoCC.mkDerivation {
   name = "vcc-hugo";
-  version = "1.0.0";
+  version = "1.1.0";
 
   src = builtins.fetchGit {
-    url = "root@phoenix.vccomputers.ie:/root/vcc-hugo.git";
+    url = "george@phoenix.vccomputers.ie:/home/george/vcc-hugo.git";
     name = "vcc-hugo";
     submodules = true;
-    rev = "fb6ce7d7dcee9f676e8527a318e40054cd968d3f";
+    rev = "703787b50f303accc48710b18f16f1617099dbf6";
   };
 
   buildInputs = [ hugo git openssh ];
