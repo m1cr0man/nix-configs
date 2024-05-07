@@ -9,6 +9,8 @@ in
   };
 
   users.users.headscale.extraGroups = [ "sockets" ];
+  users.users.headscale.uid = 850;
+  users.groups.headscale.gid = 850;
 
   # Workaround for slow shutdown
   systemd.services.headscale.serviceConfig.TimeoutStopSec = 5;

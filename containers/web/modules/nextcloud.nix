@@ -6,6 +6,11 @@ let
   };
   home = config.users.users.nextcloud.home;
 
+  cfgImaginary = config.services.imaginary;
+  imaginaryAddr = "http://${cfgImaginary.address}:${builtins.toString cfgImaginary.port}";
+
+  cfgRedis = config.services.redis.servers.nextcloud;
+
   phpProxyConfig = ''
     RewriteEngine On
     RewriteCond %{HTTP:Authorization} ^(.*)
@@ -22,7 +27,7 @@ in
   sops.secrets.nextcloud_database_password = sopsPerms;
   sops.secrets.nextcloud_root_password = sopsPerms;
 
-  users.users.nextcloud.extraGroups = [ "sockets" ];
+  users.users.nextcloud.extraGroups = [ "sockets" "keys" ];
   users.groups.nextcloud.members = [ config.services.httpd.user ];
 
   # Ensure postgres is running before nextcloud-setup is run
@@ -34,30 +39,85 @@ in
   # Use httpd > nginx
   services.nginx.enable = false;
   services.phpfpm.pools.nextcloud = {
-    phpEnv.PATH = lib.mkForce (builtins.concatStringsSep ":" [
+    phpEnv.PATH = lib.mkForce (lib.makeBinPath [
       pkgs.unrar
       pkgs.p7zip
-      "/run/wrappers/bin"
-      "/nix/var/nix/profiles/default/bin"
-      "/run/current-system/sw/bin"
-      "/usr/bin"
-      "/bin"
+      pkgs.ffmpeg_7-headless
+      "/run/wrappers"
+      "/nix/var/nix/profiles/default"
+      "/run/current-system/sw"
     ]);
     settings = {
       "listen.owner" = config.services.httpd.user;
       "listen.group" = config.services.httpd.group;
-    };
+      "pm.max_children" = lib.mkForce 125;
+      "pm.start_servers" = lib.mkForce 10;
+      "pm.min_spare_servers" = lib.mkForce 10;
+      "pm.max_spare_servers" = lib.mkForce 75;
+     };
+  };
+
+  # Thumbnail generator
+  services.imaginary = {
+    enable = true;
+    port = 12380;
+    settings.return-size = true;
+  };
+
+  # Caching and locking
+  services.redis.servers.nextcloud = {
+    enable = true;
+    user = "nextcloud";
+    port = 0;
   };
 
   services.nextcloud = {
     enable = true;
-    package = pkgs.nextcloud27;
+    package = pkgs.nextcloud28;
     hostName = "nextcloud.${domain}";
     https = true;
-    logType = "file";
     maxUploadSize = "4100M";
+    caching.redis = true;
 
-    settings.default_phone_region = "IE";
+    settings = {
+      default_phone_region = "IE";
+      log_type = "file";
+      maintenance_window_start = 1;
+
+      # Previews/thumbnails
+      preview_imaginary_url = imaginaryAddr;
+      preview_format = "webp";
+      preview_max_memory = 2048;
+      enabledPreviewProviders = [
+        "OC\\Preview\\MP3"
+        "OC\\Preview\\TXT"
+        "OC\\Preview\\MarkDown"
+        "OC\\Preview\\OpenDocument"
+        "OC\\Preview\\Krita"
+        "OC\\Preview\\Imaginary"
+        "OC\\Preview\\Font"
+        "OC\\Preview\\Illustrator"
+        "OC\\Preview\\Movie"
+        "OC\\Preview\\MP4"
+        "OC\\Preview\\MSOffice2003"
+        "OC\\Preview\\MSOffice2007"
+        "OC\\Preview\\MSOfficeDoc"
+        "OC\\Preview\\PDF"
+        "OC\\Preview\\Photoshop"
+        "OC\\Preview\\Postscript"
+        "OC\\Preview\\StarOffice"
+      ];
+
+      # Caching
+      "filelocking.enabled" = true;
+      "memcache.locking" = "\\OC\\Memcache\\Redis";
+      "memcache.distributed" = "\\OC\\Memcache\\Redis";
+      "memcache.local" = "\\OC\\Memcache\\Redis";
+      redis = {
+        host = cfgRedis.unixSocket;
+        port = 0;
+      };
+    };
 
     config = {
       dbtype = "pgsql";
@@ -67,6 +127,18 @@ in
       dbpassFile = config.sops.secrets.nextcloud_database_password.path;
       adminpassFile = config.sops.secrets.nextcloud_root_password.path;
       adminuser = "root";
+    };
+
+    phpOptions = {
+      "opcache.save_comments" = 60;
+      "opcache.revalidate_freq" = 60;
+      "opcache.interned_strings_buffer" = 32;
+      "opcache.validate_timestamps" = 0;
+      "session.save_handler" = "redis";
+      "session.save_path" = "\"unix://${cfgRedis.unixSocket}?persistent=1&database=1\"";
+      "redis.session.locking_enabled" = 1;
+      "redis.session.lock_retries" = -1;
+      "redis.session.lock_wait_time" = 10000;
     };
   };
 

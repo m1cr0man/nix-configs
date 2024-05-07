@@ -29,6 +29,7 @@ in
             32400
           ];
       bindMounts = [
+        "${stateDir}/nixos:/var/lib/nixos"
         "${stateDir}/headscale:/var/lib/headscale"
         "${stateDir}/matrix-synapse:/var/lib/matrix-synapse"
         "${stateDir}/minio:/var/lib/minio"
