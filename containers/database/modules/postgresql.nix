@@ -67,7 +67,7 @@ in
   systemd.services.postgresql.postStart = lib.mkAfter ''
     if ! ( $PSQL -tAc "SELECT 1 FROM pg_database WHERE datname = 'matrix-synapse'" | grep -q 1 ); then
       $PSQL -tAc 'CREATE DATABASE "matrix-synapse" TEMPLATE template0 LC_COLLATE = "C" LC_CTYPE = "C"'
-      $PSQL -tAC 'ALTER DATABASE "matrix-synapse" OWNER TO "matrix-synapse";'
+      $PSQL -tAc 'ALTER DATABASE "matrix-synapse" OWNER TO "matrix-synapse";'
     fi
     $PSQL -tAc 'ALTER DATABASE "rainloop-contacts" OWNER TO "rainloop";'
   '';

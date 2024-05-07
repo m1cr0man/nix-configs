@@ -11,11 +11,12 @@ in
     ++
     addModulesRecursive ./modules;
 
-  system.stateVersion = "22.11";
+  system.stateVersion = "24.05";
 
   nixosContainer =
     {
       bindMounts = [
+        "${stateDir}/nixos:/var/lib/nixos"
         "${stateDir}/postgresql:/var/lib/postgresql"
       ];
     };

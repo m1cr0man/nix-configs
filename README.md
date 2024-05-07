@@ -58,3 +58,28 @@ sudo cat /etc/ssh/ssh_host_ed25519_key.pub | ssh-to-age
 sops updatekeys modules/secrets/shared.yaml
 sops updatekeys hosts/$HOSTNAME/secrets.yaml
 ```
+
+## Operational Guides
+
+### Upgrading Postgresql
+
+- Bump the version in the configs and disable all ensure/script code.
+  - If you don't disable the ensure lines, you will get the error
+    `Only the install user can be defined in the new cluster.`.
+- Stop postgresql.service
+- Run pg_upgrade like so:
+
+```bash
+# Find and export the previous version as OLD_BIN
+echo /nix/store/*postgresql-14*/bin
+export OLD_BIN=/nix/store/asdiuahdsihfsfd-postgresql-14.11/bin
+export NEW_BIN=$(dirname $(readlink $(which psql)))
+cd /var/lib/postgresql
+systemctl stop postgresql
+sudo -su postgres pg_upgrade --old-datadir 14 --new-datadir 16 --old-bindir $OLD_BIN --new-bindir $NEW_BIN --check
+# Run again without check mode to do migration
+# Some recommendations may be given in the output. Do those too.
+sudo -su postgres vacuumdb --all --analyze-in-stages
+./delete_old_cluster.sh
+rm delete_old_cluster.sh
+```

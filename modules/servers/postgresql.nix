@@ -19,7 +19,7 @@ in
       description = "Commands to run on each startup of the database";
     };
     package = mkOption {
-      default = pkgs.postgresql_14;
+      default = pkgs.postgresql_16;
       type = types.path;
       description = ''
         PostgreSQL package to run. Note when upgrading major versions the
@@ -100,7 +100,7 @@ in
       params.postgresql = { };
     };
 
-  })  
+  })
   {
     systemd.services.postgresql-startup-commands = {
       wantedBy = [ "postgresql.service" ];
