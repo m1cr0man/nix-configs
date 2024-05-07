@@ -16,7 +16,7 @@
     nixos-vscode-server.url = "github:msteen/nixos-vscode-server";
     nixos-vscode-server.inputs.nixpkgs.follows = "nixpkgs";
 
-    home-manager.url = "github:m1cr0man/home-manager/opera";
+    home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     imhumane-rs.url = "github:m1cr0man/imhumane-rs";
