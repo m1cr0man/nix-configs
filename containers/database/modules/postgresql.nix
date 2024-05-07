@@ -15,11 +15,13 @@ in
   users.users.matrix-synapse = mkUser "matrix_synapse${sopsSuffix}";
   users.users.nextcloud = mkUser "nextcloud${sopsSuffix}";
   users.users.rainloop = mkUser "rainloop${sopsSuffix}";
+  users.users.headscale = mkUser "headscale${sopsSuffix}";
   users.users.ferretdb = mkUser "ferretdb${sopsSuffix}";
 
   sops.secrets."matrix_synapse${sopsSuffix}".neededForUsers = true;
   sops.secrets."nextcloud${sopsSuffix}".neededForUsers = true;
   sops.secrets."rainloop${sopsSuffix}".neededForUsers = true;
+  sops.secrets."headscale${sopsSuffix}".neededForUsers = true;
   sops.secrets."ferretdb${sopsSuffix}".neededForUsers = true;
 
   services.postgresql = {
@@ -44,6 +46,11 @@ in
         ensureClauses.login = true;
       }
       {
+        name = "headscale";
+        ensureDBOwnership = true;
+        ensureClauses.login = true;
+      }
+      {
         name = "ferretdb";
         ensureDBOwnership = true;
         ensureClauses.login = true;
@@ -52,6 +59,7 @@ in
     ensureDatabases = [
       "nextcloud"
       "rainloop-contacts"
+      "headscale"
       "ferretdb"
     ];
   };

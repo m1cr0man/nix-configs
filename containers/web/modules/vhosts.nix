@@ -28,6 +28,10 @@ in
       host = "containerhost.local:5232";
     };
 
+    "headscale.${domain}" = lib.mkIf (config.services.headscale.enable) (makeVhostProxy {
+      host = "localhost:${builtins.toString config.services.headscale.port}";
+    });
+
     "breogan.${domain}" = makeVhostProxy { host = "containerhost.local:1357"; };
 
     "eggnor.${domain}" = makeVhostProxy { host = "containerhost.local:5120"; };

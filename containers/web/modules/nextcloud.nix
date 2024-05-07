@@ -57,16 +57,16 @@ in
     logType = "file";
     maxUploadSize = "4100M";
 
+    settings.default_phone_region = "IE";
+
     config = {
       dbtype = "pgsql";
       dbuser = "nextcloud";
       dbhost = "/var/lib/sockets";
-      dbport = 5432;
       dbname = "nextcloud";
       dbpassFile = config.sops.secrets.nextcloud_database_password.path;
       adminpassFile = config.sops.secrets.nextcloud_root_password.path;
       adminuser = "root";
-      defaultPhoneRegion = "IE";
     };
   };
 

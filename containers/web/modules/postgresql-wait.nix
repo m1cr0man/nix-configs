@@ -35,4 +35,10 @@
       RestartSec = 10;
     };
   };
+
+  # Make headscale wait for postgres
+  systemd.services.headscale = lib.mkIf (config.services.headscale.enable) {
+    after = [ "postgresql-wait.service" ];
+    bindsTo = [ "postgresql-wait.service" ];
+  };
 }

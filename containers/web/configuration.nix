@@ -6,6 +6,7 @@ in
   imports = with lib.m1cr0man.module;
     addModules ../../modules [
       "secrets"
+      "servers/headscale.nix"
       "www/acme-base.nix"
       "www/httpd.nix"
       "www/matrix.nix"
@@ -28,6 +29,7 @@ in
             32400
           ];
       bindMounts = [
+        "${stateDir}/headscale:/var/lib/headscale"
         "${stateDir}/matrix-synapse:/var/lib/matrix-synapse"
         "${stateDir}/minio:/var/lib/minio"
         "${stateDir}/nextcloud:/var/lib/nextcloud"

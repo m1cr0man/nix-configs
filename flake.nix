@@ -43,7 +43,8 @@
         pkgs.nix-prefetch-git
         pkgs.gnupg
         # For VS Code Nix IDE plugin
-        pkgs.rnix-lsp
+        pkgs.nix-instantiate
+        pkgs.nixpkgs-fmt
         # Sops related packages. Took me a moment to realise sops
         # is an independent thing from sops-nix ;)
         pkgs.age

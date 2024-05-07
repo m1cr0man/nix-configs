@@ -27,7 +27,7 @@ rec {
     extraConfig = ''
       ${extraConfig}
       RewriteEngine On
-      RewriteCond %{HTTP:Upgrade} =websocket [NC]
+      RewriteCond %{HTTP:Upgrade} .+ [NC]
       RewriteRule ${location}(.*)           ws://${host}/$1 [P,L]
     '';
   };

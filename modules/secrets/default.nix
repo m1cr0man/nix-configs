@@ -25,6 +25,8 @@ in
   sops.secrets.nextcloud_database_hashed_password.sopsFile = path;
   sops.secrets.rainloop_database_password.sopsFile = path;
   sops.secrets.rainloop_database_hashed_password.sopsFile = path;
+  sops.secrets.headscale_database_password.sopsFile = path;
+  sops.secrets.headscale_database_hashed_password.sopsFile = path;
   sops.secrets.ferretdb_database_password.sopsFile = path;
   sops.secrets.ferretdb_database_hashed_password.sopsFile = path;
   sops.secrets.matrix_synapse_db_settings.sopsFile = path;
