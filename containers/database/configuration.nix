@@ -17,7 +17,6 @@ in
     {
       bindMounts = [
         "${stateDir}/postgresql:/var/lib/postgresql"
-        "${stateDir}/mongodb:/var/db/mongodb"
       ];
     };
 }

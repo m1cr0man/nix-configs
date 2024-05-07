@@ -15,14 +15,20 @@ in
   users.users.matrix-synapse = mkUser "matrix_synapse${sopsSuffix}";
   users.users.nextcloud = mkUser "nextcloud${sopsSuffix}";
   users.users.rainloop = mkUser "rainloop${sopsSuffix}";
+  users.users.ferretdb = mkUser "ferretdb${sopsSuffix}";
 
   sops.secrets."matrix_synapse${sopsSuffix}".neededForUsers = true;
   sops.secrets."nextcloud${sopsSuffix}".neededForUsers = true;
   sops.secrets."rainloop${sopsSuffix}".neededForUsers = true;
+  sops.secrets."ferretdb${sopsSuffix}".neededForUsers = true;
 
   services.postgresql = {
     # Not needed - everything uses sockets
     enableTCPIP = false;
+    # Ferretdb is actually local
+    authentication = ''
+      local all ferretdb peer
+    '';
     ensureUsers = [
       {
         name = "matrix-synapse";
@@ -37,10 +43,16 @@ in
         name = "rainloop";
         ensureClauses.login = true;
       }
+      {
+        name = "ferretdb";
+        ensureDBOwnership = true;
+        ensureClauses.login = true;
+      }
     ];
     ensureDatabases = [
       "nextcloud"
       "rainloop-contacts"
+      "ferretdb"
     ];
   };
 

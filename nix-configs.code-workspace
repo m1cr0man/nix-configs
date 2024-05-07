@@ -5,7 +5,7 @@
     }
   ],
   "settings": {
-    "nix.enableLanguageServer": true,
+    "nix.enableLanguageServer": false,
     "editor.tabSize": 2,
     "debug.allowBreakpointsEverywhere": true,
     "editor.formatOnSave": false,
