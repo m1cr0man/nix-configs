@@ -11,7 +11,7 @@ in
     ++
     addModulesRecursive ./modules;
 
-  system.stateVersion = "22.11";
+  system.stateVersion = "24.05";
 
   nixosContainer =
     {
@@ -33,6 +33,7 @@ in
           ];
       bindMounts = [
         stateDir
+        "${stateDir}/nixos:/var/lib/nixos"
         "${stateDir}/rspamd:/var/lib/rspamd"
         "${stateDir}/dhparams:/var/lib/dhparams"
         "${stateDir}/dovecot:/var/lib/dovecot"

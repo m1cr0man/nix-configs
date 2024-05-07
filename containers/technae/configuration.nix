@@ -34,6 +34,7 @@ in
           ]
       );
       bindMounts = [
+        "${stateDir}/nixos:/var/lib/nixos"
         "${stateDir}:/var/lib/gaming"
         "/home/mcadmins"
       ];
