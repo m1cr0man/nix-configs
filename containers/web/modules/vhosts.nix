@@ -28,8 +28,11 @@ in
       host = "containerhost.local:5232";
     };
 
-    "headscale.${domain}" = lib.mkIf (config.services.headscale.enable) (makeVhostProxy {
-      host = "localhost:${builtins.toString config.services.headscale.port}";
+    "headscale.${domain}" = lib.mkIf (config.services.headscale.enable) (makeVhost {
+      extraConfig = ''
+        ProxyPreserveHost On
+        ProxyPass / http://localhost:${builtins.toString config.services.headscale.port}/ upgrade=any
+      '';
     });
 
     "breogan.${domain}" = makeVhostProxy { host = "containerhost.local:1357"; };

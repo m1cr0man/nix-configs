@@ -24,15 +24,17 @@ in
         "fd7a:115c:a1e0:48::/64"
       ];
       server_url = "https://headscale.${domain}";
-      db_type = "postgres";
-      db_user = "headscale";
-      db_name = "headscale";
-      db_password_file = config.sops.secrets.headscale_database_password.path;
-      # Confusing, but path is for sqlite
-      # And host is psql unix socket
-      db_path = null;
-      db_host = "/var/lib/sockets";
-      db_port = 5432;
+      # Broken ATM, waiting for a fix.
+      # https://github.com/juanfont/headscale/issues/764
+      # db_type = "postgres";
+      # db_user = "headscale";
+      # db_name = "headscale";
+      # db_password_file = config.sops.secrets.headscale_database_password.path;
+      # # Confusing, but path is for sqlite
+      # # And host is psql unix socket
+      # db_path = null;
+      # db_host = "/var/lib/sockets";
+      # db_port = 5432;
     };
   };
 }

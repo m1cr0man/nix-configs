@@ -17,7 +17,7 @@ in
       ./hardware-configuration.nix
     ];
 
-  system.stateVersion = "22.05";
+  system.stateVersion = "24.05";
 
   boot.loader.grub = {
     enable = true;
