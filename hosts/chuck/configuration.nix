@@ -3,7 +3,6 @@
   imports = with lib.m1cr0man.module;
     addModules ../../modules [
       "management/ssh"
-      "monitoring"
       "servers/samba"
     ]
     ++
@@ -12,11 +11,7 @@
       ./hardware-configuration.nix
     ];
 
-  m1cr0man = {
-    influxdb.bindAddress = "0.0.0.0";
-  };
-
-  system.stateVersion = "22.11";
+  system.stateVersion = "24.05";
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
