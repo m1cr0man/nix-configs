@@ -148,6 +148,12 @@
             sops-nix.nixosModules.sops
           ];
         };
+        tailscale = mkContainer {
+          name = "tailscale";
+          modules = [
+            sops-nix.nixosModules.sops
+          ];
+        };
       };
 
       homeConfigurations = {
