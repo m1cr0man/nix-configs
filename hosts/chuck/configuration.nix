@@ -58,6 +58,9 @@
     "${config.systemd.package}/lib/systemd/systemd-networkd-wait-online --any --timeout=30"
   ];
 
+  # Fix for routing issues
+  m1cr0man.tailscale.enableLocalRoutingPatch = true;
+
   # Enable VSCode Remote Server
   services.vscode-server.enable = true;
 
