@@ -7,6 +7,11 @@
 
   services.grafana = {
     enable = true;
+    settings.log = {
+      mode = "console";
+      level = "warn";
+    };
+    settings."log.console".format = "json";
     settings.server = {
       http_addr = "0.0.0.0";
       http_port = 8030;
@@ -24,7 +29,11 @@
     enable = true;
     configuration = {
       auth_enabled = false;
-      server.http_listen_port = 8035;
+      server = {
+        http_listen_port = 8035;
+        log_level = "warn";
+        log_format = "json";
+      };
       common = {
         ring = {
           instance_addr = "127.0.0.1";
@@ -55,7 +64,7 @@
         job_name = "localhost";
         static_configs = [{
           targets = [
-            "localhost:${toString config.services.prometheus.exporters.node.port}"
+            config.services.vector.settings.sinks.prom.address
           ];
         }];
       }
@@ -68,37 +77,50 @@
         }];
       }
     ];
-
-    exporters.node = {
-      enable = true;
-      port = 9100;
-      enabledCollectors = [
-        "logind"
-        "systemd"
-      ];
-      disabledCollectors = [
-        "textfile"
-      ];
-    };
   };
 
-
-  services.promtail = {
+  services.vector = {
     enable = true;
-    configuration = {
-      server.disable = true;
-      positions.filename = "/var/cache/promtail/positions.yaml";
-      scrape_configs = [{
-        job_name = "journald";
-        journal = {
-          max_age = "1h";
-          labels.source = "journald";
+    journaldAccess = true;
+    settings = {
+      data_dir = "/var/lib/vector";
+      sources = {
+        # Keys here are just unique identifiers
+        journald_local = {
+          type = "journald";
+          current_boot_only = true;
+          since_now = true;
         };
-      }];
-      clients = [{
-        url = "http://localhost:${builtins.toString config.services.loki.configuration.server.http_listen_port}/loki/api/v1/push";
-        batchwait = "10s";
-      }];
+        host_local = {
+          type = "host_metrics";
+          collectors = [
+            "cpu"
+            "filesystem"
+            "load"
+            "memory"
+            "network"
+          ];
+        };
+      };
+      sinks = {
+        loki = {
+          type = "loki";
+          inputs = [ "journald_local" ];
+          labels = {
+            host = "{{ .host }}";
+            level = "{{ .level }}";
+            identifier = "{{ .SYSLOG_IDENTIFIER }}";
+          };
+          endpoint = "http://localhost:${builtins.toString config.services.loki.configuration.server.http_listen_port}";
+          batch.timeout_secs = 10;
+          encoding.codec = "logfmt";
+        };
+        prom = {
+          type = "prometheus_exporter";
+          inputs = [ "host_local" ];
+          address = "127.0.0.1:9100";
+        };
+      };
     };
   };
 
