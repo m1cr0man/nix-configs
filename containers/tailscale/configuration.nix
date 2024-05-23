@@ -8,19 +8,10 @@ in
     addModules ../../modules [
       "secrets"
       "management/ssh"
+      "www/tailscale.nix"
     ];
 
   system.stateVersion = "24.05";
-
-  environment.systemPackages = [ pkgs.tailscale ];
-
-  services.tailscale = {
-    enable = true;
-    openFirewall = true;
-    useRoutingFeatures = "both";
-  };
-
-  systemd.services.tailscaled.path = [ pkgs.iputils ];
 
   nixosContainer =
     {

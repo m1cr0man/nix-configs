@@ -4,6 +4,7 @@
     addModules ../../modules [
       "management/ssh"
       "servers/samba"
+      "www/tailscale.nix"
     ]
     ++
     addModulesRecursive ./modules
