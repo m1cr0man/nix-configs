@@ -80,7 +80,10 @@
 
         unimog = mkConfiguration {
           name = "unimog";
-          modules = [ inputs.nixos-vscode-server.nixosModules.default ];
+          modules = [
+            inputs.nixos-vscode-server.nixosModules.default
+            inputs.nixos-nspawn.nixosModules.hypervisor
+          ];
         };
 
         phoenix = mkConfiguration {
