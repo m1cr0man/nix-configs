@@ -17,7 +17,6 @@ in
   services.tailscale = {
     enable = true;
     openFirewall = true;
-    interfaceName = "userspace-networking";
     useRoutingFeatures = "both";
   };
 
