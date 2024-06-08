@@ -34,13 +34,12 @@ in
       # Extensions which do not need direnv
       [
         # General
-        ms-vscode-remote.remote-ssh
         mkhl.direnv
         (pkgs.vscode-utils.extensionFromVscodeMarketplace {
           publisher = "reduckted";
           name = "vscode-gitweblinks";
-          version = "2.9.3";
-          sha256 = "sha256-Da21EIu5rZlIANti5q/ys01PvtgWr7IXVchoCa03m1w=";
+          version = "2.11.0";
+          sha256 = "sha256-2yk7m+Qq9Gexi3n3jhPiJNYel3ycprEIvualOc1YQC4=";
         })
         # Rust dev
         vadimcn.vscode-lldb
@@ -64,7 +63,19 @@ in
         # Python dev
         ms-python.python
         ms-python.vscode-pylance
-        ms-pyright.pyright
+        # OC/CC dev
+        (pkgs.vscode-utils.extensionFromVscodeMarketplace {
+          publisher = "exeteres";
+          name = "oc-ts";
+          version = "0.2.2";
+          sha256 = "sha256-3Ih+Rcv5zm+/WJV6ph8q07qNYpuNiyxcyRZ9naPzokI=";
+        })
+        (pkgs.vscode-utils.extensionFromVscodeMarketplace {
+          publisher = "subtixx";
+          name = "opencomputerslua";
+          version = "0.1.1";
+          sha256 = "sha256-ohiqgFP+ZKmG6HsPq6R/o72t35WEqFM5GreonHubBiA=";
+        })
       ];
       userSettings = {
         "editor.minimap.enabled" = false;
