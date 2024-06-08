@@ -10,6 +10,7 @@ in
       "www/bind.nix"
       "www/imhumane-rs.nix"
       "www/mailform-rs.nix"
+      "gaming/minecraft"
     ]
     ++
     addModulesRecursive ./modules
