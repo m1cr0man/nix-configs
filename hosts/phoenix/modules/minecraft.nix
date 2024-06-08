@@ -23,6 +23,7 @@
       enable-jmx-monitoring = false;
       enable-status = true;
       level-type = "minecraft:normal";
+      level-seed = "ineedthelooagain";
       max-players = "15";
       max-tick-time = "90000";
       max-world-size = "200000";
