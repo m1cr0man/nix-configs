@@ -50,6 +50,8 @@
     nameservers = [ "192.168.14.254" "1.1.1.1" ];
 
     firewall.allowedTCPPorts = [ 8086 8030 ];
+    # Loopback interface
+    firewall.trustedInterfaces = [ "eth0" ];
   };
 
   # Workaround for systemd-networkd-wait-online.service failures
