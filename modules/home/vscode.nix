@@ -62,7 +62,7 @@ in
         (rust-lang.rust-analyzer.override { setDefaultServerPath = false; })
         # Python dev
         ms-python.python
-        ms-python.vscode-pylance
+        ms-pyright.pyright
         # OC/CC dev
         (pkgs.vscode-utils.extensionFromVscodeMarketplace {
           publisher = "exeteres";
