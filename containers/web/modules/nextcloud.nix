@@ -6,6 +6,17 @@ let
   };
   home = config.users.users.nextcloud.home;
 
+  cfg = config.services.nextcloud;
+  # Upstream webroot is partially broken - it excludes the .htaccess file.
+  # Have to use this in the first place to include nix-apps (aka extraApps).
+  pkgWithApps = let
+    webroot = config.services.nginx.virtualHosts."${cfg.hostName}".root;
+    pkg = cfg.package;
+  in pkgs.runCommandNoCC "nextcloud-with-apps-httpd" {} ''
+    mkdir -p $out
+    ln -sfv "${webroot}"/* "${webroot}"/.* "${pkg}"/.* $out
+  '';
+
   cfgImaginary = config.services.imaginary;
   imaginaryAddr = "http://${cfgImaginary.address}:${builtins.toString cfgImaginary.port}";
 
@@ -21,6 +32,18 @@ let
     RewriteRule .* - [R=204,NC,L]
 
     SetHandler "proxy:unix:${config.services.phpfpm.pools.nextcloud.socket}|fcgi://localhost/"
+  '';
+
+  # Patch memories to use exiftool version from the store.
+  # overrideAttrs does not work in this context. See https://github.com/NixOS/nixpkgs/blob/9b5328b7f761a7bbdc0e332ac4cf076a3eedb89b/pkgs/servers/nextcloud/packages/default.nix#L17
+  # (apps are within a callPackage)
+  exiftool = pkgs.exiftool;
+  memories = pkgs.runCommandNoCC "memories-patched" {} ''
+    mkdir -p $out
+    cp -a "${cfg.package.packages.apps.memories}/." $out/
+    chmod u=rwX,g=rwX $out/lib/Service $out/lib/Service/BinExt.php
+    ${pkgs.gnused}/bin/sed -i "s/const EXIFTOOL_VER = '[0-9\.]*'\;/const EXIFTOOL_VER = '${exiftool.version}'\;/g" $out/lib/Service/BinExt.php
+    chmod u=rX,g=rX $out/lib/Service $out/lib/Service/BinExt.php
   '';
 in
 {
@@ -46,6 +69,9 @@ in
       "/run/wrappers"
       "/nix/var/nix/profiles/default"
       "/run/current-system/sw"
+      # For recognize
+      pkgs.nodejs_20
+      pkgs.libtensorflow
     ]);
     settings = {
       "listen.owner" = config.services.httpd.user;
@@ -78,6 +104,12 @@ in
     https = true;
     maxUploadSize = "4100M";
     caching.redis = true;
+    enableImagemagick = true;
+
+    extraApps = {
+      inherit memories;
+    };
+    extraAppsEnable = true;
 
     settings = {
       default_phone_region = "IE";
@@ -107,6 +139,10 @@ in
         "OC\\Preview\\Postscript"
         "OC\\Preview\\StarOffice"
       ];
+
+      # Apps
+      "memories.exiftool_no_local" = false;
+      "memories.exiftool" = "${exiftool}/bin/exiftool";
 
       # Caching
       "filelocking.enabled" = true;
@@ -144,8 +180,8 @@ in
 
   services.httpd = {
     extraModules = [ "proxy_fcgi" ];
-    virtualHosts."${config.services.nextcloud.hostName}" = lib.m1cr0man.makeVhost {
-      documentRoot = config.services.nextcloud.package;
+    virtualHosts."${cfg.hostName}" = lib.m1cr0man.makeVhost {
+      documentRoot = pkgWithApps;
       # Port of the nginx config from
       # https://github.com/NixOS/nixpkgs/blob/38860c9e91cb00f4d8cd19c7b4e36c45680c89b5/nixos/modules/services/web-apps/nextcloud.nix#L914
       locations = {
@@ -163,14 +199,7 @@ in
           AllowOverride All
         </Directory>
 
-        Alias /nix-apps "${home}/nix-apps"
-        <Directory "${home}/nix-apps">
-          Require all granted
-          Options +FollowSymLinks
-          AllowOverride All
-        </Directory>
-
-        <Directory "${config.services.nextcloud.package}">
+        <Directory "${pkgWithApps}">
           Require all granted
           Options FollowSymLinks MultiViews
           AllowOverride All
@@ -185,7 +214,7 @@ in
         Header always add Access-Control-Allow-Headers "*"
         Header always add Access-Control-Allow-Methods "*"
 
-        Header always set Access-Control-Allow-Origin "https://${config.services.nextcloud.hostName}" "expr=req('origin') == 'https://${config.services.nextcloud.hostName}'"
+        Header always set Access-Control-Allow-Origin "https://${cfg.hostName}" "expr=req('origin') == 'https://${cfg.hostName}'"
         Header always set Access-Control-Allow-Origin "https://app.keeweb.info" "expr=req('origin') == 'https://app.keeweb.info'"
       '';
     };
