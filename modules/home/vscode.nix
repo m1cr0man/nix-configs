@@ -62,7 +62,20 @@ in
         (rust-lang.rust-analyzer.override { setDefaultServerPath = false; })
         # Python dev
         ms-python.python
+        ms-python.black-formatter
         ms-pyright.pyright
+        (pkgs.vscode-utils.extensionFromVscodeMarketplace {
+          publisher = "ms-python";
+          name = "flake8";
+          version = "2023.10.0";
+          sha256 = "sha256-4Vjw8yJPrxLg0hcoTw8AEBEcmQ9sEUNqFaHLxICks0E=";
+        })
+        (pkgs.vscode-utils.extensionFromVscodeMarketplace {
+          publisher = "ms-python";
+          name = "pylint";
+          version = "2023.10.1";
+          sha256 = "sha256-1tI5u33c5CHFQxkJZ/OxW3ZA5qPr4RoCIf6dqIMPykQ=";
+        })
         # OC/CC dev
         (pkgs.vscode-utils.extensionFromVscodeMarketplace {
           publisher = "exeteres";
