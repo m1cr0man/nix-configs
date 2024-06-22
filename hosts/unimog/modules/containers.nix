@@ -35,9 +35,7 @@ in
         IPv6AcceptRA = false;
       };
       ipv6Prefixes = [{
-        ipv6PrefixConfig = {
-          Prefix = "beef::/64";
-        };
+        Prefix = "beef::/64";
       }];
     };
   };
