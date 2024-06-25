@@ -10,6 +10,8 @@ in
       "vms/gamesvm.nix"
       "www/acme-base.nix"
       "www/weechat.nix"
+      "monitoring/ports.nix"
+      "monitoring/vector.nix"
     ]
     ++
     addModulesRecursive ./modules
@@ -121,4 +123,7 @@ in
   # Enable powersave governor because this server is mental anyway
   powerManagement.cpuFreqGovernor = "powersave";
   hardware.cpu.intel.updateMicrocode = true;
+
+  # Force vector to forward to monitoring container
+  services.vector.settings.sinks.loki.endpoint = lib.mkForce "http://monitoring:${builtins.toString config.m1cr0man.monitoring.ports.loki}";
 }

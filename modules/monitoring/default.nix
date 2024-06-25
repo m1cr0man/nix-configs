@@ -1,8 +1,9 @@
 {
   imports = [
-    # ./chronograf.nix
-    ./telegraf.nix
-    ./kapacitor.nix
-    ./influxdb.nix
+    ./ports.nix
+    ./grafana.nix
+    ./loki.nix
+    ./prometheus.nix
+    ./vector.nix
   ];
 }

@@ -5,6 +5,11 @@
       "management/ssh"
       "servers/samba"
       "www/tailscale.nix"
+      "monitoring/ports.nix"
+      "monitoring/prometheus.nix"
+      "monitoring/loki.nix"
+      "monitoring/grafana.nix"
+      "monitoring/vector.nix"
     ]
     ++
     addModulesRecursive ./modules
@@ -49,7 +54,13 @@
     };
     nameservers = [ "192.168.14.254" "1.1.1.1" ];
 
-    firewall.allowedTCPPorts = [ 8086 8030 ];
+    firewall.allowedTCPPorts = [
+      8086
+      8030
+      config.services.grafana.settings.server.http_port
+      config.services.loki.configuration.server.http_listen_port
+      config.services.prometheus.port
+    ];
     # Loopback interface
     firewall.trustedInterfaces = [ "eth0" ];
   };

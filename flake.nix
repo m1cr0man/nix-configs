@@ -7,7 +7,7 @@
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-    nixos-nspawn.url = "github:m1cr0man/python-nixos-nspawn/converge";
+    nixos-nspawn.url = "github:m1cr0man/python-nixos-nspawn";
     nixos-nspawn.inputs.nixpkgs.follows = "nixpkgs";
 
     snm.url = "git+https://gitlab.com/simple-nixos-mailserver/nixos-mailserver.git?ref=master";
