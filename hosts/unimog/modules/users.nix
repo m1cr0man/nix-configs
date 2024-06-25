@@ -37,7 +37,7 @@ in
     (makeNormalUser "patrick" {
       extraArgs.linger = true;
       keys = rootKeys ++ [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHf3Ilvy8pzh+jEA1GFkGgmIQmkJRSPDmKWh+RAtQWcA patrick@windows"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ6YhnTHgxs3lWEaldAJeQo4SNlHEX3WjJ3jFnxLp4bi Patrick@Mac-mini.local"
       ];
     })
 
