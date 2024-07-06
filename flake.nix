@@ -62,7 +62,10 @@
 
         chuck = mkConfiguration {
           name = "chuck";
-          modules = [ inputs.nixos-vscode-server.nixosModules.default ];
+          modules = [
+            inputs.nixos-vscode-server.nixosModules.default
+            inputs.nixos-nspawn.nixosModules.hypervisor
+          ];
         };
 
         sarah = mkConfiguration {
