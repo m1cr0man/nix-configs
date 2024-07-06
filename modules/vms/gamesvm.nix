@@ -40,7 +40,6 @@ in
         -overcommit mem-lock=off \
         -rtc base=localtime,driftfix=slew \
         -global kvm-pit.lost_tick_policy=delay \
-        -no-hpet \
         -nodefaults \
         -vga qxl \
         --object secret,id=spicesec0,file='${spice_secret_file}' \
@@ -56,10 +55,10 @@ in
         -drive file=${drive_c},if=none,id=os-storage \
         -drive file=${drive_d},if=none,id=ssd-storage \
         -device pcie-root-port,bus=pcie.0,multifunction=on,port=1,chassis=1,id=rp0 \
-        -device virtio-blk-pci,drive=os-storage,bootindex=1,id=virtio-disk0,bus=rp0,addr=00.0 \
-        -device virtio-blk-pci,drive=ssd-storage,bootindex=2,id=virtio-disk1,bus=rp0,addr=01.0 \
-        -device virtio-balloon-pci,id=balloon0,bus=rp0,addr=02.0 \
-        -device ich9-intel-hda,id=hda-0,bus=rp0,multifunction=on,addr=03.0 \
+        -device virtio-blk-pci,drive=os-storage,bootindex=1,id=virtio-disk0,bus=rp0 \
+        -device virtio-blk-pci,drive=ssd-storage,bootindex=2,id=virtio-disk1,bus=rp0 \
+        -device virtio-balloon-pci,id=balloon0,bus=rp0 \
+        -device ich9-intel-hda,id=hda-0,bus=rp0,multifunction=on \
         -device hda-duplex,id=hda-duplex-0,bus=hda-0.0,cad=0 \
         -nic user,model=virtio,id=vmnet0,hostname=gamesvm,hostfwd=udp::27016-:27016 \
     '';
