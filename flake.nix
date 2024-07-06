@@ -160,6 +160,12 @@
             sops-nix.nixosModules.sops
           ];
         };
+        monitoring = mkContainer {
+          name = "monitoring";
+          modules = [
+            sops-nix.nixosModules.sops
+          ];
+        };
       };
 
       homeConfigurations = {

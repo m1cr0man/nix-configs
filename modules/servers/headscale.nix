@@ -24,6 +24,7 @@ in
         "fd7a:115c:a1e0:48::/64"
       ];
       server_url = "https://headscale.${domain}";
+      dns_config.base_domain = "ts.${domain}";
       # Broken ATM, waiting for a fix.
       # https://github.com/juanfont/headscale/issues/764
       # db_type = "postgres";

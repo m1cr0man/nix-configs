@@ -62,7 +62,6 @@ in
 
     (lib.mkIf cfg.setupACME {
       users.users."${user}".extraGroups = [ "acme" ];
-      security.acme.certs."${domain}".reloadServices = [ "httpd.service" ];
     })
 
     # Set up sops secrets

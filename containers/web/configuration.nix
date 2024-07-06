@@ -39,6 +39,4 @@ in
         "${stateDir}/julia:/var/lib/julia"
       ];
     };
-
-  networking.hosts."${config.m1cr0man.container.hostAddress}" = [ "containerhost.local" ];
 }

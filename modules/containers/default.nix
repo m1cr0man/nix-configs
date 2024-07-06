@@ -1,18 +1,14 @@
-{ lib, modulesPath, ... }:
+{ config, lib, modulesPath, ... }:
 let
   inherit (lib) types mkOption;
 in
 {
   config = {
-    boot.isContainer = true;
-
-    users.mutableUsers = false;
-    users.allowNoPasswordLogin = true;
-
     networking = {
-      useHostResolvConf = false;
-      useDHCP = false;
-      useNetworkd = true;
+      nameservers = [ "1.1.1.1" "8.8.8.8" ];
+      hosts."${config.m1cr0man.container.hostAddress}" = [
+        "containerhost" "containerhost.local"
+      ];
     };
 
     nixosContainer = {

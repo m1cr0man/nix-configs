@@ -8,8 +8,12 @@ in
     addModules ../../modules [
       "secrets"
       "management/ssh"
+      "www/acme-base.nix"
+      "www/httpd.nix"
       "www/tailscale.nix"
-    ];
+    ]
+    ++
+    addModulesRecursive ./modules;
 
   system.stateVersion = "24.05";
 
