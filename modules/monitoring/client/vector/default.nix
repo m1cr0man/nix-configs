@@ -2,7 +2,12 @@
 let
   cfg = config.m1cr0man.monitoring;
   ports = cfg.ports;
-  systemctl = "${config.systemd.package}/bin/systemctl";
+  systemctlShow = [
+    "${config.systemd.package}/bin/systemctl"
+    "show"
+    "--no-pager"
+    "--timestamp=unix"
+  ];
 
   commonProps = [
     "Id" "ActiveState" "SubState" "Result" "Slice"
@@ -21,11 +26,21 @@ let
   ]);
 
   timerPropsArg = builtins.concatStringsSep "," (commonProps ++ [
+    # TODO open a bug in systemd because these are not unix formatted
     "NextElapseUSecRealtime" "LastTriggerUSec"
   ]);
 
+  execOpts = {
+    type = "exec";
+    mode = "scheduled";
+    framing.method = "bytes";
+    include_stderr = false;
+    decoding.codec = "vrl";
+    decoding.vrl.source = builtins.readFile ./systemd.vrl;
+  };
+
   # Whether to enable the debug sink for reading logs
-  debug = true;
+  debug = false;
 in
 {
   options.m1cr0man.monitoring.host_metrics = lib.mkEnableOption "read cpu, load, memory and network metrics";
@@ -42,38 +57,30 @@ in
           current_boot_only = true;
           since_now = true;
         };
-        # systemd_local_common = {
-        #   type = "exec";
-        #   mode = "scheduled";
-        #   scheduled.exec_interval_secs = 60;
-        #   decoding.vrl.source = ./systemd.vrl;
-        #   command = "${systemctl} show --no-pager --timestamp=unix --type mount,socket,target -p ${commonPropsArg}";
-        # };
-        systemd_local_services = {
-          type = "exec";
-          mode = "scheduled";
+        systemd_local_common = execOpts // {
+          scheduled.exec_interval_secs = 60;
+          command = systemctlShow ++ [
+            "--type=mount,socket,target"
+            "-p"
+            commonPropsArg
+          ];
+        };
+        systemd_local_timers = execOpts // {
+          scheduled.exec_interval_secs = 60;
+          command = systemctlShow ++ [
+            "--type=timer"
+            "-p"
+            timerPropsArg
+          ];
+        };
+        systemd_local_services = execOpts // {
           scheduled.exec_interval_secs = 5;
-          framing.method = "bytes";
-          include_stderr = false;
-          decoding.codec = "vrl";
-          decoding.vrl.source = builtins.readFile ./systemd.vrl;
-          command = [
-            systemctl
-            "show"
-            "--no-pager"
-            "--timestamp=unix"
+          command = systemctlShow ++ [
             "--type=scope,service,slice"
             "-p"
             servicePropsArg
           ];
         };
-        # systemd_local_timers = {
-        #   type = "exec";
-        #   mode = "scheduled";
-        #   scheduled.exec_interval_secs = 60;
-        #   decoding.vrl.source = ./systemd.vrl;
-        #   command = "${systemctl} show --no-pager --timestamp=unix --type timer -p ${timerPropsArg}";
-        # };
         host_local = lib.mkIf (cfg.host_metrics) {
           type = "host_metrics";
           collectors = [
@@ -93,38 +100,31 @@ in
         };
         systemd_convert = {
           type = "log_to_metric";
-          inputs = [ "systemd_local_services" ];
+          inputs = [
+            "systemd_local_common"
+            "systemd_local_timers"
+            "systemd_local_services"
+          ];
           all_metrics = true;
           metrics = [];
-          # metrics = [{
-          #   type = "set";
-          #   field = "message";
-          #   namespace = "systemd";
-          #   tags = {};
-          # }];
         };
-        # systemd_parse = {
-        #   type = "remap";
-        #   inputs = [ "systemd_local_services" ];
-        #   source = builtins.readFile ./systemd.vrl;
-        # };
       };
       sinks = {
-        # debug = lib.mkIf debug {
-        #   type = "file";
-        #   inputs = [ "systemd_parse" ];
-        #   path = "/var/lib/vector/vector-%Y-%m-%d.log";
-        #   encoding = {
-        #     codec = "json";
-        #   };
-        # };
+        debug = lib.mkIf debug {
+          type = "file";
+          inputs = [ "journald_local" ];
+          path = "/var/lib/vector/vector-%Y-%m-%d.log";
+          encoding = {
+            codec = "json";
+          };
+        };
         journald_loki = {
           type = "loki";
           inputs = [ "journald_sanitize" ];
           labels."*" = "{{ labels }}";
           endpoint = cfg.loki_address;
           batch.timeout_secs = 10;
-          compression = "gzip";
+          compression = "none";
           encoding = {
             except_fields = ["labels"];
             codec = "json";
