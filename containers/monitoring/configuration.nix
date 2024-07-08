@@ -6,6 +6,7 @@ in
   imports = with lib.m1cr0man.module;
     addModules ../../modules [
       "secrets"
+      "monitoring/client"
       "monitoring/ports.nix"
       "monitoring/prometheus.nix"
       "monitoring/loki.nix"
@@ -37,4 +38,12 @@ in
     config.services.loki.configuration.server.http_listen_port
     config.services.grafana.settings.server.http_port
   ];
+
+  # Force monitoring stack to forward to localhost
+  m1cr0man.monitoring = let
+    ports = config.m1cr0man.monitoring.ports;
+  in {
+    lokiAddress = "http://localhost:${builtins.toString ports.loki}";
+    prometheusAddress = "http://localhost:${builtins.toString ports.prometheus}";
+  };
 }

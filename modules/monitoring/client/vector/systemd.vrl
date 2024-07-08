@@ -2,11 +2,11 @@ results = []
 
 active_state_map = {
   "active": 0.0,
-  "reloading": 1.0,
-  "activating": 2.0,
-  "deactivating": 3.0,
-  "inactive": 4.0,
-  "failed": 5.0,
+  "reloading": 10.0,
+  "activating": 20.0,
+  "deactivating": 30.0,
+  "inactive": 40.0,
+  "failed": 50.0,
 }
 
 # Sub states are unique per unit type.
@@ -35,6 +35,10 @@ base = {
     # Will be read from environment at runtime
     "host": "${HOSTNAME}",
   }
+}
+
+if .message == "" {
+  return .
 }
 
 # Key=Value data

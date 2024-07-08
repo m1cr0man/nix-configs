@@ -31,6 +31,17 @@ in
         };
       }];
       storage_config.filesystem.directory = "${config.services.loki.dataDir}/chunks";
+      limits_config = {
+        retention_period = "48h";
+      };
+      compactor = {
+        working_directory = "${config.services.loki.dataDir}/retention";
+        compaction_interval = "1h";
+        retention_enabled = true;
+        retention_delete_delay = "2h";
+        retention_delete_worker_count = 4;
+        delete_request_store = "filesystem";
+      };
     };
   };
 }

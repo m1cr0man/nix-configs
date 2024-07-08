@@ -10,7 +10,7 @@ in
   #     config.services.httpd.virtualHosts
   # );
 
-  m1cr0man.monitoring.log_files = [
+  m1cr0man.monitoring.logFiles = [
     "/var/log/httpd/*.log"
   ];
 

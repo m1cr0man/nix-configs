@@ -4,7 +4,7 @@
 priority = to_int(.PRIORITY) ?? 6
 labels = {
   "unit": .UNIT || .USER_UNIT || ._SYSTEMD_UNIT || .SYSLOG_IDENTIFIER,
-  "identifier": .SYSLOG_IDENTIFIER || "none",
+  "service_name": .SYSLOG_IDENTIFIER || "none",
   "slice": ._SYSTEMD_SLICE || "-.slice",
   "priority": priority,
   "level": to_syslog_level(priority) ?? "info",

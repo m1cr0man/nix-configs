@@ -127,8 +127,8 @@ in
   m1cr0man.monitoring = let
     ports = config.m1cr0man.monitoring.ports;
   in {
-    loki_address = "http://monitoring:${builtins.toString ports.loki}";
-    prometheus_address = "http://monitoring:${builtins.toString ports.prometheus}";
-    host_metrics = true;
+    lokiAddress = "http://monitoring:${builtins.toString ports.loki}";
+    prometheusAddress = "http://monitoring:${builtins.toString ports.prometheus}";
+    hostMetrics = true;
   };
 }

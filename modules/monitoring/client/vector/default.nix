@@ -43,16 +43,8 @@ let
   debug = false;
 in
 {
-  options.m1cr0man.monitoring = {
-    host_metrics = lib.mkEnableOption "read cpu, load, memory and network metrics";
-    log_files = lib.mkOption {
-      default = [];
-      type = lib.types.listOf lib.types.path;
-      description = "Paths to log files to send to Loki";
-    };
-  };
-
-  config.services.vector = {
+  # TODO proper httpd monitoring
+  services.vector = {
     enable = true;
     journaldAccess = true;
     settings = {
@@ -62,11 +54,10 @@ in
         journald_local = {
           type = "journald";
           current_boot_only = true;
-          since_now = true;
         };
-        logs_local = lib.mkIf (cfg.log_files != [])  {
+        logs_local = lib.mkIf (cfg.logFiles != [])  {
           type = "file";
-          include = cfg.log_files;
+          include = cfg.logFiles;
           exclude = [
             "/var/log/btmp"
             "/var/log/btmp.1"
@@ -103,7 +94,7 @@ in
             servicePropsArg
           ];
         };
-        host_local = lib.mkIf (cfg.host_metrics) {
+        host_local = lib.mkIf (cfg.hostMetrics) {
           type = "host_metrics";
           collectors = [
             "cpu"
@@ -142,13 +133,28 @@ in
         };
         journald_loki = {
           type = "loki";
-          inputs = [
-            "journald_sanitize"
-          ] ++ (lib.optionals (cfg.log_files != []) [ "logs_local" ]);
+          inputs = [ "journald_sanitize" ];
           labels."*" = "{{ labels }}";
-          endpoint = cfg.loki_address;
+          endpoint = cfg.lokiAddress;
           batch.timeout_secs = 10;
-          compression = "none";
+          compression = "gzip";
+          encoding = {
+            except_fields = ["labels"];
+            codec = "json";
+          };
+        };
+        log_files_loki = lib.mkIf (cfg.logFiles != []) {
+          type = "loki";
+          inputs = [ "logs_local" ];
+          remove_label_fields = true;
+          labels = {
+            transport = "{{ source_type }}";
+            host = "{{ host }}";
+            file = "{{ file }}";
+          };
+          endpoint = cfg.lokiAddress;
+          batch.timeout_secs = 10;
+          compression = "gzip";
           encoding = {
             except_fields = ["labels"];
             codec = "json";
@@ -158,8 +164,8 @@ in
           type = "prometheus_remote_write";
           inputs = [
             "systemd_convert"
-          ] ++ (lib.optionals (cfg.host_metrics) [ "host_local" ]);
-          endpoint = "${cfg.prometheus_address}/api/v1/write";
+          ] ++ (lib.optionals (cfg.hostMetrics) [ "host_local" ]);
+          endpoint = "${cfg.prometheusAddress}/api/v1/write";
           # Healthcheck broken. See https://github.com/vectordotdev/vector/issues/8279
           healthcheck.enabled = false;
         };
