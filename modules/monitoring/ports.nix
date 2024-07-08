@@ -1,17 +1,18 @@
-{ lib, ... }:
+{ config, lib, ... }:
 with lib;
 with types;
 {
   options.m1cr0man.monitoring.ports = {
-    vector_prom = mkOption {
+    prometheus = mkOption {
       type = int;
-      default = 9100;
-      description = "Vector Prometheus exporter port";
+      default = config.services.prometheus.port;
+      readOnly = true;
+      description = "Prometheus API port";
     };
     loki = mkOption {
       type = int;
       default = 8035;
-      description = "Loki listening port";
+      description = "Loki API port";
     };
   };
 }

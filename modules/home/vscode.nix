@@ -52,6 +52,13 @@ in
         })
         # Go dev
         golang.go
+        # Vector VRL dev
+        (pkgs.vscode-utils.extensionFromVscodeMarketplace {
+          publisher = "lucperkins";
+          name = "vrl-vscode";
+          version = "0.1.4";
+          sha256 = "sha256-xcGa43iPwUR6spOJGTmmWA1dOMNMQEdiuhMZPYZ+dTU=";
+        })
       ] ++ map (loadAfter [ "mkhl.direnv" ])
       # Extensions depending on direnv
       [

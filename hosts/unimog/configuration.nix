@@ -10,8 +10,7 @@ in
       "vms/gamesvm.nix"
       "www/acme-base.nix"
       "www/weechat.nix"
-      "monitoring/ports.nix"
-      "monitoring/vector.nix"
+      "monitoring/client"
     ]
     ++
     addModulesRecursive ./modules
@@ -124,6 +123,12 @@ in
   powerManagement.cpuFreqGovernor = "powersave";
   hardware.cpu.intel.updateMicrocode = true;
 
-  # Force vector to forward to monitoring container
-  services.vector.settings.sinks.loki.endpoint = lib.mkForce "http://monitoring:${builtins.toString config.m1cr0man.monitoring.ports.loki}";
+  # Force monitoring stack to forward to monitoring container
+  m1cr0man.monitoring = let
+    ports = config.m1cr0man.monitoring.ports;
+  in {
+    loki_address = "http://monitoring:${builtins.toString ports.loki}";
+    prometheus_address = "http://monitoring:${builtins.toString ports.prometheus}";
+    host_metrics = true;
+  };
 }

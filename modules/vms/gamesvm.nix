@@ -32,7 +32,7 @@ in
       cp ${ovmf}/OVMF_VARS.fd OVMF_VARS_gamesvm.fd
       qemu-system-x86_64 \
         -name guest=gamesvm \
-        -machine pc-q35-7.0,pflash0=pflash0-blkdev,pflash1=pflash1-blkdev \
+        -machine pc-q35-9.0,pflash0=pflash0-blkdev,pflash1=pflash1-blkdev \
         -accel kvm,kernel-irqchip=on \
         -cpu host,hv_passthrough,kvm=off,-vmx  \
         -smp 6,cores=3,threads=2,sockets=1,maxcpus=6 \
@@ -42,6 +42,7 @@ in
         -global kvm-pit.lost_tick_policy=delay \
         -nodefaults \
         -vga qxl \
+        -audio spice \
         --object secret,id=spicesec0,file='${spice_secret_file}' \
         -spice ipv4=on,port=5910,addr=0.0.0.0,password-secret=spicesec0 \
         -device virtio-serial-pci \
@@ -54,11 +55,10 @@ in
         -blockdev node-name=pflash1-blkdev,driver=file,filename=OVMF_VARS_gamesvm.fd,read-only=off \
         -drive file=${drive_c},if=none,id=os-storage \
         -drive file=${drive_d},if=none,id=ssd-storage \
-        -device pcie-root-port,bus=pcie.0,multifunction=on,port=1,chassis=1,id=rp0 \
-        -device virtio-blk-pci,drive=os-storage,bootindex=1,id=virtio-disk0,bus=rp0 \
-        -device virtio-blk-pci,drive=ssd-storage,bootindex=2,id=virtio-disk1,bus=rp0 \
-        -device virtio-balloon-pci,id=balloon0,bus=rp0 \
-        -device ich9-intel-hda,id=hda-0,bus=rp0,multifunction=on \
+        -device virtio-blk-pci,drive=os-storage,bootindex=1,id=virtio-disk0 \
+        -device virtio-blk-pci,drive=ssd-storage,bootindex=2,id=virtio-disk1 \
+        -device virtio-balloon-pci,id=balloon0 \
+        -device ich9-intel-hda,id=hda-0,multifunction=on \
         -device hda-duplex,id=hda-duplex-0,bus=hda-0.0,cad=0 \
         -nic user,model=virtio,id=vmnet0,hostname=gamesvm,hostfwd=udp::27016-:27016 \
     '';

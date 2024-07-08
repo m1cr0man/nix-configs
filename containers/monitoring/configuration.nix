@@ -10,9 +10,7 @@ in
       "monitoring/prometheus.nix"
       "monitoring/loki.nix"
       "monitoring/grafana.nix"
-    ]
-    ++
-    addModulesRecursive ./modules;
+    ];
 
   system.stateVersion = "24.05";
 
