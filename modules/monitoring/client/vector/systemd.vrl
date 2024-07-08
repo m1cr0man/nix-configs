@@ -17,8 +17,9 @@ sub_state_map = {
   "listening": 0.0,
   "mounted": 0.0,
   "waiting": 0.0,
-  "exited": 1.0,
-  "dead": 2.0,
+  "reload": 1.0,
+  "exited": 2.0,
+  "dead": 3.0,
 }
 
 result_map = {

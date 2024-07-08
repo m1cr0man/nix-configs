@@ -5,12 +5,12 @@ let
 in
 {
   options.m1cr0man.monitoring.loki_address = lib.mkOption {
-    default = "https://${defaultHost}:${builtins.toString cfg.ports.loki}";
+    default = "http://${defaultHost}:${builtins.toString cfg.ports.loki}";
     type = lib.types.str;
     description = "Address of Loki server";
   };
   options.m1cr0man.monitoring.prometheus_address = lib.mkOption {
-    default = "https://${defaultHost}:${builtins.toString cfg.ports.prometheus}";
+    default = "http://${defaultHost}:${builtins.toString cfg.ports.prometheus}";
     type = lib.types.str;
     description = "Address of Prometheus server";
   };

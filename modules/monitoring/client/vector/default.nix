@@ -43,7 +43,14 @@ let
   debug = false;
 in
 {
-  options.m1cr0man.monitoring.host_metrics = lib.mkEnableOption "read cpu, load, memory and network metrics";
+  options.m1cr0man.monitoring = {
+    host_metrics = lib.mkEnableOption "read cpu, load, memory and network metrics";
+    log_files = lib.mkOption {
+      default = [];
+      type = lib.types.listOf lib.types.path;
+      description = "Paths to log files to send to Loki";
+    };
+  };
 
   config.services.vector = {
     enable = true;
@@ -56,6 +63,21 @@ in
           type = "journald";
           current_boot_only = true;
           since_now = true;
+        };
+        logs_local = lib.mkIf (cfg.log_files != [])  {
+          type = "file";
+          include = cfg.log_files;
+          exclude = [
+            "/var/log/btmp"
+            "/var/log/btmp.1"
+            "/var/log/journal/**/*"
+            "/var/log/journal/*"
+            "/var/log/lastlog"
+            "/var/log/messages"
+            "/var/log/private"
+            "/var/log/warn"
+            "/var/log/wtmp"
+          ];
         };
         systemd_local_common = execOpts // {
           scheduled.exec_interval_secs = 60;
@@ -120,7 +142,9 @@ in
         };
         journald_loki = {
           type = "loki";
-          inputs = [ "journald_sanitize" ];
+          inputs = [
+            "journald_sanitize"
+          ] ++ (lib.optionals (cfg.log_files != []) [ "logs_local" ]);
           labels."*" = "{{ labels }}";
           endpoint = cfg.loki_address;
           batch.timeout_secs = 10;

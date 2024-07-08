@@ -10,6 +10,15 @@ in
   #     config.services.httpd.virtualHosts
   # );
 
+  m1cr0man.monitoring.log_files = [
+    "/var/log/httpd/*.log"
+  ];
+
+  systemd.services.vector.serviceConfig.SupplementaryGroups = lib.mkForce [
+    "wwwrun"
+    "systemd-journal"
+  ];
+
   services.httpd.virtualHosts = {
 
     "${domain}" = makeVhost {

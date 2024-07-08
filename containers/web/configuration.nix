@@ -6,6 +6,7 @@ in
   imports = with lib.m1cr0man.module;
     addModules ../../modules [
       "secrets"
+      "monitoring/client"
       "servers/headscale.nix"
       "www/acme-base.nix"
       "www/httpd.nix"
