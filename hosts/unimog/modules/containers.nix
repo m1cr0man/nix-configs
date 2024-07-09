@@ -9,6 +9,8 @@ in
 
   environment.systemPackages = [ pkgs.nixos-nspawn ];
 
+  networking.hosts."beef::1" = [ "containerhost" "containerhost.local" ];
+
   # Force cgroupv2
   # https://github.com/NixOS/nixpkgs/pull/198526
   # lib.mkForce to set as few extraneous vars as possible.

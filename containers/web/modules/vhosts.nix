@@ -34,7 +34,7 @@ in
     };
 
     "carddav.${domain}" = makeVhostProxy {
-      host = "containerhost.local:5232";
+      host = "email:5232";
     };
 
     "headscale.${domain}" = lib.mkIf (config.services.headscale.enable) (makeVhost {

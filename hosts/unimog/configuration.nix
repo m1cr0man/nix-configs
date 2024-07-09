@@ -38,6 +38,7 @@ in
     hostId = "68f9ddb5";
     useDHCP = false;
     useNetworkd = true;
+    nftables.enable = true;
 
     usePredictableInterfaceNames = false;
     interfaces.eth0 = {
@@ -55,44 +56,6 @@ in
     #defaultGateway6.address = localSecrets.ipv6Gateway;
 
     nameservers = [ "185.12.64.1" "1.1.1.1" ];
-
-    firewall.allowedTCPPorts = [
-      # Mail ports
-      25
-      143
-      993
-      465
-      587
-      4190
-      # Web ports
-      80
-      443
-      # Plex
-      32400
-      # Minecraft
-      25565
-      25566
-      25555
-      25556
-      25545
-      25546
-      25535
-      25536
-      25525
-      25526
-      # OpenTTD
-      3979
-    ];
-    firewall.allowedUDPPorts = [
-      # Space Engineers
-      27016
-      # Valheim
-      2456
-      2457
-      2458
-      # OpenTTD
-      3979
-    ];
   };
 
   # Workaround for https://github.com/NixOS/nixpkgs/issues/178078
@@ -108,7 +71,7 @@ in
   services.vscode-server.enable = true;
 
   m1cr0man = {
-    general.rsyslogServer = "127.0.0.1:6514";
+    monitoring.hostMetrics = true;
     zfs = {
       scrubStartTime = "*-*-* 07:00:00";
       scrubStopTime = "*-*-* 07:15:00";
@@ -122,13 +85,4 @@ in
   # Enable powersave governor because this server is mental anyway
   powerManagement.cpuFreqGovernor = "powersave";
   hardware.cpu.intel.updateMicrocode = true;
-
-  # Force monitoring stack to forward to monitoring container
-  m1cr0man.monitoring = let
-    ports = config.m1cr0man.monitoring.ports;
-  in {
-    lokiAddress = "http://monitoring:${builtins.toString ports.loki}";
-    prometheusAddress = "http://monitoring:${builtins.toString ports.prometheus}";
-    hostMetrics = true;
-  };
 }

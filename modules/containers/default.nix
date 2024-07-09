@@ -9,6 +9,8 @@ in
       hosts."${config.m1cr0man.container.hostAddress}" = [
         "containerhost" "containerhost.local"
       ];
+      # Enable LLMNR
+      firewall.allowedUDPPorts = [ 5355 ];
     };
 
     nixosContainer = {

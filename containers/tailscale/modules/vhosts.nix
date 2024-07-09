@@ -15,6 +15,6 @@ in
   ];
 
   services.httpd.virtualHosts = {
-    "grafana.${tsDomain}" = makeVhostProxy { host = "containerhost.local:8030"; };
+    "grafana.${tsDomain}" = makeVhostProxy { host = "monitoring:8030"; };
   };
 }

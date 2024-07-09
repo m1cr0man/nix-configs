@@ -1,7 +1,6 @@
 { config, pkgs, lib, ... }:
 let
   stateDir = config.m1cr0man.container.stateDir;
-  port = config.services.tailscale.port;
 in
 {
   imports = with lib.m1cr0man.module;
@@ -20,7 +19,6 @@ in
 
   nixosContainer =
     {
-      forwardPorts = [{ hostPort = port; containerPort = port; }];
       bindMounts = [
         "${stateDir}/nixos:/var/lib/nixos"
         "${stateDir}/tailscale:/var/lib/tailscale"

@@ -1,17 +1,16 @@
 { config, lib, ... }:
 let
   cfg = config.m1cr0man.monitoring;
-  defaultHost = if config.m1cr0man.instanceType == "container" then "containerhost.local" else "localhost";
 in
 {
   options.m1cr0man.monitoring = {
     lokiAddress = lib.mkOption {
-      default = "http://${defaultHost}:${builtins.toString cfg.ports.loki}";
+      default = "http://monitoring:${builtins.toString cfg.ports.loki}";
       type = lib.types.str;
       description = "Address of Loki server";
     };
     prometheusAddress = lib.mkOption {
-      default = "http://${defaultHost}:${builtins.toString cfg.ports.prometheus}";
+      default = "http://monitoring:${builtins.toString cfg.ports.prometheus}";
       type = lib.types.str;
       description = "Address of Prometheus server";
     };
