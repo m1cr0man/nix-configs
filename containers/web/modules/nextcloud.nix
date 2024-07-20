@@ -108,6 +108,7 @@ in
 
     extraApps = {
       inherit memories;
+      inherit (cfg.package.packages.apps) deck;
     };
     extraAppsEnable = true;
 
