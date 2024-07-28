@@ -77,6 +77,9 @@ let
       };
       phpOptions = ''
         mail.log = "/home/${username}/phpmail.log"
+        upload_max_filesize = 50M;
+        post_max_size = 50M;
+        memory_limit = 55M;
       '';
     };
 
@@ -117,7 +120,7 @@ in {
 
   # TODO
   # - Add per-user database backup directory
-  # - Add per-user logs for httpd, php, msmtp, phpmail
+  # - Add per-user logs for httpd, php, msmtp
   mkDomain = {
     username,
     domain,
