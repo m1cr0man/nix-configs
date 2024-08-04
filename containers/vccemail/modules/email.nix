@@ -10,7 +10,7 @@ in
 
     fqdn = "mail.${domain}";
     # Has to match reverse record for host
-    sendingFqdn = "unimog.${domain}";
+    sendingFqdn = "phoenix.${domain}";
     dkimSelector = "vcc";
 
     stateDir = config.m1cr0man.container.stateDir;

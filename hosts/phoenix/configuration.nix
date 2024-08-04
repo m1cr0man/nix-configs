@@ -54,6 +54,7 @@ in
     domain = lib.mkForce "vccomputers.ie";
     useDHCP = false;
     useNetworkd = true;
+    nftables.enable = true;
 
     usePredictableInterfaceNames = false;
     interfaces.eth0 = {
@@ -80,6 +81,12 @@ in
 
     firewall.allowedTCPPorts = [ 80 443 ];
   };
+
+  # Workaround for systemd-networkd-wait-online.service failures
+  systemd.services."systemd-networkd-wait-online".serviceConfig.ExecStart = [
+    ""
+    "${config.systemd.package}/lib/systemd/systemd-networkd-wait-online --any --timeout=30"
+  ];
 
   # Enable VSCode Remote Server
   services.vscode-server.enable = true;
