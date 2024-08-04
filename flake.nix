@@ -166,6 +166,13 @@
             sops-nix.nixosModules.sops
           ];
         };
+        vccemail = mkContainer {
+          name = "vccemail";
+          modules = [
+            sops-nix.nixosModules.sops
+            inputs.snm.nixosModules.mailserver
+          ];
+        };
       };
 
       homeConfigurations = {
