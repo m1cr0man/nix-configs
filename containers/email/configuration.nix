@@ -8,6 +8,7 @@ in
       "secrets"
       "monitoring/client"
       "www/acme-base.nix"
+      "mail"
     ]
     ++
     addModulesRecursive ./modules;
@@ -40,7 +41,6 @@ in
         "${stateDir}/dovecot:/var/lib/dovecot"
         "${stateDir}/opendkim:/var/lib/opendkim"
         "${stateDir}/redis-rspamd:/var/lib/redis-rspamd"
-        "${stateDir}/rspamd:/var/lib/rspamd"
       ];
     };
 }

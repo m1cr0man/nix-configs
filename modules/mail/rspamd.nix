@@ -1,9 +1,15 @@
 {
   # Enable access to the web UI outside of the container
   services.rspamd.workers.controller.bindSockets = [{
-    socket = "/var/lib/rspamd/rspamd-ui.sock";
-    mode = "0666";
+    socket = "/var/lib/sockets/rspamd-ui.sock";
+    mode = "0660";
+    group = "sockets";
   }];
+
+  systemd.services.rspamd.serviceConfig = {
+    SupplementaryGroups = "sockets";
+    ReadWritePaths = "/var/lib/sockets";
+  };
 
   # Extra rspamd filters
   services.rspamd.locals = {

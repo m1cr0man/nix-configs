@@ -1,11 +1,11 @@
-{ domain, config, ... }:
+{ config, ... }:
 let
-  ms = config.mailserver;
+  cfg = config.m1cr0man.mailserver;
 in
 {
-  security.acme.certs."${ms.fqdn}" = {
+  security.acme.certs."${cfg.fqdn}" = {
     extraDomainNames = [
-      "${ms.sendingFqdn}"
+      "${cfg.sendingFqdn}"
     ];
     dnsProvider = "cloudflare";
     credentialsFile = config.sops.secrets.acme_cloudflare_env.path;
