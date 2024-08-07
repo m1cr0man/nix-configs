@@ -17,6 +17,15 @@ in
 
   system.stateVersion = "24.05";
 
+  # Allow other containers + the host to route through this host
+  # onto the tailnet.
+  networking.nat = {
+    enable = true;
+    enableIPv6 = true;
+    internalInterfaces = [ "host0" ];
+    externalInterface = "tailscale0";
+  };
+
   nixosContainer =
     {
       bindMounts = [
