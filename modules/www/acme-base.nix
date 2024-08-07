@@ -1,5 +1,8 @@
 { config, ... }:
 {
+  users.users.acme.uid = 999;
+  users.groups.acme.gid = 994;
+
   security.acme = {
     acceptTerms = true;
     defaults = {
