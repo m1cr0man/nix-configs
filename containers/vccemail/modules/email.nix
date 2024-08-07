@@ -4,7 +4,7 @@ let
   domain = "vccomputers.ie";
 in
 {
-  config.m1cr0man.mailserver = {
+  m1cr0man.mailserver = {
     enable = true;
     inherit (localSecrets { inherit config lib; }) domains loginAccounts;
 
@@ -14,5 +14,9 @@ in
     dkimSelector = "vcc";
 
     stateDir = config.m1cr0man.container.stateDir;
+
+    replicationPeer = "192.168.25.157";
   };
+
+  networking.firewall.allowedTCPPorts = [ config.m1cr0man.mailserver.doveadmPort ];
 }

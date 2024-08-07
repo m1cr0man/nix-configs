@@ -41,5 +41,17 @@ in
       default = "/var/lib/snm";
       description = "Where to store mailboxes, A/V data, sieve scripts, etc";
     };
+
+    doveadmPort = mkOption {
+      type = types.ints.positive;
+      default = 2993;
+      description = "Port to serve doveadm on";
+    };
+
+    replicationPeer = mkOption {
+      type = types.nullOr types.string;
+      default = null;
+      description = "IP/Hostname of host to replicate with";
+    };
   };
 }

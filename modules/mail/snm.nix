@@ -12,6 +12,10 @@ let
     hashedPasswordFile = config.sops.secrets."${userSopsKey k}".path;
   }) cfg.loginAccounts;
 
+  doveadmPasswordFile = config.sops.secrets.doveadm_password.path;
+  doveadmPortStr = builtins.toString cfg.doveadmPort;
+  vmailUser = config.mailserver.vmailUserName;
+
   certPath = config.security.acme.certs."${config.mailserver.fqdn}".directory;
 in
 {
@@ -23,13 +27,20 @@ in
     '';
   }];
 
-  sops.secrets = lib.mapAttrs'
-    (k: v:
-      lib.nameValuePair (userSopsKey k) {
-        neededForUsers = true;
-      }
+  sops.secrets = lib.mkMerge [
+    (
+      lib.mapAttrs'
+      (k: v:
+        lib.nameValuePair (userSopsKey k) {
+          neededForUsers = true;
+        }
+      )
+      cfg.loginAccounts
     )
-    cfg.loginAccounts;
+    {
+      doveadm_password.owner = config.services.dovecot2.user;
+    }
+  ];
 
   users.users.virtualMail.extraGroups = [ "acme" ];
 
@@ -42,13 +53,43 @@ in
 
   # Enable virtual All and Flagged mailboxes
   services.dovecot2 = {
-    mailPlugins.globally.enable = [ "virtual" ];
+    mailPlugins.globally.enable = [ "virtual" "notify" "replication" ];
+
+    pluginSettings.mail_replica = lib.mkIf
+      (cfg.replicationPeer != null)
+      "tcp:${cfg.replicationPeer}:${doveadmPortStr}";
+
     extraConfig =
       let
         mailDir = config.mailserver.mailDirectory;
         hs = config.mailserver.hierarchySeparator;
       in
       ''
+        service replicator {
+          process_min_avail = 1
+          unix_listener replicator-doveadm {
+            mode = 0600
+            user = ${vmailUser}
+          }
+        }
+
+        service aggregator {
+          fifo_listener replication-notify-fifo {
+            user = ${vmailUser}
+          }
+          unix_listener replication-notify {
+            user = ${vmailUser}
+          }
+        }
+
+        service doveadm {
+          inet_listener {
+            port = ${doveadmPortStr}
+          }
+        }
+        doveadm_port = ${doveadmPortStr}
+        doveadm_password = <${doveadmPasswordFile}
+
         namespace {
           prefix = virtual${hs}
           separator = ${hs}
