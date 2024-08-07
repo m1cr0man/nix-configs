@@ -72,6 +72,7 @@ in
             user = ${vmailUser}
           }
         }
+        replication_dsync_parameters = -d -N -l 30 -U -x virtual/*
 
         service aggregator {
           fifo_listener replication-notify-fifo {

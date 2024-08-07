@@ -18,5 +18,8 @@ in
     replicationPeer = "192.168.25.157";
   };
 
+  # Force using the VCC cloudflare sops secret
+  sops.secrets.acme_cloudflare_env.sopsFile = lib.mkForce config.sops.defaultSopsFile;
+
   networking.firewall.allowedTCPPorts = [ config.m1cr0man.mailserver.doveadmPort ];
 }

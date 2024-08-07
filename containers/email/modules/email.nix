@@ -14,7 +14,7 @@ in
 
     stateDir = config.m1cr0man.container.stateDir;
 
-    replicationPeer = "192.168.26.197";
+    replicationPeer = "192.168.26.140";
   };
 
   networking.firewall.allowedTCPPorts = [ config.m1cr0man.mailserver.doveadmPort ];
