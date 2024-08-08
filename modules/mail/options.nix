@@ -49,7 +49,7 @@ in
     };
 
     replicationPeer = mkOption {
-      type = types.nullOr types.string;
+      type = types.nullOr types.str;
       default = null;
       description = "IP/Hostname of host to replicate with";
     };
