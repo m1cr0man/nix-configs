@@ -32,7 +32,7 @@ in
       }];
       storage_config.filesystem.directory = "${config.services.loki.dataDir}/chunks";
       limits_config = {
-        retention_period = "48h";
+        retention_period = "90d";
       };
       compactor = {
         working_directory = "${config.services.loki.dataDir}/retention";
