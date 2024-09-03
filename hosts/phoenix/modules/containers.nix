@@ -9,14 +9,7 @@ in
 
   environment.systemPackages = [ pkgs.nixos-nspawn ];
 
-  networking.hosts."beef::1" = [ "containerhost" "containerhost.local" ];
-
-  # Force cgroupv2
-  # https://github.com/NixOS/nixpkgs/pull/198526
-  # lib.mkForce to set as few extraneous vars as possible.
-  systemd.services."systemd-nspawn@".environment = lib.mkForce {
-    SYSTEMD_NSPAWN_UNIFIED_HIERARCHY = "1";
-  };
+  networking.hosts."beee::1" = [ "containerhost" "containerhost.local" ];
 
   systemd.network = {
     netdevs."40-${bridgeName}".netdevConfig = {
@@ -27,7 +20,7 @@ in
     networks."40-${bridgeName}" = {
       name = bridgeName;
       networkConfig = {
-        Address = [ "192.168.26.1/24" "beef::1/64" ];
+        Address = [ "192.168.26.1/24" "beee::1/64" ];
         LinkLocalAddressing = "ipv6";
         IPMasquerade = "both";
         LLDP = true;
@@ -37,7 +30,7 @@ in
         IPv6AcceptRA = false;
       };
       ipv6Prefixes = [{
-        Prefix = "beef::/64";
+        Prefix = "beee::/64";
       }];
     };
   };

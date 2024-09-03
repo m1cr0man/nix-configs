@@ -11,13 +11,6 @@ in
 
   networking.hosts."beef::1" = [ "containerhost" "containerhost.local" ];
 
-  # Force cgroupv2
-  # https://github.com/NixOS/nixpkgs/pull/198526
-  # lib.mkForce to set as few extraneous vars as possible.
-  systemd.services."systemd-nspawn@".environment = lib.mkForce {
-    SYSTEMD_NSPAWN_UNIFIED_HIERARCHY = "1";
-  };
-
   systemd.network = {
     netdevs."40-${bridgeName}".netdevConfig = {
       Name = bridgeName;
