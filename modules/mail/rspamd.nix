@@ -23,14 +23,6 @@
     "replies.conf".text = ''
       action = "no action";
     '';
-    "spf.conf".text = ''
-      spf_cache_size = 2k;
-      spf_cache_expire = 1d;
-      max_dns_nesting = 8;
-      max_dns_requests = 20;
-      min_cache_ttl = 5m;
-      disable_ipv6 = false;
-    '';
     "url_reputation.conf".text = ''
       # Scan URLs
       enabled = true;
