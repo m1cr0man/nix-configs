@@ -64,7 +64,7 @@ with lib.m1cr0man;
           </Directory>
         '';
       };
-      "ledgersmb" = (makeVhostProxy { host = "127.0.0.1:5762"; }) // {
+      "destates" = (makeVhostProxy { host = "127.0.0.1:8002"; }) // {
         forceSSL = false;
         useACMEHost = null;
       };

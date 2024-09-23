@@ -6,13 +6,20 @@ in
   services.mysql = {
     enable = true;
     package = pkg;
-    ensureDatabases = [ "bgrs" "akaunting" ];
+    ensureDatabases = [ "bgrs" "akaunting" "destates" ];
+    settings.mysqld.bind-address = "0.0.0.0";
     ensureUsers = [
       {
         name = "wwwrun";
         ensurePermissions = {
           "bgrs.*" = "ALL PRIVILEGES";
           "akaunting.*" = "ALL PRIVILEGES";
+        };
+      }
+      {
+        name = "destates";
+        ensurePermissions = {
+          "destates.*" = "ALL PRIVILEGES";
         };
       }
     ];

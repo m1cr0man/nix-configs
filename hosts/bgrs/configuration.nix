@@ -8,7 +8,6 @@ in
   imports = with lib.m1cr0man.module;
     addModules ../../modules [
       "management/ssh"
-      "monitoring"
       "www/httpd.nix"
     ]
     ++

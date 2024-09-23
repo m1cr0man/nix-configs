@@ -10,12 +10,7 @@ in
     ensureUsers = [
       {
         name = "wwwrun";
-        ensurePermissions = {
-          "DATABASE dbbrb" = "ALL PRIVILEGES";
-          "DATABASE dbdomains" = "ALL PRIVILEGES";
-          "DATABASE dbpml" = "ALL PRIVILEGES";
-          "DATABASE repairs" = "ALL PRIVILEGES";
-        };
+        ensureClauses.login = true;
       }
     ];
     enableTCPIP = true;
@@ -34,6 +29,13 @@ in
       log_destination = lib.mkForce "syslog";
     };
   };
+
+  systemd.services.postgresql.postStart = lib.mkAfter ''
+    $PSQL -tAc 'ALTER DATABASE "dbbrb" OWNER TO "wwwrun";'
+    $PSQL -tAc 'ALTER DATABASE "dbdomains" OWNER TO "wwwrun";'
+    $PSQL -tAc 'ALTER DATABASE "dbpml" OWNER TO "wwwrun";'
+    $PSQL -tAc 'ALTER DATABASE "repairs" OWNER TO "wwwrun";'
+  '';
 
   networking.firewall.allowedTCPPorts = [ 5432 ];
 
