@@ -8,8 +8,6 @@ in
     addModules ../../modules [
       "management/ssh"
       "vms/gamesvm.nix"
-      "www/acme-base.nix"
-      "www/weechat.nix"
       "monitoring/client"
     ]
     ++

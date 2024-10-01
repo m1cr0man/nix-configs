@@ -29,6 +29,14 @@
       fenix.follows = "imhumane-rs/fenix";
       advisory-db.follows = "imhumane-rs/advisory-db";
     };
+
+    dnssync-rs.url = "git+file:/home/lucas/Projects/dnssync-rs";
+    dnssync-rs.inputs = {
+      nixpkgs.follows = "nixpkgs";
+      crane.follows = "imhumane-rs/crane";
+      fenix.follows = "imhumane-rs/fenix";
+      advisory-db.follows = "imhumane-rs/advisory-db";
+    };
   };
 
   outputs = { self, sops-nix, ... }@inputs:
@@ -86,6 +94,7 @@
           modules = [
             inputs.nixos-vscode-server.nixosModules.default
             inputs.nixos-nspawn.nixosModules.hypervisor
+            inputs.dnssync-rs.nixosModules.dnssync
           ];
         };
 
@@ -217,6 +226,7 @@
         nixos-nspawn = inputs.nixos-nspawn.overlays.default;
         imhumane-rs = inputs.imhumane-rs.overlays.imhumane-rs-nixpkgs;
         mailform-rs = inputs.mailform-rs.overlays.mailform-rs-nixpkgs;
+        dnssync-rs = inputs.dnssync-rs.overlays.dnssync-rs-nixpkgs;
       };
 
       # Re-export nixpkgs as legacyPackages so that we can do `nix run .#<pkg name>` for any nixpkg.
