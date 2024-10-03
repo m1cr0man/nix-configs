@@ -5,11 +5,16 @@ in
 {
   # Configure a bridge interface which will be used for all containers
   # on this network.
-  networking.firewall.trustedInterfaces = [ bridgeName "ve-+" ];
+  networking.firewall.trustedInterfaces = [ bridgeName "vb-+" ];
 
   environment.systemPackages = [ pkgs.nixos-nspawn ];
 
   networking.hosts."beef::1" = [ "containerhost" "containerhost.local" ];
+
+  networking.nat = {
+    enableIPv6 = true;
+    enable = true;
+  };
 
   systemd.network = {
     netdevs."40-${bridgeName}".netdevConfig = {
