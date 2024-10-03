@@ -73,16 +73,17 @@
         ]
       },
       "locked": {
-        "dirtyRev": "bda2d1c9ac39e2ed5bc213db0c44e9c7ba35c567-dirty",
-        "dirtyShortRev": "bda2d1c-dirty",
-        "lastModified": 1727823759,
-        "narHash": "sha256-s7saCSU0UDzlhG94bdmNw8Yaw6AU/7Ub0ORa3H4JxvE=",
-        "type": "git",
-        "url": "file:/home/lucas/Projects/dnssync-rs"
+        "lastModified": 1727995613,
+        "narHash": "sha256-ZIkeA6+Dww/2kfXP2/MJj3VPX4CZhGkskOmxJ2oCB/4=",
+        "owner": "m1cr0man",
+        "repo": "dnssync-rs",
+        "rev": "84d78e3e9fcf81db5139eb4ac39157aea28e3aa2",
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "file:/home/lucas/Projects/dnssync-rs"
+        "owner": "m1cr0man",
+        "repo": "dnssync-rs",
+        "type": "github"
       }
     },
     "fenix": {

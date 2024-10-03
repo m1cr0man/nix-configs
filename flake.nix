@@ -30,7 +30,7 @@
       advisory-db.follows = "imhumane-rs/advisory-db";
     };
 
-    dnssync-rs.url = "git+file:/home/lucas/Projects/dnssync-rs";
+    dnssync-rs.url = "github:m1cr0man/dnssync-rs";
     dnssync-rs.inputs = {
       nixpkgs.follows = "nixpkgs";
       crane.follows = "imhumane-rs/crane";

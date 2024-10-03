@@ -10,8 +10,7 @@ in {
 
   dnssync = {
     enable = true;
-    extraArgs = ["--dry-run"];
-    backend = {
+    backends = {
       headscale = {
         enable = true;
         domain = "ts.m1cr0man.com";
@@ -28,10 +27,11 @@ in {
         ];
       };
     };
-    frontend = {
+    frontends = {
       cloudflare = {
         enable = true;
         domain = "m1cr0man.com";
+        instanceId = config.networking.hostName;
         keyFile = config.sops.secrets.dnssync_cloudflare_api_key.path;
       };
     };
