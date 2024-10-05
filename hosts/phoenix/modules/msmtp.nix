@@ -3,7 +3,7 @@
   users.groups.sendmail = {};
 
   programs.msmtp = {
-    enable = true;
+    enable = false;
     defaults.logfile = "~/msmtp.log";
     accounts.default = {
       auth = true;

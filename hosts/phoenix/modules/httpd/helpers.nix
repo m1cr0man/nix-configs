@@ -12,7 +12,7 @@ let
       ProtectHome = lib.mkForce "tmpfs";
       BindPaths = [ home ];
       ReadWritePaths = [ home ];
-      UMask = "0077";
+      UMask = "0007";
       # Capabilities
       CapabilityBoundingSet = "";
       # Security
@@ -64,7 +64,7 @@ let
     };
   };
 
-  phpConfig = { username, domain, home }: {
+  phpConfig = { username, domain, home, mail }: {
     services.phpfpm.pools.${username} = {
       user = username;
       group = username;
@@ -76,7 +76,8 @@ let
         "pm.max_requests" = "100";
       };
       phpOptions = ''
-        mail.log = "/home/${username}/phpmail.log"
+        ${if mail then "" else "sendmail_path = \"/dev/null\";"}
+        mail.log = "/home/${username}/phpmail.log";
         upload_max_filesize = 50M;
         post_max_size = 50M;
         memory_limit = 55M;
@@ -129,6 +130,7 @@ in {
     php ? wordpress,
     mysql ? wordpress,
     postgresql ? false,
+    mail ? true,
     aliases ? [],
     live ? true
   }: let
@@ -147,7 +149,7 @@ in {
         createHome = true;
         homeMode = "750";
         # See ../msmtp.nix
-        extraGroups = [ "sendmail" ];
+        extraGroups = lib.optionals (mail) [ "sendmail" ];
       };
 
       # So that apache can read the site.
@@ -199,7 +201,7 @@ in {
         '';
       };
     }
-    (lib.mkIf php (phpConfig { inherit username domain home; }))
+    (lib.mkIf php (phpConfig { inherit username domain home mail; }))
     (lib.mkIf (php && mysql) (mysqlConfig { inherit username; }))
     (lib.mkIf (php && postgresql) (postgresqlConfig { inherit username; }))
     (lib.mkIf (wordpress) { vcc.wordpressSites.${username} = domain; })

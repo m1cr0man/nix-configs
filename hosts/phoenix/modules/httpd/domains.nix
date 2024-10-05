@@ -72,6 +72,12 @@ in lib.mkMerge [
     wordpress = true;
   })
   (mkDomain {
+    username = "destates";
+    domain = "donegalestates.ie";
+    wordpress = true;
+    mail = false;
+  })
+  (mkDomain {
     username = "donegalr";
     domain = "donegalrapecrisis.ie";
   })
