@@ -83,3 +83,11 @@ sudo -su postgres vacuumdb --all --analyze-in-stages
 ./delete_old_cluster.sh
 rm delete_old_cluster.sh
 ```
+
+### Tailnet dies
+
+- Run `tailscale status` on the problematic node.
+- Restart headscale to validate it's not a home server issue.
+  - This solves "Tailscale could not connect to any relay server.".
+- Check logs of tailscaled and restart.
+- Ensure firewall allows tailscale0.
