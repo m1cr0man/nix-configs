@@ -14,7 +14,7 @@ in {
     backends = {
       machinectl = {
         enable = true;
-        domain = "vm.${config.networking.hostName}.${domain}";
+        domain = "${config.networking.hostName}.vm.${domain}";
         includedCidrs = [
           "beee::/64"
           "192.168.26.0/24"

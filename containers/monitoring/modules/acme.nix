@@ -14,6 +14,6 @@ let
 in
 {
   security.acme = {
-    certs."ts.${domain}" = mkCert "ts.${domain}";
+    certs."int.${domain}" = mkCert "int.${domain}";
   };
 }

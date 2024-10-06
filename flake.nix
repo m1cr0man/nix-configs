@@ -100,7 +100,10 @@
 
         phoenix = mkConfiguration {
           name = "phoenix";
-          modules = [ inputs.nixos-vscode-server.nixosModules.default ];
+          modules = [
+            inputs.nixos-vscode-server.nixosModules.default
+            inputs.dnssync-rs.nixosModules.dnssync
+          ];
         };
 
         netboot = mkConfiguration {

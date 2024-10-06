@@ -11,7 +11,11 @@ in
       "monitoring/prometheus.nix"
       "monitoring/loki.nix"
       "monitoring/grafana.nix"
-    ];
+      "www/acme-base.nix"
+      "www/httpd.nix"
+    ]
+    ++
+    addModulesRecursive ./modules;
 
   system.stateVersion = "24.05";
 
@@ -28,6 +32,5 @@ in
   networking.firewall.allowedTCPPorts = [
     config.services.prometheus.port
     config.services.loki.configuration.server.http_listen_port
-    config.services.grafana.settings.server.http_port
   ];
 }

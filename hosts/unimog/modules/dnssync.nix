@@ -5,6 +5,9 @@ let
     group = "dnssync";
   };
   mkRecord = name: kind: content: { inherit name kind content; };
+
+  hostName = config.networking.hostName;
+  vmDomain = "${hostName}.vm.${domain}";
 in {
   sops.secrets.dnssync_cloudflare_api_key = sopsPerms;
   sops.secrets.dnssync_headscale_api_key = sopsPerms;
@@ -21,7 +24,7 @@ in {
       };
       machinectl = {
         enable = true;
-        domain = "vm.${config.networking.hostName}.${domain}";
+        domain = vmDomain;
         includedCidrs = [
           "beef::/64"
           "192.168.25.0/24"
@@ -30,8 +33,10 @@ in {
       jsonfile = {
         enable = true;
         source = pkgs.writeText "dnssync.json" (builtins.toJSON [
-          (mkRecord "grafana.ts.${domain}" "cname"
-            "${config.networking.hostName}.lucas.ts.${domain}")
+          (mkRecord "grafana.int.${domain}" "cname"
+            "monitoring.${vmDomain}")
+          (mkRecord "monitoring.int.${domain}" "cname"
+            "monitoring.${vmDomain}")
         ]);
       };
     };
@@ -39,7 +44,7 @@ in {
       cloudflare = {
         enable = true;
         inherit domain;
-        instanceId = config.networking.hostName;
+        instanceId = hostName;
         keyFile = config.sops.secrets.dnssync_cloudflare_api_key.path;
       };
     };

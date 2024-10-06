@@ -7,8 +7,9 @@ in
   imports = with lib.m1cr0man.module;
     addModules ../../modules [
       "management/ssh"
-      "vms/gamesvm.nix"
       "monitoring/client"
+      "vms/gamesvm.nix"
+      "www/tailscale.nix"
     ]
     ++
     addModulesRecursive ./modules
@@ -75,6 +76,8 @@ in
       scrubStopTime = "*-*-* 07:15:00";
       encryptedDatasets = [ "zunimog_ssd" "zunimog_hdd" ];
     };
+    # Fix for routing issues
+    tailscale.enableLocalRoutingPatch = true;
   };
 
   # Enable KSM because the MC servers share a lot of data
