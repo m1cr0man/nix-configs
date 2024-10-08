@@ -15,7 +15,7 @@ in
 
     stateDir = config.m1cr0man.container.stateDir;
 
-    replicationPeer = "192.168.25.157";
+    replicationPeer = "email.unimog.vm.m1cr0man.com";
   };
 
   # Force using the VCC cloudflare sops secret

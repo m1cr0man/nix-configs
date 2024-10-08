@@ -14,7 +14,7 @@ in
 
     stateDir = config.m1cr0man.container.stateDir;
 
-    replicationPeer = "192.168.26.197";
+    replicationPeer = "vccemail.phoenix.vm.m1cr0man.com";
   };
 
   networking.firewall.allowedTCPPorts = [ config.m1cr0man.mailserver.doveadmPort ];
