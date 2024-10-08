@@ -15,6 +15,8 @@ in
 
   system.stateVersion = "24.05";
 
+  m1cr0man.monitoring.serverHostname = "monitoring.unimog.vm.m1cr0man.com";
+
   nixosContainer =
     {
       forwardPorts =

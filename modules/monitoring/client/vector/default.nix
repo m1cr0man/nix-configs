@@ -43,11 +43,11 @@ let
   debug = false;
 in
 {
-  # TODO proper httpd monitoring
   services.vector = {
     enable = true;
     journaldAccess = true;
     settings = {
+      api.enabled = true;
       data_dir = "/var/lib/vector";
       sources = {
         # Keys here are just unique identifiers
@@ -166,6 +166,10 @@ in
             "systemd_convert"
           ] ++ (lib.optionals (cfg.hostMetrics) [ "host_local" ]);
           endpoint = "${cfg.prometheusAddress}/api/v1/write";
+          batch = {
+            max_bytes = 1048576 * 2;
+          };
+          buffer.type = "memory";
           # Healthcheck broken. See https://github.com/vectordotdev/vector/issues/8279
           healthcheck.enabled = false;
         };

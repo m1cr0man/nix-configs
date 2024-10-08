@@ -4,13 +4,19 @@ let
 in
 {
   options.m1cr0man.monitoring = {
+    serverHostname = lib.mkOption {
+      # mdns/search domain resolution
+      default = "monitoring";
+      type = lib.types.str;
+      description = "Monitoring server host name.";
+    };
     lokiAddress = lib.mkOption {
-      default = "http://monitoring:${builtins.toString cfg.ports.loki}";
+      default = "http://${cfg.serverHostname}:${builtins.toString cfg.ports.loki}";
       type = lib.types.str;
       description = "Address of Loki server";
     };
     prometheusAddress = lib.mkOption {
-      default = "http://monitoring:${builtins.toString cfg.ports.prometheus}";
+      default = "http://${cfg.serverHostname}:${builtins.toString cfg.ports.prometheus}";
       type = lib.types.str;
       description = "Address of Prometheus server";
     };

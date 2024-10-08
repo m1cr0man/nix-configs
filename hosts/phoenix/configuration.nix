@@ -7,6 +7,7 @@ in
   imports = with lib.m1cr0man.module;
     addModules ../../modules [
       "management/ssh"
+      "monitoring/client"
       "www/bind.nix"
       "www/imhumane-rs.nix"
       "www/mailform-rs.nix"
@@ -97,6 +98,7 @@ in
       scrubStopTime = "*-*-* 05:15:00";
       encryptedDatasets = [ "zphoenix_ssd" ];
     };
+    monitoring.serverHostname = "monitoring.unimog.vm.m1cr0man.com";
   };
 
   # Enable KSM because the MC servers share a lot of data
