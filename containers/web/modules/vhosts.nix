@@ -19,6 +19,11 @@ in
     "systemd-journal"
   ];
 
+  systemd.services.httpd.serviceConfig = {
+    LogsDirectory = "httpd";
+    LogsDirectoryMode = 0755;
+  };
+
   services.httpd.virtualHosts = {
 
     "${domain}" = makeVhost {
