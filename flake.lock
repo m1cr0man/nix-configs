@@ -299,11 +299,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1719693991,
-        "narHash": "sha256-+yO0BiVH5ptDvCdqGaMV5pfFNcbh1cscBpeF89tVrKU=",
+        "lastModified": 1728594936,
+        "narHash": "sha256-D79MSdb0l0AzlVtT9bdHmi+CVb3X4vuRcTfaa/BUu+4=",
         "owner": "m1cr0man",
         "repo": "python-nixos-nspawn",
-        "rev": "b805a3f5a6addeee269e7b8e990d31ea1210a244",
+        "rev": "cee2ec6676ff0ba540db7449f157316f78468a55",
         "type": "github"
       },
       "original": {
