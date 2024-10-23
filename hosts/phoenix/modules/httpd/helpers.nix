@@ -130,7 +130,7 @@ in {
     php ? wordpress,
     mysql ? wordpress,
     postgresql ? false,
-    mail ? true,
+    mail ? false,
     aliases ? [],
     live ? true
   }: let
