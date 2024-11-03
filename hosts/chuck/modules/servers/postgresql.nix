@@ -1,7 +1,7 @@
 { pkgs, lib, ... }:
 {
   services.postgresql = {
-    enable = true;
+    enable = false;
     package = pkgs.postgresql_15;
     extraPlugins = with pkgs.postgresql_15.pkgs; [ postgis timescaledb ];
     ensureDatabases = [ "pathfinder" ];

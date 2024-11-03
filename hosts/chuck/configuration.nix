@@ -9,7 +9,7 @@
       "monitoring/prometheus.nix"
       "monitoring/loki.nix"
       "monitoring/grafana.nix"
-      "monitoring/vector.nix"
+      "monitoring/client"
     ]
     ++
     addModulesRecursive ./modules
@@ -41,18 +41,18 @@
 
     usePredictableInterfaceNames = false;
     interfaces.eth0.ipv4.addresses = [{
-      address = "192.168.137.2";
+      address = "192.168.127.2";
       prefixLength = 24;
     }];
     interfaces.eth1.ipv4.addresses = [{
-      address = "192.168.14.1";
+      address = "192.168.2.1";
       prefixLength = 24;
     }];
     defaultGateway = {
-      address = "192.168.14.254";
+      address = "192.168.2.254";
       interface = "eth1";
     };
-    nameservers = [ "192.168.14.254" "1.1.1.1" ];
+    nameservers = [ "192.168.2.254" "1.1.1.1" ];
 
     firewall.allowedTCPPorts = [
       8086
@@ -76,6 +76,9 @@
 
   # Enable VSCode Remote Server
   services.vscode-server.enable = true;
+
+  # Send metrics to self
+  m1cr0man.monitoring.serverHostname = "localhost";
 
   users.users.root.openssh.authorizedKeys.keys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGQ/+dK+9Y/QduSpNPoX/yfKYZazgUVwhs3DjH008U2C root@bgrs"

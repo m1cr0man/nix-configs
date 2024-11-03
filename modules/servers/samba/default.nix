@@ -14,94 +14,101 @@ let
     };
   };
 
-  customShares = lib.mapAttrs (name: conf: {
-    path = conf.path;
-    comment = conf.comment;
-    "valid users" = "@users";
-    "guest ok" = "yes";
-    "browseable" = "yes";
-    "writeable" = "yes";
-  } // conf.extraConfig) config.m1cr0man.samba-shares;
-in {
+  customShares = lib.mapAttrs
+    (name: conf: {
+      path = conf.path;
+      comment = conf.comment;
+      "valid users" = "@users";
+      "guest ok" = "yes";
+      "browseable" = "yes";
+      "writeable" = "yes";
+    } // conf.extraConfig)
+    config.m1cr0man.samba-shares;
+in
+{
   imports = [
     ./options.nix
   ];
 
   services.samba = {
     enable = true;
-    shares = homeShares // customShares;
+    settings = lib.mkMerge [
+      homeShares
+      customShares
+      {
+        global = {
+          "log file" = "/var/log/samba/log.%m";
+          "log level" = "2";
+          "max log size" = "50";
 
-    extraConfig = ''
-      log file = /var/log/samba/log.%m
-      log level = 2
-      max log size = 50
+          "hosts allow" = "192.168.14. 192.168.137. 127.0.0.1 ::1";
+          "hosts deny" = "all";
+          "socket options" = "IPTOS_LOWDELAY SO_SNDBUF=131072 SO_RCVBUF=131072 TCP_NODELAY";
+          "max connections" = "0";
 
-      hosts allow = 192.168.14. 192.168.137. 127.0.0.1 ::1
-      hosts deny = all
-      socket options = IPTOS_LOWDELAY SO_SNDBUF=131072 SO_RCVBUF=131072 TCP_NODELAY
-      max connections = 0
+          "netbios name" = lib.toUpper config.networking.hostName;
+          "workgroup" = "WORKGROUP";
+          "server string" = "NixOS File Server";
 
-      netbios name = ${lib.toUpper config.networking.hostName}
-      workgroup = WORKGROUP
-      server string = NixOS File Server
+          "domain master" = "no";
+          "preferred master" = "yes";
+          "os level" = "4";
+          "auto services" = "global";
+          "server role" = "standalone";
+          "wins support" = "no";
+          "dns proxy" = "no";
+          "hostname lookups" = "no";
+          "name resolve order" = "lmhosts wins bcast host";
 
-      domain master = no
-      preferred master = yes
-      os level = 4
-      auto services = global
-      server role = standalone
-      wins support = no
-      dns proxy = no
-      hostname lookups = no
-      name resolve order = lmhosts wins bcast host
+          "passdb backend" = "tdbsam";
+          "client use spnego" = "no";
+          "max protocol" = "SMB3_11";
+          "min protocol" = "NT1";
 
-      passdb backend = tdbsam
-      client use spnego = no
-      max protocol = SMB3_11
-      min protocol = NT1
+          "getwd cache" = "yes";
+          "strict sync" = "no";
+          "strict locking" = "no";
+          "sync always" = "no";
 
-      getwd cache = yes
-      strict sync = no
-      strict locking = no
-      sync always = no
+          "min receivefile size" = "16384";
+          "use sendfile" = "yes";
+          "aio read size" = "16384";
+          "aio write size" = "16384";
 
-      min receivefile size = 16384
-      use sendfile = yes
-      aio read size = 16384
-      aio write size = 16384
+          "kernel oplocks" = "no";
+          "kernel share modes" = "no";
+          "posix locking" = "no";
 
-      kernel oplocks = no
-      kernel share modes = no
-      posix locking = no
+          "load printers" = "no";
+          "printable" = "no";
+          "printing" = "bsd";
+          "printcap name" = "/dev/null";
+          "disable spoolss" = "yes";
 
-      load printers = no
-      printable = no
-      printing = bsd
-      printcap name = /dev/null
-      disable spoolss = yes
+          # Disable xattrs
+          "ea support" = "no";
+          "store dos attributes" = "no";
+          "map archive" = "no";
+          "map hidden" = "no";
+          "map readonly" = "no";
+          "map system" = "no";
 
-      # Disable xattrs
-      ea support = no
-      store dos attributes = no
-      map archive = no
-      map hidden = no
-      map readonly = no
-      map system = no
+          "create mask" = "0770";
+          "directory mask" = "0770";
+          "force create mode" = "0770";
+          "force directory mode" = "0770";
+          "writable" = "yes";
+          "browseable" = "yes";
+          "force group" = "users";
+          "guest account" = "smbguest";
 
-      create mask = 0770
-      directory mask = 0770
-      force create mode = 0770
-      force directory mode = 0770
-      writable = yes
-      browseable = yes
-      force group = users
-      guest account = smbguest
-
-      usershare path = /var/lib/samba/usershares
-      usershare max shares = 100
-      usershare allow guests = yes
-      usershare owner only = yes
-    '';
+          "usershare path" = "/var/lib/samba/usershares";
+          "usershare max shares" = "100";
+          "usershare allow guests" = "yes";
+          "usershare owner only" = "yes";
+        };
+      }
+    ];
   };
 
   users.users.smbguest = {
