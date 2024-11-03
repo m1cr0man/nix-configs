@@ -12,11 +12,11 @@ in
 {
   m1cr0man.minecraft-servers = {
     vaulthunters = {
-      enable = false;
-      launchCommand = "java -Xmx10G -Xms5G @libraries/net/minecraftforge/forge/1.18.2-40.1.93/unix_args.txt";
+      enable = true;
+      launchCommand = "java -Xmx10G -Xms5G @libraries/net/minecraftforge/forge/1.18.2-40.2.9/unix_args.txt";
       # These 2 args won't actually be used
       memGb = 10;
-      jar = "forge-1.18.2-40.1.93.jar";
+      jar = "forge-1.18.2-40.2.9.jar";
       port = 25555;
       user = "mcadmins";
       group = "mcadmins";
@@ -37,7 +37,7 @@ in
     };
 
     magitech = {
-      enable = true;
+      enable = false;
       launchCommand = "java -Xmx10G -Xms5G @libraries/net/minecraftforge/forge/1.18.2-40.2.9/unix_args.txt";
       # These 2 args won't actually be used
       memGb = 10;
