@@ -47,9 +47,7 @@ in
         extraGroups = [ "wheel" "acme" "git" "sockets" ];
         packages = [ pkgs.gnupg ];
       };
-      keys = rootKeys ++ [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIq17Vz/gxVGDifkRFO6W5DJvJ5JnZ+DBq85W3UtRv82 lucas@ip-svr"
-      ];
+      keys = rootKeys;
     })
 
     (makeNormalUser "adam" {
@@ -57,10 +55,7 @@ in
         extraGroups = [ "git" "sockets" ];
         packages = [ pkgs.gnupg ];
       };
-      keys = rootKeys ++ [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIq17Vz/gxVGDifkRFO6W5DJvJ5JnZ+DBq85W3UtRv82 lucas@ip-svr"
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHm/la1nyBpAxxkYjTWaK7BL77N6he6XUtfbBfHY+Lhn adam@ip-laptop"
-      ];
+      keys = rootKeys;
     })
 
     (makeNormalUser "zeus" {
