@@ -15,10 +15,14 @@ in
     git = { };
   };
 
+  sops.secrets.root_password.neededForUsers = true;
+  sops.secrets.lucas_password.neededForUsers = true;
   sops.secrets.zeus_password.neededForUsers = true;
   sops.secrets.portfwd_guest_password.neededForUsers = true;
 
+  users.mutableUsers = false;
   users.users = with lib.m1cr0man; lib.mkMerge [
+    { root.hashedPasswordFile = config.sops.secrets.root_password.path; }
     (makeNormalUser "anders" {
       extraArgs.linger = true;
       keys = rootKeys ++ [
@@ -46,6 +50,7 @@ in
         linger = true;
         extraGroups = [ "wheel" "acme" "git" "sockets" ];
         packages = [ pkgs.gnupg ];
+        hashedPasswordFile = config.sops.secrets.lucas_password.path;
       };
       keys = rootKeys;
     })
@@ -72,7 +77,6 @@ in
       home = "/var/empty";
       group = "nogroup";
       keys = rootKeys ++ [
-        "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAtXDL7LWBiySe4YZmosFxqzjxjcROtmse22+HFShD4L7bjpqWDkIy7ynTAn/EzizVAT2UFs2z2QObJBsaxObPMdYLpAnVW2sLKh40AhsveYlxiXhVbpfMqIZ6lqtUOMqSN3ql7eUwqWMnWtBz4yl5XwLIoNmnT20XDjNJzoGk+VOTNedldDZEM1oHOw+owtAr1k2sBu2dStXbiUgIjAyDOszNp5z1dyV8Zu/bEmFj3+Uw/JID+IneZCtk/HKrPldwv+tAbSnL2+LTmQhcdfk3GZGRh/EcAyHB+PkswIoxP7p7XoQLt10fdYYpzPur4Mo45gH/RE9ybhpxfasAj7411w== git@ip"
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMznnngrMCxW3bdpY32QPaAbgNGPp58A4t3tAnV1HdRW root@dhcpserver-tassie"
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOpdRenXTF6HHbgwNdu++dvlucOPX5ZC8Zb+/HXzgoHo admin@feefy"
       ];
