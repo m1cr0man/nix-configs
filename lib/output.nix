@@ -46,7 +46,7 @@ rec {
     # Also enable nix-plugins and our own extra-builtins so we can decrypt sops at eval time for some special cases.
     # Always ensure nix version matches that expected by nix-plugins
     # TL;DR Bump whenever nix.conf/nix-plugins errors appear in build
-    nix.package = pkgs.nixVersions.nix_2_18;
+    nix.package = pkgs.nixVersions.nix_2_24;
     nix.extraOptions =
       ''
         experimental-features = nix-command flakes

@@ -10,6 +10,8 @@
     nixos-nspawn.url = "github:m1cr0man/python-nixos-nspawn";
     nixos-nspawn.inputs.nixpkgs.follows = "nixpkgs";
 
+    preservation.url = "github:nix-community/preservation";
+
     snm.url = "git+https://gitlab.com/simple-nixos-mailserver/nixos-mailserver.git?ref=master";
     snm.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -37,6 +39,7 @@
       fenix.follows = "imhumane-rs/fenix";
       advisory-db.follows = "imhumane-rs/advisory-db";
     };
+
   };
 
   outputs = { self, sops-nix, ... }@inputs:
