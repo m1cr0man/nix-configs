@@ -23,7 +23,10 @@ rec {
   pkgs = import "${nixpkgs.outPath}/pkgs/top-level/default.nix" {
     localSystem.system = system;
     overlays = builtins.attrValues self.overlays;
-    config = { allowUnfree = true; };
+    config = {
+      allowUnfree = true;
+      allowUnsupportedSystem = true;
+    };
   };
 
   systemLabelModule = { lib, ... }:
