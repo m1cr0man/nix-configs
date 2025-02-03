@@ -17,12 +17,15 @@
       ./hardware-configuration.nix
     ];
 
-  system.stateVersion = "24.05";
+  system.stateVersion = "24.11";
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.network.enable = lib.mkForce false;
+
+  # Required for building aarch64-linux packages
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   # Reduce auto snapshot frequency
   services.zfs.autoSnapshot.frequent = lib.mkForce 0;
