@@ -105,11 +105,9 @@ rec {
         systemLabelModule
         (baseModule "host" name)
         nixOptionsModule
-        sops-nix.nixosModules.sops
         "${configPath}/hosts/${name}/configuration.nix"
       ] ++ (pkgs.lib.m1cr0man.module.addModules myModulesPath [
         "global-options.nix"
-        "secrets"
         "sysconfig"
       ])
     );
