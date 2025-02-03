@@ -50,6 +50,11 @@
         system = "x86_64-linux";
       };
     let
+      outputArm = import ./lib/output.nix {
+        inherit inputs;
+        domain = "m1cr0man.com";
+        system = "aarch64-linux";
+      };
       devDeps = [
         pkgs.nix-prefetch-git
         pkgs.gnupg
@@ -109,6 +114,13 @@
           ];
         };
 
+        enderpi = outputArm.mkConfiguration {
+          name = "enderpi";
+          modules = [
+            inputs.preservation.nixosModules.preservation
+          ];
+        };
+
         netboot = mkConfiguration {
           name = "netboot";
           modules = [
@@ -118,11 +130,11 @@
           ];
         };
 
-        kexec = { address, prefixLength, defaultGateway }: mkConfiguration {
+        kexec = { address, prefixLength, defaultGateway, mkConf ? mkConfiguration, modules ? [] }: mkConf {
           name = "kexec";
           modules = [
             ({ modulesPath, ... }: {
-              imports = [ "${modulesPath}/installer/netboot/netboot-minimal.nix" ];
+              imports = [ "${modulesPath}/installer/netboot/netboot-minimal.nix" ] ++ modules;
               networking = {
                 inherit defaultGateway;
                 usePredictableInterfaceNames = false;
