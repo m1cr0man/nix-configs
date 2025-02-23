@@ -58,8 +58,6 @@
       devDeps = [
         pkgs.nix-prefetch-git
         pkgs.gnupg
-        # For VS Code Nix IDE plugin
-        pkgs.nix-instantiate
         pkgs.nixpkgs-fmt
         # Sops related packages. Took me a moment to realise sops
         # is an independent thing from sops-nix ;)
@@ -87,6 +85,13 @@
         sarah = mkConfiguration {
           name = "sarah";
           modules = [ inputs.nixos-vscode-server.nixosModules.default ];
+        };
+
+        dinonugget = mkConfiguration {
+          name = "dinonugget";
+          modules = [
+            inputs.preservation.nixosModules.preservation
+          ];
         };
 
         gelandewagen = mkConfiguration {
@@ -146,6 +151,10 @@
               };
             })
           ];
+        };
+
+        iso = mkConfiguration {
+          name = "iso";
         };
       };
 
