@@ -3,7 +3,7 @@
   services.xserver.videoDrivers = [ "amdgpu" ];
 
   # Boot screen
-  # boot.plymouth.enable = true;
+  boot.plymouth.enable = true;
 
   # Desktop Environment
   services.xserver.enable = true;
@@ -31,23 +31,19 @@
     enable32Bit = true;
     extraPackages = [
       pkgs.rocmPackages.clr.icd
-      pkgs.amdvlk
-    ];
-    extraPackages32 = [
-      pkgs.driversi686Linux.amdvlk
     ];
   };
-
-  # environment.systemPackages = [
-  #   pkgs.clinfo
-  #   pkgs.glxinfo
-  #   pkgs.vulkan-tools
-  #   pkgs.vulkan-loader
-  #   pkgs.libva-utils
-  # ];
 
   # From AMD GPU on NixOS Wiki
   systemd.tmpfiles.rules = [
     "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
+  ];
+
+  environment.defaultPackages = [
+    pkgs.clinfo
+    pkgs.glxinfo
+    pkgs.vulkan-tools
+    pkgs.vulkan-loader
+    pkgs.libva-utils
   ];
 }
