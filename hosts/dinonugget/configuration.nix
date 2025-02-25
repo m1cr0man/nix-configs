@@ -12,8 +12,11 @@
 
   system.stateVersion = "25.05";
 
-  networking.wireless.enable = true;
-  networking.wireless.allowAuxiliaryImperativeNetworks = true;
+  networking.wireless = {
+    enable = true;
+    allowAuxiliaryImperativeNetworks = true;
+    userControlled.enable = true;
+  };
 
   networking = {
     hostId = "ff90ce60";
@@ -42,6 +45,14 @@
     };
 
     nameservers = [ "192.168.2.254" "1.1.1.1" ];
+  };
+
+  systemd.network.networks."40-eth0" = {
+    linkConfig.RequiredForOnline = "no";
+  };
+  systemd.network.networks."40-wlan0" = {
+    linkConfig.RequiredForOnline = "routable";
+    networkConfig.IgnoreCarrierLoss = "3s";
   };
 
   # Required for building aarch64-linux packages

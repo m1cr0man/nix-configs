@@ -21,6 +21,10 @@
     ];
   };
 
+  sops.age.sshKeyPaths = [
+    "/nix/persist/ssh_host_ed25519_key"
+  ];
+
   services.openssh.hostKeys = lib.mkForce [{
     path = "/nix/persist/ssh_host_ed25519_key";
     type = "ed25519";

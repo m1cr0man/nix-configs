@@ -39,6 +39,15 @@
     "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
   ];
 
+  # GnuPG
+  programs.gnupg.agent = {
+    enable = true;
+    enableExtraSocket = true;
+    enableSSHSupport = true;
+    settings."allow-preset-passphrase" = "";
+  };
+  security.pam.services.login.gnupg.enable = true;
+
   environment.defaultPackages = [
     pkgs.clinfo
     pkgs.glxinfo

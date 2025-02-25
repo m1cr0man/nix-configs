@@ -18,7 +18,7 @@ in
       extraArgs = {
         inherit hashedPassword;
         linger = true;
-        extraGroups = [ "wheel" "git" "sockets" ];
+        extraGroups = [ "wheel" "git" "sockets" "systemd-journal" ];
         packages = [
           pkgs.gnupg
           pkgs.remmina
