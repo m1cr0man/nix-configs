@@ -21,7 +21,7 @@
     ];
   };
 
-  sops.age.sshKeyPaths = [
+  sops.age.sshKeyPaths = lib.mkForce [
     "/nix/persist/ssh_host_ed25519_key"
   ];
 
