@@ -21,6 +21,9 @@
   # Firmware is required in stage-1 for early KMS.
   hardware.enableRedistributableFirmware = true;
 
+  # Firmware updates
+  hardware.cpu.amd.updateMicrocode = true;
+
   # Bluetooth
   hardware.bluetooth.enable = true;
 

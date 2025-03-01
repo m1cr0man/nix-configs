@@ -23,6 +23,7 @@ in
           pkgs.gnupg
           pkgs.remmina
           pkgs.easyeffects
+          pkgs.obsidian
           # Gaming
           pkgs.lutris
           pkgs.bottles
