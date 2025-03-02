@@ -10,7 +10,8 @@
       "/var/log"
       "/var/lib/systemd/timers"
       "/var/lib/tailscale"
-      { directory = "/var/lib/octoprint"; user = "octoprint"; group = "octoprint"; }
+      { directory = "/var/lib/klipper"; user = "klipper"; group = "klipper"; }
+      { directory = "/var/lib/moonraker"; user = "moonraker"; group = "moonraker"; }
     ];
     files = let
       init = file: { inherit file; how = "symlink"; inInitrd = true; configureParent = true; };
@@ -20,6 +21,10 @@
       { file = "/etc/wpa_supplicant.conf"; mode = "0640"; }
     ];
   };
+
+  sops.age.sshKeyPaths = lib.mkForce [
+    "/nix/persist/ssh_host_ed25519_key"
+  ];
 
   services.openssh.hostKeys = lib.mkForce [{
     path = "/nix/persist/ssh_host_ed25519_key";

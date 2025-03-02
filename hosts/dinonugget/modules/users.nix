@@ -6,6 +6,8 @@ in
 {
   users.mutableUsers = false;
 
+  nix.settings.trusted-users = [ "root" "lucas" ];
+
   users.groups = {
     lucas = { };
   };
