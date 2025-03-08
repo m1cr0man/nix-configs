@@ -5,6 +5,7 @@ in
   services.klipper.firmwares.mcu = {
     inherit serial;
     enable = true;
+    enableKlipperFlash = true;
     configFile = ./ender5.cfg;
   };
   services.klipper.settings = {

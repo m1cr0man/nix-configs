@@ -12,6 +12,7 @@ in {
     addModulesRecursive ./modules
     ++ [
       ./hardware-configuration.nix
+      # "${modulesPath}/installer/sd-card/sd-image-aarch64-new-kernel.nix"
     ]
     ++ (lib.optionals (bootImage) [
       "${modulesPath}/installer/sd-card/sd-image-aarch64-new-kernel-no-zfs-installer.nix"

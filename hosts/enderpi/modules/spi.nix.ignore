@@ -1,0 +1,71 @@
+{ pkgs, ... }:
+{
+  boot.kernelModules = [ "spidev" "spi_bcm2835" ];
+
+  # Enable the SPI
+  hardware.deviceTree = {
+    enable = true;
+    filter = "*bcm2837-rpi-3-b-plus.dtb";
+#     overlays = [
+#       {
+#         name = "spi";
+#         # dtboFile = "${pkgs.device-tree_rpi.overlays}/spi0-0cs.dtbo";
+#           dtsText = "
+# /dts-v1/;
+# /plugin/;
+
+# /{
+#         compatible = \"brcm,bcm2711,bcm2835,bcm2837,raspberrypi\";
+#         fragment@0 {
+#                 target-path = \"/soc/gpio@7e200000\";
+#                 __overlay__ {
+#                         spi0_pins: spi0_pins {
+#                                 brcm,pins = <0x09 0x0a 0x0b>;
+#                                 brcm,function = <0x04>;
+#                                 phandle = <0x0d>;
+#                         };
+
+#                         spi0_cs_pins: spi0_cs_pins {
+#                                 brcm,pins = <0x08 0x07>;
+#                                 brcm,function = <0x01>;
+#                                 phandle = <0x0e>;
+#                         };
+#         };
+#     };
+#         fragment@1 {
+#                 target-path = \"/soc/spi@7e204000\";
+#                 __overlay__ {
+#              pinctrl-names = \"default\";
+#              pinctrl-0 = <&spi0_pins &spi0_cs_pins>;
+#              cs-gpios = <&gpio 8 1>, <&gpio 7 1>;
+#              status = \"okay\";
+
+#              spidev0: spidev@0{
+#                  compatible = \"lwn,bk4\";
+#                  reg = <0>;      /* CE0 */
+#                  #address-cells = <1>;
+#                  #size-cells = <0>;
+#                  spi-max-frequency = <125000000>;
+#              };
+
+#              spidev1: spidev@1{
+#                  compatible = \"lwn,bk4\";
+#                  reg = <1>;      /* CE1 */
+#                  #address-cells = <1>;
+#                  #size-cells = <0>;
+#                  spi-max-frequency = <125000000>;
+#              };
+#                 };
+#         };
+# };
+#             ";
+#       }
+#     ];
+  };
+
+  nixpkgs.overlays = [ (_final: prev: {
+    deviceTree = prev.deviceTree // {
+      applyOverlays = _final.callPackage ./apply-overlays-dtmerge.nix.noinc { };
+    };
+  }) ];
+}

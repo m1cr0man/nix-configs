@@ -40,6 +40,10 @@
       advisory-db.follows = "imhumane-rs/advisory-db";
     };
 
+    rpi-nix.url = "github:nix-community/raspberry-pi-nix";
+    rpi-nix.inputs = {
+      nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, sops-nix, ... }@inputs:
@@ -123,6 +127,7 @@
           name = "enderpi";
           modules = [
             inputs.preservation.nixosModules.preservation
+            inputs.rpi-nix.nixosModules.raspberry-pi
           ];
         };
 
