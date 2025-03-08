@@ -5,6 +5,10 @@
     keyMap = "uk";
   };
 
+  # Fixes errors finding the console font
+  # See https://github.com/NixOS/nixpkgs/issues/312452#issuecomment-2611908384
+  systemd.services.systemd-vconsole-setup.unitConfig.After="local-fs.target";
+
   programs.bash = {
     interactiveShellInit = ''
       # Save each command in history as soon as it is executed

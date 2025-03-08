@@ -58,10 +58,6 @@ in
       extraConfig = "*.* @${cfg.rsyslogServer};RSYSLOG_SyslogProtocol23Format";
     };
 
-    # Fix for infinite recursion when RFC108 is enabled
-    # See https://github.com/NixOS/nixpkgs/issues/353225
-    networking.resolvconf.enable = !config.services.resolved.enable;
-
     # Clean up nix store automatically
     nix.gc.automatic = false;
   };
