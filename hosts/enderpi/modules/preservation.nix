@@ -1,4 +1,7 @@
-{ lib, ... }: {
+{ config, lib, ... }: let
+  klipperUser = config.services.klipper.user;
+  moonrakerUser = config.services.moonraker.user;
+in  {
   preservation.enable = true;
   preservation.preserveAt."/nix/persist" = {
     commonMountOptions = [ "x-gvfs-hide" "x-gdu.hide" ];
@@ -10,11 +13,11 @@
       "/var/log"
       "/var/lib/systemd/timers"
       "/var/lib/tailscale"
-      { directory = "/var/lib/klipper"; user = "klipper"; group = "klipper"; }
-      { directory = "/var/lib/moonraker"; user = "moonraker"; group = "moonraker"; }
+      { directory = "/var/lib/klipper"; user = klipperUser; group = klipperUser; }
+      { directory = "/var/lib/moonraker"; user = moonrakerUser; group = moonrakerUser; }
     ];
     files = let
-      init = file: { inherit file; how = "symlink"; inInitrd = true; configureParent = true; };
+      init = file: { inherit file; how = "bindmount"; inInitrd = true; configureParent = true; };
     in [
       (init "/var/lib/systemd/random-seed")
       (init "/etc/machine-id")

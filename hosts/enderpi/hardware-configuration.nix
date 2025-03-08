@@ -13,6 +13,7 @@
   # hardware.enableRedistributableFirmware = true;
 
   raspberry-pi-nix.uboot.enable = true;
+  raspberry-pi-nix.libcamera-overlay.enable = false;
   hardware.raspberry-pi.config.all = {
     options = {
       # The firmware will start our u-boot binary rather than a
