@@ -30,9 +30,9 @@ in
         max-tick-time = "90000";
         max-world-size = "200000";
         motd = "Vault Hunters 1.18";
-        simulation-distance = "10";
+        simulation-distance = "12";
         spawn-protection = "0";
-        view-distance = "10";
+        view-distance = "20";
       };
     };
 
