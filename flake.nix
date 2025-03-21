@@ -131,6 +131,14 @@
           ];
         };
 
+        keelogspi1 = outputArm.mkConfiguration {
+          name = "keelogspi1";
+          modules = [
+            inputs.preservation.nixosModules.preservation
+            inputs.rpi-nix.nixosModules.raspberry-pi
+          ];
+        };
+
         netboot = mkConfiguration {
           name = "netboot";
           modules = [

@@ -1,0 +1,22 @@
+# All
+
+Extrusion Mult 0.97
+
+# 40mm/s
+
+- Pressure Advance ~1.2
+
+# 80mm/s
+
+- Pressure Advance ~0.8
+
+# 120mm/s
+
+- Pressure advance somewhere between .6 and .8
+  - < .6 was definitely over extruding at corners
+  - .7 wasn't too bad
+  - I would say .65
+
+# TODO
+
+- Tune benchy chimney

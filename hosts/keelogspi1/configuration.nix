@@ -13,6 +13,7 @@ in {
     addModulesRecursive ./modules
     ++ [
       ./hardware-configuration.nix
+      # "${modulesPath}/installer/sd-card/sd-image-aarch64-new-kernel.nix"
     ]
     ++ (lib.optionals (bootImage) [
       "${modulesPath}/installer/sd-card/sd-image-aarch64-new-kernel-no-zfs-installer.nix"
@@ -49,22 +50,25 @@ in {
     interfaces.eth0 = {
       useDHCP = false;
       ipv4.addresses = [{
-        address = "192.168.137.22";
+        address = "192.168.14.8";
         prefixLength = 24;
       }];
     };
     interfaces.wlan0 = {
       ipv4.addresses = [{
-        address = "192.168.2.5";
+        address = "192.168.14.9";
+        prefixLength = 24;
+      } {
+        address = "192.168.2.22";
         prefixLength = 24;
       }];
     };
     defaultGateway = {
-      address = "192.168.2.254";
+      address = "192.168.14.254";
       interface = "wlan0";
     };
 
-    nameservers = [ "192.168.2.254" "1.1.1.1" ];
+    nameservers = [ "192.168.14.254" "1.1.1.1" ];
   };
 
   # Fix for routing issues
@@ -84,5 +88,6 @@ in {
 
   environment.systemPackages = [
     pkgs.libraspberrypi
+    pkgs.dfu-util
   ];
 }

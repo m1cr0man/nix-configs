@@ -17,7 +17,7 @@ rec {
           let
             itemPath = "${modulesPath}/${item}";
           in
-          if ftype == "regular" && (match ".*\.nix$" item) != null then {
+          if (match ".*\.nix$" item) != null then {
             # Take the filename without extension as the key
             name = head (match "(.*)\.nix$" (baseNameOf item));
             # Import all regular files that end in nix
@@ -50,7 +50,7 @@ rec {
             let
               itemPath = "${modulesPath}/${item}";
             in
-            if ftype == "regular" && (match ".*\.nix$" item) != null then [ itemPath ]
+            if (match ".*\.nix$" item) != null then [ itemPath ]
             else if ftype == "directory" then addModulesRecursive itemPath
             else [ ]
           )

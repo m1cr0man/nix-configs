@@ -11,6 +11,7 @@ keys:
   - &server_deic age10q255h9qmtgd53htlzvuauazz0qdkln6a0u0cjd50v02s6ezmp5qtadlam
   - &server_phoenix age1l7wtz2alwagwtr0y4xhp6x2xyfvgl0tcl8qf4ust957agf2wfsrsae2jfj
   - &server_enderpi age1z4cw08zy6pq9n9ac7asfax6exln8caaekmcj0z4gs3vzukkymu6sacmaz0
+  - &server_keelogspi1 age1f5prkvrvmudz9yvtn3vmwulhzwjf88jzcnearrmya96clc2d23zq3au38n
 creation_rules:
   - path_regex: modules/secrets/shared.yaml$
     key_groups:
@@ -27,6 +28,7 @@ creation_rules:
       - *server_deic
       - *server_phoenix
       - *server_enderpi
+      - *server_keelogspi1
   - path_regex: hosts/gelandewagen/secrets.yaml$
     key_groups:
     - age:
@@ -81,6 +83,12 @@ creation_rules:
       - *admin_m1cr0man
       - *admin_zeus
       - *server_enderpi
+  - path_regex: hosts/keelogspi1/secrets.yaml$
+    key_groups:
+    - age:
+      - *admin_m1cr0man
+      - *admin_zeus
+      - *server_keelogspi1
   - path_regex: containers/.*/secrets.yaml$
     key_groups:
     - age:

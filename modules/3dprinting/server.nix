@@ -8,6 +8,7 @@
   username = "moonraker";
   dataDir = "/var/lib/moonraker";
   hostName = config.networking.hostName;
+  domainName = config.networking.domain;
 in {
   # The web interface
   services.mainsail = {
@@ -29,9 +30,9 @@ in {
       authorization = {
         force_logins = true;
         cors_domains = [
-          "*.m1cr0man.com"
+          "*.${domainName}"
           "*://${hostName}"
-          "*://${hostName}.lucas.ts.m1cr0man.com"
+          "*://${hostName}.${domainName}"
         ];
         trusted_clients = [
           "100.64.0.0/16"
