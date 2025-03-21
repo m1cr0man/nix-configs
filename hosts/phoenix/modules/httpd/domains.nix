@@ -103,6 +103,7 @@ in lib.mkMerge [
     ];
     php = true;
     mysql = true;
+    mail = true;
   })
   (mkDomain {
     username = "csc";
