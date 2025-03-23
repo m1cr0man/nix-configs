@@ -166,7 +166,8 @@ in
     printer = {
       kinematics = "cartesian";
       max_velocity = 300;
-      max_accel = 3000;
+      max_accel = 1500;
+      square_corner_velocity = 12.0;
       max_z_velocity = 5;
       max_z_accel = 100;
     };
