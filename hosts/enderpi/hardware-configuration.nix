@@ -47,6 +47,15 @@
         enable = true;
         value = true;
       };
+      # Required for camera...allegedly
+      start_x = {
+        enable = true;
+        value = 1;
+      };
+      gpu_mem = {
+        enable = true;
+        value = 256;
+      };
     };
     base-dt-params = {
       krnbt = {

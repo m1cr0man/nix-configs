@@ -6,6 +6,7 @@ in {
   imports = with lib.m1cr0man.module;
     addModules ../../modules [
       "3dprinting/server.nix"
+      "3dprinting/rpicam.nix"
       "management/ssh"
       "www/tailscale.nix"
     ]

@@ -1,4 +1,3 @@
-{ config, ... }:
 let
   serial = "/dev/serial/by-id/usb-1a86_USB2.0-Serial-if00-port0";
   probeX = 42.2;
@@ -29,27 +28,10 @@ let
   };
 in
 {
-  services.mjpg-streamer = {
-    enable = true;
-    user = "moonraker";
-    group = "moonraker";
-    inputPlugin = "input_raspicam.so";
-  };
-
-  services.nginx.virtualHosts."${config.services.mainsail.hostName}".locations."/webcam/" = {
-    proxyPass = "http://localhost:5050/";
-  };
-
-  services.moonraker.settings = {
-    "webcam printer_camera" = {
-      stream_url = "/webcam/?action=stream";
-      snapshot_url = "/webcam/?action=stream";
-    };
-  };
-
   services.klipper.firmwares.mcu = {
     inherit serial;
-    enable = true;
+    # Disabled for now - it wants ffmpeg as a dependency!
+    enable = false;
     enableKlipperFlash = true;
     configFile = ./ender5.cfg;
   };

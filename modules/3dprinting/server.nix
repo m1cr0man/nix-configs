@@ -17,9 +17,13 @@ in {
     inherit hostName;
   };
 
+  # Required when allowSystemControl is true
+  security.polkit.enable = config.services.moonraker.allowSystemControl;
+
   # The REST API for klipper
   services.moonraker = {
     enable = true;
+    allowSystemControl = true;
     address = "0.0.0.0";
     user = username;
     group = username;

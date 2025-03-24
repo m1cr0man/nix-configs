@@ -20,3 +20,7 @@ Extrusion Mult 0.97
 # TODO
 
 - Tune benchy chimney
+
+## More tuning
+
+1500m/s accel seemed to do the trick
