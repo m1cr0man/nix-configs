@@ -50,6 +50,14 @@ rec {
     # Always ensure nix version matches that expected by nix-plugins
     # TL;DR Bump whenever nix.conf/nix-plugins errors appear in build
     nix.package = pkgs.nixVersions.nix_2_24;
+    nix.settings = {
+        substituters = [
+          "https://nix-community.cachix.org"
+        ];
+        trusted-public-keys = [
+          "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        ];
+    };
     nix.extraOptions =
       ''
         experimental-features = nix-command flakes
