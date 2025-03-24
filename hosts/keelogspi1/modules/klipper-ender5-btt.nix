@@ -31,7 +31,7 @@ in
 {
   services.klipper.firmwares.mcu = {
     inherit serial;
-    enable = true;
+    enable = false;
     enableKlipperFlash = true;
     configFile = ./ender5-btt.cfg;
   };
@@ -80,7 +80,7 @@ in
     bltouch = {
       sensor_pin = "P1.27";
       control_pin = "P2.0";
-      z_offset = 3.620;
+      z_offset = 1.19;
       x_offset = -probeX;
       y_offset = -probeY;
       # samples:2
@@ -114,8 +114,8 @@ in
       step_pin = "P2.13";
       dir_pin = "!P0.11";
       enable_pin = "!P2.12";
-      microsteps = 64;
-      rotation_distance = 3.43;
+      microsteps = 16;
+      rotation_distance = 33.683;
       nozzle_diameter = 0.400;
       filament_diameter = 1.750;
       heater_pin = "P2.7";
