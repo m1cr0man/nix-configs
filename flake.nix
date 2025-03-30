@@ -127,7 +127,6 @@
           name = "enderpi";
           modules = [
             inputs.preservation.nixosModules.preservation
-            inputs.rpi-nix.nixosModules.raspberry-pi
           ];
         };
 
