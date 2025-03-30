@@ -50,7 +50,12 @@ rec {
     # Always ensure nix version matches that expected by nix-plugins
     # TL;DR Bump whenever nix.conf/nix-plugins errors appear in build
     nix.package = pkgs.nixVersions.nix_2_24;
+    nix.channel.enable = false;
     nix.settings = {
+        flake-registry = "";
+        experimental-features = [ "nix-command" "flakes" ];
+        plugin-files = "${pkgs.nix-plugins}/lib/nix/plugins";
+        extra-builtins-file = "${configPath}/lib/extra-builtins.nix";
         substituters = [
           "https://nix-community.cachix.org"
         ];
@@ -58,12 +63,6 @@ rec {
           "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         ];
     };
-    nix.extraOptions =
-      ''
-        experimental-features = nix-command flakes
-        plugin-files = ${pkgs.nix-plugins}/lib/nix/plugins
-        extra-builtins-file = ${configPath}/lib/extra-builtins.nix
-      '';
   };
 
   baseModule = instanceType: name: {
