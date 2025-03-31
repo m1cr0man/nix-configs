@@ -1,63 +1,21 @@
 { pkgs, lib, ... }:
 {
+  # The hardware configuration on all my RPis is identical.
+
   nixpkgs.hostPlatform.system = "aarch64-linux";
   # nixpkgs.crossSystem.system = "aarch64-linux";
   nixpkgs.buildPlatform.system = "x86_64-linux"; #If you build on x86 other wise changes this.
 
-  boot.kernelPackages = lib.mkForce pkgs.linuxKernel.packages.linux_rpi3;
-  boot.kernelParams = ["console=tty0" "8250.nr_uarts=1"];
-  boot.consoleLogLevel = 7;
-  boot.supportedFilesystems.zfs = lib.mkForce false;
-  # Required for preservation anyway
-  boot.initrd.systemd.enable = true;
+  hardware.enableRedistributableFirmware = true;
 
-  raspberry-pi-nix.uboot.enable = true;
-  # Disabled for now because it takes an eternity to build
-  raspberry-pi-nix.libcamera-overlay.enable = false;
+  boot = {
+    kernelPackages = pkgs.linuxKernel.packages.linux_rpi3;
+    consoleLogLevel = 7;
+    # Required for preservation anyway
+    initrd.systemd.enable = true;
 
-  hardware.raspberry-pi.config.all = {
-    options = {
-      # The firmware will start our u-boot binary rather than a
-      # linux kernel.
-      kernel = {
-        enable = true;
-        value = "u-boot-rpi-arm64.bin";
-      };
-      arm_64bit = {
-        enable = true;
-        value = true;
-      };
-      enable_uart = {
-        enable = true;
-        value = true;
-      };
-      avoid_warnings = {
-        enable = true;
-        value = true;
-      };
-      camera_auto_detect = {
-        enable = true;
-        value = true;
-      };
-      display_auto_detect = {
-        enable = true;
-        value = true;
-      };
-      disable_overscan = {
-        enable = true;
-        value = true;
-      };
-    };
-    base-dt-params = {
-      krnbt = {
-        enable = true;
-        value = "on";
-      };
-      spi = {
-        enable = true;
-        value = "on";
-      };
-    };
+    loader.rpi.enable = true;
+    loader.rpi.stripRpi4 = true;
   };
 
   # Helps with memory usage - we only have 1gb
@@ -92,6 +50,7 @@
     "/nix" = {
       device = "/dev/disk/by-label/NIXOS_SD";
       fsType = "ext4";
+      options = [ "noatime" ];
     };
     "/boot" = {
       depends = [ "/nix" ];

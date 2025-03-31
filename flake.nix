@@ -39,11 +39,6 @@
       fenix.follows = "imhumane-rs/fenix";
       advisory-db.follows = "imhumane-rs/advisory-db";
     };
-
-    rpi-nix.url = "github:nix-community/raspberry-pi-nix";
-    rpi-nix.inputs = {
-      nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs = { self, sops-nix, ... }@inputs:
@@ -134,7 +129,6 @@
           name = "keelogspi1";
           modules = [
             inputs.preservation.nixosModules.preservation
-            inputs.rpi-nix.nixosModules.raspberry-pi
           ];
         };
 

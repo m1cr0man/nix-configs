@@ -4,14 +4,12 @@
       "3dprinting/server.nix"
       "3dprinting/rpicam.nix"
       "rpi/bootloader"
+      "rpi/hardware-rpi3.nix"
       "management/ssh"
       "www/tailscale.nix"
     ]
     ++
-    addModulesRecursive ./modules
-    ++ [
-      ./hardware-configuration.nix
-    ];
+    addModulesRecursive ./modules;
 
   system.stateVersion = "25.05";
 
@@ -63,8 +61,6 @@
 
   # Enable the watchdog
   systemd.watchdog.runtimeTime = "14s";
-
-  services.sshd.enable = true;
 
   environment.systemPackages = [
     pkgs.libraspberrypi
