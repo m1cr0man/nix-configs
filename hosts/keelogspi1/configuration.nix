@@ -16,8 +16,6 @@ in {
 
   system.stateVersion = "25.05";
 
-  nix.settings.trusted-users = [ "root" ];
-
   # Fix from https://github.com/NixOS/nixpkgs/issues/154163#issuecomment-1350599022
   nixpkgs.overlays = [
     (final: super: {
