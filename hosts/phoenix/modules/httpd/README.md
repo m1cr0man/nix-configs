@@ -25,9 +25,12 @@ sudo chown $USER:$USER id_ed25519_jdoe.pem
 ```sh
 # Copy to D drive
 scp phoenix:id_ed25519_jdoe.pem D:\
+# Convert the key to PPK using puttygen.
+puttygen D:\phoenix:id_ed25519_jdoe.pem -o D:\phoenix:id_ed25519_jdoe.ppk
 ```
 
-3. Send the SSH key and password to the customer. The credentials will be:
+3. Send both the PEM and PPK SSH key and password to the customer.
+  The credentials will be:
 
   - User: jdoe
   - Password: ***
