@@ -18,6 +18,9 @@ exit
 # Copy the key to your own home
 sudo cp -a ~jdoe/.ssh/id_ed25519 id_ed25519_jdoe.pem
 sudo chown $USER:$USER id_ed25519_jdoe.pem
+# Convert the key to PPK using puttygen.
+nix shell nixpkgs#putty
+puttygen id_ed25519_jdoe.pem -o id_ed25519_jdoe.ppk
 ```
 
 2. Download the SSH key. Run this on your local PC.
@@ -25,8 +28,7 @@ sudo chown $USER:$USER id_ed25519_jdoe.pem
 ```sh
 # Copy to D drive
 scp phoenix:id_ed25519_jdoe.pem D:\
-# Convert the key to PPK using puttygen.
-puttygen D:\phoenix:id_ed25519_jdoe.pem -o D:\phoenix:id_ed25519_jdoe.ppk
+scp phoenix:id_ed25519_jdoe.ppk D:\
 ```
 
 3. Send both the PEM and PPK SSH key and password to the customer.
