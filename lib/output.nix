@@ -63,9 +63,7 @@ rec {
           "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         ];
     };
-  };
 
-  baseModule = instanceType: name: {
     # Pin nixpkgs so that commands like "nix shell nixpkgs#<pkg>" are more efficient
     # Source: https://www.tweag.io/blog/2020-07-31-nixos-flakes/ "Pinning Nixpkgs"
     nix.registry.nixpkgs.flake = nixpkgs;
@@ -76,7 +74,9 @@ rec {
     # https://github.com/tejing1/nixos-config/blob/222692910d9c8c44ff066f86f4a2dd1e46f629d3/nixosConfigurations/tejingdesk/registry.nix#L12
     nix.nixPath = [ "/etc/nix/path" ];
     environment.etc."nix/path/nixpkgs".source = nixpkgs;
+  };
 
+  baseModule = instanceType: name: {
     _module.args = {
       # Add domain to the module args so we don't have to do `config.networking.domain` everywhere.
       inherit domain;

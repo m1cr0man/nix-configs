@@ -118,8 +118,8 @@
           ];
         };
 
-        enderpi = outputArm.mkConfiguration {
-          name = "enderpi";
+        "3dminipc" = mkConfiguration {
+          name = "3dminipc";
           modules = [
             inputs.preservation.nixosModules.preservation
           ];
