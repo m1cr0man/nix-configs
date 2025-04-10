@@ -16,6 +16,7 @@ cp -av .ssh/id_ed25519.pub .ssh/authorized_keys
 # Leave jdoe
 exit
 # Copy the key to your own home
+cd
 sudo cp -a ~jdoe/.ssh/id_ed25519 id_ed25519_jdoe.pem
 sudo chown $USER:$USER id_ed25519_jdoe.pem
 # Convert the key to PPK using puttygen.
