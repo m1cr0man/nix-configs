@@ -1,14 +1,12 @@
 keys:
   - &admin_m1cr0man age13lchgqu59yz7x2q6t7djev9k4m6pmh756wp59mdqueh382sqdeeq2rczzz
   - &admin_zeus age1n54pgwhwpulus7hrrmz6q6h52z59xpuyryt3yyqgzsx65xnq2v5sxvhf53
-  - &server_gelandewagen age1zhe8pxej68p6ws98f8z6wc4rnf5nacve5v6xyc6juld7c6j773zqxufwg5
   - &server_unimog age1efge322n8kg4y3mu3lgefxdc99a0q22sd6n4plezw6gg0nentcfq40pwk4
   - &server_chuck age16pxktaeyt0py3tmrf423f5zmk8gx04rcv0cljuvzaw5k6ap96cusevwghc
   - &server_sarah age1397q7ywndyu4x9vtn40ttqwy4jwkvqh2rw66pxn3k7w5fmdj9c8q226gxw
   - &server_bgrs age1mzj3fhw43g5r9cduajqd8xcxth0zcrwetye5r4gf8v6u7la4v5fqmxxmcj
   - &server_dinonugget age13luskx9htpxdva90a3xdef33ekd4r6lkvytnrwsdfe6x27e4e9tqx4a6dc
   - &server_optiplexxx age1ef6wy5vedl6x63gwjntwgjk6v95vrny78t4pw5uxl3dy6hndldtstjnsd8
-  - &server_deic age10q255h9qmtgd53htlzvuauazz0qdkln6a0u0cjd50v02s6ezmp5qtadlam
   - &server_phoenix age1l7wtz2alwagwtr0y4xhp6x2xyfvgl0tcl8qf4ust957agf2wfsrsae2jfj
   - &server_3dminipc age13pxun5dnqkzm6z4gj07lnkydc4dz4d74c7lv9jsttxacersxuvusufjpax
   - &server_orange age13h00n4q2a85x7lc9cehytfsed6lafpvnx2dauh208456n8dlwaeq9y8h0d
@@ -18,22 +16,15 @@ creation_rules:
     - age:
       - *admin_m1cr0man
       - *admin_zeus
-      - *server_gelandewagen
       - *server_unimog
       - *server_chuck
       - *server_sarah
       - *server_bgrs
       - *server_dinonugget
       - *server_optiplexxx
-      - *server_deic
       - *server_phoenix
       - *server_3dminipc
       - *server_orange
-  - path_regex: hosts/gelandewagen/secrets.yaml$
-    key_groups:
-    - age:
-      - *admin_m1cr0man
-      - *server_gelandewagen
   - path_regex: hosts/unimog/secrets.yaml$
     key_groups:
     - age:
@@ -66,11 +57,6 @@ creation_rules:
     - age:
       - *admin_m1cr0man
       - *server_optiplexxx
-  - path_regex: hosts/deic/secrets.yaml$
-    key_groups:
-    - age:
-      - *admin_m1cr0man
-      - *server_deic
   - path_regex: hosts/phoenix/secrets.yaml$
     key_groups:
     - age:

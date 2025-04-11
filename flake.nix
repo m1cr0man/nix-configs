@@ -88,10 +88,6 @@
           ];
         };
 
-        gelandewagen = mkConfiguration {
-          name = "gelandewagen";
-        };
-
         optiplexxx = mkConfiguration {
           name = "optiplexxx";
         };
@@ -181,12 +177,6 @@
         };
         gaming = mkContainer {
           name = "gaming";
-          modules = [
-            sops-nix.nixosModules.sops
-          ];
-        };
-        technae = mkContainer {
-          name = "technae";
           modules = [
             sops-nix.nixosModules.sops
           ];
