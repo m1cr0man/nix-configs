@@ -83,7 +83,7 @@ in
       sensor_pin = "^PC4";
       # Note: This is the buzzer pin on the LCD screen.
       control_pin = "PA4";
-      z_offset = 1.60;
+      z_offset = 1.70;
       x_offset = -probeX; ##!! Measure and change for your own printer!!
       y_offset = -probeY; ##!! Measure and change for your own printer!!
       #y_offset = -15.7

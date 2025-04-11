@@ -40,6 +40,9 @@
     };
 
     nameservers = [ "192.168.2.254" "1.1.1.1" ];
+
+    # Enable LLMNR
+    firewall.allowedUDPPorts = [ 5355 ];
   };
 
   # Fix for routing issues
