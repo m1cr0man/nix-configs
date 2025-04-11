@@ -9,6 +9,7 @@ in  {
       init = directory: { inherit directory; inInitrd = true; configureParent = true; };
     in [
       (init "/var/lib/nixos")
+      "/home"
       "/root"
       "/var/log"
       "/var/lib/systemd/timers"
@@ -21,7 +22,6 @@ in  {
     in [
       (init "/var/lib/systemd/random-seed")
       (init "/etc/machine-id")
-      { file = "/etc/wpa_supplicant.conf"; mode = "0640"; }
     ];
   };
 

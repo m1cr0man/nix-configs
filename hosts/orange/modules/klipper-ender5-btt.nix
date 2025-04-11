@@ -80,7 +80,7 @@ in
     bltouch = {
       sensor_pin = "P1.27";
       control_pin = "P2.0";
-      z_offset = 1.09;
+      z_offset = 1.11;
       x_offset = -probeX;
       y_offset = -probeY;
       # samples:2

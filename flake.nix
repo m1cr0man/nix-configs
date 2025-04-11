@@ -49,11 +49,6 @@
         system = "x86_64-linux";
       };
     let
-      outputArm = import ./lib/output.nix {
-        inherit inputs;
-        domain = "m1cr0man.com";
-        system = "aarch64-linux";
-      };
       devDeps = [
         pkgs.nix-prefetch-git
         pkgs.gnupg
@@ -125,8 +120,8 @@
           ];
         };
 
-        keelogspi1 = outputArm.mkConfiguration {
-          name = "keelogspi1";
+        orange = mkConfiguration {
+          name = "orange";
           modules = [
             inputs.preservation.nixosModules.preservation
           ];
