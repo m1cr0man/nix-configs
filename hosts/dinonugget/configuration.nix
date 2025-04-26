@@ -12,17 +12,12 @@
 
   system.stateVersion = "25.05";
 
-  networking.wireless = {
-    enable = true;
-    allowAuxiliaryImperativeNetworks = true;
-    userControlled.enable = true;
-  };
-
   networking = {
     hostId = "ff90ce60";
     useDHCP = false;
     useNetworkd = true;
     nftables.enable = true;
+    firewall.trustedInterfaces = [ "tailscale0" ];
 
     usePredictableInterfaceNames = false;
     interfaces.eth0 = {
@@ -42,6 +37,12 @@
     defaultGateway = {
       address = "192.168.2.254";
       interface = "wlan0";
+    };
+
+    wireless = {
+      enable = true;
+      allowAuxiliaryImperativeNetworks = true;
+      userControlled.enable = true;
     };
 
     nameservers = [ "192.168.2.254" "1.1.1.1" ];

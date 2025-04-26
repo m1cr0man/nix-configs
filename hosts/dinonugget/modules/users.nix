@@ -28,6 +28,7 @@ in
           pkgs.remmina
           pkgs.easyeffects
           pkgs.obsidian
+          pkgs.orca-slicer
           # Gaming
           pkgs.lutris
           pkgs.bottles
