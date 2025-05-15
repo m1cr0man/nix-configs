@@ -7,6 +7,7 @@
     in [
       (init "/var/lib/nixos")
       "/root"
+      "/etc/bluetooth"
       "/var/log"
       "/var/lib/systemd/timers"
       "/var/lib/tailscale"
