@@ -7,7 +7,7 @@
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-    nixos-nspawn.url = "github:m1cr0man/python-nixos-nspawn";
+    nixos-nspawn.url = "github:m1cr0man/python-nixos-nspawn/testfixes";
     nixos-nspawn.inputs.nixpkgs.follows = "nixpkgs";
 
     preservation.url = "github:nix-community/preservation";

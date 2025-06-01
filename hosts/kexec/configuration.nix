@@ -5,7 +5,7 @@
       "management/ssh"
     ];
 
-  system.stateVersion = "23.11";
+  system.stateVersion = "25.05";
   boot.initrd.availableKernelModules = [ "ehci_pci" "ahci" "usb_storage" "sd_mod" "e1000e" ];
   boot.kernelModules = [ "kvm-intel" "zram" "e1000e" ];
 

@@ -13,7 +13,7 @@ in {
       ./hardware-configuration.nix
     ];
 
-  system.stateVersion = "23.05";
+  system.stateVersion = "25.05";
   boot.loader.grub = {
     enable = true;
     devices = [ "/dev/disk/by-id/wwn-0x5000c5006cdc1295" ];
