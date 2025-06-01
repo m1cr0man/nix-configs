@@ -85,6 +85,7 @@
           name = "dinonugget";
           modules = [
             inputs.preservation.nixosModules.preservation
+            inputs.nixos-nspawn.nixosModules.hypervisor
           ];
         };
 

@@ -1,30 +1,27 @@
 { config, ... }:
 let
   serial = "/dev/ttyACM0";
-  probeX = 42.2;
-  probeY = 10;
+  probeX = 30;
+  probeY = 0.0;
   ts = builtins.toString;
 
   # Applies the probe offset to an absolute set of coordinates
   # Returns a comma separated string
-  xyProbe = x: y: "${ts (x + probeX)},${ts (y + probeY)}";
-
-  # The inverse of xyProbe
-  xyProbeInv = x: y: "${ts (x - probeX)},${ts (y - probeY)}";
+  xyProbe = x: y: "${ts (x - probeX)},${ts (y - probeY)}";
 
   # Probe distances added to screws
   screws = {
     # screw1 = "33,30";
     screw1 = xyProbe 33 30;
     screw1_name = "Front left";
-    # screw2 = "187,30";
-    screw2 = xyProbe 187 30;
+    # screw2 = "200,30";
+    screw2 = xyProbe 200 30;
     screw2_name = "Front Right";
-    # screw3 = "187,187";
-    screw3 = xyProbe 187 187;
+    # screw3 = "200,185";
+    screw3 = xyProbe 200 185;
     screw3_name = "Back Right";
-    # screw4 = "33,187";
-    screw4 = xyProbe 33 187;
+    # screw4 = "33,185";
+    screw4 = xyProbe 33 185;
     screw4_name = "Back Left";
   };
 in
@@ -61,8 +58,8 @@ in
       microsteps = 64;
       rotation_distance = 40;
       endstop_pin = "P1.28";
-      position_endstop = 220;
-      position_max = 220;
+      position_endstop = 205;
+      position_max = 205;
       homing_speed = 30;
     };
 
@@ -80,9 +77,9 @@ in
     bltouch = {
       sensor_pin = "P1.27";
       control_pin = "P2.0";
-      z_offset = 1.10;
-      x_offset = -probeX;
-      y_offset = -probeY;
+      z_offset = 1.26;
+      x_offset = probeX;
+      y_offset = probeY;
       # samples:2
       # samples_result:average
       # probe_with_touch_mode: true
@@ -90,7 +87,7 @@ in
     };
 
     safe_z_home = {
-      home_xy_position = xyProbe 110 110;
+      home_xy_position = xyProbe 110 125;
       speed = 50;
       z_hop = 10; # Move up 10mm
       z_hop_speed = 5;
@@ -98,8 +95,8 @@ in
 
     bed_mesh = {
       speed = 120;
-      mesh_min = xyProbe 0 0;
-      mesh_max = xyProbeInv 220 220;
+      mesh_min = xyProbe 5 10;
+      mesh_max = xyProbe 230 195;
       probe_count = "5,5";
       horizontal_move_z = 7;
     };
@@ -167,7 +164,7 @@ in
       kinematics = "cartesian";
       max_velocity = 300;
       max_accel = 1500;
-      square_corner_velocity = 12.0;
+      square_corner_velocity = 25.0;
       max_z_velocity = 5;
       max_z_accel = 100;
     };

@@ -20,6 +20,7 @@ in
       description = "Lucas";
       keys = rootKeys;
       extraArgs = {
+        uid = 1000;
         inherit hashedPassword;
         linger = true;
         extraGroups = [ "wheel" "git" "sockets" "systemd-journal" ];
