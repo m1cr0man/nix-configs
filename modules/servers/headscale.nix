@@ -25,6 +25,7 @@ in
       ];
       server_url = "https://headscale.${domain}";
       dns.base_domain = "ts.${domain}";
+      dns.override_local_dns = false;
       # Broken ATM, waiting for a fix.
       # https://github.com/juanfont/headscale/issues/764
       # db_type = "postgres";

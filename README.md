@@ -59,7 +59,7 @@ sops updatekeys modules/secrets/shared.yaml
 sops updatekeys hosts/$HOSTNAME/secrets.yaml
 ```
 
-## Operational Guides
+## Operational Runbooks
 
 ### Upgrading Postgresql
 
@@ -71,17 +71,28 @@ sops updatekeys hosts/$HOSTNAME/secrets.yaml
 
 ```bash
 # Find and export the previous version as OLD_BIN
-echo /nix/store/*postgresql-14*/bin
-export OLD_BIN=/nix/store/asdiuahdsihfsfd-postgresql-14.11/bin
+echo /nix/store/*postgresql-16*/bin
+export OLD_BIN=/nix/store/10xm5v4q6j7kbskiyfrqclsb4k2jpllj-postgresql-16.9/bin
 export NEW_BIN=$(dirname $(readlink $(which psql)))
 cd /var/lib/postgresql
 systemctl stop postgresql
-sudo -su postgres pg_upgrade --old-datadir 14 --new-datadir 16 --old-bindir $OLD_BIN --new-bindir $NEW_BIN --check
+sudo -su postgres pg_upgrade --old-datadir 16 --new-datadir 17 --old-bindir $OLD_BIN --new-bindir $NEW_BIN --check
 # Run again without check mode to do migration
 # Some recommendations may be given in the output. Do those too.
 sudo -su postgres vacuumdb --all --analyze-in-stages
 ./delete_old_cluster.sh
 rm delete_old_cluster.sh
+```
+
+### Upgrading Nextcloud
+
+- The Nix module is configured to automatically run most of the udpate steps.
+- Once started, check the logs under the admin panel on the web UI.
+- Run this command whether or not it is recommended. No need to `su` to
+ the nextcloud user.
+
+```bash
+nextcloud-occ maintenance:repair --include-expensive
 ```
 
 ### Tailnet dies

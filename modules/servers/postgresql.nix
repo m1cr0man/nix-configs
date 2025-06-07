@@ -19,7 +19,7 @@ in
       description = "Commands to run on each startup of the database";
     };
     package = mkOption {
-      default = pkgs.postgresql_16;
+      default = pkgs.postgresql_17;
       type = types.path;
       description = ''
         PostgreSQL package to run. Note when upgrading major versions the
@@ -117,6 +117,12 @@ in
     security.pam.services.postgresql.unixAuth = true;
 
     users.users.postgres.extraGroups = [ "sockets" "shadow" ];
+
+    systemd.services.postgresql.serviceConfig = {
+      # Both required for socket + PAM auth
+      SystemCallFilter = ["@chown" "@setuid"];
+      ReadWritePaths = "/var/lib/sockets";
+    };
 
     services.postgresql = {
       enable = true;

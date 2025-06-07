@@ -65,13 +65,15 @@ in
     phpEnv.PATH = lib.mkForce (lib.makeBinPath [
       pkgs.unrar
       pkgs.p7zip
-      pkgs.ffmpeg_7-headless
+      pkgs.ffmpeg-headless
       "/run/wrappers"
       "/nix/var/nix/profiles/default"
       "/run/current-system/sw"
+      # For memories upgrades
+      pkgs.which
+      pkgs.ps
       # For recognize
       pkgs.nodejs_20
-      pkgs.libtensorflow
     ]);
     settings = {
       "listen.owner" = config.services.httpd.user;
@@ -99,12 +101,15 @@ in
 
   services.nextcloud = {
     enable = true;
-    package = pkgs.nextcloud29;
+    package = pkgs.nextcloud31;
     hostName = "nextcloud.${domain}";
     https = true;
     maxUploadSize = "4100M";
     caching.redis = true;
     enableImagemagick = true;
+    appstoreEnable = true;
+    autoUpdateApps.enable = true;
+    autoUpdateApps.startAt = "05:00:00";
 
     extraApps = {
       inherit memories;
@@ -121,6 +126,9 @@ in
       preview_imaginary_url = imaginaryAddr;
       preview_format = "webp";
       preview_max_memory = 2048;
+      preview_max_x = 1024;
+      preview_max_y = 1024;
+      jpeg_quality = 85;
       enabledPreviewProviders = [
         "OC\\Preview\\MP3"
         "OC\\Preview\\TXT"

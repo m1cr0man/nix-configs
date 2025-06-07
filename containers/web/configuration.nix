@@ -11,7 +11,6 @@ in
       "www/acme-base.nix"
       "www/httpd.nix"
       "www/matrix.nix"
-      "www/plex.nix"
     ]
     ++
     addModulesRecursive ./modules;
@@ -26,8 +25,6 @@ in
           [
             80
             443
-            # Plex
-            32400
           ];
       bindMounts = [
         "${stateDir}/nixos:/var/lib/nixos"
@@ -35,6 +32,7 @@ in
         "${stateDir}/matrix-synapse:/var/lib/matrix-synapse"
         "${stateDir}/minio:/var/lib/minio"
         "${stateDir}/nextcloud:/var/lib/nextcloud"
+        # TODO bind appdata/preview onto ssd
         "${stateDir}/plex:/var/lib/plex"
         "${stateDir}/rainloop:/var/lib/rainloop"
         "${stateDir}/julia:/var/lib/julia"

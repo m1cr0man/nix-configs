@@ -15,6 +15,8 @@ in
 
     nixosContainer = {
       ephemeral = true;
+      # Not worth the hassle.
+      userNamespacing = false;
       bridge = "br-containers";
       activation.strategy = lib.mkDefault "reload";
       bindMounts = [

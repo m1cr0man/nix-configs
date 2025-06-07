@@ -183,11 +183,11 @@
         "systems": "systems_4"
       },
       "locked": {
-        "lastModified": 1710146030,
-        "narHash": "sha256-SZ5L6eA7HJ/nmkzGG7/ISclqe6oZdOZTNoesiInkXPQ=",
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
         "owner": "numtide",
         "repo": "flake-utils",
-        "rev": "b1d9ab70662946ef0850d488da1c9019f3a9752a",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
         "type": "github"
       },
       "original": {
@@ -269,11 +269,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1748737919,
-        "narHash": "sha256-5kvBbLYdp+n7Ftanjcs6Nv+UO6sBhelp6MIGJ9nWmjQ=",
+        "lastModified": 1748830238,
+        "narHash": "sha256-EB+LzYHK0D5aqxZiYoPeoZoOzSAs8eqBDxm3R+6wMKU=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "5675a9686851d9626560052a032c4e14e533c1fa",
+        "rev": "c7fdb7e90bff1a51b79c1eed458fb39e6649a82a",
         "type": "github"
       },
       "original": {
@@ -347,11 +347,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1748815163,
-        "narHash": "sha256-M0V4UdmMVAMuOkEcQIPuPuonRSxDitpLIKrvAPjBstE=",
+        "lastModified": 1749254992,
+        "narHash": "sha256-liZtyqbQfgwHmui0fwnx9LHYq+PIwX2z9MscGdOY/4g=",
         "owner": "m1cr0man",
         "repo": "python-nixos-nspawn",
-        "rev": "782be60cb7608be786c115eb779def2741fb8808",
+        "rev": "5aee7ded0d02711c988cb19ceeccfca5c5c04d9c",
         "type": "github"
       },
       "original": {
@@ -471,11 +471,11 @@
         "nixpkgs-25_05": "nixpkgs-25_05"
       },
       "locked": {
-        "lastModified": 1748689589,
-        "narHash": "sha256-ltwdNAsto54HMQFdrCprWXPFhNBfEuiCkj+GS7ZHvww=",
+        "lastModified": 1748831501,
+        "narHash": "sha256-Rvjpyh6twlW9/RmpS7NuZV8XiNmPGxtAWfbb/PkFOc0=",
         "ref": "master",
-        "rev": "c9f61e02aee97dc8c7d4f3739b012a992183508c",
-        "revCount": 708,
+        "rev": "8c835feaa77494ca8755dfc56601065aab43b77a",
+        "revCount": 709,
         "type": "git",
         "url": "https://gitlab.com/simple-nixos-mailserver/nixos-mailserver.git"
       },

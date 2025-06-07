@@ -14,6 +14,7 @@ in
     addModulesRecursive ./modules;
 
   system.stateVersion = "25.05";
+  mailserver.stateVersion = 1;
 
   nixosContainer =
     {
