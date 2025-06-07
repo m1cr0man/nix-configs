@@ -30,7 +30,7 @@ in
     in {
       enable = true;
       mutableExtensionsDir = false;
-      extensions = with pkgs.vscode-extensions;
+      profiles.default.extensions = with pkgs.vscode-extensions;
       # Extensions which do not need direnv
       [
         # General
@@ -38,8 +38,8 @@ in
         (pkgs.vscode-utils.extensionFromVscodeMarketplace {
           publisher = "reduckted";
           name = "vscode-gitweblinks";
-          version = "2.11.0";
-          sha256 = "sha256-2yk7m+Qq9Gexi3n3jhPiJNYel3ycprEIvualOc1YQC4=";
+          version = "2.14.0";
+          sha256 = "sha256-w+FZyve3v+WBQsNyOrxubxkk+LCU7PU6pW85QMdUXYo=";
         })
         # Rust dev
         vadimcn.vscode-lldb
@@ -52,13 +52,6 @@ in
         })
         # Go dev
         golang.go
-        # Vector VRL dev
-        (pkgs.vscode-utils.extensionFromVscodeMarketplace {
-          publisher = "lucperkins";
-          name = "vrl-vscode";
-          version = "0.1.4";
-          sha256 = "sha256-xcGa43iPwUR6spOJGTmmWA1dOMNMQEdiuhMZPYZ+dTU=";
-        })
       ] ++ map (loadAfter [ "mkhl.direnv" ])
       # Extensions depending on direnv
       [
@@ -69,19 +62,12 @@ in
         (rust-lang.rust-analyzer.override { setDefaultServerPath = false; })
         # Python dev
         ms-python.python
-        ms-python.black-formatter
-        ms-pyright.pyright
+        charliermarsh.ruff
         (pkgs.vscode-utils.extensionFromVscodeMarketplace {
-          publisher = "ms-python";
-          name = "flake8";
-          version = "2023.10.0";
-          sha256 = "sha256-4Vjw8yJPrxLg0hcoTw8AEBEcmQ9sEUNqFaHLxICks0E=";
-        })
-        (pkgs.vscode-utils.extensionFromVscodeMarketplace {
-          publisher = "ms-python";
-          name = "pylint";
-          version = "2023.10.1";
-          sha256 = "sha256-1tI5u33c5CHFQxkJZ/OxW3ZA5qPr4RoCIf6dqIMPykQ=";
+          publisher = "astral-sh";
+          name = "ty";
+          version = "2025.15.11531247";
+          sha256 = "sha256-DqLkC1GY+UB778AnxD9bebbvhWb19fE3CA4fc15Fdmg=";
         })
         # OC/CC dev
         (pkgs.vscode-utils.extensionFromVscodeMarketplace {
@@ -97,7 +83,7 @@ in
           sha256 = "sha256-ohiqgFP+ZKmG6HsPq6R/o72t35WEqFM5GreonHubBiA=";
         })
       ];
-      userSettings = {
+      profiles.default.userSettings = {
         "editor.minimap.enabled" = false;
         "files.insertFinalNewline" = true;
         "files.trimFinalNewlines" = true;
