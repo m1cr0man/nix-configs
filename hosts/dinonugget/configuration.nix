@@ -10,7 +10,7 @@
       ./hardware-configuration.nix
     ];
 
-  system.stateVersion = "25.05";
+  system.stateVersion = "25.11";
 
   networking = {
     hostId = "ff90ce60";

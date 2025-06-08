@@ -12,7 +12,7 @@
       ./hardware-configuration.nix
     ];
 
-  system.stateVersion = "25.05";
+  system.stateVersion = "25.11";
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
