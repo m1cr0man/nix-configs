@@ -3,6 +3,7 @@
   console = {
     font = "Lat2-Terminus16";
     keyMap = "uk";
+    earlySetup = true;
   };
 
   # Fixes errors finding the console font
