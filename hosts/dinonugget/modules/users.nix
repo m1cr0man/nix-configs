@@ -32,7 +32,6 @@ in
           pkgs.orca-slicer
           # Gaming
           pkgs.lutris
-          pkgs.bottles
           pkgs.prismlauncher
         ];
       };
@@ -45,7 +44,6 @@ in
         extraGroups = [ "wheel" "systemd-journal" ];
         packages = [
           pkgs.lutris
-          pkgs.bottles
           pkgs.prismlauncher
         ];
       };
