@@ -8,6 +8,7 @@
       (init "/var/lib/nixos")
       "/root"
       "/etc/bluetooth"
+      "/var/lib/bluetooth"
       "/var/log"
       "/var/lib/systemd/timers"
       "/var/lib/tailscale"

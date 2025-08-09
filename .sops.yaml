@@ -81,6 +81,7 @@ creation_rules:
       - *admin_m1cr0man
       - *server_unimog
       - *server_phoenix
+      - *server_dinonugget
   - path_regex: .*\.nix\.enc$
     key_groups:
     - age:

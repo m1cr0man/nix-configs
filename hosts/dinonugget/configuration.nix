@@ -8,6 +8,7 @@
     addModulesRecursive ./modules
     ++ [
       ./hardware-configuration.nix
+      ./containers/samba/configuration.nix
     ];
 
   system.stateVersion = "25.11";
@@ -17,7 +18,7 @@
     useDHCP = false;
     useNetworkd = true;
     nftables.enable = true;
-    firewall.trustedInterfaces = [ "tailscale0" ];
+    firewall.trustedInterfaces = [ "tailscale0" "br-containers" "vb-+" "ve-+" ];
 
     usePredictableInterfaceNames = false;
     interfaces.eth0 = {

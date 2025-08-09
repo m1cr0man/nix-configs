@@ -43,7 +43,6 @@ in
 
           "hosts allow" = "192.168. 100.64.48. 127.0.0.1 ::1";
           "hosts deny" = "all";
-          "socket options" = "IPTOS_LOWDELAY SO_SNDBUF=131072 SO_RCVBUF=131072 TCP_NODELAY";
           "max connections" = "0";
 
           "netbios name" = lib.toUpper config.networking.hostName;
