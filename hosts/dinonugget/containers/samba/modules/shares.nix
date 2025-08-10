@@ -6,7 +6,7 @@ let
 
   mkUser = name: uid: {
     inherit name uid;
-    home = "/zhuge2/zstorage/users/${name}";
+    home = "/zhuge2/users/${name}";
     useDefaultShell = true;
     group = name;
     extraGroups = [ "users" "wheel" ];

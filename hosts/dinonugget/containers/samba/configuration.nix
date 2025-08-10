@@ -55,6 +55,7 @@ in
       m1cr0man.instanceType = "container";
       networking.hostName = "samba";
       networking.domain = config.networking.domain;
+      sops.defaultSopsFile = lib.mkForce config.sops.defaultSopsFile;
 
       imports = with lib.m1cr0man.module;
         addModules ../../../../modules [

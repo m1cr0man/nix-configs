@@ -11,6 +11,8 @@ in
   networking.firewall.trustedInterfaces = [ bridgeName "vb-+" ];
   networking.hosts."bee7::1" = [ "containerhost" "containerhost.local" ];
   m1cr0man.container.hostAddress = "bee7::1";
+  services.radvd.enable = lib.mkForce false;
+
 
   networking.nat = {
     enableIPv6 = true;
