@@ -1,12 +1,17 @@
 { lib, pkgs, ... }: {
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.systemd-boot.configurationLimit = 5;
   boot.loader.timeout = 0;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.network.enable = lib.mkForce false;
   # Required for preservation anyway
   boot.initrd.systemd.enable = true;
+
+  # Secure boot
+  boot.loader.systemd-boot.enable = false;
+  boot.lanzaboote = {
+    enable = true;
+    pkiBundle = "/nix/persist/var/lib/sbctl";
+    configurationLimit = 3;
+  };
 
   # Newer kernel
   boot.kernelPackages = pkgs.linuxPackages_6_12;

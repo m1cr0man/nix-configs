@@ -12,6 +12,10 @@
 
     preservation.url = "github:nix-community/preservation";
 
+    # Update before doing nix flake update
+    lanzaboote.url = "github:nix-community/lanzaboote/v0.4.2";
+    lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
+
     snm.url = "git+https://gitlab.com/simple-nixos-mailserver/nixos-mailserver.git?ref=master";
     snm.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -85,6 +89,7 @@
           name = "dinonugget";
           modules = [
             inputs.preservation.nixosModules.preservation
+            inputs.lanzaboote.nixosModules.lanzaboote
             inputs.nixos-nspawn.nixosModules.hypervisor
           ];
         };

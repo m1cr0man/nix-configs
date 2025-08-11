@@ -25,6 +25,7 @@ in
         linger = true;
         extraGroups = [ "wheel" "git" "sockets" "systemd-journal" ];
         packages = [
+          pkgs.sbctl
           pkgs.gnupg
           pkgs.remmina
           pkgs.easyeffects

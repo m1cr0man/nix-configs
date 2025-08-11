@@ -13,6 +13,7 @@
       "/var/lib/systemd/timers"
       "/var/lib/tailscale"
       "/var/lib/flatpak"
+      "/var/lib/sbctl"
     ];
     files = let
       init = file: { inherit file; how = "symlink"; inInitrd = true; configureParent = true; };
