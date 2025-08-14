@@ -46,11 +46,11 @@
       options = [ "fmask=0022" "dmask=0022" ];
     };
     "/nix" = {
-      device = "zdinonugget/nixos/nix";
+      device = "dinonugget/nixos/nix";
       fsType = "zfs";
     };
     "/home" = {
-      device = "zdinonugget/home";
+      device = "dinonugget/home";
       fsType = "zfs";
     };
     # Separate /tmp mount to prevent root storage space being used up
