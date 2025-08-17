@@ -8,20 +8,16 @@ in
     wantedBy = [ "multi-user.target" ];
     requires = [ "local-fs.target" ];
     after = [ "local-fs.target" ];
-    # Auto start the container after import
-    before = [ "systemd-nspawn@samba.service" ];
-    wants = [ "systemd-nspawn@samba.service" ];
-    path = [ pkgs.gnugrep pkgs.zfsUnstable ];
-    unitConfig.ConditionPathIsMountPoint = "!/zhuge2";
+    path = [ pkgs.gnugrep pkgs.zfsUnstable config.systemd.package ];
     serviceConfig = {
-      Type = "oneshot";
       RemainAfterExit = true;
     };
     script = ''
       echo Waiting for pool to appear
       while true; do
-        if zpool import | grep zhuge2; then
+        if zpool import 2> /dev/null | grep zhuge2; then
           zpool import zhuge2
+          systemctl start systemd-nspawn@samba.service
           exit 0
         fi
         sleep 5
@@ -29,7 +25,7 @@ in
     '';
   };
 
-  systemd.services."systemd-nspawn@samba".unitConfig.RequiresMountsFor = "/zhuge2";
+  systemd.services."systemd-nspawn@samba".unitConfig.ConditionPathIsMountPoint = "/zhuge2";
 
   nixos.containers.instances.samba = {
     activation.autoStart = false;
