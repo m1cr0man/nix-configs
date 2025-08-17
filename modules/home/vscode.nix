@@ -36,10 +36,10 @@ in
         # General
         mkhl.direnv
         (pkgs.vscode-utils.extensionFromVscodeMarketplace {
-          publisher = "reduckted";
-          name = "vscode-gitweblinks";
-          version = "2.14.0";
-          sha256 = "sha256-w+FZyve3v+WBQsNyOrxubxkk+LCU7PU6pW85QMdUXYo=";
+          publisher = "Google";
+          name = "geminicodeassist";
+          version = "2.45.0";
+          sha256 = "sha256-hTFFq6TU8LjbHspmf796DN+AKhOETXzd+BK+Nm0+cC8=";
         })
         # Rust dev
         vadimcn.vscode-lldb
@@ -52,6 +52,13 @@ in
         })
         # Go dev
         golang.go
+        # AI
+        (pkgs.vscode-utils.extensionFromVscodeMarketplace {
+          publisher = "reduckted";
+          name = "vscode-gitweblinks";
+          version = "2.14.0";
+          sha256 = "sha256-w+FZyve3v+WBQsNyOrxubxkk+LCU7PU6pW85QMdUXYo=";
+        })
       ] ++ map (loadAfter [ "mkhl.direnv" ])
       # Extensions depending on direnv
       [
