@@ -10,7 +10,9 @@ in
   nix.settings.trusted-users = [ "root" "lucas" ];
 
   users.groups = {
-    lucas = { };
+    lucas = {
+      gid = 1000;
+    };
     meghan = { };
   };
 
@@ -23,7 +25,7 @@ in
         uid = 1000;
         inherit hashedPassword;
         linger = true;
-        extraGroups = [ "wheel" "git" "sockets" "systemd-journal" ];
+        extraGroups = [ "wheel" "git" "sockets" "systemd-journal" "users" ];
         packages = [
           pkgs.sbctl
           pkgs.gnupg
