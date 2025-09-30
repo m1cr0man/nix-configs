@@ -11,6 +11,8 @@
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
+  boot.zfs.extraPools = [ "zhuge1" ];
+
   fileSystems."/" =
     { device = "zsarah/nixos/root";
       fsType = "zfs";
