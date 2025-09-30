@@ -3,6 +3,14 @@ let
   rootKeys = config.users.users.root.openssh.authorizedKeys.keys;
   hashedPassword = "$6$nBss0j.JLsWvZ1VA$.iPwpuMp99C208zGtFpS6z0U9KchH0VBYFY6MUGaZvl.2CLUIZ8XG96A.gXVxOK.WJxky/fNB0k2BEkI06wqA1";
   hashedPasswordMeghan = "$6$uQBEIFHwFNlnFqCH$YaC4TSJwbda36rDVVG0qG6vMzlel2GB4B8HAR3.SefIknHqcqYCsaSTHruo0B/qOpDw0CEbgCAls0jQ9iSyHV0";
+
+  rebootWindows = pkgs.writeShellScriptBin "reboot-windows" ''
+    export PATH="$PATH:${lib.makeBinPath [ pkgs.efibootmgr pkgs.gnugrep ]}"
+    efibootmgr -n $(efibootmgr | grep Windows | grep -Eo 'Boot[0-9]+' | grep -Eo '[0-9]+')
+    echo "Rebooting to Windows"
+    sleep 2
+    systemctl reboot
+  '';
 in
 {
   users.mutableUsers = false;
@@ -27,6 +35,8 @@ in
         linger = true;
         extraGroups = [ "wheel" "git" "sockets" "systemd-journal" "users" ];
         packages = [
+          rebootWindows
+          pkgs.efibootmgr
           pkgs.sbctl
           pkgs.gnupg
           pkgs.remmina
