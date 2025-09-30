@@ -36,6 +36,12 @@ in
         # General
         mkhl.direnv
         (pkgs.vscode-utils.extensionFromVscodeMarketplace {
+          publisher = "rooveterinaryinc";
+          name = "roo-cline";
+          version = "3.25.20";
+          sha256 = "sha256-WpJGxo3Wvho63zwfMRgfFu33Oewd4lYVFV8ed7I+PWY=";
+        })
+        (pkgs.vscode-utils.extensionFromVscodeMarketplace {
           publisher = "Google";
           name = "geminicodeassist";
           version = "2.45.0";
