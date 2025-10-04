@@ -102,3 +102,10 @@ nextcloud-occ maintenance:repair --include-expensive
   - This solves "Tailscale could not connect to any relay server.".
 - Check logs of tailscaled and restart.
 - Ensure firewall allows tailscale0.
+
+### Nixos-rebuild when nix/nix-plugins updates
+
+You just need to skip using nixos-rebuild and use switch-to-configuration directly:
+
+- First build the system profile with `nixos-rebuild --flake .#$HOSTNAME build`
+- Run the switcher `result/bin/switch-to-configuration boot`
