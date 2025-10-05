@@ -61,9 +61,7 @@
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   # Increase nix working directory space
-  services.logind.extraConfig = ''
-    RuntimeDirectorySize=2G
-  '';
+  services.logind.settings.Login.RuntimeDirectorySize = "2G";
 
   # Reduce auto snapshot frequency
   services.zfs.autoSnapshot.frequent = lib.mkForce 0;

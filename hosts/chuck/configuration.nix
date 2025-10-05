@@ -30,10 +30,8 @@
   # Reduce auto snapshot frequency
   services.zfs.autoSnapshot.frequent = lib.mkForce 0;
 
-  # Need moar build ram
-  services.logind.extraConfig = ''
-    RuntimeDirectorySize=2G
-  '';
+  # Need more build tmpfile space
+  services.logind.settings.Login.RuntimeDirectorySize = "2G";
   systemd.services.nix-daemon.environment.TMPDIR = "/nix/tmp";
 
   networking = {
