@@ -206,6 +206,12 @@
             inputs.snm.nixosModules.mailserver
           ];
         };
+        bf2142 = mkContainer {
+          name = "bf2142";
+          modules = [
+            sops-nix.nixosModules.sops
+          ];
+        };
       };
 
       homeConfigurations = {
