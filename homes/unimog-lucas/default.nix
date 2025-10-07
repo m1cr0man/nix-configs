@@ -22,7 +22,6 @@
 
   services.syncthing = {
     enable = true;
-    tray = false;
     extraOptions = [
       "--gui-address=0.0.0.0:8384"
     ];

@@ -7,7 +7,7 @@
 
   # Ensure nix-direnv uses system nix version
   nixpkgs.overlays = [(next: prev: {
-    nix-direnv = prev.nix-direnv.override { nix = prev.nixVersions.nix_2_24; };
+    nix-direnv = prev.nix-direnv.override { nix = prev.nixVersions.nix_2_30; };
   })];
 
   programs.git = {

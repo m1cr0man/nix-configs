@@ -38,14 +38,14 @@ in
         (pkgs.vscode-utils.extensionFromVscodeMarketplace {
           publisher = "rooveterinaryinc";
           name = "roo-cline";
-          version = "3.25.20";
-          sha256 = "sha256-WpJGxo3Wvho63zwfMRgfFu33Oewd4lYVFV8ed7I+PWY=";
+          version = "3.28.15";
+          sha256 = "sha256-ap1Jb+ibhb3kcNgoqPIGB8ZVdwos58kFlank6CT6h/M=";
         })
         (pkgs.vscode-utils.extensionFromVscodeMarketplace {
           publisher = "Google";
           name = "geminicodeassist";
-          version = "2.45.0";
-          sha256 = "sha256-hTFFq6TU8LjbHspmf796DN+AKhOETXzd+BK+Nm0+cC8=";
+          version = "2.52.1";
+          sha256 = "sha256-SXJ89SfWfN5fZGHCj9LXhdA4xV6GkWaf5KcAmnD2m28=";
         })
         # Rust dev
         vadimcn.vscode-lldb
@@ -79,8 +79,8 @@ in
         (pkgs.vscode-utils.extensionFromVscodeMarketplace {
           publisher = "astral-sh";
           name = "ty";
-          version = "2025.15.11531247";
-          sha256 = "sha256-DqLkC1GY+UB778AnxD9bebbvhWb19fE3CA4fc15Fdmg=";
+          version = "2025.43.12620731";
+          sha256 = "sha256-XgBzwebFnhWZfZ914w1ppEtO4qZeOy+qRSCbmEQOP7k=";
         })
         # OC/CC dev
         (pkgs.vscode-utils.extensionFromVscodeMarketplace {
