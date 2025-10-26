@@ -447,11 +447,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1749254992,
-        "narHash": "sha256-liZtyqbQfgwHmui0fwnx9LHYq+PIwX2z9MscGdOY/4g=",
+        "lastModified": 1760567634,
+        "narHash": "sha256-Z76VUUZD+SkxjYGZgb6YU9zCQPghvjpQUMUjsFLqNKQ=",
         "owner": "m1cr0man",
         "repo": "python-nixos-nspawn",
-        "rev": "5aee7ded0d02711c988cb19ceeccfca5c5c04d9c",
+        "rev": "dfa2acb372e4e6156cabf46b1c03b1fdfcb4cbd4",
         "type": "github"
       },
       "original": {
