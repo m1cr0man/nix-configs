@@ -19,6 +19,9 @@ in {
     serviceConfig.EnvironmentFile = apiKeyEnv;
   };
 
+  # For socket access
+  users.users.nginx.extraGroups = [ "openspy" ];
+
   services.uwsgi = {
     enable = true;
     plugins = [ "python3" ];
@@ -37,12 +40,14 @@ in {
             "AUTHSERVICES_PEERKEY_KEY_PATH=${stateDir}/auth-services.private.pem"
           ];
           socket = [ "/run/uwsgi/authservice.sock" ];
+          chmod-socket = "664";
           chdir = "${builtins.toString src}/AuthService";
           wsgi-file = "AuthService.py";
         };
         commerce = {
           type = "normal";
           socket = [ "/run/uwsgi/commerceservice.sock" ];
+          chmod-socket = "664";
           chdir = "${builtins.toString src}/CommerceService";
           wsgi-file = "CommerceService.py";
         };
@@ -54,6 +59,7 @@ in {
             "MONGODB_URI=${mongodbURI}/CompetitionService"
           ];
           socket = [ "/run/uwsgi/competitionservice.sock" ];
+          chmod-socket = "664";
           chdir = "${builtins.toString src}/CompetitionService";
           wsgi-file = "CompetitionService.py";
         };
@@ -65,6 +71,7 @@ in {
             "REDIS_URL=redis://localhost:6379/3"
           ];
           socket = [ "/run/uwsgi/storageservice.sock" ];
+          chmod-socket = "664";
           chdir = "${builtins.toString src}/StorageService";
           wsgi-file = "StorageService.py";
         };
