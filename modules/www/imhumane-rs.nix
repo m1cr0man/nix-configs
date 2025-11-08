@@ -65,7 +65,7 @@ in {
     listenerAddress = mkOption {
       type = types.str;
       default = "./listener.sock";
-      description = "Any listening address supported by tokio_listener. See https://docs.rs/tokio-listener/latest/tokio_listener/struct.UserOptions.html";
+      description = "Any listening address supported by tokio_listener. See https://docs.rs/tokio-listener/latest/tokio_listener/enum.ListenerAddress.html";
     };
 
     logLevel = mkOption {

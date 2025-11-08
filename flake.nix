@@ -62,6 +62,12 @@
         pkgs.age
         pkgs.sops
         pkgs.ssh-to-age
+        # Rust
+        pkgs.cargo
+        pkgs.rust-analyzer
+        pkgs.rustc
+        pkgs.rustfmt
+        pkgs.gcc
       ];
     in
     {
