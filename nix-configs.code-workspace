@@ -9,6 +9,8 @@
     "editor.tabSize": 2,
     "debug.allowBreakpointsEverywhere": true,
     "editor.formatOnSave": false,
+    "rust-analyzer.server.path": "rust-analyzer",
+    "rust-analyzer.linkedProjects": ["packages/rsvp-saver/Cargo.toml"]
   },
   "extensions": {
     "recommendations": [

@@ -111,11 +111,11 @@ async fn submit_form(
     "#;
 
     match sqlx::query(insert_query)
-        .bind(&form_data.first_name)
-        .bind(&form_data.last_name)
-        .bind(&form_data.attending)
-        .bind(&form_data.dietary)
-        .bind(&form_data.song)
+        .bind(form_data.first_name.trim())
+        .bind(form_data.last_name.trim())
+        .bind(form_data.attending.trim())
+        .bind(form_data.dietary.trim())
+        .bind(form_data.song.trim())
         .execute(db_pool)
         .await
     {
