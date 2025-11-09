@@ -9,6 +9,8 @@ in
 
   systemd.services.grafana.serviceConfig.StateDirectory = "grafana";
 
+  users.users.grafana.extraGroups = [ "sockets" ];
+
   services.grafana = {
     enable = true;
     settings.log = {
