@@ -1,9 +1,0 @@
-{ pkgs, config }:
-{
-  options = {
-
-  };
-  config = {
-
-  };
-}

@@ -102,5 +102,18 @@ in
         RewriteRule ^(.*)$ http://julia-mendez.com/$1 [R=301,L]
       '';
     };
+
+    "meghan-and-lucas.wedding" = makeVhost {
+      serverAliases = [ "www.${domain}" ];
+      documentRoot = "/var/lib/wedding";
+      extraConfig = ''
+        RewriteEngine on
+        RewriteCond %{HTTP_HOST} ^www\.meghan-and-lucas.wedding$ [NC]
+        RewriteRule ^(.*)$ http://meghan-and-lucas.wedding/$1 [R=301,L]
+
+        ProxyPass /captcha/ http://localhost:8087/
+        ProxyPass /submit http://localhost:2026/submit
+      '';
+    };
   };
 }

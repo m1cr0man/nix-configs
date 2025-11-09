@@ -11,6 +11,7 @@ in
       "www/acme-base.nix"
       "www/httpd.nix"
       "www/matrix.nix"
+      "www/imhumane-rs.nix"
     ]
     ++
     addModulesRecursive ./modules;
@@ -36,6 +37,8 @@ in
         "${stateDir}/plex:/var/lib/plex"
         "${stateDir}/rainloop:/var/lib/rainloop"
         "${stateDir}/julia:/var/lib/julia"
+        "${stateDir}/wedding:/var/lib/wedding"
+        "${stateDir}/imhumane-rs:/var/lib/imhumane-rs"
       ];
     };
 }
