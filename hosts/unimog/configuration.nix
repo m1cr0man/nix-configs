@@ -55,6 +55,8 @@ in
     #defaultGateway6.address = localSecrets.ipv6Gateway;
 
     nameservers = [ "185.12.64.1" "1.1.1.1" ];
+
+    firewall.allowedUDPPorts = [ 64087 64100 ];
   };
 
   # Workaround for https://github.com/NixOS/nixpkgs/issues/178078
@@ -87,3 +89,7 @@ in
   powerManagement.cpuFreqGovernor = "powersave";
   hardware.cpu.intel.updateMicrocode = true;
 }
+
+
+
+
