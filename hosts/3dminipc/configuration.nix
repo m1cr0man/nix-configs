@@ -14,6 +14,7 @@
   system.stateVersion = "25.11";
 
   networking = {
+    hostId = "4f919b2d";
     useDHCP = false;
     useNetworkd = true;
     nftables.enable = true;
@@ -47,8 +48,4 @@
 
   # Fix for routing issues
   m1cr0man.tailscale.enableLocalRoutingPatch = true;
-
-  # Disable ZFS
-  m1cr0man.zfs.enable = false;
-  boot.supportedFilesystems.zfs = lib.mkForce false;
 }
