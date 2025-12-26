@@ -24,7 +24,7 @@
     interfaces.eth0 = {
       useDHCP = false;
       ipv4.addresses = [{
-        address = "192.168.137.22";
+        address = "192.168.2.6";
         prefixLength = 24;
       }];
     };
@@ -36,10 +36,10 @@
     };
     defaultGateway = {
       address = "192.168.2.254";
-      interface = "wlan0";
+      interface = "eth0";
     };
 
-    nameservers = [ "192.168.2.254" "1.1.1.1" ];
+    nameservers = [ "1.1.1.1" "192.168.2.254" ];
 
     # Enable LLMNR
     firewall.allowedUDPPorts = [ 5355 ];
