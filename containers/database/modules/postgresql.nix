@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ pkgs, config, lib, ... }:
 let
   sopsSuffix = "_database_hashed_password";
   mkUser = sopsKey: {
@@ -71,6 +71,18 @@ in
       "wedding"
     ];
   };
+
+  systemd.services.pgweb = {
+    wantedBy = [ "postgresql.service" ];
+    after = [ "postgresql.service" ];
+    script = "${pkgs.pgweb}/bin/pgweb --url postgres:///wedding?host=/var/lib/sockets --bind 0.0.0.0";
+    serviceConfig = {
+      User = "postgres";
+      Group = "sockets";
+    };
+  };
+  networking.firewall.allowedTCPPorts = [ 8081 ];
+
   systemd.services.postgresql.path = [ config.services.postgresql.package ];
   systemd.services.postgresql.postStart = lib.mkAfter ''
     if ! ( psql -tAc "SELECT 1 FROM pg_database WHERE datname = 'matrix-synapse'" | grep -q 1 ); then
