@@ -44,7 +44,7 @@ let
 in
 {
   services.vector = {
-    enable = true;
+    enable = false;
     journaldAccess = true;
     settings = {
       api.enabled = true;
