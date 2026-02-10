@@ -23,6 +23,8 @@ in
       }));
     };
 
+    networking.firewall.trustedInterfaces = [ "tailscale0" ];
+
     environment.systemPackages = [ pkgs.tailscale ];
 
     # Fix the ping command
