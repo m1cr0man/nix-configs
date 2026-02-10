@@ -106,6 +106,12 @@ in
     "meghan-and-lucas.wedding" = makeVhost {
       serverAliases = [ "www.${domain}" ];
       documentRoot = "/var/lib/wedding";
+      locations."/wedding" = {
+        proxyPass = "http://localhost:8888/wedding";
+        extraConfig = ''
+          Header set Cache-Control "public, max-age=31536000, immutable"
+        '';
+      };
       extraConfig = ''
         RewriteEngine on
         RewriteCond %{HTTP_HOST} ^www\.meghan-and-lucas.wedding$ [NC]
@@ -113,6 +119,8 @@ in
 
         ProxyPass /captcha/ http://localhost:8087/
         ProxyPass /submit http://localhost:2026/submit
+        ProxyPass /wedding http://localhost:8888/wedding
+        ProxyPassReverse /wedding http://localhost:8888/wedding
       '';
     };
   };
