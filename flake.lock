@@ -88,11 +88,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1762644926,
-        "narHash": "sha256-p2WZOvaz010iCNG5+5534jZ9UQfXeI1qhQfQ4jLpU0g=",
+        "lastModified": 1770943608,
+        "narHash": "sha256-TZAnk71ole47Sv1a8Hgc2JJgFsRFfY/8MoZrKADs7Ms=",
         "owner": "m1cr0man",
         "repo": "dnssync-rs",
-        "rev": "b7f9cf1480cd72ccc52c2a60df548bab6588d9ef",
+        "rev": "2eb093b76692f27521fdbe76fc455c946b966009",
         "type": "github"
       },
       "original": {
