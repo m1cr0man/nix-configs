@@ -13,12 +13,12 @@
 
     <h2>Table Arrangements</h2>
     {% for table_name, guests in tables.items() %}
-    <h3>Table: {{ table_name }} ({{ guests | length }})</h3>
+    <h3>Table: {{ table_name }}</h3>
     <ul>
         {% for guest in guests %}
         <li>
             {{ guest.first_name }} {{ guest.last_name }}
-            (Dietary: {{ guest.dietary if guest.dietary else 'None' }})
+            (Partner ID: {{ guest.partner_id if guest.partner_id else 'None' }})
             <form action="/update-guest" method="post" style="display:inline;">
                 <input type="hidden" name="guest_id" value="{{ guest.id }}">
                 <input type="text" name="table_name" value="{{ table_name }}">
