@@ -17,14 +17,12 @@ in
   users.users.rainloop = mkUser "rainloop${sopsSuffix}";
   users.users.headscale = mkUser "headscale${sopsSuffix}";
   users.users.ferretdb = mkUser "ferretdb${sopsSuffix}";
-  users.users.wedding = mkUser "wedding${sopsSuffix}";
 
   sops.secrets."matrix_synapse${sopsSuffix}".neededForUsers = true;
   sops.secrets."nextcloud${sopsSuffix}".neededForUsers = true;
   sops.secrets."rainloop${sopsSuffix}".neededForUsers = true;
   sops.secrets."headscale${sopsSuffix}".neededForUsers = true;
   sops.secrets."ferretdb${sopsSuffix}".neededForUsers = true;
-  sops.secrets."wedding${sopsSuffix}".neededForUsers = true;
 
   services.postgresql = {
     # Not needed - everything uses sockets
@@ -57,18 +55,12 @@ in
         ensureDBOwnership = true;
         ensureClauses.login = true;
       }
-      {
-        name = "wedding";
-        ensureDBOwnership = true;
-        ensureClauses.login = true;
-      }
     ];
     ensureDatabases = [
       "nextcloud"
       "rainloop-contacts"
       "headscale"
       "ferretdb"
-      "wedding"
     ];
   };
 
