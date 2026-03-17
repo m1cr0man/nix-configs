@@ -8,5 +8,4 @@
   upgrade-pg-cluster = callPackage ./upgrade-pg-cluster { };
   rpicam-apps = callPackage ./rpicam-apps { };
   libcamera-rpi = callPackage ./libcamera-rpi { };
-  rsvp-saver = callPackage ./rsvp-saver { };
 }

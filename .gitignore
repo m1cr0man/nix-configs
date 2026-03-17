@@ -15,6 +15,3 @@ hidden/
 
 # Decrypted secrets files
 secrets.nix
-
-# Rust
-target/
