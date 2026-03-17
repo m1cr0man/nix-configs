@@ -32,6 +32,5 @@ in
   networking.firewall.allowedTCPPorts = [
     config.services.prometheus.port
     config.services.loki.configuration.server.http_listen_port
-    8000
   ];
 }

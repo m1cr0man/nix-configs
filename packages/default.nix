@@ -9,5 +9,4 @@
   rpicam-apps = callPackage ./rpicam-apps { };
   libcamera-rpi = callPackage ./libcamera-rpi { };
   rsvp-saver = callPackage ./rsvp-saver { };
-  rsvp-manager = callPackage ./rsvp-manager { };
 }

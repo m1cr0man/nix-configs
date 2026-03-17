@@ -27,8 +27,5 @@ in
     }) // {
       serverAliases = [ "grafana.${internalDomain}" ];
     };
-    "rsvp-manager.${internalDomain}" = makeVhostProxy {
-      host = "localhost:8000";
-    };
   };
 }
