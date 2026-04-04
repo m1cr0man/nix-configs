@@ -1,6 +1,6 @@
 { config, lib, ... }:
 let
-  localSecrets = builtins.extraBuiltins.readSops ./secrets.nix.enc;
+  localSecrets = config.m1cr0man.secrets.vccemail;
   domain = "vccomputers.ie";
 in
 {

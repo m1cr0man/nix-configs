@@ -4,6 +4,8 @@
   inputs = {
     nixpkgs.url = "github:m1cr0man/nixpkgs/rfc108-minimal";
 
+    secrets.url = "git+ssh://git@github.com/m1cr0man/nix-configs-secrets?ref=main";
+
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 

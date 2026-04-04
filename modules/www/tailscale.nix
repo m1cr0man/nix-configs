@@ -16,8 +16,8 @@ in
       package = lib.mkIf (cfg.enableLocalRoutingPatch) (pkgs.tailscale.overrideAttrs (prevAttrs: {
         patches = prevAttrs.patches or [ ] ++ [
           (pkgs.fetchpatch2 {
-            url = "https://github.com/Atemu/tailscale/commit/6e24223e3262be7ebefcff037ef473cc44951239.patch";
-            hash = "sha256-QSwWUwW9un/POYeaa81Rkl7efOI4OBEdNnhTplP8rxI=";
+            url = "https://github.com/Atemu/tailscale/commit/bbce05e450ec10de80ff16125d5d8428f76ceb3b.patch";
+            hash = "sha256-S71VtEIQ9d4vbOqXJ68w3HN2M/60BCBtK2uWHXVtDqQ=";
           })
         ];
       }));

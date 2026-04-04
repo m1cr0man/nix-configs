@@ -1,6 +1,6 @@
 { config, pkgs, lib, ... }:
 let
-  localSecrets = builtins.extraBuiltins.readSops ./secrets.nix.enc;
+  localSecrets = config.m1cr0man.secrets.phoenix;
   prodACMEServer = "https://acme-v02.api.letsencrypt.org/directory";
 in
 {

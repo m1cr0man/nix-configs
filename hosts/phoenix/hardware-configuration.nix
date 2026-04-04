@@ -5,7 +5,6 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  nixpkgs.hostPlatform = "x86_64-linux";
   powerManagement.cpuFreqGovernor = "powersave";
   hardware.cpu.intel.updateMicrocode = true;
 

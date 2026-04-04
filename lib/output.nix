@@ -45,17 +45,13 @@ rec {
     };
 
   nixOptionsModule = { pkgs, config, ... }: {
-    # Enable flakes globally.
-    # Also enable nix-plugins and our own extra-builtins so we can decrypt sops at eval time for some special cases.
-    # Always ensure nix version matches that expected by nix-plugins
-    # TL;DR Bump whenever nix.conf/nix-plugins errors appear in build
-    nix.package = pkgs.nixVersions.nix_2_30;
+    # Using a higher-than-default nix version to fix some eval time issues for containers.
+    nix.package = pkgs.nixVersions.nix_2_33;
     nix.channel.enable = false;
     nix.settings = {
         flake-registry = "";
+        # Enable flakes globally.
         experimental-features = [ "nix-command" "flakes" ];
-        plugin-files = "${pkgs.nix-plugins}/lib/nix/plugins";
-        extra-builtins-file = "${configPath}/lib/extra-builtins.nix";
         substituters = [
           "https://nix-community.cachix.org"
         ];
@@ -92,6 +88,15 @@ rec {
     m1cr0man.instanceType = instanceType;
   };
 
+  secretsModules = { lib, ... }: {
+    options.m1cr0man.secrets = lib.mkOption {
+      default = inputs.secrets.nixosModules;
+      readOnly = true;
+      type = lib.types.attrs;
+      description = "Secrets from the nix-configs-secrets repo";
+    };
+  };
+
   # My own version of nixpkgs.lib.nixosSystem as the latter evaluates
   # its whole own version of nixpkgs.lib.
   nixosSystem = modules: import "${nixpkgs.outPath}/nixos/lib/eval-config.nix"
@@ -111,6 +116,7 @@ rec {
       modules ++ [
         systemLabelModule
         (baseModule "host" name)
+        secretsModules
         nixOptionsModule
         sops-nix.nixosModules.sops
         "${configPath}/hosts/${name}/configuration.nix"
@@ -127,6 +133,7 @@ rec {
       inherit nixpkgs system pkgs name;
       modules = modules ++ [
         (baseModule "container" name)
+        secretsModules
         nixOptionsModule
         "${configPath}/containers/${name}/configuration.nix"
       ] ++ (pkgs.lib.m1cr0man.module.addModules myModulesPath [

@@ -1,6 +1,6 @@
 { config, pkgs, lib, ... }:
 let
-  localSecrets = builtins.extraBuiltins.readSops ./secrets.nix.enc;
+  localSecrets = config.m1cr0man.secrets.unimog;
 in
 {
 
@@ -89,7 +89,3 @@ in
   powerManagement.cpuFreqGovernor = "powersave";
   hardware.cpu.intel.updateMicrocode = true;
 }
-
-
-
-

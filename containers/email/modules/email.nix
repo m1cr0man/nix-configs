@@ -1,6 +1,6 @@
 { domain, config, lib, ... }:
 let
-  localSecrets = builtins.extraBuiltins.readSops ./secrets.nix.enc;
+  localSecrets = config.m1cr0man.secrets.email;
 in
 {
   m1cr0man.mailserver = {

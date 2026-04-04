@@ -13,7 +13,7 @@ let
   serviceConfig = {
     after = [ "zfs.target" ];
     restartIfChanged = false;
-    path = [ pkgs.zfsUnstable ];
+    path = [ pkgs.zfs_unstable ];
     serviceConfig.Type = "oneshot";
   };
 
