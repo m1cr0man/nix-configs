@@ -130,7 +130,7 @@ rec {
   # Builds a container configuration entry for nixosContainers
   mkContainer = { name, modules ? [ ] }:
     nixos-nspawn.lib.mkContainer {
-      inherit nixpkgs system pkgs name;
+      inherit system pkgs name;
       modules = modules ++ [
         (baseModule "container" name)
         secretsModules
