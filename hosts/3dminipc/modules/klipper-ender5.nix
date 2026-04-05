@@ -76,14 +76,14 @@ in
       rotation_distance = 8;
       endstop_pin = "probe:z_virtual_endstop";
       # position_endstop = "0.0";
-      position_max = 300;
+      position_max = 280;
     };
 
     bltouch = {
       sensor_pin = "^PC4";
       # Note: This is the buzzer pin on the LCD screen.
       control_pin = "PA4";
-      z_offset = 1.70;
+      z_offset = 1.88;
       x_offset = -probeX; ##!! Measure and change for your own printer!!
       y_offset = -probeY; ##!! Measure and change for your own printer!!
       #y_offset = -15.7

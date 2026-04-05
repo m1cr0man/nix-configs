@@ -25,7 +25,7 @@
     interfaces.eth0 = {
       useDHCP = false;
       ipv4.addresses = [{
-        address = "192.168.2.6";
+        address = "192.168.254.5";
         prefixLength = 24;
       }];
     };
@@ -37,7 +37,7 @@
     };
     defaultGateway = {
       address = "192.168.2.254";
-      interface = "eth0";
+      interface = "wlan0";
     };
 
     nameservers = [ "1.1.1.1" "192.168.2.254" ];
