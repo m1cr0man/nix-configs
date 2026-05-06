@@ -43,7 +43,7 @@
     wireless = {
       enable = true;
       allowAuxiliaryImperativeNetworks = true;
-      userControlled.enable = true;
+      userControlled = true;
     };
 
     nameservers = [ "192.168.2.254" "1.1.1.1" ];

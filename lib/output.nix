@@ -45,8 +45,6 @@ rec {
     };
 
   nixOptionsModule = { pkgs, config, ... }: {
-    # Using a higher-than-default nix version to fix some eval time issues for containers.
-    nix.package = pkgs.nixVersions.nix_2_33;
     nix.channel.enable = false;
     nix.settings = {
         flake-registry = "";

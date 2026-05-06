@@ -9,16 +9,16 @@
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-    nixos-nspawn.url = "github:m1cr0man/python-nixos-nspawn/testfixes";
+    nixos-nspawn.url = "github:m1cr0man/python-nixos-nspawn";
     nixos-nspawn.inputs.nixpkgs.follows = "nixpkgs";
 
     preservation.url = "github:nix-community/preservation";
 
     # Update before doing nix flake update
-    lanzaboote.url = "github:nix-community/lanzaboote/v0.4.2";
+    lanzaboote.url = "github:nix-community/lanzaboote/v1.0.0";
     lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
 
-    snm.url = "git+https://gitlab.com/simple-nixos-mailserver/nixos-mailserver.git?ref=master";
+    snm.url = "git+https://gitlab.com/simple-nixos-mailserver/nixos-mailserver.git?ref=main";
     snm.inputs.nixpkgs.follows = "nixpkgs";
 
     nixos-vscode-server.url = "github:msteen/nixos-vscode-server";

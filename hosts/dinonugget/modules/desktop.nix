@@ -57,11 +57,8 @@
 
   environment.defaultPackages = [
     pkgs.clinfo
-    pkgs.glxinfo
     pkgs.vulkan-tools
     pkgs.vulkan-loader
     pkgs.libva-utils
-    # Enables desktop sharing in Discord and the likes
-    pkgs.kdePackages.xwaylandvideobridge
   ];
 }

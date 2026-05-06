@@ -8,7 +8,7 @@ in
     wantedBy = [ "multi-user.target" ];
     requires = [ "local-fs.target" ];
     after = [ "local-fs.target" ];
-    path = [ pkgs.gnugrep pkgs.zfsUnstable config.systemd.package ];
+    path = [ pkgs.gnugrep pkgs.zfs_unstable config.systemd.package ];
     serviceConfig = {
       RemainAfterExit = true;
     };
@@ -45,11 +45,9 @@ in
       (port 138 "udp")
     ];
 
-    system-config = {
-      system.stateVersion = config.system.stateVersion;
+    config = {
       _module.args.self = self;
       m1cr0man.instanceType = "container";
-      networking.hostName = "samba";
       networking.domain = config.networking.domain;
       sops.defaultSopsFile = lib.mkForce config.sops.defaultSopsFile;
 
