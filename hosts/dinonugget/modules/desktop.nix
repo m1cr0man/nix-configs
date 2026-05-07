@@ -13,13 +13,7 @@
   programs.kdeconnect.enable = true;
 
   # Login
-  services.displayManager.sddm = {
-    enable = true;
-    # Absolutely necessary to not black screen on login
-    wayland.enable = true;
-  };
-  # Use wayland (x11 has the suffix x11)
-  services.displayManager.defaultSession = "plasma";
+  services.displayManager.plasma-login-manager.enable = true;
 
   # Themeing
   programs.dconf.enable = true;
@@ -54,6 +48,9 @@
     settings."allow-preset-passphrase" = "";
   };
   security.pam.services.login.gnupg.enable = true;
+
+  # Unused programs
+  programs.kde-pim.enable = false;
 
   environment.defaultPackages = [
     pkgs.clinfo
