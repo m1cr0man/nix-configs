@@ -20,7 +20,7 @@
     in [
       (init "/var/lib/systemd/random-seed")
       (init "/etc/machine-id")
-      { file = "/etc/wpa_supplicant.conf"; mode = "0640"; }
+      { file = "/etc/wpa_supplicant/imperative.conf"; mode = "0640"; }
     ];
   };
 
