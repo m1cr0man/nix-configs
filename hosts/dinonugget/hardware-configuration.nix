@@ -13,9 +13,6 @@
     configurationLimit = 3;
   };
 
-  # Newer kernel
-  boot.kernelPackages = pkgs.linuxPackages_6_12;
-
   # Kernel modules
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "uas" "sd_mod" ];
   boot.initrd.kernelModules = [ "amdgpu" "nvme" ];
