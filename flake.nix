@@ -110,6 +110,13 @@
           ];
         };
 
+        simsfactory = mkConfiguration {
+          name = "simsfactory";
+          modules = [
+            inputs.preservation.nixosModules.preservation
+            inputs.lanzaboote.nixosModules.lanzaboote
+          ];
+        };
 
         optiplexxx = mkConfiguration {
           name = "optiplexxx";

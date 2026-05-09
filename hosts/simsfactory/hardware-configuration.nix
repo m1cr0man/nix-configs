@@ -1,0 +1,117 @@
+{ lib, pkgs, config, ... }: {
+  boot.loader.timeout = 0;
+  boot.loader.efi.canTouchEfiVariables = true;
+  boot.initrd.network.enable = lib.mkForce false;
+  # Required for preservation anyway
+  boot.initrd.systemd.enable = true;
+
+  # Secure boot
+  boot.loader.systemd-boot.enable = false;
+  boot.lanzaboote = {
+    enable = true;
+    pkiBundle = "/nix/persist/var/lib/sbctl";
+    configurationLimit = 3;
+  };
+
+  # Kernel modules
+  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "uas" "sd_mod" "rtsx_pci_sdmmc" ];
+  boot.kernelModules = [ "kvm-intel" ];
+
+  # Huge pages
+  boot.kernelParams = [ "hugepagesz=2M" "hugepages=512" ];
+
+  # Firmware is required in stage-1 for early KMS.
+  hardware.enableRedistributableFirmware = true;
+
+  # Firmware updates
+  hardware.cpu.intel.updateMicrocode = true;
+
+  # Bluetooth
+  hardware.bluetooth.enable = true;
+
+  # Display driver
+  services.xserver.videoDrivers = [ "modesetting" "nvidia" ];
+
+  # Nvidia GPU + PRIME
+  hardware.nvidia = {
+    # Required for the MX350
+    package = config.boot.kernelPackages.nvidiaPackages.legacy_580;
+    modesetting.enable = true;
+    powerManagement.enable = false;
+    powerManagement.finegrained = false;
+    open = false;
+    nvidiaSettings = true;
+    prime = {
+      offload = {
+        enable = true;
+        enableOffloadCmd = true;
+      };
+      intelBusId = "PCI:0:2:0";
+      nvidiaBusId = "PCI:1:0:0";
+    };
+  };
+
+  # iGPU hardware encoding
+  hardware.graphics.extraPackages = with pkgs; [
+    intel-media-driver
+    libvdpau-va-gl
+  ];
+  # Force intel-media-driver
+  environment.sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; };
+
+  # Filesystems
+  fileSystems = {
+    "/" = {
+      device = "none";
+      fsType = "tmpfs";
+      options = [ "defaults" "noatime" "size=256M" "mode=755" ];
+    };
+    "/boot" = {
+      device = "/dev/disk/by-partlabel/ESP";
+      fsType = "vfat";
+      options = [ "fmask=0022" "dmask=0022" ];
+    };
+    "/nix" = {
+      device = "zsimsfactory/nixos/nix";
+      fsType = "zfs";
+    };
+    "/home" = {
+      device = "zsimsfactory/home";
+      fsType = "zfs";
+    };
+    # Separate /tmp mount to prevent root storage space being used up
+    "/tmp" = {
+      device = "none";
+      fsType = "tmpfs";
+      options = [ "defaults" "size=2048M" "mode=777" ];
+    };
+    "/var/tmp" = {
+      depends = [ "/tmp" ];
+      device = "/tmp";
+      fsType = "none";
+      options = [ "bind" ];
+    };
+  };
+
+  swapDevices = [{
+    device = "/dev/disk/by-partlabel/SWAP";
+  }];
+
+  # Optimizations from nix-gaming
+  boot.kernel.sysctl = {
+    # 20-shed.conf
+    "kernel.sched_cfs_bandwidth_slice_us" = 3000;
+    # 20-net-timeout.conf
+    # This is required due to some games being unable to reuse their TCP ports
+    # if they're killed and restarted quickly - the default timeout is too large.
+    "net.ipv4.tcp_fin_timeout" = 5;
+    # 30-splitlock.conf
+    # Prevents intentional slowdowns in case games experience split locks
+    # This is valid for kernels v6.0+
+    "kernel.split_lock_mitigate" = 0;
+    # 30-vm.conf
+    # USE MAX_INT - MAPCOUNT_ELF_CORE_MARGIN.
+    # see comment in include/linux/mm.h in the kernel tree.
+    "vm.max_map_count" = 2147483642;
+  };
+}
