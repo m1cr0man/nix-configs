@@ -15,8 +15,8 @@
 
   # Kernel modules
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "uas" "sd_mod" ];
-  boot.initrd.kernelModules = [ "amdgpu" "nvme" ];
-  boot.kernelModules = [ "kvm-amd" ];
+  boot.initrd.kernelModules = [ "nvme" ];
+  boot.kernelModules = [ "kvm-intel" ];
 
   # Huge pages
   boot.kernelParams = [ "hugepagesz=2M" "hugepages=512" ];
@@ -25,13 +25,18 @@
   hardware.enableRedistributableFirmware = true;
 
   # Firmware updates
-  hardware.cpu.amd.updateMicrocode = true;
+  hardware.cpu.intel.updateMicrocode = true;
 
   # Bluetooth
   hardware.bluetooth.enable = true;
 
-  # Display driver
-  services.xserver.videoDrivers = [ "amdgpu" ];
+  # iGPU hardware encoding
+  hardware.graphics.extraPackages = with pkgs; [
+    intel-media-driver
+    libvdpau-va-gl
+  ];
+  # Force intel-media-driver
+  environment.sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; };
 
   # Filesystems
   fileSystems = {
@@ -46,11 +51,11 @@
       options = [ "fmask=0022" "dmask=0022" ];
     };
     "/nix" = {
-      device = "dinonugget/nixos/nix";
+      device = "zoatfield/nixos/nix";
       fsType = "zfs";
     };
     "/home" = {
-      device = "dinonugget/home";
+      device = "zoatfield/home";
       fsType = "zfs";
     };
     # Separate /tmp mount to prevent root storage space being used up

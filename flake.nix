@@ -102,6 +102,15 @@
           ];
         };
 
+        oatfield = mkConfiguration {
+          name = "oatfield";
+          modules = [
+            inputs.preservation.nixosModules.preservation
+            inputs.lanzaboote.nixosModules.lanzaboote
+          ];
+        };
+
+
         optiplexxx = mkConfiguration {
           name = "optiplexxx";
         };

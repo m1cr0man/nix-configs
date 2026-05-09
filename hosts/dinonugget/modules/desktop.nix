@@ -1,7 +1,4 @@
 { pkgs, ... }: {
-  # Display driver
-  services.xserver.videoDrivers = [ "amdgpu" ];
-
   # Boot screen
   boot.plymouth.enable = true;
 
