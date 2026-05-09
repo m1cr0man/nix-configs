@@ -6,6 +6,8 @@ keys:
   - &server_sarah age1397q7ywndyu4x9vtn40ttqwy4jwkvqh2rw66pxn3k7w5fmdj9c8q226gxw
   - &server_bgrs age1mzj3fhw43g5r9cduajqd8xcxth0zcrwetye5r4gf8v6u7la4v5fqmxxmcj
   - &server_dinonugget age13luskx9htpxdva90a3xdef33ekd4r6lkvytnrwsdfe6x27e4e9tqx4a6dc
+  - &server_oatfield age16vdza6hft5j9ms9lpt09hflhg3pmgak9s2zkk0anclheksu2w9cqz98d4z
+  - &server_simsfactory age187flq20mur8ln554cjatznfpwlaa2spf6lqplr53x8vyxw2aleuqy959wh
   - &server_optiplexxx age1ef6wy5vedl6x63gwjntwgjk6v95vrny78t4pw5uxl3dy6hndldtstjnsd8
   - &server_phoenix age1l7wtz2alwagwtr0y4xhp6x2xyfvgl0tcl8qf4ust957agf2wfsrsae2jfj
   - &server_3dminipc age13pxun5dnqkzm6z4gj07lnkydc4dz4d74c7lv9jsttxacersxuvusufjpax
@@ -21,6 +23,8 @@ creation_rules:
       - *server_sarah
       - *server_bgrs
       - *server_dinonugget
+      - *server_oatfield
+      - *server_simsfactory
       - *server_optiplexxx
       - *server_phoenix
       - *server_3dminipc
