@@ -17,7 +17,7 @@ in
       ./hardware-configuration.nix
     ];
 
-  system.stateVersion = "25.11";
+  system.stateVersion = "26.05";
 
   boot.loader.grub = {
     enable = true;
@@ -27,11 +27,6 @@ in
     efiInstallAsRemovable = true;
   };
   boot.loader.efi.efiSysMountPoint = "/boot";
-
-  # Set network configuration for initrd
-  boot.kernelParams = [
-    "ip=${localSecrets.ipv4Address}::${localSecrets.ipv4Gateway}:${localSecrets.ipv4Netmask}:${config.networking.hostName}:eth0:static"
-  ];
 
   networking = {
     hostId = "68f9ddb5";
@@ -57,6 +52,23 @@ in
     nameservers = [ "185.12.64.1" "1.1.1.1" ];
 
     firewall.allowedUDPPorts = [ 64087 64100 ];
+  };
+
+  # Required for ZFS unlocking
+  boot.initrd.systemd = {
+    network = {
+      enable = true;
+      networks."20-eth0" = {
+        enable = true;
+        name = "eth0";
+        DHCP = "no";
+        address = [
+          "${localSecrets.ipv4Address}/${toString localSecrets.ipv4Prefix}"
+          "${localSecrets.ipv6Address}/${toString localSecrets.ipv6Prefix}"
+        ];
+        routes = [{Gateway = localSecrets.ipv4Gateway;}];
+      };
+    };
   };
 
   # Workaround for https://github.com/NixOS/nixpkgs/issues/178078

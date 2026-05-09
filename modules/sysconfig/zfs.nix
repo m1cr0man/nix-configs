@@ -33,18 +33,6 @@ let
       -N ""
     mv initrd_key $out
   '';
-
-  unlockerScript = pkgs.writeShellScript "unlock-zfs.sh" (
-    builtins.concatStringsSep "\n" (map
-      (ds: ''
-        if ! zfs list -Ho name '${ds}' > /dev/null 2>&1; then
-          zpool import '${ds}'
-        fi
-        echo Unlocking '${ds}'
-        zfs load-key '${ds}'
-      '')
-      cfg.encryptedDatasets)
-  );
 in
 {
   options.m1cr0man.zfs = {
@@ -112,22 +100,11 @@ in
 
     # Set up initrd unlocker system
     boot.initrd = lib.mkIf (cfg.encryptedDatasets != [ ]) {
-      extraFiles."unlock-zfs.sh".source = unlockerScript;
-
-      # Use DHCP during the initrd, then undo the config before stage 2 boot
-      # TODO compare to flushBeforeStage2
-      postMountCommands = ''
-        ip a flush eth0
-        ip l set eth0 down
-      '';
-      network = {
+      network.ssh = {
         enable = true;
-        ssh = {
-          enable = true;
-          port = 6416;
-          authorizedKeys = config.users.users.root.openssh.authorizedKeys.keys;
-          hostKeys = [ cfg.initrdHostKey ];
-        };
+        port = 6416;
+        authorizedKeys = config.users.users.root.openssh.authorizedKeys.keys;
+        hostKeys = [ cfg.initrdHostKey ];
       };
     };
 
