@@ -12,9 +12,11 @@
 
   programs.git = {
     enable = true;
-    # A little less obfuscation, a little more spammin', please
-    userName = "Lu" + "cas Sav" + "va";
-    userEmail = "lu" + "cas" + "@" + "m1cr" + "0man.com";
+    settings.user = {
+      # A little less obfuscation, a little more spammin', please
+      name = "Lu" + "cas Sav" + "va";
+      email = "lu" + "cas" + "@" + "m1cr" + "0man.com";
+    };
     signing = {
       key = "BA3B111150D38817";
       signByDefault = true;
@@ -23,4 +25,10 @@
 
   programs.bash.enable = true;
   programs.gpg.enable = true;
+
+  home.packages = [
+    pkgs.delta
+    pkgs.go
+    pkgs.nixfmt-tree
+  ];
 }
