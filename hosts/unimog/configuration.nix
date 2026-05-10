@@ -19,14 +19,10 @@ in
 
   system.stateVersion = "26.05";
 
-  boot.loader.grub = {
-    enable = true;
-    devices = [ "/dev/disk/by-id/wwn-0x5002538c402dc7cc" ];
-    configurationLimit = 5;
-    efiSupport = true;
-    efiInstallAsRemovable = true;
-  };
-  boot.loader.efi.efiSysMountPoint = "/boot";
+  # Use the systemd-boot EFI boot loader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+  boot.initrd.network.enable = lib.mkForce false;
 
   networking = {
     hostId = "68f9ddb5";
