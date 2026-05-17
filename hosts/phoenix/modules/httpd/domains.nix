@@ -270,7 +270,7 @@ in lib.mkMerge [
     aliases = [ "stjohnfrc.ie" "www.stjohnfrc.ie" ];
     php = true;
     mysql = true;
-    # TODO joomla. Currently 500's
+    wordpress = true;
   })
   (mkDomain {
     username = "wcdf";
