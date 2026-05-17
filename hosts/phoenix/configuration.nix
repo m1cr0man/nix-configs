@@ -89,9 +89,6 @@ in
     "${config.systemd.package}/lib/systemd/systemd-networkd-wait-online --any --timeout=30"
   ];
 
-  # Enable VSCode Remote Server
-  services.vscode-server.enable = true;
-
   m1cr0man = {
     zfs = {
       scrubStartTime = "*-*-* 05:00:00";

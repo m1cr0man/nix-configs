@@ -21,9 +21,6 @@
     snm.url = "git+https://gitlab.com/simple-nixos-mailserver/nixos-mailserver.git?ref=main";
     snm.inputs.nixpkgs.follows = "nixpkgs";
 
-    nixos-vscode-server.url = "github:msteen/nixos-vscode-server";
-    nixos-vscode-server.inputs.nixpkgs.follows = "nixpkgs";
-
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -83,14 +80,12 @@
         chuck = mkConfiguration {
           name = "chuck";
           modules = [
-            inputs.nixos-vscode-server.nixosModules.default
             inputs.nixos-nspawn.nixosModules.hypervisor
           ];
         };
 
         sarah = mkConfiguration {
           name = "sarah";
-          modules = [ inputs.nixos-vscode-server.nixosModules.default ];
         };
 
         dinonugget = mkConfiguration {
@@ -125,7 +120,6 @@
         unimog = mkConfiguration {
           name = "unimog";
           modules = [
-            inputs.nixos-vscode-server.nixosModules.default
             inputs.nixos-nspawn.nixosModules.hypervisor
             inputs.dnssync-rs.nixosModules.dnssync
           ];
@@ -134,7 +128,6 @@
         phoenix = mkConfiguration {
           name = "phoenix";
           modules = [
-            inputs.nixos-vscode-server.nixosModules.default
             inputs.dnssync-rs.nixosModules.dnssync
           ];
         };

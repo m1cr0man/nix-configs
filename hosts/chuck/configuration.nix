@@ -75,9 +75,6 @@
   # Fix for routing issues
   m1cr0man.tailscale.enableLocalRoutingPatch = true;
 
-  # Enable VSCode Remote Server
-  services.vscode-server.enable = true;
-
   # Send metrics to self
   m1cr0man.monitoring.serverHostname = "localhost";
 
