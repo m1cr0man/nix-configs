@@ -19,7 +19,7 @@ in
       ./hardware-configuration.nix
     ];
 
-  system.stateVersion = "25.11";
+  system.stateVersion = "26.05";
 
   boot.loader.grub = {
     enable = true;
@@ -44,11 +44,6 @@ in
 
   # Reduce auto snapshot frequency
   services.zfs.autoSnapshot.frequent = lib.mkForce 0;
-
-  # Set network configuration for initrd
-  boot.kernelParams = [
-    "ip=${localSecrets.ipv4Address}::${localSecrets.ipv4Gateway}:${localSecrets.ipv4Netmask}:${config.networking.hostName}:eth0:static"
-  ];
 
   networking = {
     hostId = "19b5c3da";
@@ -83,6 +78,23 @@ in
     firewall.allowedTCPPorts = [ 80 443 ];
   };
 
+  # Required for ZFS unlocking
+  boot.initrd.systemd = {
+    network = {
+      enable = true;
+      networks."20-eth0" = {
+        enable = true;
+        name = "eth0";
+        DHCP = "no";
+        address = [
+          "${localSecrets.ipv4Address}/${toString localSecrets.ipv4Prefix}"
+          "${localSecrets.ipv6Address}/${toString localSecrets.ipv6Prefix}"
+        ];
+        routes = [{Gateway = localSecrets.ipv4Gateway;}];
+      };
+    };
+  };
+
   # Workaround for systemd-networkd-wait-online.service failures
   systemd.services."systemd-networkd-wait-online".serviceConfig.ExecStart = [
     ""
@@ -97,7 +109,4 @@ in
     };
     monitoring.serverHostname = "monitoring.unimog.vm.m1cr0man.com";
   };
-
-  # Enable KSM because the MC servers share a lot of data
-  hardware.ksm.enable = true;
 }

@@ -2,6 +2,12 @@
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
+  powerManagement.cpuFreqGovernor = "powersave";
+  hardware.cpu.intel.updateMicrocode = true;
+
+  # Enable KSM because the MC servers share a lot of data
+  hardware.ksm.enable = true;
+
   # Note e1000e for networking during boot
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "sd_mod" "usb_storage" "e1000e" ];
   boot.kernelModules = [ "kvm-intel" "zram" ];

@@ -86,11 +86,4 @@ in
     # Fix for routing issues
     tailscale.enableLocalRoutingPatch = true;
   };
-
-  # Enable KSM because the MC servers share a lot of data
-  hardware.ksm.enable = true;
-
-  # Enable powersave governor because this server is mental anyway
-  powerManagement.cpuFreqGovernor = "powersave";
-  hardware.cpu.intel.updateMicrocode = true;
 }
