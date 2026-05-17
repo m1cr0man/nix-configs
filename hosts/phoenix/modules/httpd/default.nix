@@ -49,7 +49,7 @@ in {
     enable = true;
     mpm = "event";
     maxClients = 500;
-    logFormat = "combinedplus";
+    logFormat = "none";
     extraModules = [ "proxy_wstunnel" "proxy_fcgi" ];
 
     extraConfig = ''
@@ -67,6 +67,9 @@ in {
       </IfModule>
 
       LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"  \"%{reqenv:SCRIPT_NAME}i\" %v" combinedplus
+      ErrorLog ${config.services.httpd.logDir}/error.log
+      LogLevel notice
+      CustomLog ${config.services.httpd.logDir}/access.log combinedplus
 
       DirectoryIndex index.php index.html index.htm index.shtml
     '';

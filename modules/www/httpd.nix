@@ -26,11 +26,15 @@ in
         enable = true;
         mpm = "event";
         maxClients = 500;
-        logFormat = "combinedplus";
+        logFormat = "none";
         extraModules = [ "proxy_wstunnel" ];
 
         extraConfig = ''
-          LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" %v" combinedplus
+          LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"  \"%{reqenv:SCRIPT_NAME}i\" %v" combinedplus
+          ErrorLog ${config.services.httpd.logDir}/error.log
+          LogLevel notice
+          CustomLog ${config.services.httpd.logDir}/access.log combinedplus
+
           ProxyPreserveHost On
           DirectoryIndex index.php index.html index.htm index.shtml
         '';
