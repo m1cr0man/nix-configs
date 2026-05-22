@@ -44,6 +44,7 @@
       enable = true;
       allowAuxiliaryImperativeNetworks = true;
       userControlled = true;
+      scanOnLowSignal = false;
     };
 
     nameservers = [ "192.168.2.254" "1.1.1.1" ];

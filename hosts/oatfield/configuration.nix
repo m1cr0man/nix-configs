@@ -28,6 +28,7 @@
       enable = true;
       allowAuxiliaryImperativeNetworks = true;
       userControlled = true;
+      scanOnLowSignal = false;
     };
     networkmanager = {
       enable = true;

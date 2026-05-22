@@ -20,6 +20,7 @@
     nftables.enable = true;
     wireless.enable = true;
     wireless.allowAuxiliaryImperativeNetworks = true;
+    wireless.scanOnLowSignal = false;
 
     usePredictableInterfaceNames = false;
     interfaces.eth0 = {
