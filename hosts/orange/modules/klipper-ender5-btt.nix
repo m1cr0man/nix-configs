@@ -1,7 +1,7 @@
 { config, ... }:
 let
   serial = "/dev/ttyACM0";
-  probeX = 30;
+  probeX = 28;
   probeY = 0.0;
   ts = builtins.toString;
 
@@ -9,19 +9,22 @@ let
   # Returns a comma separated string
   xyProbe = x: y: "${ts (x - probeX)},${ts (y - probeY)}";
 
+  # The inverse of xyProbe
+  xyProbeInv = x: y: "${ts (x + probeX)},${ts (y + probeY)}";
+
   # Probe distances added to screws
   screws = {
     # screw1 = "33,30";
     screw1 = xyProbe 33 30;
     screw1_name = "Front left";
-    # screw2 = "200,30";
-    screw2 = xyProbe 200 30;
+    # screw2 = "187,30";
+    screw2 = xyProbe 187 30;
     screw2_name = "Front Right";
-    # screw3 = "200,185";
-    screw3 = xyProbe 200 185;
+    # screw3 = "187,187";
+    screw3 = xyProbe 187 187;
     screw3_name = "Back Right";
-    # screw4 = "33,185";
-    screw4 = xyProbe 33 185;
+    # screw4 = "33,187";
+    screw4 = xyProbe 33 187;
     screw4_name = "Back Left";
   };
 in
@@ -95,8 +98,9 @@ in
 
     bed_mesh = {
       speed = 120;
-      mesh_min = xyProbe 5 10;
-      mesh_max = xyProbe 230 195;
+      # bltouch offset is automatically applied.
+      mesh_min = "30,5";
+      mesh_max = "180,180";
       probe_count = "5,5";
       horizontal_move_z = 7;
     };
