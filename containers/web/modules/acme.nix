@@ -5,7 +5,7 @@ let
 
   dnsCfg = {
     dnsProvider = "cloudflare";
-    credentialsFile = config.sops.secrets.acme_cloudflare_env.path;
+    environmentFile = config.sops.secrets.acme_cloudflare_env.path;
     dnsPropagationCheck = true;
   };
 

@@ -11,7 +11,7 @@
       ./containers/samba/configuration.nix
     ];
 
-  system.stateVersion = "25.11";
+  system.stateVersion = "26.11";
 
   networking = {
     hostId = "ff90ce60";

@@ -45,12 +45,12 @@ in
     # Limit logs sizes and retention duration in journalctl
     # RuntimeKeepFree is used to ensure a certain amount of available mem
     # on low memory systems (< 500M)
-    services.journald.extraConfig = ''
-      SystemMaxUse=${cfg.maxJournalSize}
-      RuntimeMaxUse=500M
-      RuntimeKeepFree=250M
-      MaxRetentionSec=${cfg.maxJournalAge}
-    '';
+    services.journald.settings.Journal = {
+      SystemMaxUse = cfg.maxJournalSize;
+      RuntimeMaxUse = "500M";
+      RuntimeKeepFree = "250M";
+      MaxRetentionSec = cfg.maxJournalAge;
+    };
 
     services.rsyslogd = lib.mkIf (cfg.rsyslogServer != null) {
       # Automatically enables services.journald.forwardToSyslog

@@ -22,7 +22,7 @@ in
         domain = "*.${domain}";
         extraDomainNames = [ domain ];
         dnsProvider = "rfc2136";
-        credentialsFile = config.sops.secrets."${cfg.rfc2136EnvSecret}".path;
+        environmentFile = config.sops.secrets."${cfg.rfc2136EnvSecret}".path;
         dnsPropagationCheck = true;
       };
     };

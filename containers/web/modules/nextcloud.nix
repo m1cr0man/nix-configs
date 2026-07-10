@@ -73,7 +73,7 @@ in
       pkgs.which
       pkgs.ps
       # For recognize
-      pkgs.nodejs_20
+      pkgs.nodejs_22
     ]);
     settings = {
       "listen.owner" = config.services.httpd.user;
@@ -101,7 +101,7 @@ in
 
   services.nextcloud = {
     enable = true;
-    package = pkgs.nextcloud31;
+    package = pkgs.nextcloud34;
     hostName = "nextcloud.${domain}";
     https = true;
     maxUploadSize = "4100M";
