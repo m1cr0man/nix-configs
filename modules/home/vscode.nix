@@ -15,6 +15,8 @@ in
   };
 
   config = {
+    programs.claude-code.enable = true;
+
     programs.vscode = let
       loadAfter = deps: pkg: pkg.overrideAttrs (old: {
         nativeBuildInputs = old.nativeBuildInputs or [] ++ [ pkgs.jq pkgs.moreutils ];
@@ -35,13 +37,13 @@ in
       [
         # General
         mkhl.direnv
-        rooveterinaryinc.roo-cline
         (pkgs.vscode-utils.extensionFromVscodeMarketplace {
           publisher = "Google";
           name = "geminicodeassist";
           version = "2.81.0";
           sha256 = "sha256-QX0YPHPQPYl2LRHGmXTL146Kxty/YMlvRo503eWEMpg=";
         })
+        anthropic.claude-code
         # Rust dev
         vadimcn.vscode-lldb
         tamasfe.even-better-toml
