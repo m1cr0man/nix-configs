@@ -2,23 +2,27 @@
 let
   stateDir = config.m1cr0man.container.stateDir;
 
-  sevendays_ports = [
-    26900 26901 26902 26903 26904 26905
-    27015 27016 27017 27018 27019 27020
+  multiproto_ports = [
+    # Seven days to die
+    # 26900 26901 26902 26903 26904 26905
+    # 27015 27016 27017 27018 27019 27020
+    # Satisfactory
+    7777 8888
   ];
 in
 {
   imports = with lib.m1cr0man.module;
     addModules ../../modules [
       "secrets"
-      "monitoring/client"
       "gaming/minecraft"
       "gaming/openttd.nix"
     ]
     ++
     addModulesRecursive ./modules;
 
-  system.stateVersion = "25.11";
+  system.stateVersion = "26.11";
+
+  environment.systemPackages = [ pkgs.inetutils pkgs.socat pkgs.steamcmd ];
 
   nixosContainer =
     {
@@ -35,11 +39,10 @@ in
             25546
             # OpenTTD
             3979
-            # 7DTD
-          ] ++ sevendays_ports))
+          ] ++ multiproto_ports))
         ++ (builtins.map
           (port: { hostPort = port; containerPort = port; protocol = "udp"; })
-          sevendays_ports);
+          multiproto_ports);
       bindMounts = [
         "${stateDir}/nixos:/var/lib/nixos"
         "${stateDir}:/var/lib/gaming"

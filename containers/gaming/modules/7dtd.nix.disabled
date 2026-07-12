@@ -19,8 +19,6 @@ in {
     27015 27016 27017 27018 27019 27020
   ];
 
-  environment.systemPackages = [ pkgs.inetutils pkgs.socat pkgs.steamcmd ];
-
   systemd.services.sevendays_gary = {
     description = "7 Days To Die Rebirth";
     wants = ["network.target"];
