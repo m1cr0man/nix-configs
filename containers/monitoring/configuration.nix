@@ -6,8 +6,6 @@ in
   imports = with lib.m1cr0man.module;
     addModules ../../modules [
       "secrets"
-      "monitoring/client"
-      "monitoring/ports.nix"
       "monitoring/prometheus.nix"
       "monitoring/loki.nix"
       "monitoring/grafana.nix"
@@ -17,13 +15,13 @@ in
     ++
     addModulesRecursive ./modules;
 
-  system.stateVersion = "25.11";
+  system.stateVersion = "26.11";
 
   nixosContainer =
     {
       bindMounts = [
         "${stateDir}/nixos:/var/lib/nixos"
-        "${stateDir}/prometheus:/var/lib/prometheus"
+        "${stateDir}/prometheus2:/var/lib/prometheus2"
         "${stateDir}/loki:/var/lib/loki"
         "${stateDir}/grafana:/var/lib/grafana"
       ];
@@ -32,5 +30,22 @@ in
   networking.firewall.allowedTCPPorts = [
     config.services.prometheus.port
     config.services.loki.configuration.server.http_listen_port
+  ];
+
+  services.prometheus.scrapeConfigs = [
+    {
+      job_name = "machinectl-prom-sd";
+      file_sd_configs = [{
+        files = [ "/var/lib/prometheus2/machinectl-prom-sd/machinectl.json" ];
+      }];
+    }
+    {
+      job_name = "systemd-exporterd";
+      static_configs = [{
+        targets = [
+          "_gateway:9137"
+        ];
+      }];
+    }
   ];
 }

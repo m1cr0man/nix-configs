@@ -8,6 +8,7 @@ in
     addModules ../../modules [
       "management/ssh"
       "monitoring/client"
+      "monitoring/machinectl-prom-sd.nix"
       "vms/gamesvm.nix"
       "www/tailscale.nix"
     ]
@@ -17,7 +18,7 @@ in
       ./hardware-configuration.nix
     ];
 
-  system.stateVersion = "26.05";
+  system.stateVersion = "26.11";
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -77,7 +78,14 @@ in
   ];
 
   m1cr0man = {
-    monitoring.hostMetrics = true;
+    monitoring = {
+      hostMetrics = true;
+      systemdMetrics = true;
+      machinectl-prom-sd = {
+        enable = true;
+        ports = [ 9136 9137 ];
+      };
+    };
     zfs = {
       scrubStartTime = "*-*-* 07:00:00";
       scrubStopTime = "*-*-* 07:15:00";

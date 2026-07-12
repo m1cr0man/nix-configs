@@ -21,6 +21,7 @@ in
       description = "Address of Prometheus server";
     };
     hostMetrics = lib.mkEnableOption "read cpu, load, memory and network metrics";
+    systemdMetrics = lib.mkEnableOption "read systemd unit accounting metrics";
     logFiles = lib.mkOption {
       default = [];
       type = lib.types.listOf lib.types.path;

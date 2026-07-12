@@ -90,16 +90,12 @@ in
             codec = "json";
           };
         };
-        prom = {
-          type = "prometheus_remote_write";
-          inputs = lib.optionals (cfg.hostMetrics) [ "host_local" ];
-          endpoint = "${cfg.prometheusAddress}/api/v1/write";
-          batch = {
-            max_bytes = 1048576 * 2;
-            timeout_secs = 15;
-          };
+        prom = lib.mkIf (cfg.hostMetrics) {
+          type = "prometheus_exporter";
+          address = "0.0.0.0:9136";
+          inputs = [ "host_local" ];
+          buffer.max_size = 1048576 * 16;
           buffer.type = "memory";
-          healthcheck.uri = "${cfg.prometheusAddress}/-/healthy";
         };
       };
     };

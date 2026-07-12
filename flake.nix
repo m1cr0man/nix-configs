@@ -42,6 +42,14 @@
       fenix.follows = "imhumane-rs/fenix";
       advisory-db.follows = "imhumane-rs/advisory-db";
     };
+
+    systemd-exporterd-rs.url = "github:m1cr0man/systemd-exporterd-rs";
+    systemd-exporterd-rs.inputs = {
+      nixpkgs.follows = "nixpkgs";
+      crane.follows = "imhumane-rs/crane";
+      fenix.follows = "imhumane-rs/fenix";
+      advisory-db.follows = "imhumane-rs/advisory-db";
+    };
   };
 
   outputs = { self, sops-nix, ... }@inputs:
@@ -254,6 +262,7 @@
         imhumane-rs = inputs.imhumane-rs.overlays.imhumane-rs-nixpkgs;
         mailform-rs = inputs.mailform-rs.overlays.mailform-rs-nixpkgs;
         dnssync-rs = inputs.dnssync-rs.overlays.dnssync-rs-nixpkgs;
+        systemd-exporterd-rs = inputs.systemd-exporterd-rs.overlays.systemd-exporterd-nixpkgs;
       };
 
       # Re-export nixpkgs as legacyPackages so that we can do `nix run .#<pkg name>` for any nixpkg.

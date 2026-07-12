@@ -117,6 +117,7 @@ rec {
         secretsModules
         nixOptionsModule
         inputs.sops-nix.nixosModules.sops
+        inputs.systemd-exporterd-rs.nixosModules.systemd-exporterd
         "${configPath}/hosts/${name}/configuration.nix"
       ] ++ (pkgs.lib.m1cr0man.module.addModules myModulesPath [
         "global-options.nix"
@@ -134,6 +135,7 @@ rec {
         secretsModules
         nixOptionsModule
         inputs.sops-nix.nixosModules.sops
+        inputs.systemd-exporterd-rs.nixosModules.systemd-exporterd
         "${configPath}/containers/${name}/configuration.nix"
       ] ++ (pkgs.lib.m1cr0man.module.addModules myModulesPath [
         "global-options.nix"
