@@ -1,7 +1,7 @@
 # Helper functions for flake output
 { inputs, domain, system ? builtins.currentSystem }:
 let
-  inherit (inputs) self nixpkgs nixos-nspawn sops-nix;
+  inherit (inputs) self nixpkgs;
   # We add the modules folder to the store and later add it to specialArgs.
   # This saves us doing long relative paths in imports for hosts.
   configPath = self;
@@ -116,7 +116,7 @@ rec {
         (baseModule "host" name)
         secretsModules
         nixOptionsModule
-        sops-nix.nixosModules.sops
+        inputs.sops-nix.nixosModules.sops
         "${configPath}/hosts/${name}/configuration.nix"
       ] ++ (pkgs.lib.m1cr0man.module.addModules myModulesPath [
         "global-options.nix"
@@ -127,12 +127,13 @@ rec {
 
   # Builds a container configuration entry for nixosContainers
   mkContainer = { name, modules ? [ ] }:
-    nixos-nspawn.lib.mkContainer {
+    inputs.nixos-nspawn.lib.mkContainer {
       inherit system pkgs name;
       modules = modules ++ [
         (baseModule "container" name)
         secretsModules
         nixOptionsModule
+        inputs.sops-nix.nixosModules.sops
         "${configPath}/containers/${name}/configuration.nix"
       ] ++ (pkgs.lib.m1cr0man.module.addModules myModulesPath [
         "global-options.nix"

@@ -181,53 +181,33 @@
       nixosContainers.${system} = {
         database = mkContainer {
           name = "database";
-          modules = [
-            sops-nix.nixosModules.sops
-          ];
         };
         email = mkContainer {
           name = "email";
           modules = [
-            sops-nix.nixosModules.sops
             inputs.snm.nixosModules.mailserver
           ];
         };
         web = mkContainer {
           name = "web";
-          modules = [
-            sops-nix.nixosModules.sops
-          ];
         };
         gaming = mkContainer {
           name = "gaming";
-          modules = [
-            sops-nix.nixosModules.sops
-          ];
         };
         tailscale = mkContainer {
           name = "tailscale";
-          modules = [
-            sops-nix.nixosModules.sops
-          ];
         };
         monitoring = mkContainer {
           name = "monitoring";
-          modules = [
-            sops-nix.nixosModules.sops
-          ];
         };
         vccemail = mkContainer {
           name = "vccemail";
           modules = [
-            sops-nix.nixosModules.sops
             inputs.snm.nixosModules.mailserver
           ];
         };
         bf2142 = mkContainer {
           name = "bf2142";
-          modules = [
-            sops-nix.nixosModules.sops
-          ];
         };
       };
 
