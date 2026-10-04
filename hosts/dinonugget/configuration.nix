@@ -24,20 +24,20 @@
     interfaces.eth0 = {
       useDHCP = false;
       ipv4.addresses = [{
-        address = "192.168.137.10";
+        address = "192.168.2.10";
         prefixLength = 24;
       }];
     };
     interfaces.wlan0 = {
       useDHCP = false;
       ipv4.addresses = [{
-        address = "192.168.2.10";
+        address = "192.168.2.11";
         prefixLength = 24;
       }];
     };
     defaultGateway = {
       address = "192.168.2.254";
-      interface = "wlan0";
+      interface = "eth0";
     };
 
     wireless = {
@@ -50,11 +50,8 @@
     nameservers = [ "192.168.2.254" "1.1.1.1" ];
   };
 
-  systemd.network.networks."40-eth0" = {
-    linkConfig.RequiredForOnline = "no";
-  };
   systemd.network.networks."40-wlan0" = {
-    linkConfig.RequiredForOnline = "routable";
+    linkConfig.RequiredForOnline = "no";
     networkConfig.IgnoreCarrierLoss = "3s";
   };
 
