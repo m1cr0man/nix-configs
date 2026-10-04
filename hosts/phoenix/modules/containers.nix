@@ -39,4 +39,7 @@ in
       }];
     };
   };
+
+  # Fix for routing issues
+  m1cr0man.tailscale.preferLocalSubnets = [ "192.168.26.0/24" "beee::/64" ];
 }

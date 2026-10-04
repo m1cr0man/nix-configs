@@ -73,7 +73,7 @@
   ];
 
   # Fix for routing issues
-  m1cr0man.tailscale.enableLocalRoutingPatch = true;
+  m1cr0man.tailscale.preferLocalSubnets = [ "192.168.2.0/24" ];
 
   # Send metrics to self
   m1cr0man.monitoring.serverHostname = "localhost";

@@ -39,9 +39,6 @@
     "/etc/NetworkManager/system-connections"
   ];
 
-  # Fix for routing issues
-  m1cr0man.tailscale.enableLocalRoutingPatch = true;
-
   # Thunderbolt
   environment.systemPackages = [
     pkgs.kdePackages.plasma-thunderbolt

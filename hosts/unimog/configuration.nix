@@ -30,7 +30,6 @@ in
     useDHCP = false;
     useNetworkd = true;
     nftables.enable = true;
-
     usePredictableInterfaceNames = false;
     interfaces.eth0 = {
       useDHCP = false;
@@ -91,7 +90,5 @@ in
       scrubStopTime = "*-*-* 07:15:00";
       encryptedDatasets = [ "zunimog_ssd" "zunimog_hdd" ];
     };
-    # Fix for routing issues
-    tailscale.enableLocalRoutingPatch = true;
   };
 }

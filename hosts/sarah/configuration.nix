@@ -59,7 +59,7 @@
   ];
 
   # Fix for routing issues
-  m1cr0man.tailscale.enableLocalRoutingPatch = true;
+  m1cr0man.tailscale.preferLocalSubnets = [ "192.168.14.0/24" ];
 
   users.users.root.openssh.authorizedKeys.keys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGQ/+dK+9Y/QduSpNPoX/yfKYZazgUVwhs3DjH008U2C root@bgrs"

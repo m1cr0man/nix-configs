@@ -58,6 +58,8 @@
     networkConfig.IgnoreCarrierLoss = "3s";
   };
 
+  m1cr0man.tailscale.preferLocalSubnets = [ "192.168.2.0/24" ];
+
   # Required for building aarch64-linux packages
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
@@ -67,6 +69,4 @@
   # Reduce auto snapshot frequency
   services.zfs.autoSnapshot.frequent = lib.mkForce 0;
 
-  # Fix for routing issues
-  m1cr0man.tailscale.enableLocalRoutingPatch = true;
 }
