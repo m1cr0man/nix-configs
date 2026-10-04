@@ -37,25 +37,25 @@ in
       [
         # General
         mkhl.direnv
-        (pkgs.vscode-utils.extensionFromVscodeMarketplace {
-          publisher = "Google";
-          name = "geminicodeassist";
-          version = "2.81.0";
-          sha256 = "sha256-QX0YPHPQPYl2LRHGmXTL146Kxty/YMlvRo503eWEMpg=";
-        })
-        anthropic.claude-code
         # Rust dev
         vadimcn.vscode-lldb
         tamasfe.even-better-toml
         # Go dev
         golang.go
-        # AI
         (pkgs.vscode-utils.extensionFromVscodeMarketplace {
           publisher = "reduckted";
           name = "vscode-gitweblinks";
-          version = "2.14.1";
-          sha256 = "sha256-7rYh1Nt9ZlhKzttINm1zdDtYBZprrgRr/8xd9rTKrCw=";
+          version = "2.15.1";
+          sha256 = "sha256-ckRPvOh1XldBY4mElBDI+Lheip/zsXH250jUgv9Z8cw=";
         })
+        # AI
+        (pkgs.vscode-utils.extensionFromVscodeMarketplace {
+          publisher = "Google";
+          name = "geminicodeassist";
+          version = "2.100.0";
+          sha256 = "sha256-u7Ba1YP4062XVg7AtbLiUqxhZgIP0d5VvJauBFiiSw4=";
+        })
+        anthropic.claude-code
       ] ++ map (loadAfter [ "mkhl.direnv" ])
       # Extensions depending on direnv
       [
@@ -70,8 +70,8 @@ in
         (pkgs.vscode-utils.extensionFromVscodeMarketplace {
           publisher = "astral-sh";
           name = "ty";
-          version = "2026.44.0";
-          sha256 = "sha256-1/nNZjXfJZjLlcvFMKNsp9txh+DzDKTn60WfY4ksX2Y=";
+          version = "2026.76.0";
+          sha256 = "sha256-R0WSkM6LQNsGi5tCYH79AOYJycFdsOERrGi8jncEtAU=";
         })
         # OC/CC dev
         (pkgs.vscode-utils.extensionFromVscodeMarketplace {
