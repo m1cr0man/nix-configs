@@ -2,15 +2,15 @@
 let
   cfg = config.m1cr0man.vscode;
   home = config.home.homeDirectory;
-  vscodeSocket = "${home}/.cache/openvscode-server.sock";
+  vscodeSocket = "${home}/.cache/code-server.sock";
 in
 {
   options.m1cr0man.vscode = {
-    remoteEditor = lib.mkEnableOption "openvscode-server as the EDITOR";
+    remoteEditor = lib.mkEnableOption "code-server as the EDITOR";
     serverSocket = lib.mkOption {
       type = lib.types.path;
-      default = "${home}/.openvscode-server.sock";
-      description = "Path to the OpenVSCode server listening socket";
+      default = "${home}/.code-server.sock";
+      description = "Path to the code server listening socket";
     };
   };
 
@@ -28,7 +28,7 @@ in
         '';
       });
 
-      editor = if config.m1cr0man.vscode.remoteEditor then "openvscode-server" else "code";
+      editor = if config.m1cr0man.vscode.remoteEditor then "code-server" else "code";
     in {
       enable = true;
       mutableExtensionsDir = false;
@@ -51,9 +51,9 @@ in
         # AI
         (pkgs.vscode-utils.extensionFromVscodeMarketplace {
           publisher = "Google";
-          name = "geminicodeassist";
-          version = "2.100.0";
-          sha256 = "sha256-u7Ba1YP4062XVg7AtbLiUqxhZgIP0d5VvJauBFiiSw4=";
+          name = "google-antigravity";
+          version = "1.5.0";
+          sha256 = "sha256-M8DSpZmnznljLCVitwOCEhWOMOeyk04i2K/EGA2kJ5w=";
         })
         anthropic.claude-code
       ] ++ map (loadAfter [ "mkhl.direnv" ])
@@ -98,49 +98,44 @@ in
         "workbench.startupEditor" = "none";
         "telemetry.telemetryLevel" = "off";
         "update.mode" = "none";
+        "chat.agent.enabled" = false;
+        "chat.checkpoints.enabled" = false;
+        "chat.editor.localAgent.enabled" = false;
+        "chat.disableAIFeatures" = true;
       };
     };
 
-    # Create a symlink between openvscode-server's configs
-    # and actual vscode's.
     home.file = let
-      hd = config.home.homeDirectory;
       machineConfig = "${config.xdg.configHome}/Code/Machine/settings.json";
       userConfig = "${config.xdg.configHome}/Code/User/settings.json";
     in {
-      ".openvscode-server".source = pkgs.runCommand "openvscode-server-link" {} ''
-        mkdir -p $out
-        cd $out
-        ln -s ${hd}/.vscode/extensions extensions
-        ln -s ${hd}/.config/Code data
-      '';
-      # Similarly link the machine settings and user settings together
-      # This way openvscode-server will read the machine settings
+      # Link the machine settings and user settings together
+      # This way code-server will read the machine settings
       # on startup.
       "${machineConfig}".source = config.home.file."${userConfig}".source;
     };
 
     # This will be started on demand by the socket unit.
-    systemd.user.services.openvscode-server = {
+    systemd.user.services.code-server = {
       Unit = {
-        Description = "Open VSCode Server";
+        Description = "VSCode Server";
         # Required so that the service shuts down when no connections remain
-        BindsTo = [ "openvscode-server-proxy.service" ];
+        BindsTo = [ "code-server-proxy.service" ];
       };
       Service = {
-        ExecStart = "${pkgs.openvscode-server}/bin/openvscode-server --telemetry-level=off --socket-path=${vscodeSocket} --accept-server-license-terms --without-connection-token";
+        ExecStart = "${pkgs.code-server}/bin/code-server --disable-telemetry --disable-update-check --socket=${vscodeSocket} --user-data-dir %E/Code --extensions-dir %h/.vscode/extensions --auth none";
         ExecStartPre = "bash -c 'test -e ${vscodeSocket} && rm ${vscodeSocket} || true'";
         ExecSearchPath = [ "${pkgs.coreutils}/bin" "${pkgs.git}/bin" "${pkgs.gnused}/bin" "${home}/.nix-profile/bin" "/nix/profile/bin" "${home}/.local/state/nix/profile/bin" "/etc/profiles/per-user/lucas/bin" "/run/current-system/sw/bin" ];
       };
     };
 
     # See mongodb module for more info on how this operates
-    systemd.user.services."openvscode-server-proxy" = {
+    systemd.user.services."code-server-proxy" = {
       Unit = {
-        Description = "Connects clients to openvscode-server via systemd sockets";
-        BindsTo = [ "openvscode-server-proxy.socket" ];
-        Requires = [ "openvscode-server.service" ];
-        After = [ "openvscode-server-proxy.socket" "openvscode-server.service" ];
+        Description = "Connects clients to code-server via systemd sockets";
+        BindsTo = [ "code-server-proxy.socket" ];
+        Requires = [ "code-server.service" ];
+        After = [ "code-server-proxy.socket" "code-server.service" ];
       };
 
       Service = {
@@ -149,8 +144,8 @@ in
       };
     };
 
-    systemd.user.sockets.openvscode-server-proxy = {
-      Unit.Description = "Open VSCode Server Listening Socket";
+    systemd.user.sockets.code-server-proxy = {
+      Unit.Description = "VSCode Server Listening Socket";
       Install.WantedBy = [ "default.target" ];
       Socket = {
         ListenStream = cfg.serverSocket;
