@@ -50,8 +50,8 @@ in
         })
         # AI
         (pkgs.vscode-utils.extensionFromVscodeMarketplace {
-          publisher = "Google";
-          name = "google-antigravity";
+          publisher = "rooveterinaryinc";
+          name = "roo-code-nightly";
           version = "1.5.0";
           sha256 = "sha256-M8DSpZmnznljLCVitwOCEhWOMOeyk04i2K/EGA2kJ5w=";
         })
@@ -113,6 +113,8 @@ in
       # This way code-server will read the machine settings
       # on startup.
       "${machineConfig}".source = config.home.file."${userConfig}".source;
+      # Disable the user config so that theme switching works
+      "${userConfig}".enable = false;
     };
 
     # This will be started on demand by the socket unit.
