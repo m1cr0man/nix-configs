@@ -34,7 +34,7 @@ in
       preStop = ''
         pg_dumpall \
         | zstd -c5 - \
-        > STATE_DIRECTORY/postgresqldump-$(date +'%F').sql.zst
+        > $STATE_DIRECTORY/postgresqldump-$(date +'%F').sql.zst
       '';
       serviceConfig = {
         Type = "oneshot";
