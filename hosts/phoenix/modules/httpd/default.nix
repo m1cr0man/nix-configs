@@ -3,7 +3,7 @@ let
   tld = "vccomputers.ie";
   adminAddr = "webmaster@${tld}";
   acmeRoot = "/var/lib/acme/acme-challenge";
-  php = pkgs.php82.buildEnv {
+  php = pkgs.m1cr0man.php83Patched.buildEnv {
     extensions = { enabled, all }: enabled ++ (with all; [
       imagick
       curl

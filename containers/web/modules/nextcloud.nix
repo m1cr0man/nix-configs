@@ -102,6 +102,7 @@ in
   services.nextcloud = {
     enable = true;
     package = pkgs.nextcloud34;
+    phpPackage = pkgs.m1cr0man.php84Patched;
     hostName = "nextcloud.${domain}";
     https = true;
     maxUploadSize = "4100M";
