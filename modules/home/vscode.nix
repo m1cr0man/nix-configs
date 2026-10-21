@@ -49,12 +49,6 @@ in
           sha256 = "sha256-ckRPvOh1XldBY4mElBDI+Lheip/zsXH250jUgv9Z8cw=";
         })
         # AI
-        (pkgs.vscode-utils.extensionFromVscodeMarketplace {
-          publisher = "rooveterinaryinc";
-          name = "roo-code-nightly";
-          version = "1.5.0";
-          sha256 = "sha256-M8DSpZmnznljLCVitwOCEhWOMOeyk04i2K/EGA2kJ5w=";
-        })
         anthropic.claude-code
       ] ++ map (loadAfter [ "mkhl.direnv" ])
       # Extensions depending on direnv
