@@ -48,7 +48,6 @@ let
 in
 {
   sops.secrets.nextcloud_database_password = sopsPerms;
-  sops.secrets.nextcloud_root_password = sopsPerms;
 
   users.users.nextcloud.extraGroups = [ "sockets" "keys" ];
   users.groups.nextcloud.members = [ config.services.httpd.user ];
@@ -171,8 +170,6 @@ in
       dbhost = "/var/lib/sockets";
       dbname = "nextcloud";
       dbpassFile = config.sops.secrets.nextcloud_database_password.path;
-      adminpassFile = config.sops.secrets.nextcloud_root_password.path;
-      adminuser = "root";
     };
 
     phpOptions = {
