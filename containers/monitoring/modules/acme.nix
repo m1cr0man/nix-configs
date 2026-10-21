@@ -8,7 +8,6 @@ let
 
   mkCert = dom: dnsCfg // {
     domain = "*.${dom}";
-    extraDomainNames = [ dom ];
     reloadServices = [ "httpd.service" ];
   };
 in
