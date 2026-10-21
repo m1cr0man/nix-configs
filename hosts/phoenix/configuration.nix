@@ -12,6 +12,7 @@ in
       "www/imhumane-rs.nix"
       "www/mailform-rs.nix"
       "gaming/minecraft"
+      "www/tailscale.nix"
     ]
     ++
     addModulesRecursive ./modules
@@ -27,12 +28,13 @@ in
     efiSupport = true;
     efiInstallAsRemovable = true;
     mirroredBoots = [
-      {
-        devices = [
-          "/dev/disk/by-id/wwn-0x5002538c0004258a"
-        ];
-        path = "/boot";
-      }
+      # Drive died
+      # {
+      #   devices = [
+      #     "/dev/disk/by-id/wwn-0x5002538c0004258a"
+      #   ];
+      #   path = "/boot";
+      # }
       {
         devices = [
           "/dev/disk/by-id/wwn-0x50025388003531bd"

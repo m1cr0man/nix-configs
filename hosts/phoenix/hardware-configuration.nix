@@ -49,6 +49,7 @@
 
   swapDevices =
     [ { device = "/dev/disk/by-partlabel/SWAP_SDA"; }
-      { device = "/dev/disk/by-partlabel/SWAP_SDB"; }
+      # SDB died
+      # { device = "/dev/disk/by-partlabel/SWAP_SDB"; }
     ];
 }
