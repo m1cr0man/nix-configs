@@ -26,4 +26,15 @@
       "--gui-address=0.0.0.0:8384"
     ];
   };
+
+  programs.zed-editor = {
+    enable = true;
+    installRemoteServer = true;
+    enableMcpIntegration = true;
+  };
+
+  programs.mcp.servers.context7 = {
+    url = "https://mcp.context7.com/mcp";
+    headers.CONTEXT7_API_KEY = "{file:/home/lucas/.context7.apikey}";
+  };
 }
