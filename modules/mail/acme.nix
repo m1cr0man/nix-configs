@@ -7,9 +7,10 @@ in
     extraDomainNames = [
       "${cfg.sendingFqdn}"
     ];
+    dnsResolver = "1.1.1.1:53";
     dnsProvider = "cloudflare";
     environmentFile = config.sops.secrets.acme_cloudflare_env.path;
     dnsPropagationCheck = true;
-    reloadServices = [ "postfix.service" "dovecot2.service" ];
+    reloadServices = [ "postfix.service" "dovecot.service" ];
   };
 }
