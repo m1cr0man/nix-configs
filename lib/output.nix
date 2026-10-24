@@ -60,7 +60,10 @@ rec {
 
     # Pin nixpkgs so that commands like "nix shell nixpkgs#<pkg>" are more efficient
     # Source: https://www.tweag.io/blog/2020-07-31-nixos-flakes/ "Pinning Nixpkgs"
-    nix.registry.nixpkgs.flake = nixpkgs;
+    nix.registry = {
+      nixpkgs.flake = nixpkgs;
+      config.flake = self;
+    };
 
     # Also set the NIX_PATH appropriately so legacy commands use our nixpkgs and not the
     # channels. You may have to rm ~/.nix-defexpr/channels too.
