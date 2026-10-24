@@ -8,13 +8,16 @@ in
 lib.mkIf (remoteHost != null) {
   systemd.services.dovecot-sync = {
     description = "Periodic Dovecot Mailbox Synchronization";
-    after = [ "network.target" "dovecot2.service" ];
-    wantedBy = [ "multi-user.target" ];
 
     serviceConfig = {
       Type = "oneshot";
-      User = "dovecot2";
-      Group = "dovecot2";
+      # User = "dovecot2";
+      # Group = "dovecot2";
+      User = d2.settings.mail_uid;
+      Group = d2.settings.mail_gid;
+      SupplementaryGroups = "dovecot2";
+      # NoNewPrivileges = false;
+      # AmbientCapabilities = "CAP_SETUID CAP_SETGID CAP_DAC_OVERRIDE";
       ExecStart = "${pkg}/bin/doveadm -D sync -A -N -l 30 -x 'virtual/*' 'tcp:${remoteHost}:${builtins.toString cfg.doveadmPort}'";
     };
   };
