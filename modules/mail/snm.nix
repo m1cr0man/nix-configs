@@ -66,6 +66,7 @@ in
       "service doveadm" = {
         "inet_listener doveadm".port = cfg.doveadmPort;
       };
+      doveadm_password = "<${doveadmPasswordFile}";
       "service auth" = {
         "unix_listener auth-userdb" = {
           mode = "0660";
@@ -73,7 +74,6 @@ in
           group = config.services.dovecot2.settings.mail_gid;
         };
       };
-      doveadm_password = "<${doveadmPasswordFile}";
       "namespace virtual" = {
         prefix = "virtual${hs}";
         separator = hs;
@@ -84,11 +84,6 @@ in
         mail_volatile_path = "${mailDir}/.virtual/%{user | domain}/%{user | username}";
         mail_driver = "virtual";
       };
-        # {
-        #   _section.name = "doveadm";
-        #   inet_listener.port = doveadmPort;
-        #   doveadm_password = "<${doveadmPasswordFile}";
-        # }
     };
   };
 
