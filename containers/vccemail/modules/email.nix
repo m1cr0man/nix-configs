@@ -14,8 +14,6 @@ in
     dkimSelector = "vcc";
 
     stateDir = config.m1cr0man.container.stateDir;
-
-    replicationPeer = "email.unimog.vm.m1cr0man.com";
   };
 
   # Force using the VCC cloudflare sops secret

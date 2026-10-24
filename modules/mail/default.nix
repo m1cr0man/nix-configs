@@ -5,5 +5,6 @@
     ./postfix.nix
     ./rspamd.nix
     ./snm.nix
+    ./dovecot-sync.nix
   ];
 }

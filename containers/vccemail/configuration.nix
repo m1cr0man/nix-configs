@@ -6,14 +6,14 @@ in
   imports = with lib.m1cr0man.module;
     addModules ../../modules [
       "secrets"
-      "monitoring/client"
       "www/acme-base.nix"
       "mail"
     ]
     ++
     addModulesRecursive ./modules;
 
-  system.stateVersion = "25.11";
+  system.stateVersion = "26.11";
+  mailserver.stateVersion = 5;
 
   m1cr0man.monitoring.serverHostname = "monitoring.unimog.vm.m1cr0man.com";
 

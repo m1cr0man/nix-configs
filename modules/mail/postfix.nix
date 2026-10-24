@@ -11,7 +11,7 @@ in
 {
   services.postfix = {
     mapFiles = { inherit sender_whitelist; };
-    config = {
+    settings.main = {
       # Match milters for all types of mail.
       # This means all mail filters through rspamd.
       non_smtpd_milters = lib.mkBefore ["unix:/run/rspamd/rspamd-milter.sock"];

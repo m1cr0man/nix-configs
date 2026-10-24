@@ -7,13 +7,12 @@ let
     name = builtins.head (builtins.split "@" email);
   in "${name}_hashed_password";
 
-  loginAccounts = lib.mapAttrs (k: v: v // {
+  accounts = lib.mapAttrs (k: v: v // {
     # Generate with nix shell nixpkgs#apacheHttpd; htpasswd -nB ""
     hashedPasswordFile = config.sops.secrets."${userSopsKey k}".path;
   }) cfg.loginAccounts;
 
   doveadmPasswordFile = config.sops.secrets.doveadm_password.path;
-  doveadmPortStr = builtins.toString cfg.doveadmPort;
   vmailUser = config.mailserver.vmailUserName;
 
   certPath = config.security.acme.certs."${config.mailserver.fqdn}".directory;
@@ -38,7 +37,7 @@ in
       cfg.loginAccounts
     )
     {
-      doveadm_password.owner = config.services.dovecot2.user;
+      doveadm_password.owner = config.services.dovecot2.settings.mail_uid;
     }
   ];
 
@@ -53,56 +52,38 @@ in
 
   # Enable virtual All and Flagged mailboxes
   services.dovecot2 = {
-    mailPlugins.globally.enable = [ "virtual" "notify" "replication" ];
-
-    pluginSettings.mail_replica = lib.mkIf
-      (cfg.replicationPeer != null)
-      "tcp:${cfg.replicationPeer}:${doveadmPortStr}";
-
-    extraConfig =
-      let
-        mailDir = config.mailserver.mailDirectory;
-        hs = config.mailserver.hierarchySeparator;
-      in
-      ''
-        service replicator {
-          process_min_avail = 1
-          unix_listener replicator-doveadm {
-            mode = 0600
-            user = ${vmailUser}
-          }
-        }
-        replication_dsync_parameters = -d -N -l 30 -U -x virtual/*
-
-        service aggregator {
-          fifo_listener replication-notify-fifo {
-            user = ${vmailUser}
-          }
-          unix_listener replication-notify {
-            user = ${vmailUser}
-          }
-        }
-
-        service doveadm {
-          inet_listener {
-            port = ${doveadmPortStr}
-          }
-        }
-        doveadm_port = ${doveadmPortStr}
-        doveadm_password = <${doveadmPasswordFile}
-
-        namespace {
-          prefix = virtual${hs}
-          separator = ${hs}
-          type = private
-          location = virtual:/etc/dovecot/virtual:INDEX=${mailDir}/.virtual/%d/%n:CONTROL=${mailDir}/.virtual/%d/%n:VOLATILEDIR=${mailDir}/.virtual/%d/%n
-        }
-      '';
+    settings = let
+      mailDir = config.mailserver.storage.path;
+      hs = config.mailserver.hierarchySeparator;
+    in {
+      mail_plugins = {
+        virtual = true;
+        notify = true;
+      };
+      "service doveadm" = {
+        "inet_listener doveadm".port = cfg.doveadmPort;
+        doveadm_password = "<${doveadmPasswordFile}";
+      };
+      "namespace virtual" = {
+        prefix = "virtual${hs}";
+        separator = hs;
+        type = "private";
+        mail_path = "/etc/dovecot/virtual";
+        mail_index_path = "${mailDir}/.virtual/%{user | domain}/%{user | username}";
+        mail_control_path = "${mailDir}/.virtual/%{user | domain}/%{user | username}";
+        mail_volatile_path = "${mailDir}/.virtual/%{user | domain}/%{user | username}";
+      };
+        # {
+        #   _section.name = "doveadm";
+        #   inet_listener.port = doveadmPort;
+        #   doveadm_password = "<${doveadmPasswordFile}";
+        # }
+    };
   };
 
   environment.etc."dovecot/virtual/All Mail/dovecot-virtual" = {
-    user = config.services.dovecot2.mailUser;
-    group = config.services.dovecot2.mailGroup;
+    user = config.services.dovecot2.settings.mail_uid;
+    group = config.services.dovecot2.settings.mail_gid;
     mode = "0444";
     text = ''
       *
@@ -115,17 +96,16 @@ in
   mailserver =
     {
       enable = true;
-      inherit loginAccounts;
-      inherit (cfg) dkimSelector domains fqdn sendingFqdn;
+      inherit accounts;
+      inherit (cfg) domains fqdn sendingFqdn;
 
       # Features
       # Use systemd-resolved
       localDnsResolver = false;
       virusScanning = true;
-      lmtpSaveToDetailMailbox = "no";
+      lmtpSaveToDetailMailbox = false;
       fullTextSearch = {
         enable = true;
-        enforced = "body";
         memoryLimit = 8000; # MiB
       };
 
@@ -134,48 +114,51 @@ in
       enableImapSsl = true;
       enableManageSieve = true;
       hierarchySeparator = "/";
-      useFsLayout = true;
+      storage.directoryLayout = "fs";
 
       enableSubmission = true;
       enableSubmissionSsl = true;
 
       indexDir = "${stateDir}/indexing";
-      mailDirectory = "${stateDir}/mailboxes";
-      sieveDirectory = "${stateDir}/sieve";
-      dkimKeyDirectory = "${stateDir}/dkim";
+      storage.path = "${stateDir}/mailboxes";
+      dkim = {
+        defaults.selector = cfg.dkimSelector;
+        keyDirectory = "${stateDir}/dkim";
+      };
 
       # SSL Certs
-      keyFile = "${certPath}/key.pem";
-      certificateFile = "${certPath}/fullchain.pem";
-      certificateScheme = "manual";
+      x509 = {
+        privateKeyFile = "${certPath}/key.pem";
+        certificateFile = "${certPath}/fullchain.pem";
+      };
 
       # Custom mailboxes configuration to enable autoexpunge
       mailboxes = {
         Trash = {
           auto = "create";
-          specialUse = "Trash";
+          special_use = "\\Trash";
           autoexpunge = "60d";
         };
         Junk = {
           auto = "subscribe";
-          specialUse = "Junk";
+          special_use = "\\Junk";
           autoexpunge = "90d";
         };
         Drafts = {
           auto = "subscribe";
-          specialUse = "Drafts";
+          special_use = "\\Drafts";
         };
         Sent = {
           auto = "subscribe";
-          specialUse = "Sent";
+          special_use = "\\Sent";
         };
         Archive = {
           auto = "subscribe";
-          specialUse = "Archive";
+          special_use = "\\Archive";
         };
         "virtual/All Mail" = {
           auto = "no";
-          specialUse = "All";
+          special_use = "\\All";
         };
       };
     };
