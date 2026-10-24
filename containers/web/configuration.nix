@@ -9,7 +9,7 @@ in
       "servers/headscale.nix"
       "www/acme-base.nix"
       "www/httpd.nix"
-      "www/matrix.nix"
+      "www/continuwuity.nix"
     ]
     ++
     addModulesRecursive ./modules;

@@ -12,7 +12,7 @@ let
   pkgWithApps = let
     webroot = config.services.nginx.virtualHosts."${cfg.hostName}".root;
     pkg = cfg.package;
-  in pkgs.runCommandNoCC "nextcloud-with-apps-httpd" {} ''
+  in pkgs.runCommand "nextcloud-with-apps-httpd" {} ''
     mkdir -p $out
     ln -sfv "${webroot}"/* "${webroot}"/.* "${pkg}"/.* $out
   '';
