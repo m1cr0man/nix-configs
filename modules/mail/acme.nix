@@ -13,4 +13,7 @@ in
     dnsPropagationCheck = true;
     reloadServices = [ "postfix.service" "dovecot.service" ];
   };
+
+  users.users.dovecot2.extraGroups = [ "acme" ];
+  users.users.postfix.extraGroups = [ "acme" ];
 }
