@@ -2,7 +2,7 @@
   description = "M1cr0man Nix Configurations";
 
   inputs = {
-    nixpkgs.url = "github:m1cr0man/nixpkgs/rfc108-minimal";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
     secrets.url = "git+ssh://git@github.com/m1cr0man/nix-configs-secrets?ref=main";
 

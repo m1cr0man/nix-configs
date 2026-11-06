@@ -2,8 +2,6 @@
   boot.loader.timeout = 0;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.network.enable = lib.mkForce false;
-  # Required for preservation anyway
-  boot.initrd.systemd.enable = true;
 
   # Secure boot
   boot.loader.systemd-boot.enable = false;

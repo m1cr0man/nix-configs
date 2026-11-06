@@ -5,8 +5,6 @@
   boot.loader.timeout = 0;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.network.enable = lib.mkForce false;
-  # Required for preservation anyway
-  boot.initrd.systemd.enable = true;
 
   # Kernel modules
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "uas" "sd_mod" ];
