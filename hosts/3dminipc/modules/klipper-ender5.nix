@@ -83,7 +83,7 @@ in
       sensor_pin = "^PC4";
       # Note: This is the buzzer pin on the LCD screen.
       control_pin = "PA4";
-      z_offset = 1.915;
+      z_offset = 3.370;
       x_offset = -probeX; ##!! Measure and change for your own printer!!
       y_offset = -probeY; ##!! Measure and change for your own printer!!
       #y_offset = -15.7
@@ -118,7 +118,7 @@ in
       rotation_distance = 33.683;
       nozzle_diameter = 0.400;
       filament_diameter = 1.750;
-      pressure_advance = 1.00;
+      pressure_advance = 0.33;
       heater_pin = "PD5";
       sensor_type = "EPCOS 100K B57560G104F";
       sensor_pin = "PA7";
